@@ -4,6 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ShopOS Feed</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&display=swap">
 <style>
   html{color-scheme:dark}
   body{margin:0;font:14px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
@@ -871,7 +873,11 @@
     display:flex;align-items:center;gap:10px;
     padding:12px;height:56px;
   }
-  .identity{display:flex;align-items:center;gap:6px;min-width:0}
+  .identity{display:flex;align-items:center;gap:6px;min-width:0;white-space:nowrap;overflow:hidden}
+  .identity .agent-name{overflow:hidden;text-overflow:ellipsis}
+  .identity .meta{flex:0 0 auto}
+  .card-head .badge{margin-left:auto}
+  .card-head .badge + .menu-wrap{margin-left:0}
   .avatar{  /* the agent shape stands on its own, no disc behind it */
     width:33px;height:33px;flex:0 0 auto;display:block;
   }
@@ -1194,7 +1200,9 @@
   .act-remix:active svg{transform:rotate(-24deg) scale(.96)}
   /* link tilts */
   .act-jam svg,.act.bookmark svg{transition:transform .22s cubic-bezier(.34,1.4,.64,1),opacity .15s}
-  .act-jam:hover svg{transform:translateY(-2px) scale(1.08)}         /* jam steps up */
+  .act-jam svg{transform-origin:60% 90%}
+  .act-jam:hover svg{animation:wave .6s ease-in-out}               /* jam waves the team over */
+  @keyframes wave{25%{transform:rotate(-14deg)}55%{transform:rotate(10deg)}80%{transform:rotate(-4deg)}}
   .act.bookmark:hover svg{transform:translateY(-2px)}                /* save tucks up */
   .act:hover .tip svg{transform:none}
   .act[aria-pressed="true"]{color:#ff4d6d}
@@ -2801,6 +2809,74 @@
   @media (max-width:600px){ .cx-page{left:52px} .cx-in{padding:28px 16px 60px} }
   @media (prefers-reduced-motion:reduce){ .cx-page{animation:none} }
 
+
+  /* ---------- card component: the parts the Arata feed brings ---------- */
+  .media .draft-chip{
+    position:absolute;top:12px;left:12px;z-index:3;
+    display:inline-flex;align-items:center;gap:6px;height:26px;padding:0 10px;border-radius:999px;
+    background:rgba(10,10,10,.62);color:#fff;font-size:12px;font-weight:500;
+    -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+  }
+  .ask-ai{margin:2px 12px 10px;padding:14px;border-radius:14px;background:#0d0d0d}
+  .ask-ai .lbl{font-size:10.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--fg-3)}
+  .ask-ai .q{margin:6px 0 8px;font-size:15px;line-height:22px;color:var(--fg)}
+  .ask-ai .a{margin:0;font-size:13.5px;line-height:20px;color:#e0a63c}
+  .media + .panel{margin-top:12px}
+  .card-src{display:flex;align-items:flex-start;gap:6px;margin:8px 0 0;font-size:12px;line-height:17px;color:var(--fg-3)}
+  .card-src svg{flex:0 0 auto;margin-top:2px}
+  .card-src span{min-width:0}
+  .btn-bar.is-end{border-radius:0 0 var(--r-card) var(--r-card)}
+  .card.is-data .card-actions{padding-top:14px}
+  .card.is-data .card-body{padding-top:0}
+  /* a hand-written aside between cards */
+  .feed-note{display:flex;flex-direction:column;gap:2px;padding:6px 4px 0}
+  .feed-note span{font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--fg-3)}
+  .feed-note p{margin:0;font-family:"Caveat",cursive;font-size:22px;line-height:26px;color:var(--fg-2)}
+  .col .feed-note{display:none}
+  @media (prefers-reduced-motion:reduce){ .act-jam:hover svg{animation:none} }
+
+
+  /* ---------- chat panel: starter prompts up top, the composer pinned below ---------- */
+  .chat-panel .chat{padding:36px 20px 20px;align-items:stretch}
+  .chat-panel .greeting{text-align:left;font-size:21px;line-height:28px;margin:0 0 6px}
+  .chat-hint{margin:0 0 18px;font-size:13.5px;line-height:20px;color:var(--fg-3)}
+  .chat-panel .sugg{padding:11px 0}
+  .chat-panel .sugg .tx{font-size:14px}
+  .chat-panel .composer-dock .chatbox{height:auto;min-height:0;padding:12px 12px 10px}
+  textarea.chat-input{
+    display:block;width:100%;height:auto;min-height:44px;max-height:160px;padding:2px 4px;
+    border:0;outline:0;resize:none;background:transparent;
+    color:var(--fg);font:inherit;font-size:15px;line-height:22px;
+  }
+  textarea.chat-input::placeholder{color:#8a8a8a}
+  .chat-panel .chat-row{margin-top:8px;gap:8px}
+  .model-pick{position:relative}
+  .model-pick .chat-chip{
+    height:32px;padding:0 10px 0 8px;border:0;border-radius:9px;background:transparent;font:inherit;font-size:13.5px;
+    gap:7px;transition:background .15s;
+  }
+  .model-pick .chat-chip:hover,.model-pick.open .chat-chip{background:#2c2c2c;color:var(--fg)}
+  .model-pick .chat-chip > svg:last-child{transition:transform .2s}
+  .model-pick.open .chat-chip > svg:last-child{transform:rotate(180deg)}
+  .model-pop{
+    position:absolute;left:0;bottom:calc(100% + 8px);z-index:5;width:260px;padding:6px;
+    border-radius:14px;background:#1c1c1c;border:1px solid #2c2c2c;box-shadow:0 20px 50px rgba(0,0,0,.6);
+    opacity:0;visibility:hidden;transform:translateY(6px);
+    transition:opacity .15s,transform .2s cubic-bezier(.32,.72,0,1),visibility .15s;
+  }
+  .model-pick.open .model-pop{opacity:1;visibility:visible;transform:none}
+  .model-pop button{
+    display:flex;flex-direction:column;gap:1px;width:100%;padding:9px 10px;border:0;border-radius:10px;
+    background:transparent;color:var(--fg-2);font:inherit;text-align:left;cursor:pointer;transition:background .14s;
+  }
+  .model-pop button:hover{background:#262626;color:var(--fg)}
+  .model-pop button[aria-selected="true"]{background:#2b2b2b;color:var(--fg)}
+  .model-pop b{font-size:13.5px;font-weight:500}
+  .model-pop span{font-size:12px;color:var(--fg-3)}
+  .chat-row .send{background:#fafafa;color:#0a0a0a;border-radius:10px}
+  .chat-row .send:hover{background:#fff;color:#0a0a0a}
+  .chat-panel .chat-work{padding:20px 20px 16px}
+
   /* ---------- shortlisted ---------- */
   .feed-empty{
     width:var(--feed-w);max-width:calc(100% - 32px);margin:8px auto 0;padding:28px 20px;
@@ -3113,78 +3189,22 @@
   <div class="cp-body" id="cp-body">
   <section class="chat-work" id="chat-work" hidden></section>
   <section class="chat" id="chat-idle">
-    <h1 class="greeting">Hello Vedant, what do you want to make?</h1>
-
-    <div class="composer">
-      <div class="chatbox">
-        <div class="chat-input">Describe what you want to create…</div>
-        <div class="chat-row">
-          <button class="icon-32" aria-label="Add">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
-          </button>
-          <span class="chat-chip">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="#c4a8ff"><path d="M12 2.5l1.7 4.3 4.3 1.7-4.3 1.7L12 14.5l-1.7-4.3L6 8.5l4.3-1.7L12 2.5Z"/><path d="M18.5 15l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8.8-2Z"/></svg>
-            Auto
-          </span>
-          <span class="grow"></span>
-          <button class="icon-32" aria-label="Voice input">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M19 10a7 7 0 0 1-14 0"/><path d="M12 19v3"/></svg>
-          </button>
-          <button class="icon-32" aria-label="Send">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></svg>
-          </button>
-        </div>
-      </div>
-
-      <div class="tray">
-        <button>
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18"/><path d="m14 8 4 4-4 4"/></svg>
-          Moodboards
-        </button>
-        <span class="sep"></span>
-        <button>
-          <span style="display:inline-flex">
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="#34a853"><path d="M12 2 3 7v10l9 5 9-5V7l-9-5Z"/></svg>
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="#4285f4" style="margin-left:-5px"><circle cx="12" cy="12" r="9"/></svg>
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="#fbbc04" style="margin-left:-5px"><rect x="4" y="10" width="4" height="10" rx="1"/><rect x="10" y="5" width="4" height="15" rx="1"/><rect x="16" y="13" width="4" height="7" rx="1"/></svg>
-          </span>
-          Connectors
-        </button>
-      </div>
-    </div>
-
-    <div class="modes">
-      <button class="mode on">Create</button>
-      <button class="mode">Analyze</button>
-      <button class="mode">Automate</button>
-      <button class="mode">Manage</button>
-    </div>
-
+    <h1 class="greeting">Hi Vedant, what should we work on?</h1>
+    <p class="chat-hint">Ask about anything in Arata&rsquo;s feed, or start from one of these.</p>
     <div class="suggestions">
-      <button class="sugg">
-        <span class="ic">🧩</span>
-        <span class="tx">Create a batch of fresh content for my brand</span>
-        <svg class="ar" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      <button class="sugg" data-prompt="What should I fix first this week, and why?">
+        <span class="tx">What should I fix first this week, and why?</span>
       </button>
-      <button class="sugg">
-        <span class="ic">🎬</span>
-        <span class="tx">Create UGC-style content from my products</span>
-        <svg class="ar" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      <button class="sugg" data-prompt="Draft three reel hooks for MitoActive that do not lean on unproven claims.">
+        <span class="tx">Draft three reel hooks for MitoActive</span>
       </button>
-      <button class="sugg">
-        <span class="ic">📣</span>
-        <span class="tx">Create new ads for my next campaign</span>
-        <svg class="ar" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-      </button>
-      <button class="sugg">
-        <span class="ic">🛍️</span>
-        <span class="tx">Create and improve content for my product catalog</span>
-        <svg class="ar" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      <button class="sugg" data-prompt="Why are 66,160 checkouts being left, and what would bring them back?">
+        <span class="tx">Why are so many checkouts being left?</span>
       </button>
     </div>
   </section>
   </div>
-  <div class="composer-dock" id="work-dock" hidden></div>
+  <div class="composer-dock" id="work-dock"></div>
 </aside>
 
 <div class="sv" id="sv" role="dialog" aria-modal="true" aria-label="Story">
@@ -3378,10 +3398,7 @@
 
 <div class="dock">
   <button class="pill" id="jam-float">
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
-      <path d="M19 8v6"/><path d="M22 11h-6"/>
-    </svg>
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 11V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2"/><path d="M14 10V4a2 2 0 0 0-2-2a2 2 0 0 0-2 2v2"/><path d="M10 10.5V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2v8"/><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/></svg>
     Jam with the team
   </button>
 </div>
@@ -3389,6 +3406,7 @@
 
 
 
+<script src="arata-feed.js"></script>
 <script>
   /* ---------------- data ---------------- */
   const AGENTS = {
@@ -3398,6 +3416,9 @@
     visibility:  { name: 'AI visibility',        avatar: 'assets/agent-visibility.svg'  },
     crm:         { name: 'CRM specialist',       avatar: 'assets/agent-crm.svg'         }
   };
+
+  const SHOPOS = { name: 'ShopOS', avatar: 'assets/agent-orchestrator.svg' };
+  const AG = (k) => AGENTS[k] || SHOPOS;
 
   const POSTS = [
     { agent:'creative', time:'12 min', ratio:'4:5',
@@ -3587,24 +3608,55 @@
       : `<div class="media"${r}><img src="${p.images[0]}" alt=""></div>`;
   };
 
+  /* ---------------- the card component ----------------
+     One component, assembled from what the post carries:
+       head     agent, time, an optional status badge, the overflow menu
+       media    one image, or a carousel; "First draft" when the agent made it
+       rows     a small table of the numbers behind the call
+       answer   a question asked of AI, and what came back
+       cta      one primary action, or none: results and learnings only report
+       actions  like, jam with the team, shortlist
+       body     title, the reasoning, and where it came from
+     Media cards put the CTA under the picture; text cards end on it. */
+  const I_HAND = '<path d="M18 11V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2"/><path d="M14 10V4a2 2 0 0 0-2-2a2 2 0 0 0-2 2v2"/><path d="M10 10.5V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2v8"/><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/>';
+  const I_SRC = '<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>';
+  const esc = (t) => String(t == null ? '' : t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  const RATIO = { '4:5':'4:5', '1:1':'square', '16:9':'wide', '9:16':'4:5' };
+
+  const ctaBar = (label, end) => `<button class="btn btn-primary btn-bar${end ? ' is-end' : ''}">
+        <span class="lead">${esc(label)}</span>${svg(I.chevronRight, 18)}</button>`;
+
   const card = (p) => {
-    // take the index BEFORE cloning: the clone is not in ALL_POSTS, so indexOf
-    // on it returns -1 and every card ends up claiming post -1
+    // take the index BEFORE anything else: the deck and feed find posts by it
     const idx = ALL_POSTS.indexOf(p);
-    p = { ...p, badge: null };
-    const a = AGENTS[p.agent];
+    const a = AG(p.agent);
+    const imgs = p.images || [];
+    const r = RATIO[p.ratio] ? ` data-r="${RATIO[p.ratio]}"` : imgs.length ? ' data-r="square"' : '';
+    const draft = p.draft ? `<span class="draft-chip">${svg(I.sparkle, 12, 'currentColor', true)}First draft</span>` : '';
+    const mediaHTML = !imgs.length ? '' : imgs.length > 1
+      ? `<div class="media is-carousel"${r}>${draft}
+           <div class="track">${imgs.map(src => `<div class="slide"><img src="${src}" alt="" loading="lazy"></div>`).join('')}</div>
+           <button class="nav nav-prev" hidden aria-label="Previous image">${svg(I.chevronLeft, 18)}</button>
+           <button class="nav nav-next" aria-label="Next image">${svg(I.chevronRight, 18)}</button>
+         </div>`
+      : `<div class="media"${r}>${draft}<img src="${imgs[0]}" alt="" loading="lazy"></div>`;
+    const answerHTML = p.q ? `
+      <div class="ask-ai"><span class="lbl">Asked AI</span><p class="q">“${esc(p.q)}”</p><p class="a">${esc(p.a)}</p></div>` : '';
+    const rowsHTML = p.rows && p.rows.length ? `<div class="panel"><div class="rows">${p.rows.map(([k, v]) =>
+          `<div><span class="k">${esc(k)}</span><span class="v">${esc(v)}</span></div>`).join('')}</div></div>` : '';
+    const isText = !imgs.length;
+    const saved_ = saved.has(idx);
     return `
-    <article class="card${p.rows ? ' is-data' : ''}" data-post="${idx}">
+    <article class="card${isText ? ' is-data' : ''}${p.cta ? '' : ' no-cta'}" data-post="${idx}">
       <div class="card-head">
         <img class="avatar" src="${a.avatar}" alt="">
         <span class="identity">
           <span class="agent-name">${a.name}</span>
+          <span class="meta">· ${esc(p.time)}</span>
         </span>
-        ${p.badge ? `<span class="badge ${p.badge[1]}">${p.badge[0]}</span>` : ''}
+        ${p.badge ? `<span class="badge ${p.badge[1] || 'info'}">${esc(p.badge[0])}</span>` : ''}
         <span class="menu-wrap">
-          <button class="icon-btn menu-btn" aria-haspopup="menu" aria-expanded="false" aria-label="More options">
-            ${svg(I.more, 20)}
-          </button>
+          <button class="icon-btn menu-btn" aria-haspopup="menu" aria-expanded="false" aria-label="More options">${svg(I.more, 20)}</button>
           <div class="menu" role="menu">
             <button role="menuitem" data-act="copy">${svg(I.link, 17)} Copy link</button>
             <hr>
@@ -3612,52 +3664,42 @@
             <button role="menuitem" data-act="fewer">${svg(I.bellOff, 17)} Show fewer from this agent</button>
             <button role="menuitem" data-act="snooze">${svg(I.clock, 17)} Snooze this agent for 7 days</button>
             <hr>
-            ${p.rows ? '' : `<button role="menuitem" data-act="download">${svg(I.download, 17)} Download assets</button>
-            <hr>`}
             <button role="menuitem" class="danger" data-act="report">${svg(I.flag, 17)} Report a problem</button>
           </div>
         </span>
       </div>
 
-      ${p.rows ? `<div class="panel"><div class="rows">${p.rows.map(([k, v]) =>
-          `<div><span class="k">${k}</span><span class="v">${v}</span></div>`).join('')}</div></div>`
-        : media(p)}
-
-      ${p.cta ? `<button class="btn btn-primary btn-bar">
-        <span class="lead">
-          ${p.cta.logo ? svg(I[p.cta.logo], 18, p.cta.brandColor || 'currentColor') : ''}
-          ${p.cta.label}
-        </span>
-        ${svg(I.chevronRight, 18)}
-      </button>` : ''}
+      ${mediaHTML}
+      ${answerHTML}
+      ${rowsHTML}
+      ${p.cta && !isText ? ctaBar(p.cta) : ''}
 
       <div class="card-actions">
         <div class="act-group">
           <button class="act" data-toast="like" aria-pressed="false" aria-label="Like">
-            ${svg(I.heart)}<span class="tip">Like to see more like this</span>
+            ${svg(I.heart)}<span class="tip">More like this</span>
           </button>
-          <button class="act act-remix" aria-label="Remix with Agent">
-            ${svg(I.wand, 21)}<span class="tip">Remix with Agent</span>
-          </button>
-        </div>
-        ${dots(p.images ? p.images.length : 0)}
-        <div class="act-group">
-          <button class="act act-jam" aria-label="Jam with team">
-            ${svg(I.users, 20)}<span class="tip">Jam with team</span>
-          </button>
-          <button class="act bookmark" data-toast="save" aria-pressed="${saved.has(idx)}" aria-label="Shortlist">
-            ${svg(I.bookmark, 20, 'currentColor', saved.has(idx))}<span class="tip">Shortlist</span>
+          <button class="act act-jam" aria-label="Jam with the team">
+            ${svg(I_HAND, 20)}<span class="tip">Jam with the team</span>
           </button>
         </div>
+        ${dots(imgs.length)}
+        <button class="act bookmark" data-toast="save" aria-pressed="${saved_}" aria-label="Shortlist">
+          ${svg(I.bookmark, 20, 'currentColor', saved_)}<span class="tip">Shortlist</span>
+        </button>
       </div>
 
-      ${false ? '' : `<div class="card-body">
-        <h2 class="card-title">${p.title}</h2>
-        <p class="card-sub">${p.sub}</p>
-      </div>`}
-
+      <div class="card-body">
+        <h2 class="card-title">${esc(p.title)}</h2>
+        <p class="card-sub">${esc(p.sub)}</p>
+        ${p.src ? `<p class="card-src">${svg(I_SRC, 13)}<span>${esc(p.src)}</span></p>` : ''}
+      </div>
+      ${p.cta && isText ? ctaBar(p.cta, true) : ''}
     </article>`;
   };
+
+  // a hand-written aside between cards, the way the agent would scribble it
+  const noteHTML = (p) => p.note ? `<div class="feed-note"><span>${esc(p.note.k)}</span><p>${esc(p.note.h)}</p></div>` : '';
 
 
   /* ---------------- deck: one column per agent ---------------- */
@@ -3733,7 +3775,8 @@
       cta:{ label:'Rotate creative', logo:'meta', brandColor:'#0866FF' } }
   ];
 
-  const ALL_POSTS = [...POSTS, ...TEXT_POSTS, ...DECK_ONLY];
+  // the feed is Arata's, pulled from the Brew demo (see arata-feed.js)
+  const ALL_POSTS = window.ARATA.cards;
 
   // the deck is organised by what the work is about, not by who made it
   const COL_ORDER = ['signals', 'catalog', 'creatives', 'ads', 'storefront', 'visibility'];
@@ -3755,7 +3798,7 @@
     'A second casting for the same line',
     'Show why The Cloud Soft Tee outperforms a basic tee'
   ]);
-  const sectorOf = (p) => CATALOG.has(p.title) ? 'catalog' : SECTOR_BY_AGENT[p.agent];
+  const sectorOf = (p) => p.sector || SECTOR_BY_AGENT[p.agent];
   const byAgent = (k) => ALL_POSTS.filter(p => sectorOf(p) === k);
 
   // some work needs an account we cannot see yet, so the agent asks for it in the feed
@@ -3830,7 +3873,7 @@
   };
 
   // whatever the brand turned out to be during setup
-  let BRAND_NAME = 'Urban Performance';
+  let BRAND_NAME = window.ARATA.brand.name;
   window.__setBrand = (name) => { BRAND_NAME = name || BRAND_NAME; };
 
   const saved = new Set();
@@ -3861,6 +3904,7 @@
   // the chip filters the single feed; in the deck it narrows to one column
   const applyChip = () => {
     const wish = chip === 'wishlist';
+    document.querySelectorAll('#feed .feed-note').forEach(n => n.hidden = wish);
     document.querySelectorAll('#feed .card').forEach(c => {
       const i = +c.dataset.post, p = ALL_POSTS[i];
       const sec = p ? sectorOf(p) : null;
@@ -3964,7 +4008,7 @@
 
   const sideHTML = () => `
     <div class="side-brand">
-      <i class="bmark"><img src="assets/brand-mark.jpg" alt=""></i>
+      <i class="bmark"><img src="${window.ARATA.brand.mark}" alt=""></i>
       <span><b>${BRAND_NAME}</b></span>
     </div>
 
@@ -4368,12 +4412,8 @@
     toast('Pro is on. Drag a column edge to resize it.');
   });
 
-  const FEED_ORDER = [
-    POSTS[0], TEXT_POSTS[0], POSTS[1], POSTS[2], TEXT_POSTS[1],
-    POSTS[3], POSTS[4], TEXT_POSTS[2], POSTS[5], POSTS[6], TEXT_POSTS[3], POSTS[7]
-  ];
   document.getElementById('feed').insertAdjacentHTML('beforeend',
-    FEED_ORDER.map((c, i) => card(c) + (i === 2 ? connectCard('meta') : i === 5 ? connectCard('shopify') : '')).join(''));
+    ALL_POSTS.map((c, i) => noteHTML(c) + card(c) + (i === 2 ? connectCard('meta') : i === 5 ? connectCard('shopify') : '')).join(''));
   paintSubbars();
 
   /* ---------------- interactions ---------------- */
@@ -4647,7 +4687,7 @@
     holder.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
     setTimeout(() => {
-      const batch = Array.from({ length: n }, () => POSTS[served++ % POSTS.length]);
+      const batch = Array.from({ length: n }, () => ALL_POSTS[served++ % ALL_POSTS.length]);
       holder.outerHTML = batch.map(card).join('');
       // newly appended cards need the same reveal + carousel wiring
       document.querySelectorAll('.card:not(.in)').forEach(el => reveal.observe(el));
@@ -4689,19 +4729,34 @@
   const arrowSvg = '<svg class="ar" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>';
 
   const workDock = document.getElementById('work-dock');
-  const dock = (a, mode) => `
+  const MODELS = [
+    ['Auto',   'Picks the best model for each task'],
+    ['Claude', 'Writing, judgement and long context'],
+    ['GPT',    'Fast drafts and quick answers'],
+    ['Gemini', 'Images, video and search']
+  ];
+  let model = 'Auto';
+  const composer = (placeholder) => `
         <div class="chatbox">
-          <div class="chat-input">${mode === 'jam'
-            ? 'Anything the team should know before they jump in&hellip;'
-            : `Tell ${a.name} what to change&hellip;`}</div>
+          <textarea class="chat-input" id="chat-q" rows="1" placeholder="${placeholder}"></textarea>
           <div class="chat-row">
-            <button class="icon-32" aria-label="Add">${svg(I.plus, 20)}</button>
-            <span class="chat-chip">${svg(I.sparkle, 16, '#c4a8ff')} Auto</span>
+            <span class="model-pick">
+              <button class="chat-chip" id="model-btn" aria-haspopup="listbox" aria-expanded="false">
+                ${svg(I.sparkle, 16, '#c4a8ff', true)}<span id="model-name">${model}</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+              </button>
+              <div class="model-pop" role="listbox" aria-label="Model">
+                ${MODELS.map(([n, d]) => `<button role="option" aria-selected="${n === model}" data-model="${n}"><b>${n}</b><span>${d}</span></button>`).join('')}
+              </div>
+            </span>
             <span class="grow"></span>
-            <button class="icon-32" aria-label="Voice input">${svg(I.mic, 16)}</button>
-            <button class="icon-32" aria-label="Send">${svg(I.send, 16)}</button>
+            <button class="icon-32" data-voice aria-label="Voice input">${svg(I.mic, 16)}</button>
+            <button class="icon-32 send" data-send aria-label="Send">${svg(I.send, 16)}</button>
           </div>
         </div>`;
+  const dock = (a, mode) => composer(mode === 'jam'
+    ? 'Anything the team should know before they jump in…'
+    : `Tell ${a.name} what to change…`);
 
   const ctxCard = (p, a) => {
     const thumb = p.images ? p.images[0] : '';
@@ -4720,7 +4775,7 @@
 
   // phase 1 — the agent is pulling the post up
   const buildWork = (post, mode = 'remix') => {
-    const a = AGENTS[post.agent];
+    const a = AG(post.agent);
     clearTimeout(workTimer);
     workEl.innerHTML = `
       <div class="sk sk-line" style="width:88px;height:11px"></div>
@@ -4744,13 +4799,13 @@
 
   // phase 2 — context in plain language, then the actions as text
   const revealContext = (post, mode = 'remix') => {
-    const a = AGENTS[post.agent];
+    const a = AG(post.agent);
     const jam = mode === 'jam';
 
     const opening = jam
       ? `I pulled this one up. <b>${a.name}</b> posted it ${post.time} ago.`
       : `I pulled this one up. <b>${a.name}</b> posted it ${post.time} ago, off the back of
-         what is moving for Urban Performance right now.`;
+         what is moving for ${BRAND_NAME} right now.`;
 
     const body = jam ? `
       ${msg('.14s', `A ShopOS specialist can take it from here and work it through with you
@@ -4794,7 +4849,7 @@
 
   // phase 3 — only now does anything get generated
   const startGenerating = (post, label, icon) => {
-    const a = AGENTS[post.agent];
+    const a = AG(post.agent);
     const mode = 'remix';
     workEl.innerHTML = `
       ${msg('0s', `I pulled this one up. <b>${a.name}</b> posted it ${post.time} ago.`, true)}
@@ -4913,11 +4968,52 @@
   const chatBtn = document.getElementById('ask-btn');
   const resetChat = () => {
     clearTimeout(workTimer);
-    workDock.hidden = true;
+    workDock.innerHTML = composer('Ask anything about your brand…');
     workDock.classList.remove('arrive');
     workEl.hidden = true;
+    workEl.innerHTML = '';
     idleEl.hidden = false;
   };
+  resetChat();
+
+  // the composer: pick a model, send, or start from an example
+  const askSend = () => {
+    const q = document.getElementById('chat-q');
+    const text = q.value.trim();
+    if (!text) { q.focus(); return; }
+    q.value = '';
+    idleEl.hidden = true;
+    workEl.hidden = false;
+    workEl.querySelectorAll('.work-status').forEach(el => el.remove());
+    workEl.insertAdjacentHTML('beforeend', `
+      <div class="msg-me wk on">${esc(text)}</div>
+      <div class="work-status wk on"><img src="${SHOPOS.avatar}" alt="">${model === 'Auto' ? 'ShopOS' : model} is thinking<span class="typing"><i></i><i></i><i></i></span></div>`);
+    document.getElementById('cp-body').scrollTop = 1e6;
+  };
+  chatPanel.addEventListener('click', (e) => {
+    const mb = e.target.closest('#model-btn');
+    if (mb) {
+      const pick = mb.parentElement, open = !pick.classList.contains('open');
+      pick.classList.toggle('open', open); mb.setAttribute('aria-expanded', String(open));
+      return;
+    }
+    const opt = e.target.closest('[data-model]');
+    if (opt) {
+      model = opt.dataset.model;
+      document.getElementById('model-name').textContent = model;
+      chatPanel.querySelectorAll('[data-model]').forEach(o => o.setAttribute('aria-selected', String(o === opt)));
+      opt.closest('.model-pick').classList.remove('open');
+      return;
+    }
+    if (!e.target.closest('.model-pick')) chatPanel.querySelector('.model-pick')?.classList.remove('open');
+    if (e.target.closest('[data-send]')) return askSend();
+    if (e.target.closest('[data-voice]')) return toast('Voice input is not built in this prototype yet');
+    const ex = e.target.closest('#chat-idle .sugg[data-prompt]');
+    if (ex) { const q = document.getElementById('chat-q'); q.value = ex.dataset.prompt; q.focus(); }
+  });
+  chatPanel.addEventListener('keydown', (e) => {
+    if (e.target.id === 'chat-q' && e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); askSend(); }
+  });
   const setChat = (open) => {
     chatPanel.classList.toggle('on', open);
     chatPanel.setAttribute('aria-hidden', String(!open));
@@ -4982,8 +5078,8 @@
       <button class="nf-read" id="nf-read">Mark all read</button></div>
     <div class="nf-list">${latest.map(p => `
       <button class="notif-row" data-post="${ALL_POSTS.indexOf(p)}">
-        <img src="${AGENTS[p.agent].avatar}" alt="">
-        <span class="nt"><span>${p.title}</span><em>${AGENTS[p.agent].name} · ${p.time} ago</em></span>
+        <img src="${AG(p.agent).avatar}" alt="">
+        <span class="nt"><span>${p.title}</span><em>${AG(p.agent).name} · ${p.time} ago</em></span>
         <i class="ud" aria-hidden="true"></i>
       </button>`).join('')}</div>`;
   paintNotifs();
