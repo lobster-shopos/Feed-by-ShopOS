@@ -71,8 +71,8 @@
   .rail-logo .swap{opacity:0;transform:scale(.86)}
   .rail-logo .swap svg{display:block}
   .rail-logo:hover{background:#1c1c1c;color:var(--fg)}
-  .rail-logo:hover .mark{opacity:0;transform:scale(.86)}
-  .rail-logo:hover .swap{opacity:1;transform:none}
+  .rail-logo:hover .mark{transform:rotate(-12deg) scale(1.06)}
+  .rail-logo .mark{transition:transform .3s cubic-bezier(.34,1.4,.64,1)}
 
   /* open: the mark comes back, with the wordmark beside it */
   .rail-word{
@@ -5871,7 +5871,7 @@
   };
 
   document.getElementById('rail-logo').addEventListener('click', () =>
-    setRail(!rail.classList.contains('open')));
+    document.querySelector('[data-nav="home"]').click());
   railScrim.addEventListener('click', () => setRail(false));
 
 
