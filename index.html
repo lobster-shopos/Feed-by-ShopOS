@@ -2862,6 +2862,44 @@
   .chat-row .send:hover{background:#fff;color:#0a0a0a}
   .chat-panel .chat-work{padding:20px 20px 16px}
 
+
+  /* ---------- the CTA: an inset bar, always above the card's actions ---------- */
+  .cta{
+    display:flex;align-items:center;gap:12px;width:calc(100% - 24px);margin:12px;
+    height:50px;padding:0 14px 0 16px;border-radius:14px;
+    background:#2a2a2a;border:1px solid rgba(255,255,255,.08);color:var(--fg);
+    font:inherit;font-size:15px;font-weight:500;text-align:left;cursor:pointer;
+    transition:background .15s,border-color .15s,transform .12s;
+  }
+  .cta > span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .cta > svg{flex:0 0 auto}
+  .cta > svg:last-child{color:var(--fg-2);transition:transform .2s cubic-bezier(.34,1.4,.64,1),color .15s}
+  .cta:hover{background:#323232;border-color:rgba(255,255,255,.12)}
+  .cta:hover > svg:last-child{transform:translateX(3px);color:var(--fg)}
+  .cta:active{transform:scale(.99)}
+  .cta:disabled{cursor:default}
+  /* over a picture it is frosted glass, floating on the bottom edge */
+  .media .cta{
+    position:absolute;left:0;right:0;bottom:0;z-index:3;
+    background:rgba(28,28,28,.38);border-color:rgba(255,255,255,.16);
+    -webkit-backdrop-filter:blur(18px) saturate(1.5);backdrop-filter:blur(18px) saturate(1.5);
+    box-shadow:0 8px 24px rgba(0,0,0,.25);
+  }
+  .media .cta:hover{background:rgba(40,40,40,.5)}
+  @media (prefers-reduced-motion:reduce){ .cta,.cta > svg{transition:none} }
+
+  /* text-only cards: title first, then the numbers, then the CTA, with room all round */
+  .card.is-data .card-body.is-top{padding:2px 16px 4px;gap:4px}
+  .card.is-data .panel{margin:12px 12px 0;padding:4px 14px;border-radius:14px;background:#141414;border:1px solid #232323}
+  .card.is-data .rows > div{padding:12px 0}
+  .card.is-data .rows > div:first-child{padding-top:12px}
+  .card.is-data .rows > div:last-child{padding-bottom:12px}
+  .card.is-data .rows .k{font-size:13.5px}
+  .card.is-data .rows .v{font-size:14px;font-weight:500}
+  .card.is-data .card-actions{padding:6px 16px 16px}
+  .card.is-data.no-cta .card-actions{padding-top:16px}
+  .card.is-connect .cta{margin-top:14px}
+
   /* ---------- shortlisted ---------- */
   .feed-empty{
     width:var(--feed-w);max-width:calc(100% - 32px);margin:8px auto 0;padding:28px 20px;
@@ -3605,8 +3643,8 @@
   const esc = (t) => String(t == null ? '' : t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
   const RATIO = { '4:5':'4:5', '1:1':'square', '16:9':'wide', '9:16':'4:5' };
 
-  const ctaBar = (label) => `<button class="btn btn-primary btn-bar">
-        <span class="lead">${esc(label)}</span>${svg(I.chevronRight, 18)}</button>`;
+  const I_LOOP = '<path d="M6 16c5 0 7-8 12-8a4 4 0 0 1 0 8c-5 0-7-8-12-8a4 4 0 1 0 0 8"/>';
+  const ctaBar = (label) => `<button class="cta">${svg(I_LOOP, 19)}<span>${esc(label)}</span>${svg(I.chevronRight, 17)}</button>`;
 
   const card = (p) => {
     // take the index BEFORE anything else: the deck and feed find posts by it
@@ -3615,13 +3653,15 @@
     const imgs = p.images || [];
     const r = imgs.length ? ` data-r="${RATIO[p.ratio] || '4:5'}"` : '';
     const draft = p.draft ? `<span class="draft-chip">${svg(I.sparkle, 12, 'currentColor', true)}First draft</span>` : '';
+    const cta = p.cta ? ctaBar(p.cta) : '';
     const mediaHTML = !imgs.length ? '' : imgs.length > 1
       ? `<div class="media is-carousel"${r}>${draft}
            <div class="track">${imgs.map(src => `<div class="slide"><img src="${src}" alt="" loading="lazy"></div>`).join('')}</div>
            <button class="nav nav-prev" hidden aria-label="Previous image">${svg(I.chevronLeft, 18)}</button>
            <button class="nav nav-next" aria-label="Next image">${svg(I.chevronRight, 18)}</button>
+           ${cta}
          </div>`
-      : `<div class="media"${r}>${draft}<img src="${imgs[0]}" alt="" loading="lazy"></div>`;
+      : `<div class="media"${r}>${draft}<img src="${imgs[0]}" alt="" loading="lazy">${cta}</div>`;
     const rowsHTML = !imgs.length && p.rows && p.rows.length ? `<div class="panel"><div class="rows">${p.rows.map(([k, v]) =>
           `<div><span class="k">${esc(k)}</span><span class="v">${esc(v)}</span></div>`).join('')}</div></div>` : '';
     const isText = !imgs.length;
@@ -3650,8 +3690,12 @@
       </div>
 
       ${mediaHTML}
+      ${isText ? `<div class="card-body is-top">
+        <h2 class="card-title">${esc(p.title)}</h2>
+        <p class="card-sub">${esc(p.sub)}</p>
+      </div>` : ''}
       ${rowsHTML}
-      ${p.cta ? ctaBar(p.cta) : ''}
+      ${isText ? cta : ''}
 
       <div class="card-actions">
         <div class="act-group">
@@ -3668,10 +3712,10 @@
         </button>
       </div>
 
-      <div class="card-body">
+      ${isText ? '' : `<div class="card-body">
         <h2 class="card-title">${esc(p.title)}</h2>
         <p class="card-sub">${esc(p.sub)}</p>
-      </div>
+      </div>`}
     </article>`;
   };
 
@@ -3816,10 +3860,7 @@
         </ul>
       </div>
 
-      <button class="btn btn-primary btn-bar" data-connect-go="${id}">
-        <span class="lead">${svg(I[c.logo], 18, c.color)} Connect ${c.name}</span>
-        ${svg(I.chevronRight, 18)}
-      </button>
+      <button class="cta" data-connect-go="${id}">${svg(I[c.logo], 19, c.color)}<span>Connect ${c.name}</span>${svg(I.chevronRight, 17)}</button>
     </article>`;
   };
 
@@ -4156,7 +4197,7 @@
     if (!c) return;
     document.querySelectorAll(`[data-connect-go="${id}"]`).forEach(btn => {
       btn.disabled = true;
-      btn.innerHTML = `<span class="lead">${svg(I.check, 18)} ${c.name} connected</span>`;
+      btn.innerHTML = `${svg(I.check, 19)}<span>${c.name} connected</span>`;
     });
     document.querySelectorAll(`[data-connect-card="${id}"]`).forEach(el => {
       const b = el.querySelector('.badge');
