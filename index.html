@@ -3410,13 +3410,6 @@
 
 
   /* ---------- hello: date, greeting, three numbers, over a soft blue glow ---------- */
-  body::before{
-    content:'';position:fixed;left:60px;right:0;top:0;height:620px;z-index:-1;pointer-events:none;
-    background:radial-gradient(45% 70% at 38% 0%,rgba(56,92,190,.38) 0%,rgba(33,50,110,.14) 50%,transparent 100%),
-               radial-gradient(35% 50% at 72% 5%,rgba(120,80,200,.14) 0%,transparent 100%);
-    -webkit-mask-image:linear-gradient(#000 40%,transparent);mask-image:linear-gradient(#000 40%,transparent);
-  }
-  body:not(:has(#hello:not([hidden])))::before{opacity:0}
   .hello{width:var(--feed-w);margin:0 auto;padding:28px 2px 4px;animation:stfade .6s cubic-bezier(.2,.8,.2,1) both}
   .hello[hidden]{display:none}
   .hello-date{margin:0;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--fg-3)}
@@ -3454,9 +3447,10 @@
   .stk{
     position:absolute;left:calc(50% + var(--x) * 100%);top:var(--y);pointer-events:auto;cursor:grab;touch-action:none;user-select:none;
     transform:translate(-50%,0) rotate(calc(var(--r) + var(--tilt,0deg)));transition:transform .35s cubic-bezier(.34,1.4,.64,1);
-    animation:skin .7s cubic-bezier(.34,1.5,.64,1) var(--d) both;
+    opacity:0;
   }
-  @keyframes skin{from{opacity:0;transform:translate(-50%,16px) rotate(calc(var(--r) - 14deg)) scale(.7)}}
+  .stk.in{opacity:1;animation:skin .7s cubic-bezier(.34,1.5,.64,1) both}
+  @keyframes skin{from{opacity:0;transform:translate(-50%,24px) rotate(calc(var(--r) - 14deg)) scale(.7)}}
   .stk:hover{transform:translate(-50%,-4px) rotate(calc(var(--r) * .5)) scale(1.06)}
   .stk.is-drag{cursor:grabbing;transition:transform .12s ease;transform:translate(-50%,0) rotate(calc(var(--r) + var(--tilt,0deg))) scale(1.1);z-index:5}
   .stk img{pointer-events:none;-webkit-user-drag:none}
@@ -3484,6 +3478,43 @@
   .sk-chip{display:inline-block;padding:10px 16px;border-radius:999px;background:#1d3b2b;color:#7ff0b8;font-size:16px;font-weight:600;border:1px solid #2b5a41}
   @media (max-width:1180px){ .stickers{display:none} }
   @media (prefers-reduced-motion:reduce){ .stk{animation:none;transition:none} }
+
+
+  /* projected impact inside the card page */
+  .st-chip.is-proj{border-color:#2b3f66;background:#121a2b;color:#cfe0ff}
+  .st-chip.is-proj:hover{background:#18233a}
+  .pj{margin-top:12px;display:flex;flex-direction:column;gap:14px;padding:18px;border-radius:20px;background:#121212;border:1px solid #232323}
+  .pj-tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+  .pj-tiles span{display:flex;flex-direction:column;gap:2px;padding:12px 14px;border-radius:14px;background:#181818;font-size:13px;color:var(--fg-3)}
+  .pj-tiles b{font-size:24px;line-height:30px;font-weight:600;color:var(--fg);font-variant-numeric:tabular-nums}
+  .pj-chart{position:relative}
+  .pj-chart svg{display:block;width:100%;height:auto;overflow:visible}
+  .pj-grid{stroke:#262626;stroke-width:1}
+  .pj-ax{fill:#7a7a7a;font-size:11px}
+  .pj-pace{fill:none;stroke:#8a8a8a;stroke-width:2;stroke-dasharray:4 4;stroke-linecap:round}
+  .pj-ad{fill:none;stroke:#3987e5;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:900;animation:pjdraw 1.4s cubic-bezier(.2,.8,.2,1) .2s both}
+  @keyframes pjdraw{from{stroke-dashoffset:900}to{stroke-dashoffset:0}}
+  .pj-dot{fill:#3987e5;stroke:#121212;stroke-width:2}
+  .pj-lbl{fill:#e8e8e8;font-size:12px;font-weight:500}
+  .pj-lbl.is-muted{fill:#9a9a9a}
+  .pj-x{stroke:#555;stroke-width:1}
+  .pj-hit{fill:transparent;cursor:crosshair}
+  .pj-tip{position:absolute;top:0;min-width:150px;padding:8px 10px;border-radius:10px;background:#fafafa;color:#151515;font-size:12.5px;display:flex;flex-direction:column;gap:2px;pointer-events:none;box-shadow:0 8px 24px rgba(0,0,0,.4)}
+  .pj-tip span{display:flex;align-items:center;gap:6px}
+  .pj-tip b{color:#151515;font-weight:600;margin-bottom:2px}
+  .pj-tip em{margin-left:auto;font-style:normal;font-weight:600;font-variant-numeric:tabular-nums}
+  .pj-tip i,.pj-legend i{width:10px;height:3px;border-radius:2px;display:inline-block}
+  .pj-tip i.ad,.pj-legend i.ad{background:#3987e5}
+  .pj-tip i.pace,.pj-legend i.pace{background:repeating-linear-gradient(90deg,#8a8a8a 0 3px,transparent 3px 5px)}
+  .pj-legend{display:flex;flex-wrap:wrap;align-items:center;gap:14px;margin-top:8px;font-size:12.5px;color:var(--fg-2)}
+  .pj-legend span{display:inline-flex;align-items:center;gap:6px}
+  .pj-legend .pj-note{margin-left:auto;color:var(--fg-3)}
+  .pj-better p{margin:0 0 6px;font-size:13px;color:var(--fg-3)}
+  .pj-better ul{margin:0 0 12px;padding-left:18px;display:flex;flex-direction:column;gap:4px;color:var(--fg)}
+  .pj-better .st-chip:disabled{opacity:1;background:#16261b;border-color:#1f3a27;color:#86efac;cursor:default}
+  .story-cover.is-dark{background:#111}
+  .story-cover.is-dark img{width:60%;height:60%}
+  @media (prefers-reduced-motion:reduce){ .pj-ad{animation:none} }
 
   .kb-card.is-brief{background:#fbfaf6;border-color:#fbfaf6;color:#151515}
   .kb-card.is-brief h3{color:#151515}
@@ -3740,6 +3771,10 @@
     <button class="story" data-story="today" style="--i:0">
       <span class="story-ring"><span class="story-cover is-brand"><img src="assets/arata/mark.svg" alt=""></span></span>
       <span class="story-label">Arata today</span>
+    </button>
+    <button class="story" data-story="recap" style="--i:1">
+      <span class="story-ring"><span class="story-cover is-dark"><img src="assets/shopos-mark.svg" alt=""></span></span>
+      <span class="story-label">Recap</span>
     </button>
     <button class="story" data-story="trends" style="--i:1">
       <span class="story-ring"><span class="story-cover"><img src="assets/story-1.svg" alt=""></span></span>
@@ -6195,7 +6230,7 @@
         <p>${esc(p.sub)}</p>${rowsBlock(p)}</div>`;
     }
     if (m.me) return `<div class="cm cm-me"><span>${esc(m.t)}</span></div>`;
-    return `<div class="cm cm-ai"><img class="av" src="${a.avatar}" alt=""><div class="cm-body"><span class="cm-t">${m.t}</span>${m.img != null ? mediaBlock(p, m.img, m.tag) : ''}${m.diff ? `<div class="cm-diff">${I_SPARK}<span>${esc(m.diff)}</span></div>` : ''}${m.extra || ''}</div></div>`;
+    return `<div class="cm cm-ai"><img class="av" src="${a.avatar}" alt=""><div class="cm-body"><span class="cm-t">${m.t}</span>${m.proj != null ? projHTML(m.proj) : ''}${m.img != null ? mediaBlock(p, m.img, m.tag) : ''}${m.diff ? `<div class="cm-diff">${I_SPARK}<span>${esc(m.diff)}</span></div>` : ''}${m.extra || ''}</div></div>`;
   };
   const paintChat = (stream) => {
     const box = studio.querySelector('.st-chat'); if (!box) return;
@@ -6232,6 +6267,53 @@
   const I_BACK = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>';
   const I_NOTE = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h8M8 17h5"/></svg>';
   const I_MIN = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m9 18 6-6-6-6"/></svg>';
+  const I_TREND = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 7-8.5 8.5-5-5L2 17"/><path d="M16 7h6v6"/></svg>';
+  // a 14-day projection: add to carts a day at today's pace vs with this ad running. Illustrative, from the card's own numbers
+  const projData = (i) => {
+    const seed = (i * 37) % 11, base = 38 + seed, lift = .34 + seed / 100;
+    const days = Array.from({ length:14 }, (_, d) => d + 1);
+    const pace = days.map(d => Math.round(base + Math.sin(d * 1.3 + seed) * 2));
+    const withAd = days.map((d, n) => Math.round(pace[n] * (1 + lift * (1 - Math.exp(-d / 4)))));
+    const extra = withAd.reduce((a, v, n) => a + v - pace[n], 0);
+    return { days, pace, withAd, lift, extra, payback: 6 + (seed % 4) };
+  };
+  const projChart = (D) => {
+    const W = 560, H = 200, L = 34, R = 16, T = 14, B = 26;
+    const max = Math.ceil(Math.max(...D.withAd) / 10) * 10 + 10, min = Math.floor(Math.min(...D.pace) / 10) * 10 - 10;
+    const x = (n) => L + n * (W - L - R) / (D.days.length - 1), y = (v) => T + (1 - (v - min) / (max - min)) * (H - T - B);
+    const line = (arr) => arr.map((v, n) => `${n ? 'L' : 'M'}${x(n).toFixed(1)},${y(v).toFixed(1)}`).join('');
+    const ticks = [min, Math.round((min + max) / 2), max];
+    const last = D.days.length - 1;
+    return `<div class="pj-chart" data-pj='${JSON.stringify({ p:D.pace, w:D.withAd })}'>
+      <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Add to carts a day for 14 days: today's pace against with this ad">
+        ${ticks.map(t => `<line x1="${L}" x2="${W - R}" y1="${y(t)}" y2="${y(t)}" class="pj-grid"/><text x="${L - 8}" y="${y(t) + 4}" class="pj-ax" text-anchor="end">${t}</text>`).join('')}
+        ${[0, 6, 13].map(n => `<text x="${x(n)}" y="${H - 6}" class="pj-ax" text-anchor="middle">Day ${n + 1}</text>`).join('')}
+        <path d="${line(D.pace)}" class="pj-pace"/>
+        <path d="${line(D.withAd)}" class="pj-ad"/>
+        <circle cx="${x(last)}" cy="${y(D.withAd[last])}" r="4.5" class="pj-dot"/>
+        <text x="${x(last) - 8}" y="${Math.min(...D.withAd.slice(-4).map(y)) - 10}" class="pj-lbl" text-anchor="end">With this ad</text>
+        <text x="${x(last) - 8}" y="${y(D.pace[last]) + 18}" class="pj-lbl is-muted" text-anchor="end">Today’s pace</text>
+        <line class="pj-x" y1="${T}" y2="${H - B}" x1="-10" x2="-10"/>
+        <rect class="pj-hit" x="${L}" y="${T}" width="${W - L - R}" height="${H - T - B}"/>
+      </svg>
+      <div class="pj-tip" hidden></div>
+      <div class="pj-legend"><span><i class="ad"></i>With this ad</span><span><i class="pace"></i>Today’s pace</span><span class="pj-note">Add to carts a day · projection, not a promise</span></div>
+    </div>`;
+  };
+  const projHTML = (i) => {
+    const D = projData(i), p = ALL_POSTS[i];
+    const fixes = ['Lead with the 474 reviews in the first frame, proof beats claims', 'Show the ₹1,010 routine price, not the list price', 'Run the 9:16 cut for Reels, where most of the reach is'];
+    return `<div class="pj">
+      <div class="pj-tiles">
+        <span><b>+${Math.round(D.lift * 100)}%</b>add to carts by day 14</span>
+        <span><b>+${D.extra}</b>extra add to carts</span>
+        <span><b>Day ${D.payback}</b>pays back spend</span>
+      </div>
+      ${projChart(D)}
+      <div class="pj-better"><p>What could do better</p><ul>${fixes.map(f => `<li>${esc(f)}</li>`).join('')}</ul>
+        <button class="st-chip is-brief" data-stfixes>${I_SPARK}Add these to the brief</button></div>
+    </div>`;
+  };
   const paintActions = () => {
     const i = stIdx; if (i == null) return;
     const p = ALL_POSTS[i], kind = kindOf(p), k = KIND[kind], S = st(i);
@@ -6243,7 +6325,8 @@
     const send = S.sent ? `<span class="st-chip is-sent">${I_OK} Sent to the team</span>`
       : n ? (needs ? `<button class="st-chip" data-stneed>${lg(c)}Connect ${c.name}</button>` : `<button class="st-chip" id="st-send">${I_SEND}Send to team</button>`) : '';
     const left = S.sent ? [] : k.tweaks.filter(([t]) => !S.edits.includes(t));
-    el.innerHTML = brief + send + (left.length ? '<span class="st-qsep"></span>' : '') +
+    const proj = (kind === 'launch' || kind === 'creative') && !S.projSeen ? `<button class="st-chip is-proj" data-stproj>${I_TREND}Projected impact</button>` : '';
+    el.innerHTML = brief + send + proj + (left.length ? '<span class="st-qsep"></span>' : '') +
       left.map(([t]) => `<button class="st-chip" data-sttweak="${k.tweaks.findIndex(x => x[0] === t)}">${I_SPARK}${esc(t)}</button>`).join('');
   };
   const paintStudio = (i) => {
@@ -6354,6 +6437,17 @@
     const t = e.target;
     if (t.closest('[data-stclose]')) return closeStudio();
     if (t.closest('[data-stbrief]')) return setBrief(true);
+    if (t.closest('[data-stproj]')) {
+      const i = stIdx, S = st(i); S.projSeen = true; paintActions();
+      S.msgs.push({ me:true, t:'What will this do for my signals?' }); paintChat();
+      return aiSay({ t:'Here’s where this is likely to take you over the next two weeks, against where you’re heading today.', proj:i });
+    }
+    if (t.closest('[data-stfixes]')) {
+      const i = stIdx, S = st(i), b = t.closest('[data-stfixes]');
+      ['Lead with the reviews in frame one', 'Show the ₹1,010 routine price', 'Add a 9:16 cut for Reels'].forEach(f => S.edits.includes(f) || S.edits.push(f));
+      b.disabled = true; b.innerHTML = `${I_OK} Added to the brief`; S.fresh = true;
+      return paintActions();
+    }
     if (t.closest('[data-stmin]')) return setBrief(false);
     const tw = t.closest('[data-sttweak]'); if (tw) return applyTweak(+tw.dataset.sttweak);
     const cn = t.closest('[data-stconnect]');
@@ -6379,6 +6473,19 @@
       return aiSay('Noted. Every agent works with this from now on, and it’s in Memory if you change your mind.', () => setTimeout(closeStudio, 900));
     }
     if (t.closest('[data-stno]')) return closeStudio();
+  });
+  studio.addEventListener('pointermove', (e) => {
+    const hit = e.target.closest('.pj-hit'); const box = e.target.closest('.pj-chart');
+    studio.querySelectorAll('.pj-chart').forEach(c => { if (c !== box) { c.querySelector('.pj-tip').hidden = true; c.querySelector('.pj-x').setAttribute('x1', -10); c.querySelector('.pj-x').setAttribute('x2', -10); } });
+    if (!hit || !box) return;
+    const svg = box.querySelector('svg'), r = svg.getBoundingClientRect(), d = JSON.parse(box.dataset.pj);
+    const vb = 560, L = 34, R = 16, px = (e.clientX - r.left) * vb / r.width;
+    const n = Math.max(0, Math.min(d.p.length - 1, Math.round((px - L) / ((vb - L - R) / (d.p.length - 1)))));
+    const gx = L + n * (vb - L - R) / (d.p.length - 1);
+    const xl = box.querySelector('.pj-x'); xl.setAttribute('x1', gx); xl.setAttribute('x2', gx);
+    const tip = box.querySelector('.pj-tip'); tip.hidden = false;
+    tip.innerHTML = `<b>Day ${n + 1}</b><span><i class="ad"></i>With this ad <em>${d.w[n]}</em></span><span><i class="pace"></i>Today’s pace <em>${d.p[n]}</em></span>`;
+    const left = gx * r.width / vb; tip.style.left = Math.min(r.width - 170, Math.max(0, left + 12)) + 'px';
   });
   studio.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -6408,26 +6515,24 @@
 
   // ---------- stickers: drag them anywhere; double-click to spin; they stay where you leave them ----------
   const STICKERS = [
-    { id:'arata', x:-.36, y:150, r:-8,  html:'<span class="sk-tile"><img src="assets/arata/mark.svg" alt=""></span>' },
-    { id:'shopos', x:.33, y:120, r:9,   html:'<span class="sk-tile is-dark"><img src="assets/shopos-mark.svg" alt=""></span>' },
-    { id:'note1', x:.30, y:330, r:-3,   html:'<span class="sk-note"><small>MONDAY SWEEP</small>four of five answered in three days. that’s the bar.</span>' },
-    { id:'polaroid', x:-.40, y:470, r:-5, html:'<span class="sk-pola"><i class="tape"></i><img src="assets/arata/two-bottles-one-routine-1.webp" alt=""><em>the routine sells</em></span>' },
-    { id:'price', x:.36, y:720, r:12,   html:'<span class="sk-tag">₹1,010<small>2 bottles</small></span>' },
-    { id:'stars', x:-.33, y:930, r:6,   html:'<span class="sk-star">4.57<b>★</b><small>474 reviews</small></span>' },
-    { id:'sticky', x:.31, y:1080, r:-6, html:'<span class="sk-sticky">Pack of 3 price?<br>ask Riya by Fri</span>' },
-    { id:'note2', x:-.39, y:1320, r:4,  html:'<span class="sk-note"><small>DIWALI · 24 DAYS</small>gift the routine. one bow, two bottles.</span>' },
-    { id:'pola2', x:.34, y:1480, r:7,   html:'<span class="sk-pola"><i class="tape"></i><img src="assets/arata/474-reviews-serum-2.webp" alt=""><em>proof up top</em></span>' },
-    { id:'chip', x:-.34, y:1760, r:-10, html:'<span class="sk-chip">hair fall ↑ 190%</span>' }
+    { id:'arata',   x:-.36, y:620,  r:-8,  html:'<span class="sk-tile"><img src="assets/arata/mark.svg" alt=""></span>' },
+    { id:'note1',   x:.31,  y:1500, r:-3,  html:'<span class="sk-note"><small>MONDAY SWEEP</small>four of five answered in three days. that’s the bar.</span>' },
+    { id:'polaroid',x:-.38, y:2500, r:-5,  html:'<span class="sk-pola"><i class="tape"></i><img src="assets/arata/two-bottles-one-routine-1.webp" alt=""><em>the routine sells</em></span>' },
+    { id:'stars',   x:.34,  y:3500, r:6,   html:'<span class="sk-star">4.57<b>★</b><small>474 reviews</small></span>' },
+    { id:'price',   x:-.35, y:4500, r:10,  html:'<span class="sk-tag">₹1,010<small>2 bottles</small></span>' },
+    { id:'shopos',  x:.33,  y:5500, r:9,   html:'<span class="sk-tile is-dark"><img src="assets/shopos-mark.svg" alt=""></span>' }
   ];
   const skLayer = document.getElementById('stickers');
   let skPos = {};
-  try { skPos = JSON.parse(localStorage.getItem('shopos-stickers') || '{}'); } catch (_) {}
-  const skSave = () => { try { localStorage.setItem('shopos-stickers', JSON.stringify(skPos)); } catch (_) {} };
+  try { skPos = JSON.parse(localStorage.getItem('shopos-stickers-2') || '{}'); } catch (_) {}
+  const skSave = () => { try { localStorage.setItem('shopos-stickers-2', JSON.stringify(skPos)); } catch (_) {} };
   const paintStickers = () => {
     skLayer.innerHTML = STICKERS.map((k, n) => {
       const p = skPos[k.id] || k;
-      return `<div class="stk" data-sk="${k.id}" style="--x:${p.x};--y:${p.y}px;--r:${p.r}deg;--d:${.15 + n * .06}s">${k.html}</div>`;
+      return `<div class="stk" data-sk="${k.id}" style="--x:${p.x};--y:${p.y}px;--r:${p.r}deg">${k.html}</div>`;
     }).join('');
+    const io = new IntersectionObserver((es) => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { rootMargin:'0px 0px -12% 0px' });
+    skLayer.querySelectorAll('.stk').forEach(el => io.observe(el));
   };
   paintStickers();
   let skDrag = null;
@@ -6585,6 +6690,12 @@
 
   // ---------- stories ----------
   const STORIES = {
+    recap: { title:'Recap', avatar:'assets/shopos-mark.svg', slides:[
+      { k:'This month', nf:() => kbItems.filter(x => ['sent','progress','live'].includes(x.col)).length + 3, h:'Briefs you’ve sent', p:'Three are live, the rest are with the team. Here’s what the live ones did.', g:'radial-gradient(120% 90% at 0% 0%,#3987e5 0%,#173a6b 45%,#0a0d14 100%)' },
+      { img:'assets/arata/two-bottles-one-routine-1.webp', k:'Live · Meta ads', h:'Two bottles. One routine.', p:'2.4% click rate against 1.6% before, and 41 extra add to carts in the first week. (Sample numbers.)' },
+      { k:'Live · Email', n:'+18%', h:'Second orders from the day-7 email', p:'Telling serum buyers what to expect cut “is it working?” tickets by a third. (Sample numbers.)', g:'radial-gradient(120% 90% at 100% 0%,#199e70 0%,#0d4a36 45%,#06100c 100%)' },
+      { k:'Live · Store', n:'₹863', h:'Every price now matches', p:'Pack 2’s new price is on arata.in, the cards and the ads. Nothing quotes ₹898 any more.', g:'radial-gradient(120% 90% at 50% 100%,#d95926 0%,#5a2410 45%,#120805 100%)' }
+    ]},
     today: { title:'Arata today', avatar:'assets/arata/mark.svg', slides:[
       { k:'Today', nf:() => FEED_IDS.filter(i => ALL_POSTS[i].cta && !st(i).sent && !st(i).decided).length, h:'Things waiting on you', p:'A claim to sign off, prices to fix and the ad plan. Each one takes a minute or two.', g:'radial-gradient(120% 90% at 0% 0%,#4f7cff 0%,#1b2b6b 45%,#0b0d18 100%)' },
       { img:'assets/arata/474-reviews-serum-2.webp', k:'Your strongest proof', h:'474 reviews. 4.57★.', p:'The Intensive serum’s reviews are the line to lead every ad with this week.' },
