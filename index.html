@@ -4680,10 +4680,12 @@
   const esc = (t) => String(t == null ? '' : t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
   const RATIO = { '4:5':'4:5', '1:1':'square', '16:9':'wide', '9:16':'4:5' };
 
-  const I_LOOP = '<path d="M6 16c5 0 7-8 12-8a4 4 0 0 1 0 8c-5 0-7-8-12-8a4 4 0 1 0 0 8"/>';
+  // the card's action: a small spark (an agent does it); once done, a tick
+  const I_LOOP = '<path d="M12 3.5c.4 3.9 2.6 6.1 6.5 6.5-3.9.4-6.1 2.6-6.5 6.5-.4-3.9-2.6-6.1-6.5-6.5 3.9-.4 6.1-2.6 6.5-6.5z"/><path d="M19 16.5v3M17.5 18h3"/>';
+  const I_TICK = '<path d="M20 6 9 17l-5-5"/>';
   // a card remembers what its button already did, wherever it is drawn again
   const SENT = {};
-  const ctaBar = (label, sent) => `<button class="cta${sent ? ' is-sent' : ''}">${svg(I_LOOP, 19)}<span>${esc(sent || label)}</span>${svg(I.chevronRight, 17)}</button>`;
+  const ctaBar = (label, sent) => `<button class="cta${sent ? ' is-sent' : ''}">${svg(sent ? I_TICK : I_LOOP, 18)}<span>${esc(sent || label)}</span>${svg(I.chevronRight, 17)}</button>`;
 
   const card = (p) => {
     // take the index BEFORE anything else: the deck and feed find posts by it
@@ -7141,6 +7143,7 @@
   };
   const markCard = (i, label) => { SENT[i] = label; document.querySelectorAll(`.card[data-post="${i}"] .cta`).forEach(b => {
     b.classList.add('is-sent'); b.querySelector('span').textContent = label;
+    const ic = b.querySelector('svg'); if (ic) ic.innerHTML = '<path d="M20 6 9 17l-5-5"/>';
   }); };
 
   const afterChange = (S) => { paintBrief(); };
