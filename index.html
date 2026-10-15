@@ -2923,7 +2923,7 @@
   .mem-tabs button:hover{color:var(--fg-2)}
   .mem-tabs button[aria-selected="true"]{background:#262626;color:var(--fg)}
   .mem-tabs .n{margin-left:4px;color:var(--fg-3);font-variant-numeric:tabular-nums}
-  .mem-panel{max-width:760px}
+  .mem-panel{max-width:none}
   .mem-sec{margin-top:32px}
   .mem-h{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
   .mem-h h2{margin:0;font-size:var(--t-head);line-height:26px;font-weight:500}
@@ -3558,6 +3558,12 @@
   .cm-ai .cm-media::before{content:'';position:absolute;inset:-30px;background:var(--bg) center/cover;filter:blur(30px) brightness(.45);transform:scale(1.1)}
   .cm-ai .cm-media img{position:relative;object-fit:contain}
 
+
+  /* a list of yours fills the deck on its own: a wide grid of what is in it */
+  #deck.is-yours .col.is-mine{flex:1 1 auto;width:auto;max-width:none}
+  #deck.is-yours .col.is-mine .col-body{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:20px;align-items:start}
+  #deck.is-yours .col.is-mine .col-body > *{margin:0}
+  #deck.is-yours .col.is-mine .grab{display:none}
   /* yours open from the side */
   .col-x{width:30px;height:30px;margin-left:6px;border:0;border-radius:9px;background:transparent;color:var(--fg-3);display:grid;place-items:center;cursor:pointer;transition:background .2s,color .2s}
   .col-x:hover{background:rgba(255,255,255,.08);color:var(--fg)}
@@ -5123,6 +5129,8 @@
     if (!b) return;
     const k = b.dataset.col;
     if (MINE[k]) return openMine(mineOpen === k ? null : k);
+    // an area from inside a list of yours goes back to the areas first
+    if (mineOpen && SECTORS[k]) { openMine(null); return requestAnimationFrame(() => deckEl.querySelector(`.col[data-col="${k}"]`)?.scrollIntoView({ behavior:'smooth', block:'nearest', inline:'start' })); }
     // a hidden column comes back on click, otherwise the deck scrolls to it
     if (colState[k] && colState[k].hidden) {
       colState[k].hidden = false;
@@ -5140,7 +5148,7 @@
   const openMine = (k) => {
     mineOpen = k;
     buildDeck();
-    deckEl.scrollTo({ left:0, behavior:'smooth' });
+    deckEl.scrollLeft = 0;
     if (k) deckEl.querySelector('.col.is-mine')?.classList.add('mine-in');
   };
   window.__openMine = openMine;
@@ -5167,7 +5175,8 @@
     // scroll snapping re-snaps whatever we restore, so it is held off for the
     // one frame it takes to put the scroll back where the reader left it
     document.body.classList.add('col-dragging');
-    deckEl.innerHTML = (mineOpen ? mineColHTML(mineOpen) + '<div class="col-split" aria-hidden="true"><span>Areas</span></div>' : '') + COL_ORDER.map(k => colHTML(k, empty)).join('');
+    deckEl.innerHTML = mineOpen ? mineColHTML(mineOpen) : COL_ORDER.map(k => colHTML(k, empty)).join('');
+    deckEl.classList.toggle('is-yours', !!mineOpen);
     window.__paintMine && window.__paintMine();
     // the deck is dense, so its cards arrive already settled
     deckEl.querySelectorAll('.card').forEach(el => el.classList.add('in'));
@@ -8096,9 +8105,7 @@
         `<p class="sig-sec">Connected</p>` +
         SOURCES.filter(sc => srcOn(sc.id)).map(srcHTML).join('') +
         SOURCES.filter(sc => !srcOn(sc.id)).map(srcHTML).join('')
-      : !sigUnlocked
-        ? lockedCard
-        : `<p class="sig-sec">Connect your sources</p>${SOURCES.map(srcHTML).join('')}`;
+      : '';
     paintSideSrc();
   };
 
