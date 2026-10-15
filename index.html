@@ -2978,6 +2978,55 @@
   .mem-tr .mem-link{color:var(--fg-3)}
   .mem-tr .mem-link:hover{color:var(--fg)}
 
+  /* ---------- kanban: one column per step, from first draft to a shared brief ---------- */
+  .kb-page .cx-in{width:100%;max-width:none;padding:40px 0 0;display:flex;flex-direction:column;min-height:100%}
+  .kb-page .cx-top{padding:0 32px;align-items:center}
+  .kb-page .cx-top p{margin-top:6px}
+  .kb-board{
+    flex:1;display:flex;gap:14px;overflow-x:auto;padding:28px 32px 32px;scroll-snap-type:x proximity;scroll-padding:32px;
+    scrollbar-width:thin;scrollbar-color:#2a2a2a transparent;
+  }
+  .kb-col{flex:0 0 304px;display:flex;flex-direction:column;min-height:0;scroll-snap-align:start;border-radius:18px;background:#111;border:1px solid #1d1d1d}
+  .kb-col-h{display:flex;flex-direction:column;gap:4px;padding:16px 16px 14px}
+  .kb-col-h .row{display:flex;align-items:center;gap:10px}
+  .kb-col-h .ic{width:30px;height:30px;border-radius:9px;background:#1f1f1f;display:grid;place-items:center;color:var(--fg-2);flex:0 0 auto}
+  .kb-col-h b{flex:1;font-size:16px;font-weight:500;color:var(--fg)}
+  .kb-col-h .n{min-width:26px;height:24px;padding:0 8px;border-radius:999px;background:#1f1f1f;color:var(--fg-2);font-size:13px;font-weight:500;display:grid;place-items:center;font-variant-numeric:tabular-nums}
+  .kb-col[data-col="you"] .kb-col-h .n.has{background:rgba(245,166,35,.16);color:#f5b544}
+  .kb-col-h span.sub{font-size:13.5px;color:var(--fg-3);padding-left:40px}
+  .kb-col-b{flex:1;display:flex;flex-direction:column;gap:10px;padding:0 10px 10px;border-radius:0 0 18px 18px;transition:background .15s}
+  .kb-col-b.is-over{background:#161616}
+  .kb-empty{display:grid;place-items:center;min-height:110px;padding:16px;border:1px dashed #2a2a2a;border-radius:14px;color:var(--fg-3);font-size:13.5px;text-align:center}
+  .kb-card{
+    display:flex;flex-direction:column;border-radius:14px;background:#1a1a1a;border:1px solid #242424;overflow:hidden;
+    cursor:grab;transition:border-color .15s,transform .15s,opacity .15s;
+  }
+  .kb-card:hover{border-color:#333}
+  .kb-card.is-drag{opacity:.4}
+  .kb-card:active{cursor:grabbing}
+  .kb-card .th{height:132px;background:#232323}
+  .kb-card .th img{width:100%;height:100%;object-fit:cover;display:block}
+  .kb-card .in{display:flex;flex-direction:column;gap:8px;padding:12px 14px 14px}
+  .kb-card .who{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--fg-3)}
+  .kb-card .who img{width:20px;height:20px}
+  .kb-card .who em{font-style:normal;color:var(--fg-2)}
+  .kb-card h3{margin:0;font-size:15px;line-height:21px;font-weight:500;color:var(--fg);display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+  .kb-foot{display:flex;align-items:center;gap:8px;margin-top:2px;font-size:13px;color:var(--fg-3)}
+  .kb-bar{position:relative;height:4px;border-radius:4px;background:#2a2a2a;overflow:hidden;margin-top:4px}
+  .kb-bar i{position:absolute;inset:0 auto 0 0;border-radius:4px;background:linear-gradient(90deg,#6b8cff,#a78bfa);animation:kbgrow 1.2s cubic-bezier(.2,.8,.2,1)}
+  .kb-bar i::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.35),transparent);animation:kbshine 1.6s linear infinite}
+  @keyframes kbgrow{from{width:0}}
+  @keyframes kbshine{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
+  .kb-live{width:7px;height:7px;border-radius:50%;background:#8b9dff;animation:kbpulse 1.4s ease-in-out infinite}
+  @keyframes kbpulse{50%{opacity:.3}}
+  .kb-mate{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-size:11px;font-weight:600;color:#0a0a0a}
+  .kb-ask{padding:10px 12px;border-radius:10px;background:#141414;border:1px solid #262626;font-size:13.5px;line-height:19px;color:var(--fg-2)}
+  .kb-btn{height:34px;padding:0 14px;border:0;border-radius:10px;background:#262626;color:var(--fg);font:inherit;font-size:13.5px;font-weight:500;cursor:pointer}
+  .kb-btn:hover{background:#303030}
+  .kb-ok{color:#4ade80}
+  @media (max-width:600px){ .kb-page .cx-top,.kb-board{padding-inline:16px} .kb-col{flex-basis:84vw} }
+  @media (prefers-reduced-motion:reduce){ .kb-bar i,.kb-bar i::after,.kb-live{animation:none} }
+
   /* ---------- shortlisted ---------- */
   .feed-empty{
     width:var(--feed-w);max-width:calc(100% - 32px);margin:8px auto 0;padding:28px 20px;
@@ -3495,6 +3544,19 @@
   </div>
 </section>
 
+
+<section class="cx-page kb-page" id="kb-page" hidden aria-labelledby="kb-title">
+  <div class="cx-in">
+    <header class="cx-top">
+      <div>
+        <h1 id="kb-title">Work</h1>
+        <p>Everything you started, from first draft to a shared brief.</p>
+      </div>
+      <button class="mem-btn" id="kb-new">Start a new jam</button>
+    </header>
+    <div class="kb-board" id="kb-board"></div>
+  </div>
+</section>
 
 <section class="cx-page mem-page" id="mem-page" hidden aria-labelledby="mem-title">
   <div class="cx-in">
@@ -5352,7 +5414,7 @@
     } else syncTabs();
   };
   cxFly.addEventListener('click', (e) => {
-    if (e.target.closest('#cx-all')) return setCxPage(true);
+    if (e.target.closest('#cx-all')) { if (!kbPage.hidden) setKbPage(false); return setCxPage(true); }
     const r = e.target.closest('[data-cx]');
     if (r) setCxPage(true);
   });
@@ -5460,12 +5522,130 @@
     if (!memPage.hidden) paintLearned();
   });
 
+  // ---------- kanban: one column per step; cards move as people reply ----------
+  const kbPage = document.getElementById('kb-page');
+  const kbBtn = document.querySelector('[data-nav="kanban"]');
+  const KB_I = {
+    bg:'<rect x="5" y="5" width="14" height="14" rx="2"/><path d="M9 9h6v6H9z"/><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/>',
+    draft:'<path d="M4 7V5h16v2"/><path d="M12 5v14"/><path d="M9 19h6"/>',
+    team:'<path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/>',
+    you:I_HAND,
+    ready:'<path d="m5 12 5 5L20 7"/>',
+    shared:'<path d="m22 2-7 20-4-9-9-4z"/><path d="M22 2 11 13"/>'
+  };
+  const KB_COLS = [
+    ['bg','AI in the background','Working on it right now','Nothing is running right now.'],
+    ['draft','Drafting','You and AI, before anyone sees it','Jam on a card and it starts here.'],
+    ['team','With a teammate','A teammate is looking at it','Ask a teammate from the jam with @their name.'],
+    ['you','Needs you','Someone is waiting on your answer','Nothing is waiting on you.'],
+    ['ready','Ready to share','Approved, share the brief','Approve a draft and it lands here.'],
+    ['shared','Brief shared','Sent, nothing left to do','Shared briefs end up here.']
+  ];
+  const kbItems = [
+    { p:48, col:'bg', job:'Making 8 ad variants', pct:62 },
+    { p:43, col:'bg', job:'Writing the evidence page', pct:28 },
+    { p:2,  col:'draft', t:'1h ago' },
+    { p:21, col:'draft', t:'3h ago' },
+    { p:45, col:'team', mate:['Riya','#c4b5fd'], t:'reviewing the copy' },
+    { p:24, col:'team', mate:['Karan','#86efac'], t:'adding the reply' },
+    { p:17, col:'you', ask:'Riya: ₹1,299 or ₹1,349 for the Pack of 3?' },
+    { p:53, col:'you', ask:'Karan: OK to send this to 2,140 buyers today?' },
+    { p:22, col:'ready', t:'Approved 20 min ago' },
+    { p:51, col:'shared', t:'Shared with 3 people · yesterday' }
+  ];
+  const kbCard = (it, i) => {
+    const p = ALL_POSTS[it.p], a = AG(p.agent), img = (p.images || [])[0];
+    let foot = '';
+    if (it.col === 'bg') foot = `<div class="kb-foot"><span class="kb-live"></span>${esc(it.job)} · ${it.pct}%</div><div class="kb-bar"><i style="width:${it.pct}%"></i></div>`;
+    else if (it.col === 'draft') foot = `<div class="kb-foot">Edited ${esc(it.t || 'just now')}</div>`;
+    else if (it.col === 'team') foot = `<div class="kb-foot"><span class="kb-mate" style="background:${it.mate[1]}">${it.mate[0][0]}</span><span><em style="font-style:normal;color:var(--fg-2)">${it.mate[0]}</em> is ${esc(it.t)}</span></div>`;
+    else if (it.col === 'you') foot = `<div class="kb-ask">${esc(it.ask)}</div><div class="kb-foot"><button class="kb-btn" data-kbopen="${i}">Reply</button></div>`;
+    else if (it.col === 'ready') foot = `<div class="kb-foot"><button class="kb-btn" data-kbshare="${i}">Share brief</button><span>${esc(it.t || '')}</span></div>`;
+    else foot = `<div class="kb-foot"><svg class="kb-ok" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg>${esc(it.t || 'Shared just now')}</div>`;
+    return `<article class="kb-card" draggable="true" data-kb="${i}">
+      ${img && it.col !== 'shared' ? `<div class="th"><img src="${img}" alt="" loading="lazy"></div>` : ''}
+      <div class="in"><span class="who"><img src="${a.avatar}" alt=""><em>${esc(a.name)}</em></span>
+        <h3>${esc(p.title)}</h3>${foot}</div></article>`;
+  };
+  const paintKb = () => {
+    document.getElementById('kb-board').innerHTML = KB_COLS.map(([k, name, sub, empty]) => {
+      const list = kbItems.map((it, i) => [it, i]).filter(([it]) => it.col === k);
+      return `<section class="kb-col" data-col="${k}">
+        <header class="kb-col-h"><span class="row"><span class="ic">${svg(KB_I[k], 16)}</span><b>${name}</b><span class="n${list.length ? ' has' : ''}">${list.length}</span></span><span class="sub">${sub}</span></header>
+        <div class="kb-col-b" data-drop="${k}">${list.length ? list.map(([it, i]) => kbCard(it, i)).join('') : `<div class="kb-empty">${empty}</div>`}</div>
+      </section>`;
+    }).join('');
+  };
+  const setKbPage = (open) => {
+    if (open) {
+      if (!cxPage.hidden) setCxPage(false);
+      if (!memPage.hidden) setMemPage(false);
+      paintKb(); kbPage.hidden = false; kbPage.scrollTop = 0;
+      document.querySelectorAll('[data-nav="home"],[data-nav="shortlist"]').forEach(b => b.classList.remove('is-on'));
+    } else { kbPage.hidden = true; syncTabs(); }
+    kbBtn.classList.toggle('is-on', open);
+  };
+  const openJam = (post) => {
+    workDock.classList.add('arrive');
+    buildWork(post, 'jam');
+    workEl.hidden = false; idleEl.hidden = true;
+    setChat(true);
+  };
+  const kbName = (k) => KB_COLS.find(c => c[0] === k)[1];
+  let kbDrag = null;
+  kbPage.addEventListener('dragstart', (e) => {
+    const c = e.target.closest('.kb-card'); if (!c) return;
+    kbDrag = +c.dataset.kb; c.classList.add('is-drag');
+    e.dataTransfer.effectAllowed = 'move'; e.dataTransfer.setData('text/plain', c.dataset.kb);
+  });
+  kbPage.addEventListener('dragend', () => { kbDrag = null; kbPage.querySelectorAll('.is-drag,.is-over').forEach(x => x.classList.remove('is-drag','is-over')); });
+  kbPage.addEventListener('dragover', (e) => {
+    const z = e.target.closest('[data-drop]'); if (!z || kbDrag == null) return;
+    e.preventDefault();
+    kbPage.querySelectorAll('.is-over').forEach(x => x !== z && x.classList.remove('is-over'));
+    z.classList.add('is-over');
+  });
+  kbPage.addEventListener('drop', (e) => {
+    const z = e.target.closest('[data-drop]'); if (!z || kbDrag == null) return;
+    e.preventDefault();
+    const it = kbItems[kbDrag];
+    if (it.col !== z.dataset.drop) {
+      it.col = z.dataset.drop;
+      if (it.col === 'bg') { it.job = it.job || 'Working on it'; it.pct = it.pct || 10; }
+      if (it.col === 'team') it.mate = it.mate || ['Riya','#c4b5fd'], it.t = 'reviewing it';
+      if (it.col === 'you') it.ask = it.ask || 'Riya: good to go?';
+      if (it.col === 'ready') it.t = 'Approved just now';
+      if (it.col === 'shared') it.t = 'Shared just now';
+      if (it.col === 'draft') it.t = 'just now';
+      paintKb(); toast(`Moved to ${kbName(it.col)}`);
+    }
+    kbDrag = null;
+  });
+  kbPage.addEventListener('click', (e) => {
+    if (e.target.closest('#kb-new')) { resetChat(); return setChat(true); }
+    const sh = e.target.closest('[data-kbshare]');
+    if (sh) { const it = kbItems[+sh.dataset.kbshare]; it.col = 'shared'; it.t = 'Shared just now'; paintKb(); return toast('Brief shared'); }
+    const c = e.target.closest('.kb-card');
+    if (c) openJam(ALL_POSTS[kbItems[+c.dataset.kb].p]);
+  });
+  // jamming on a feed card starts a draft on the board
+  document.addEventListener('click', (e) => {
+    const j = e.target.closest('.card .act-jam'); if (!j) return;
+    const idx = +j.closest('.card').dataset.post;
+    if (!kbItems.some(it => it.p === idx)) kbItems.unshift({ p:idx, col:'draft', t:'just now' });
+    if (!kbPage.hidden) paintKb();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !kbPage.hidden && !document.querySelector('.scrim.open') && !chatPanel.classList.contains('on')) setKbPage(false);
+  });
+
   document.querySelectorAll('.rail-btn').forEach(b => b.addEventListener('click', () => {
     const key = b.dataset.nav;
     setRail(false);
-    if (key === 'connectors') { if (!memPage.hidden) setMemPage(false); return setCxPage(cxPage.hidden); }
+    if (key === 'connectors') { if (!memPage.hidden) setMemPage(false); if (!kbPage.hidden) setKbPage(false); return setCxPage(cxPage.hidden); }
     if (!cxPage.hidden && key !== 'notifications') setCxPage(false);
     if (!memPage.hidden && !['memory','tune','notifications'].includes(key)) setMemPage(false);
+    if (!kbPage.hidden && !['kanban','notifications','chat','jam'].includes(key)) setKbPage(false);
     if (key === 'chat')      return setChat(!chatPanel.classList.contains('on'));
     if (key === 'jam')       return openModal('jam-scrim');
     if (key === 'tune')      return setMemPage(true, 'feed');
@@ -5479,7 +5659,7 @@
       return setLayout('deck');
     }
     if (key === 'shortlist') return setShortlist(chip !== 'wishlist');
-    if (key === 'kanban')    return toast('Kanban is not built in this prototype yet');
+    if (key === 'kanban')    return setKbPage(kbPage.hidden);
     if (key === 'memory')    return setMemPage(memPage.hidden || !memBtn.classList.contains('is-on'), 'learned');
     if (key === 'account')   return toast('Account is not built in this prototype yet');
   }));
