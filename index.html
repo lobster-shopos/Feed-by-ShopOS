@@ -3557,6 +3557,15 @@
   .cm-ai .cm-media{background:#141414}
   .cm-ai .cm-media::before{content:'';position:absolute;inset:-30px;background:var(--bg) center/cover;filter:blur(30px) brightness(.45);transform:scale(1.1)}
   .cm-ai .cm-media img{position:relative;object-fit:contain}
+
+  /* yours open from the side */
+  .col-x{width:30px;height:30px;margin-left:6px;border:0;border-radius:9px;background:transparent;color:var(--fg-3);display:grid;place-items:center;cursor:pointer;transition:background .2s,color .2s}
+  .col-x:hover{background:rgba(255,255,255,.08);color:var(--fg)}
+  .col-x svg{transition:transform .25s cubic-bezier(.34,1.4,.64,1)}
+  .col-x:hover svg{transform:rotate(90deg)}
+  .col.is-mine.mine-in{animation:minein .45s cubic-bezier(.32,.72,0,1) both}
+  @keyframes minein{from{opacity:0;transform:translateX(-24px)}}
+  #deck-side button[data-mine-tab].is-open{background:rgba(255,255,255,.1);color:var(--fg)}
   /* ---------- the draft, as a document in the chat ---------- */
   .cm-doc{border-radius:20px;background:#121212;border:1px solid #232323;overflow:hidden}
   .dc-h{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid #1f1f1f}
@@ -4935,7 +4944,9 @@
   const colState = {};
   COL_ORDER.forEach(k => colState[k] = { hidden:false });
   // your own work sits in front of the areas: what is moving, what you saved, and how it is going
-  const MINE_ORDER = ['progress', 'saved', 'dash'];
+  // yours are not columns by default: they open from the side, one at a time, in front of the areas
+  const MINE_ORDER = ['progress', 'saved'];
+  let mineOpen = null;
   const MINE = {
     progress:{ name:'In progress', icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-6.2-8.6"/><path d="M21 4v5h-5"/></svg>' },
     saved:{ name:'Shortlisted', icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/></svg>' },
@@ -4944,7 +4955,7 @@
   MINE_ORDER.forEach(k => colState[k] = { hidden:false });
   const mineColHTML = (k) => `
       <section class="col is-mine" data-col="${k}">
-        <div class="col-head"><div class="col-top"><h2>${MINE[k].name}</h2><span class="col-fill"></span><span class="col-n" data-mine-n="${k}"></span></div><hr></div>
+        <div class="col-head"><div class="col-top"><h2>${MINE[k].name}</h2><span class="col-fill"></span><span class="col-n" data-mine-n="${k}"></span><button class="col-x" data-minex aria-label="Close ${MINE[k].name}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button></div><hr></div>
         <div class="col-body" data-mine="${k}"></div>
         <p class="col-end" hidden></p>
         <span class="grab" role="separator" aria-orientation="vertical" aria-label="Column width"></span>
@@ -5063,7 +5074,7 @@
   const navHTML = () => `
     <p class="side-h">Yours</p>
     ${MINE_ORDER.map(k => `
-      <button data-col="${k}" aria-current="false">${MINE[k].icon}${MINE[k].name}<span class="n" data-mine-nav="${k}">${mineCount(k)}</span></button>`).join('')}
+      <button data-col="${k}" data-mine-tab="${k}" class="${mineOpen === k ? 'is-open' : ''}" aria-pressed="${mineOpen === k}">${MINE[k].icon}${MINE[k].name}<span class="n" data-mine-nav="${k}">${mineCount(k)}</span></button>`).join('')}
     <p class="side-h">Areas</p>
     ${COL_ORDER.map(k => `
       <button data-col="${k}" class="${colState[k].hidden ? 'muted' : ''}"
@@ -5083,7 +5094,7 @@
     </div>
 
     <p class="side-note">
-      <b>Your work first, then every area.</b> What is moving, what you saved and how it is going sit up front.
+      <b>Every area your agents work in.</b> Open what you sent or saved from Yours.
     </p>
 
 
@@ -5111,6 +5122,7 @@
     const b = e.target.closest('.side-nav button');
     if (!b) return;
     const k = b.dataset.col;
+    if (MINE[k]) return openMine(mineOpen === k ? null : k);
     // a hidden column comes back on click, otherwise the deck scrolls to it
     if (colState[k] && colState[k].hidden) {
       colState[k].hidden = false;
@@ -5123,6 +5135,16 @@
     if (col) col.scrollIntoView({ behavior:'smooth', block:'nearest', inline:'start' });
   });
 
+
+  // in progress and shortlisted open in front of the areas, and close back out of the way
+  const openMine = (k) => {
+    mineOpen = k;
+    buildDeck();
+    deckEl.scrollTo({ left:0, behavior:'smooth' });
+    if (k) deckEl.querySelector('.col.is-mine')?.classList.add('mine-in');
+  };
+  window.__openMine = openMine;
+  deckEl.addEventListener('click', (e) => { if (e.target.closest('[data-minex]')) openMine(null); });
 
   // a demo mode that hides Pro entirely, for showing the free product on its own
   const setNoDeck = (on) => {
@@ -5145,7 +5167,7 @@
     // scroll snapping re-snaps whatever we restore, so it is held off for the
     // one frame it takes to put the scroll back where the reader left it
     document.body.classList.add('col-dragging');
-    deckEl.innerHTML = MINE_ORDER.map(mineColHTML).join('') + '<div class="col-split" aria-hidden="true"><span>Areas</span></div>' + COL_ORDER.map(k => colHTML(k, empty)).join('');
+    deckEl.innerHTML = (mineOpen ? mineColHTML(mineOpen) + '<div class="col-split" aria-hidden="true"><span>Areas</span></div>' : '') + COL_ORDER.map(k => colHTML(k, empty)).join('');
     window.__paintMine && window.__paintMine();
     // the deck is dense, so its cards arrive already settled
     deckEl.querySelectorAll('.card').forEach(el => el.classList.add('in'));
@@ -7503,7 +7525,7 @@
     if (e.target.closest('[data-tpdeck]')) {
       setTeam(false);
       if (layout !== 'deck') document.querySelector('[data-layout-tab="deck"]').click();
-      setTimeout(() => deckEl.scrollTo({ left:0, behavior:'smooth' }), 500);
+      setTimeout(() => window.__openMine && window.__openMine('progress'), 450);
     }
   });
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !pop.hidden) setTeam(false); });
