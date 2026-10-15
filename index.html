@@ -3516,6 +3516,16 @@
   .story-cover.is-dark img{width:60%;height:60%}
   @media (prefers-reduced-motion:reduce){ .pj-ad{animation:none} }
 
+
+  .pj2{margin-top:12px;display:flex;flex-direction:column;gap:12px;padding:16px 18px;border-radius:20px;background:#121212;border:1px solid #232323;max-width:520px}
+  .pj2-top{display:flex;align-items:center;justify-content:space-between;gap:16px}
+  .pj2-top b{display:block;font-size:34px;line-height:38px;font-weight:600;color:var(--fg);letter-spacing:-.02em}
+  .pj2-top span{font-size:14px;color:var(--fg-3)}
+  .pj2 svg{flex:0 0 auto;overflow:visible}
+  .pj2-tip{margin:0;font-size:14.5px;color:var(--fg)}
+  .pj2-tip span{margin-right:8px;font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--fg-3)}
+  .pj2 .st-chip{align-self:flex-start}
+  .pj2 .st-chip:disabled{opacity:1;background:#16261b;border-color:#1f3a27;color:#86efac;cursor:default}
   .kb-card.is-brief{background:#fbfaf6;border-color:#fbfaf6;color:#151515}
   .kb-card.is-brief h3{color:#151515}
   .kb-card.is-brief .who,.kb-card.is-brief .kb-foot{color:#6b6b6b}
@@ -6300,18 +6310,18 @@
       <div class="pj-legend"><span><i class="ad"></i>With this ad</span><span><i class="pace"></i>Today’s pace</span><span class="pj-note">Add to carts a day · projection, not a promise</span></div>
     </div>`;
   };
+  // the simple version: one number, one small line, one thing to do better
   const projHTML = (i) => {
-    const D = projData(i), p = ALL_POSTS[i];
-    const fixes = ['Lead with the 474 reviews in the first frame, proof beats claims', 'Show the ₹1,010 routine price, not the list price', 'Run the 9:16 cut for Reels, where most of the reach is'];
-    return `<div class="pj">
-      <div class="pj-tiles">
-        <span><b>+${Math.round(D.lift * 100)}%</b>add to carts by day 14</span>
-        <span><b>+${D.extra}</b>extra add to carts</span>
-        <span><b>Day ${D.payback}</b>pays back spend</span>
+    const D = projData(i), W = 220, H = 56, n = D.days.length - 1;
+    const max = Math.max(...D.withAd), min = Math.min(...D.pace);
+    const pt = (arr) => arr.map((v, k) => `${k ? 'L' : 'M'}${(k * W / n).toFixed(1)},${(4 + (1 - (v - min) / (max - min)) * (H - 8)).toFixed(1)}`).join('');
+    return `<div class="pj2">
+      <div class="pj2-top">
+        <div><b>+${Math.round(D.lift * 100)}%</b><span>more add to carts in two weeks</span></div>
+        <svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" aria-label="Projected add to carts rising above today's pace"><path d="${pt(D.pace)}" class="pj-pace"/><path d="${pt(D.withAd)}" class="pj-ad"/></svg>
       </div>
-      ${projChart(D)}
-      <div class="pj-better"><p>What could do better</p><ul>${fixes.map(f => `<li>${esc(f)}</li>`).join('')}</ul>
-        <button class="st-chip is-brief" data-stfixes>${I_SPARK}Add these to the brief</button></div>
+      <p class="pj2-tip"><span>Do better</span>Lead with the 474 reviews in the first frame.</p>
+      <button class="st-chip is-brief" data-stfixes>${I_SPARK}Add to the brief</button>
     </div>`;
   };
   const paintActions = () => {
@@ -6440,11 +6450,11 @@
     if (t.closest('[data-stproj]')) {
       const i = stIdx, S = st(i); S.projSeen = true; paintActions();
       S.msgs.push({ me:true, t:'What will this do for my signals?' }); paintChat();
-      return aiSay({ t:'Here’s where this is likely to take you over the next two weeks, against where you’re heading today.', proj:i });
+      return aiSay({ t:'Here’s the likely lift if this runs. A projection, not a promise.', proj:i });
     }
     if (t.closest('[data-stfixes]')) {
       const i = stIdx, S = st(i), b = t.closest('[data-stfixes]');
-      ['Lead with the reviews in frame one', 'Show the ₹1,010 routine price', 'Add a 9:16 cut for Reels'].forEach(f => S.edits.includes(f) || S.edits.push(f));
+      ['Lead with the reviews in frame one'].forEach(f => S.edits.includes(f) || S.edits.push(f));
       b.disabled = true; b.innerHTML = `${I_OK} Added to the brief`; S.fresh = true;
       return paintActions();
     }
