@@ -646,6 +646,7 @@
   .ls-btn:hover::after{opacity:1;transform:translateX(-50%)}
   /* a clean demo with no Pro anywhere: shift + D */
   body.no-deck .layout-switch{display:none}
+  body.no-deck .seg .tab[data-layout-tab="deck"]{display:none}
   .ls-btn.on{background:#2e2e2e;color:var(--fg)}
   .ls-btn .lock{
     position:absolute;right:-4px;top:-3px;width:17px;height:17px;border-radius:50%;
@@ -3460,8 +3461,8 @@
           <button class="act act-jam" aria-label="Jam with team">
             ${svg(I.users, 20)}<span class="tip">Jam with team</span>
           </button>
-          <button class="act bookmark" data-toast="save" aria-pressed="${saved.has(ALL_POSTS.indexOf(p))}" aria-label="Shortlist">
-            ${svg(I.bookmark, 20, 'currentColor', saved.has(ALL_POSTS.indexOf(p)))}<span class="tip">Shortlist</span>
+          <button class="act bookmark" data-toast="save" aria-pressed="${saved.has(idx)}" aria-label="Shortlist">
+            ${svg(I.bookmark, 20, 'currentColor', saved.has(idx))}<span class="tip">Shortlist</span>
           </button>
         </div>
       </div>
