@@ -3680,6 +3680,20 @@
   .cm-pubok{display:inline-grid;place-items:center;width:20px;height:20px;margin-right:8px;border-radius:50%;background:#4ade80;color:#0a0a0a;vertical-align:-4px;animation:abok .4s cubic-bezier(.34,1.6,.64,1) both}
   .cm-pubok svg{width:13px;height:13px}
   @media (prefers-reduced-motion:reduce){ .st-stage .st-chat,.st-stage .st-bpanel{transition:opacity .2s} }
+
+  /* the chat box: text on top, the model on the left, send on the right */
+  .st-main .st-compose{flex-direction:column;align-items:stretch;gap:8px;padding:14px 12px 10px 16px}
+  .st-main .st-compose textarea{padding:2px 2px 0}
+  .st-crow{display:flex;align-items:center;gap:8px}
+  .st-crow .grow{flex:1}
+  .st-model .chat-chip{display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 10px 0 6px;border:0;border-radius:999px;background:rgba(255,255,255,.07);color:#d4d4d4;font:inherit;font-size:13.5px;cursor:pointer;transition:background .15s,color .15s}
+  .st-model .chat-chip img{width:18px;height:18px}
+  .st-model .chat-chip:hover,.st-model.open .chat-chip{background:rgba(255,255,255,.12);color:var(--fg)}
+  .st-model .model-pop{bottom:calc(100% + 10px)}
+  .st-compose .st-model .model-pop button{display:flex;flex-direction:column;align-items:flex-start;width:100%;height:auto;padding:9px 10px;border-radius:10px;background:transparent;color:var(--fg-2)}
+  .st-compose .st-model .model-pop button:hover{background:rgba(255,255,255,.08);color:var(--fg)}
+  .st-compose .st-model .model-pop button[aria-selected="true"]{background:rgba(255,255,255,.12);color:var(--fg)}
+  .st-compose .st-model .chat-chip{width:auto;border-radius:999px}
   /* ---------- the draft, as a document in the chat ---------- */
   .cm-doc{border-radius:20px;background:#121212;border:1px solid #232323;overflow:hidden}
   .dc-h{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid #1f1f1f}
@@ -3775,7 +3789,7 @@
   @keyframes trimg{from{opacity:0;filter:blur(10px);transform:scale(.985)}}
   /* while a run is going, the send button becomes stop and the options wait */
   .st-stop{display:none;width:12px;height:12px;border-radius:3px;background:currentColor}
-  .st-dock.is-busy .st-compose button svg{display:none}
+  .st-dock.is-busy .st-compose .st-go svg{display:none}
   .st-dock.is-busy .st-stop{display:block}
   .st-dock.is-busy .st-quick{opacity:.45;pointer-events:none;transition:opacity .2s}
   @media (prefers-reduced-motion:reduce){ .tr-s.is-live > span,.tr-pill em.is-live,.tr-tool.is-live span,.tr-grid b,.tr-ph::after{animation:none} }
@@ -7216,7 +7230,8 @@
     const proj = (kind === 'launch' || kind === 'creative') && !S.projSeen ? `<button class="st-chip is-proj" data-stproj>${I_TREND}Projected impact</button>` : '';
     const sent = S.published ? `<span class="st-chip is-sent">${I_OK} ${esc(S.published)}</span>` : S.sent ? `<span class="st-chip is-sent">${I_OK} Sent to the team</span>` : '';
     const pub0 = pubsFor(i)[0];
-    const pub = !S.published && pub0 ? `<button class="st-chip is-pub" data-stpub="0">${I_PUB}${esc(pub0[0])}</button>` : '';
+    // one publish button at a time: once a version carries its own, the row lets go of this one
+    const pub = !S.published && pub0 && !lastNext() ? `<button class="st-chip is-pub" data-stpub="0">${I_PUB}${esc(pub0[0])}</button>` : '';
     const left = S.sent ? [] : k.tweaks.filter(([t]) => !S.edits.includes(t));
     el.innerHTML = brief + pub + proj + sent + (left.length ? '<span class="st-qsep"></span>' : '') +
       left.map(([t]) => `<button class="st-chip" data-sttweak="${k.tweaks.findIndex(x => x[0] === t)}">${I_SPARK}${esc(t)}</button>`).join('');
@@ -7243,7 +7258,15 @@
         </div>
         <div class="st-dock">
           <div class="st-quick"></div>
-          <form class="st-compose" id="st-form"><textarea id="st-q" rows="1" placeholder="${decide ? 'Ask about this…' : 'Ask for a change…'}"></textarea><button type="submit" aria-label="Send">${I_UP}<i class="st-stop"></i></button></form>
+          <form class="st-compose" id="st-form"><textarea id="st-q" rows="1" placeholder="${decide ? 'Ask about this…' : 'Ask for a change…'}"></textarea>
+            <div class="st-crow">
+              <span class="model-pick st-model">
+                <button type="button" class="chat-chip" data-stmodel aria-haspopup="listbox" aria-expanded="false"><img src="${SHOPOS.avatar}" alt=""><span class="st-mname">${esc(model)}</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></button>
+                <div class="model-pop" role="listbox" aria-label="Model">${MODELS.map(([n, d]) => `<button type="button" role="option" aria-selected="${n === model}" data-stmod="${n}"><b>${n}</b><span>${d}</span></button>`).join('')}</div>
+              </span>
+              <span class="grow"></span>
+              <button type="submit" class="st-go" aria-label="Send">${I_UP}<i class="st-stop"></i></button>
+            </div></form>
         </div>
       </main>
 `;
@@ -7403,6 +7426,16 @@
       : imgs.length ? { t:'Done. Here’s the updated version.', img:S.img, tag:trim(v, 40) } : { t:'Done, here’s what changed.', diff:trim(v, 80) }, () => { S.fresh = true; afterChange(S); });
   });
   studio.addEventListener('click', (e) => {
+    const mb = e.target.closest('[data-stmodel]');
+    if (mb) { const pk = mb.parentElement, open = !pk.classList.contains('open'); pk.classList.toggle('open', open); mb.setAttribute('aria-expanded', String(open)); return; }
+    const mo = e.target.closest('[data-stmod]');
+    if (mo) {
+      model = mo.dataset.stmod;
+      studio.querySelector('.st-mname').textContent = model;
+      studio.querySelectorAll('[data-stmod]').forEach(o => o.setAttribute('aria-selected', String(o === mo)));
+      return mo.closest('.model-pick').classList.remove('open');
+    }
+    if (!e.target.closest('.st-model')) studio.querySelector('.st-model.open')?.classList.remove('open');
     const pb = e.target.closest('[data-stpub]');
     if (pb) { if (stBusy) return; return openAct(stIdx, pubCfg(stIdx, +pb.dataset.stpub)); }
     if (e.target.closest('[data-stagain]')) {
