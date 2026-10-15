@@ -3363,6 +3363,35 @@
   .st-bpanel .st-send[data-stneed]{background:#d6d4cc;color:#151515}
   @media (max-width:760px){ .st-bpanel .note{padding:8px 22px 24px} .st-bpanel .note dl{grid-template-columns:1fr} .st-nudge{flex-wrap:wrap} }
 
+
+  /* take five: View brief leads the row; the brief slides in from the right over the chat, the chat box stays */
+  .st-chip.is-brief{background:#fbfaf6;color:#151515;border-color:#fbfaf6;font-weight:500}
+  .st-chip.is-brief:hover{background:#ecebe5;border-color:#ecebe5}
+  .st-chip.is-brief svg{transition:transform .3s cubic-bezier(.34,1.4,.64,1)}
+  .st-chip.is-brief:hover svg{transform:rotate(-8deg) scale(1.1)}
+  .st-qsep{width:1px;height:22px;align-self:center;background:#2a2a2a;margin:0 2px}
+  .st-stage{position:relative;flex:1;min-height:0;overflow:hidden;display:flex;flex-direction:column}
+  .st-stage .st-chat{transition:transform .55s cubic-bezier(.32,.72,0,1),opacity .35s ease}
+  .st-main[data-brief="1"] .st-stage .st-chat{transform:translateX(-80px);opacity:0;pointer-events:none}
+  .st-main[data-brief="1"] .st-quick{display:none}
+  .st-stage .st-bpanel{
+    position:absolute;top:20px;bottom:12px;left:50%;right:auto;width:min(920px,calc(100% - 48px));
+    border-radius:26px;box-shadow:0 30px 90px rgba(0,0,0,.5);
+    transform:translateX(calc(50vw + 10%));opacity:0;transition:transform .6s cubic-bezier(.32,.72,0,1),opacity .3s ease;
+  }
+  .st-main[data-brief="1"] .st-bpanel{transform:translateX(-50%);opacity:1}
+  .st-bpanel .note .b-ask{margin:-12px 0 30px;font-size:17px;line-height:27px;color:#333;max-width:68ch}
+  .st-bpanel .note .b-ask b{color:#151515;font-weight:600}
+  .st-bpanel .note dl > div:nth-child(n){grid-column:auto}
+  .st-bpanel .note dl > div.full{grid-column:1 / -1}
+  .st-bpanel .note .ev{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px}
+  .st-bpanel .note .ev span{display:flex;flex-direction:column;gap:2px;padding:12px 14px;border-radius:12px;background:#f0eee7}
+  .st-bpanel .note .ev em{font-style:normal;font-size:13px;color:#6b6b6b}
+  .st-bpanel .note .ev b{font-size:15px;font-weight:600;color:#151515}
+  .st-bpanel .note .where{margin:0 0 10px}
+  .st-bpanel .note .assets .more{width:96px;height:120px;border-radius:12px;background:#ecebe5;display:grid;place-items:center;font-style:normal;font-size:16px;font-weight:600;color:#6b6b6b}
+  .st-bpanel .note .gate{margin-top:0}
+
   .kb-card.is-brief{background:#fbfaf6;border-color:#fbfaf6;color:#151515}
   .kb-card.is-brief h3{color:#151515}
   .kb-card.is-brief .who,.kb-card.is-brief .kb-foot{color:#6b6b6b}
@@ -3869,7 +3898,6 @@
         <h1 id="kb-title">Work</h1>
         <p>Everything you started, from first draft to a shared brief.</p>
       </div>
-      <button class="mem-btn" id="kb-new">Start a new jam</button>
     </header>
     <div class="kb-board" id="kb-board"></div>
   </div>
@@ -3926,10 +3954,7 @@
 <div class="toasts" id="toasts" role="status" aria-live="polite"></div>
 
 <div class="dock">
-  <button class="pill" id="jam-float">
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 11V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2"/><path d="M14 10V4a2 2 0 0 0-2-2a2 2 0 0 0-2 2v2"/><path d="M10 10.5V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2v8"/><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/></svg>
-    Jam with the team
-  </button>
+
 </div>
 
 
@@ -5547,7 +5572,6 @@
   };
   document.getElementById('cp-close').addEventListener('click', () => setChat(false));
   chatBtn.addEventListener('click', () => setChat(!chatPanel.classList.contains('on')));
-  document.getElementById('jam-float').addEventListener('click', () => { resetChat(); setChat(true); });
   document.getElementById('cp-new').addEventListener('click', resetChat);
 
   // ---------- left rail ----------
@@ -5973,15 +5997,15 @@
     ['write',    /./]
   ];
   const KIND = {
-    creative:{ name:'Make a creative', to:'Final creatives in every size, ready to run', where:'Meta and Instagram', need:null,
+    creative:{ make:['Final cuts in 1:1, 4:5 and 9:16','Headline and caption options','Files ready to upload'], done:'You approve the final set in ShopOS', name:'Make a creative', to:'Final creatives in every size, ready to run', where:'Meta and Instagram', need:null,
       tweaks:[['Swap the image','img'],['New headline','txt'],['Make it a reel','fmt'],['More like this','var']] },
-    write:{ name:'Write it', to:'Finished copy, checked against what Arata can claim', where:'arata.in, blog and forums', need:null,
+    write:{ make:['A full draft, ready to publish','Checked against what Arata can claim','Page title and description for search'], done:'Live on arata.in and checked in the next AI answer run', name:'Write it', to:'Finished copy, checked against what Arata can claim', where:'arata.in, blog and forums', need:null,
       tweaks:[['Make it shorter','txt'],['Warmer tone','txt'],['Add a real review','txt'],['Rewrite the opening','txt']] },
-    store:{ name:'Change the store', to:'The page live on arata.in, with a before and after', where:'arata.in (Shopify)', need:'shopify',
+    store:{ make:['The change made on arata.in','Before and after screenshots','A note of anything else it touches'], done:'Live on arata.in, with a 7-day before and after read', name:'Change the store', to:'The page live on arata.in, with a before and after', where:'arata.in (Shopify)', need:'shopify',
       tweaks:[['Use version B','img'],['Tighten the copy','txt'],['Add reviews to the page','txt'],['Test it for a week first','var']] },
-    launch:{ name:'Launch it', to:'Ads set up and running, with a check-in after 3 days', where:'Meta Ads', need:'meta',
+    launch:{ make:['One campaign, set up as a test','Budget and schedule as agreed','Tracking checked before it goes live'], done:'Running on Meta, first read after 3 days', name:'Launch it', to:'Ads set up and running, with a check-in after 3 days', where:'Meta Ads', need:'meta',
       tweaks:[['Lower the budget','var'],['Start Monday','var'],['Only the top 2','img'],['Add a test','var']] },
-    message:{ name:'Message customers', to:'The flow built, tested and switched on', where:'Email and WhatsApp (Klaviyo)', need:'klaviyo',
+    message:{ make:['Email copy and design','Audience and timing set up','A test send to you before it goes live'], done:'Switched on, first results after a week', name:'Message customers', to:'The flow built, tested and switched on', where:'Email (Klaviyo)', need:'klaviyo',
       tweaks:[['Make it shorter','txt'],['Send a day later','var'],['Only repeat buyers','var'],['Add an offer','txt']] },
     decide:{ name:'Your call', need:null, tweaks:[] }
   };
@@ -6001,27 +6025,31 @@
   const due = () => new Date(Date.now() + 3 * 864e5).toLocaleDateString('en-IN', { weekday:'short', day:'numeric', month:'short' });
   const trim = (t, n) => { t = String(t || ''); return t.length > n ? t.slice(0, n).replace(/\s+\S*$/, '') + '…' : t; };
 
+  // a brief answers what the team would otherwise ask: what, why, the proof, what to hand back,
+  // what you changed, the rules, where it goes (and the access), and when it counts as done
   const briefHTML = (i) => {
     const p = ALL_POSTS[i], k = KIND[kindOf(p)], S = st(i), imgs = p.images || [];
     const c = k.need && CONNECTORS.find(x => x.id === k.need);
-    const gate = !c ? '' : cxState[c.id] === 'on'
+    const access = !c ? '<span class="none">Nothing to connect</span>' : cxState[c.id] === 'on'
       ? `<div class="gate ok">${lg(c)}<span><b>${c.name} connected</b>The team can make this change for you.</span></div>`
       : `<div class="gate">${lg(c)}<span><b>Needs ${c.name}</b>So the team can make the change on your behalf.</span>
            <button data-stconnect="${c.id}">${cxState[c.id] === 'busy' ? '<i class="src-spin"></i> Connecting' : 'Connect'}</button></div>`;
+    const rows = (p.rows || []).slice(0, 4);
     return `
-      <span class="to"><i><img src="${SHOPOS.avatar}" alt=""></i>To the ShopOS team · due ${due()}</span>
+      <span class="to"><i><img src="${SHOPOS.avatar}" alt=""></i>To the ShopOS team · from Arata · due ${due()}</span>
       <h3>${esc(p.title)}</h3>
+      <p class="b-ask"><b>${esc(ctaLabel(p))}.</b> ${esc(trim(p.sub, 200))}</p>
       <dl>
-        <div><dt>Goal</dt><dd>${esc(trim(p.sub, 170))}</dd></div>
-        <div><dt>What you’ll get</dt><dd>${esc(k.to)}</dd></div>
-        <div><dt>Where it goes</dt><dd>${esc(k.where)}</dd></div>
-        <div><dt>${imgs.length ? 'Assets' : 'From the card'}</dt><dd>${imgs.length
-          ? `<span class="assets">${imgs.slice(0, 5).map(x => `<img src="${x}" alt="">`).join('')}</span>`
-          : (p.rows || []).slice(0, 3).map(([a, b]) => `${esc(a)}: <b>${esc(b)}</b>`).join('<br>') || 'The numbers on this card'}</dd></div>
+        ${rows.length ? `<div class="full"><dt>What we know</dt><dd><div class="ev">${rows.map(([x, y]) => `<span><em>${esc(x)}</em><b>${esc(y)}</b></span>`).join('')}</div></dd></div>` : ''}
+        <div><dt>What to deliver</dt><dd><ul>${k.make.map(x => `<li>${esc(x)}</li>`).join('')}</ul></dd></div>
         <div><dt>Your changes</dt><dd>${S.edits.length
           ? `<ul>${S.edits.map((e, n) => `<li class="${n === S.edits.length - 1 && S.fresh ? 'new' : ''}">${esc(e)}</li>`).join('')}</ul>`
-          : '<span class="none">None yet. It goes as it is.</span>'}</dd></div>
-      </dl>${gate}`;
+          : '<span class="none">None. Go with the draft as it is.</span>'}</dd></div>
+        ${imgs.length ? `<div class="full"><dt>Assets</dt><dd><span class="assets">${imgs.slice(0, 6).map(x => `<img src="${x}" alt="">`).join('')}${imgs.length > 6 ? `<i class="more">+${imgs.length - 6}</i>` : ''}</span></dd></div>` : ''}
+        <div><dt>Rules to follow</dt><dd>${rules.length ? `<ul>${rules.map(r => `<li>${esc(r)}</li>`).join('')}</ul>` : '<span class="none">No rules set in Memory</span>'}</dd></div>
+        <div><dt>Done when</dt><dd>${esc(k.done)}</dd></div>
+        <div class="full"><dt>Where it goes</dt><dd><p class="where">${esc(k.where)}</p>${access}</dd></div>
+      </dl>`;
   };
   const sendBtn = (i) => {
     const p = ALL_POSTS[i], k = KIND[kindOf(p)], S = st(i);
@@ -6033,11 +6061,12 @@
   // ---- the brief: a large sheet over the chat, opened from the nudge above the chat box ----
   const paintBrief = () => {
     const i = stIdx; if (i == null) return;
-    const S = st(i), sheet = studio.querySelector('.st-bsheet'); if (!sheet) return;
-    sheet.dataset.open = S.briefOpen ? '1' : '';
+    const S = st(i), main = studio.querySelector('.st-main'), panel = studio.querySelector('.st-bpanel'); if (!panel) return;
+    main.dataset.brief = S.briefOpen ? '1' : '';
+    const q = studio.querySelector('#st-q'); if (q) q.placeholder = S.briefOpen ? 'Change anything in the brief…' : 'Ask for a change…';
     if (S.briefOpen) {
-      sheet.querySelector('.note').innerHTML = briefHTML(i);
-      sheet.querySelector('.st-sendwrap').innerHTML = sendBtn(i);
+      panel.querySelector('.note').innerHTML = briefHTML(i);
+      panel.querySelector('.st-sendwrap').innerHTML = sendBtn(i);
     }
     paintActions();
     S.fresh = false;
@@ -6107,8 +6136,8 @@
     const c = k.need && CONNECTORS.find(x => x.id === k.need), needs = c && cxState[c.id] !== 'on';
     const n = S.edits.length;
     if (!n) {
-      el.innerHTML = k.tweaks.map(([t], m) => `<button class="st-chip" data-sttweak="${m}">${I_SPARK}${esc(t)}</button>`).join('') +
-        `<button class="st-chip is-ghost" data-stbrief>${I_NOTE}View brief</button>`;
+      el.innerHTML = `<button class="st-chip is-brief" data-stbrief>${I_NOTE}View brief</button><span class="st-qsep"></span>` +
+        k.tweaks.map(([t], m) => `<button class="st-chip" data-sttweak="${m}">${I_SPARK}${esc(t)}</button>`).join('');
       return;
     }
     el.innerHTML = `<div class="st-nudge${S.fresh ? ' pop' : ''}">
@@ -6129,20 +6158,20 @@
         <img src="${a.avatar}" alt=""><b>${esc(a.name)}</b><span class="st-type">${esc(k.name)}</span>
       </header>
       <main class="st-main">
-        <div class="st-chat"></div>
+        <div class="st-stage">
+          <div class="st-chat"></div>
+          ${decide ? '' : `<section class="st-bpanel" aria-label="Brief">
+            <header><span>${I_NOTE} Brief</span><button class="st-min" data-stmin aria-label="Close brief"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button></header>
+            <div class="note"></div>
+            <footer><button class="mem-btn" data-stmin>Back to chat</button><span class="st-sendwrap"></span></footer>
+          </section>`}
+        </div>
         <div class="st-dock">
           <div class="st-quick"></div>
           <form class="st-compose" id="st-form"><textarea id="st-q" rows="1" placeholder="${decide ? 'Ask about this…' : 'Ask for a change…'}"></textarea><button type="submit" aria-label="Send">${I_UP}</button></form>
         </div>
       </main>
-      ${decide ? '' : `<div class="st-bsheet" data-open="">
-        <div class="st-bscrim" data-stmin></div>
-        <section class="st-bpanel" role="dialog" aria-label="Brief">
-          <header><span>${I_NOTE} Brief</span><button class="st-min" data-stmin aria-label="Close brief"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button></header>
-          <div class="note"></div>
-          <footer><button class="mem-btn" data-stmin>Back to chat</button><span class="st-sendwrap"></span></footer>
-        </section>
-      </div>`}`;
+`;
     paintChat();
     paintActions();
     if (!decide) paintBrief();
@@ -6259,6 +6288,7 @@
     S.msgs.push({ me:true, t:v }); q.value = ''; paintChat();
     if (kind === 'decide') return aiSay('Good question. The numbers on this card are the basis, and you can change your mind any time from Memory.');
     S.edits.push(trim(v, 80));
+    if (S.briefOpen) { S.fresh = true; S.msgs.push({ t:'Added to the brief.', diff:trim(v, 80) }); return paintBrief(); }
     aiSay({ t:'On it. I’ve made that change and noted it in the brief so the team gets it exactly.', diff:trim(v, 80) }, () => { S.fresh = true; afterChange(S); });
   });
   studio.addEventListener('keydown', (e) => {
