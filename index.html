@@ -2639,29 +2639,35 @@
   .rail-item.fly-up.has-menu:hover .rail-fly,
   .rail-item.fly-up.has-menu:focus-within .rail-fly{transform:none}
   /* notifications: a header, one tidy row per item, unread marked on the right */
-  #notif-fly{width:360px;padding:0;overflow:hidden}
-  .nf-head{display:flex;align-items:center;justify-content:space-between;padding:14px 16px 10px}
-  .nf-head b{font-size:14px;font-weight:600;color:var(--fg);letter-spacing:-.005em}
-  .nf-head b span{margin-left:6px;font-size:11.5px;font-weight:500;color:var(--fg-3);font-variant-numeric:tabular-nums}
-  .nf-read{border:0;background:none;padding:0;font:inherit;font-size:12px;color:var(--fg-3);cursor:pointer;transition:color .15s}
+  #notif-fly{width:420px;padding:0;overflow:hidden;border-radius:22px}
+  .nf-head{display:flex;align-items:center;justify-content:space-between;padding:16px 20px 8px}
+  .nf-head b{font-size:16px;font-weight:500;color:var(--fg)}
+  .nf-head b span{margin-left:8px;font-size:14px;font-weight:400;color:var(--fg-3);font-variant-numeric:tabular-nums}
+  .nf-read{border:0;background:none;padding:0;font:inherit;font-size:14px;color:var(--fg-3);cursor:pointer;transition:color .15s}
   .nf-read:hover{color:var(--fg)}
-  .nf-list{display:flex;flex-direction:column;padding:0 6px 6px}
+  .nf-list{display:flex;flex-direction:column;gap:2px;padding:4px 8px 8px;max-height:520px;overflow-y:auto}
   .notif-row{
-    display:grid;grid-template-columns:30px 1fr 8px;align-items:start;gap:12px;
-    width:100%;padding:11px 10px;border:0;border-radius:12px;background:transparent;
-    font:inherit;text-align:left;cursor:pointer;transition:background .14s;
+    display:flex;align-items:center;gap:14px;width:100%;padding:8px 12px 8px 8px;border:0;border-radius:16px;background:transparent;
+    font:inherit;text-align:left;cursor:pointer;transition:background .15s;
   }
-  .notif-row + .notif-row{box-shadow:0 -1px 0 #222}
-  .notif-row:hover{background:#222;box-shadow:none}
-  .notif-row:hover + .notif-row{box-shadow:none}
-  .notif-row img{width:30px;height:30px;display:block}
-  .notif-row .nt{display:flex;flex-direction:column;gap:3px;min-width:0}
-  .notif-row .nt span{font-size:13.5px;line-height:19px;color:var(--fg);
-    display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-  .notif-row .nt em{font-style:normal;font-size:12px;color:var(--fg-3)}
-  .notif-row .ud{width:8px;height:8px;margin-top:6px;border-radius:50%;background:#5b8cff}
-  .notif-row.read .ud{background:transparent}
+  .notif-row:hover{background:#262626}
+  .notif-row .ni{flex:0 0 auto;width:48px;height:48px;border-radius:14px;background:#262626;display:grid;place-items:center;color:var(--fg);transition:color .15s,transform .25s cubic-bezier(.34,1.4,.64,1)}
+  .notif-row:hover .ni{background:transparent}
+  .notif-row:hover .ni svg{transform:scale(1.12) rotate(-6deg)}
+  .notif-row .ni svg{transition:transform .25s cubic-bezier(.34,1.4,.64,1)}
+  .notif-row .nt{flex:1;display:flex;flex-direction:column;gap:2px;min-width:0}
+  .notif-row .nt span{font-size:16px;line-height:22px;color:var(--fg);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .notif-row .nt em{font-style:normal;font-size:14px;color:var(--fg-3)}
+  .notif-row .nd{flex:0 0 auto;font-size:14px;color:var(--fg-2);font-variant-numeric:tabular-nums}
+  .notif-row .nx{flex:0 0 auto;display:none;place-items:center;width:28px;height:28px;border-radius:8px;color:var(--fg-2)}
+  .notif-row .nx svg{transition:transform .25s cubic-bezier(.34,1.4,.64,1)}
+  .notif-row .nx:hover{color:var(--fg);background:#333}
+  .notif-row .nx:hover svg{transform:rotate(90deg)}
+  .notif-row:hover .nx{display:grid}
+  .notif-row.read .ni{color:var(--fg-3)}
   .notif-row.read .nt span{color:var(--fg-2)}
+  .notif-row.read .nt em,.notif-row.read .nd{color:var(--fg-3);opacity:.8}
+  .nf-empty{padding:28px 20px 32px;font-size:14px;color:var(--fg-3);text-align:center}
 
 
   /* ---------- rail icons: each one moves the way its meaning moves ---------- */
@@ -2773,7 +2779,7 @@
   .cx-top{display:flex;align-items:flex-start;gap:24px}
   .cx-top > div{flex:1;min-width:0}
   .cx-top h1{margin:0;font-size:32px;line-height:40px;font-weight:500;letter-spacing:-.02em}
-  .cx-top p{margin:8px 0 0;max-width:62ch;font-size:16.5px;line-height:25px;color:var(--fg-2)}
+  .cx-top p{margin:8px 0 0;max-width:62ch;font-size:16px;line-height:25px;color:var(--fg-2)}
   .cx-x{width:38px;height:38px;border-radius:11px;background:#171717}
   .cx-search{
     display:flex;align-items:center;gap:12px;height:52px;margin:26px 0 8px;padding:0 18px;
@@ -2785,7 +2791,7 @@
   .cx-search input::placeholder{color:var(--fg-3)}
   .cx-search input::-webkit-search-cancel-button{display:none}
   .cx-sec{margin-top:30px}
-  .cx-sec h2{margin:0;padding:0 2px 14px;border-bottom:1px solid #222;font-size:19px;line-height:26px;font-weight:500;letter-spacing:-.01em}
+  .cx-sec h2{margin:0;padding:0 2px 14px;border-bottom:1px solid #222;font-size:18px;line-height:26px;font-weight:500;letter-spacing:-.01em}
   .cx-on{display:flex;flex-wrap:wrap;gap:16px;padding:20px 2px 0}
   .cx-on-t .lg-lg{width:52px;height:52px;border-radius:14px;font-size:18px}
   .cx-empty{margin:0;padding:18px 2px 0;font-size:14px;color:var(--fg-3)}
@@ -2793,7 +2799,7 @@
   .cx-row-l{display:flex;align-items:center;gap:16px;min-width:0;padding:12px 2px}
   .cx-row-l .lg-lg{border-radius:12px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.06)}
   .cx-row-l .t{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
-  .cx-row-l b{font-size:15.5px;font-weight:500;color:var(--fg)}
+  .cx-row-l b{font-size:16px;font-weight:500;color:var(--fg)}
   .cx-row-l .t span{font-size:14px;color:var(--fg-3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   .cx-add,.cx-state{
     flex:0 0 auto;width:40px;height:40px;border:0;border-radius:10px;background:transparent;
@@ -3042,6 +3048,36 @@
   .sl-un{display:grid;place-items:center;width:40px;height:40px;border:0;border-radius:12px;background:transparent;color:var(--fg);cursor:pointer;margin-left:auto}
   .sl-un:hover{background:#262626}
   .sl-empty{margin-top:40px;font-size:16px;color:var(--fg-3)}
+
+
+  /* ---------- consistency pass: one font, one tab look, every icon moves on hover ---------- */
+  button,input,textarea,select{font-family:inherit}
+  #shortlist-n{display:none !important}
+  /* tabs: the same pill everywhere (top bar, memory, shortlisted, tuning) */
+  .seg-pill{background:#262626}
+  .mem-tabs button{border-radius:999px}
+  .mem-tabs button:hover:not([aria-selected="true"]){color:var(--fg-2);background:#161616}
+  .seg3 button.on{background:#262626}
+  .tab:hover:not([aria-selected="true"]){color:var(--fg-2)}
+  /* icon motion, same spring as the rail */
+  .cta > svg:first-child,.col-dots svg,#cp-new svg,#cp-close svg,#model-btn svg,.mem-x svg,.sl-un svg,.sl-acts .mem-btn svg,#kb-new svg,.mem-tr .mem-link,.kb-btn{transition:transform .25s cubic-bezier(.34,1.4,.64,1)}
+  .cta:hover > svg:first-child{transform:rotate(-180deg)}
+  .col-dots:hover svg{transform:rotate(90deg)}
+  #cp-new:hover svg{transform:rotate(-12deg) translate(1px,-1px)}
+  #cp-close:hover svg{transform:rotate(90deg)}
+  #model-btn:hover svg:last-child{transform:translateY(2px)}
+  #model-btn:hover svg:first-child{transform:rotate(20deg) scale(1.1)}
+  .mem-x:hover svg{animation:binwig .45s ease}
+  @keyframes binwig{25%{transform:rotate(-10deg)}50%{transform:rotate(8deg)}75%{transform:rotate(-4deg)}}
+  .sl-un:hover svg{transform:translateY(-2px) scale(1.08)}
+  .sl-acts .mem-btn:hover svg{animation:wave .6s ease}
+  @keyframes wave{20%{transform:rotate(-14deg)}40%{transform:rotate(10deg)}60%{transform:rotate(-8deg)}80%{transform:rotate(4deg)}}
+  .act-jam:hover svg{animation:wave .6s ease}
+  /* chat starter prompts get a surface on hover like every other row */
+  .sugg{border-radius:12px;transition:background .15s}
+  .chat-panel .sugg{padding:11px 12px;margin-inline:-12px}
+  .chat-panel .sugg:hover{background:#1a1a1a}
+  @media (prefers-reduced-motion:reduce){ .mem-x:hover svg,.sl-acts .mem-btn:hover svg,.act-jam:hover svg{animation:none} }
 
   /* ---------- shortlisted ---------- */
   .feed-empty{
@@ -5295,21 +5331,34 @@
 
   // notifications: the latest from each agent, built from what is in the feed
   const notifFly = document.getElementById('notif-fly');
-  const seenAg = new Set();
-  const latest = ALL_POSTS.filter(p => p && p.title && AGENTS[p.agent] && !seenAg.has(p.agent) && seenAg.add(p.agent)).slice(0, 4);
+  const NF_I = {
+    creatives:'<rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.1-3.1a2 2 0 0 0-2.8 0L6 21"/>',
+    ads:'<path d="m16 13 5.2 3.5a.5.5 0 0 0 .8-.4V7.9a.5.5 0 0 0-.8-.4L16 11"/><rect x="2" y="6" width="14" height="12" rx="2"/>',
+    storefront:'<path d="M3 9h18l-1.5-5h-15z"/><path d="M5 9v11h14V9"/><path d="M10 20v-6h4v6"/>',
+    visibility:'<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
+    signals:'<path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 5-6"/>',
+    catalog:'<path d="M21 8 12 3 3 8v8l9 5 9-5z"/><path d="m3 8 9 5 9-5"/><path d="M12 13v8"/>'
+  };
+  const NF_WHAT = { creatives:'Creatives ready', ads:'Ad update', storefront:'Store change', visibility:'AI answer change', signals:'New signal', catalog:'Catalog update' };
+  const nfPicked = []; const nfSec = new Set();
+  ALL_POSTS.forEach(p => { if (p && p.title && nfPicked.length < 7 && (!nfSec.has(p.sector) || nfPicked.length >= 5)) { nfSec.add(p.sector); nfPicked.push(p); } });
+  const I_NX = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>';
   const paintNotifs = () => {
     const unread = notifFly.querySelectorAll('.notif-row:not(.read)').length;
     notifFly.querySelector('.nf-count').textContent = unread ? unread + ' new' : '';
     document.querySelector('.rail-dot')?.toggleAttribute('hidden', unread === 0);
+    const list = notifFly.querySelector('.nf-list');
+    if (!list.querySelector('.notif-row')) list.innerHTML = '<p class="nf-empty">You’re all caught up.</p>';
   };
   notifFly.innerHTML = `
     <div class="nf-head"><b>Notifications<span class="nf-count"></span></b>
       <button class="nf-read" id="nf-read">Mark all read</button></div>
-    <div class="nf-list">${latest.map(p => `
-      <button class="notif-row" data-post="${ALL_POSTS.indexOf(p)}">
-        <img src="${AG(p.agent).avatar}" alt="">
-        <span class="nt"><span>${p.title}</span><em>${AG(p.agent).name} · ${p.time} ago</em></span>
-        <i class="ud" aria-hidden="true"></i>
+    <div class="nf-list">${nfPicked.map((p, i) => `
+      <button class="notif-row${i > 2 ? ' read' : ''}" data-post="${ALL_POSTS.indexOf(p)}">
+        <span class="ni">${svg(NF_I[p.sector] || NF_I.signals, 22)}</span>
+        <span class="nt"><span>${esc(p.title)}</span><em>${NF_WHAT[p.sector] || 'Update'} · ${esc(AG(p.agent).name)}</em></span>
+        <span class="nd">${esc(String(p.time).replace('Just now','now').replace(' min','m').replace(' hr','h'))}</span>
+        <span class="nx" role="button" aria-label="Dismiss">${I_NX}</span>
       </button>`).join('')}</div>`;
   paintNotifs();
   notifFly.addEventListener('click', (e) => {
@@ -5317,6 +5366,8 @@
       notifFly.querySelectorAll('.notif-row').forEach(r => r.classList.add('read'));
       return paintNotifs();
     }
+    const x = e.target.closest('.nx');
+    if (x) { e.stopPropagation(); x.closest('.notif-row').remove(); return paintNotifs(); }
     const r = e.target.closest('.notif-row'); if (!r) return;
     r.classList.add('read'); paintNotifs();
     const wait = layout === 'feed' ? 0 : 700;
