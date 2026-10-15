@@ -2895,6 +2895,8 @@
     box-shadow:0 8px 24px rgba(0,0,0,.25);
   }
   .media .cta:hover{background:rgba(40,40,40,.5)}
+  .cta:not(.is-sent):hover,.media .cta:not(.is-sent):hover{background:#fafafa;border-color:#fafafa;color:#0a0a0a;-webkit-backdrop-filter:none;backdrop-filter:none}
+  .cta:not(.is-sent):hover > svg,.cta:not(.is-sent):hover > svg:last-child{color:#0a0a0a}
   @media (prefers-reduced-motion:reduce){ .cta,.cta > svg{transition:none} }
 
   /* text-only cards: title first, then the numbers, then the CTA, with room all round */
@@ -3249,6 +3251,10 @@
   .st-main{position:relative;display:flex;flex-direction:column;min-height:0;min-width:0}
   .st-main .st-chat{flex:1;min-height:0;overflow:auto;padding:32px max(24px,calc((100% - 760px) / 2)) 24px;gap:22px}
   .cm{animation:stfade .4s cubic-bezier(.2,.8,.2,1) both}
+  .studio .st-chat > .cm:nth-child(1){animation:sthop .5s cubic-bezier(.34,1.3,.64,1) .12s both}
+  .studio .st-chat > .cm:nth-child(2){animation:sthop .5s cubic-bezier(.34,1.3,.64,1) .22s both}
+  .studio .st-dock{animation:sthop .5s cubic-bezier(.34,1.3,.64,1) .3s both}
+  @keyframes sthop{from{opacity:0;transform:translateY(18px)}}
   .cm-card{display:flex;flex-direction:column;gap:14px;padding:22px;border-radius:22px;background:#151515;border:1px solid #222}
   .cm-who{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--fg-3)}
   .cm-who img{width:26px;height:26px}
@@ -6415,14 +6421,9 @@
   };
 
   // the page grows out of the card it came from, and shrinks back into it
-  const flip = (el, from, reverse) => {
-    const to = el.getBoundingClientRect();
-    if (!from || !from.width) return el.animate([{ opacity:0, transform:'translateX(24px)' }, { opacity:1, transform:'none' }], { duration:420, easing:'cubic-bezier(.32,.72,0,1)', direction: reverse ? 'reverse' : 'normal', fill:'both' });
-    return el.animate([
-      { transform:`translate(${from.left - to.left}px,${from.top - to.top}px) scale(${from.width / to.width},${from.height / to.height})`, opacity:.3, borderRadius:'28px' },
-      { transform:'none', opacity:1, borderRadius:'0px' }
-    ], { duration: reverse ? 380 : 560, easing:'cubic-bezier(.32,.72,0,1)', direction: reverse ? 'reverse' : 'normal', fill:'both' });
-  };
+  const flip = (el, from, reverse) => reverse
+    ? el.animate([{ opacity:1, transform:'none' }, { opacity:0, transform:'translateX(28px)' }], { duration:260, easing:'cubic-bezier(.4,0,1,1)', fill:'both' })
+    : el.animate([{ opacity:0, transform:'translateX(40px)' }, { opacity:1, offset:.35 }, { opacity:1, transform:'none' }], { duration:480, easing:'cubic-bezier(.32,.72,0,1)', fill:'both' });
   const openStudio = (i, fromEl) => {
     const p = ALL_POSTS[i]; if (!p) return;
     stIdx = i; stFrom = fromEl || null;
