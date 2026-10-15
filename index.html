@@ -3330,7 +3330,7 @@
   .st-nudge .mem-btn{height:40px;background:#ecebe5;color:#151515;display:inline-flex;align-items:center;gap:8px}
   .st-nudge .mem-btn:hover{background:#e2e0d8}
   .st-nudge .mem-btn.is-primary{background:#151515;color:#fff}
-  .st-nudge .mem-btn.is-primary:hover{background:rgba(255,255,255,0.163);opacity:1}
+  .st-nudge .mem-btn.is-primary:hover{background:#2a2a2a;opacity:1}
   .st-nudge .mem-btn svg{transition:transform .3s cubic-bezier(.34,1.4,.64,1)}
   .st-nudge .mem-btn:hover svg{transform:translate(3px,-3px)}
   .st-nudge.is-done{background:#16261b;color:#86efac;padding:14px 16px;gap:10px;font-size:15px}
@@ -3366,7 +3366,7 @@
   .st-bpanel footer .mem-btn:hover{background:#e2e0d8}
   .st-bpanel .st-send{width:auto;margin:0;padding:0 24px;height:48px;background:#151515;color:#fff}
   .st-bpanel .st-send.is-primary{background:#151515;color:#fff;animation:none}
-  .st-bpanel .st-send:hover:not(:disabled){background:rgba(255,255,255,0.163)}
+  .st-bpanel .st-send:hover:not(:disabled){background:#2a2a2a}
   .st-bpanel .st-send:disabled{background:#d6d4cc;color:#6b6b6b;opacity:1}
   .st-bpanel .st-send[data-stneed]{background:#d6d4cc;color:#151515}
   @media (max-width:760px){ .st-bpanel .note{padding:8px 22px 24px} .st-bpanel .note dl{grid-template-columns:1fr} .st-nudge{flex-wrap:wrap} }
@@ -3572,6 +3572,94 @@
   .col.is-mine.mine-in{animation:minein .45s cubic-bezier(.32,.72,0,1) both}
   @keyframes minein{from{opacity:0;transform:translateX(-24px)}}
   #deck-side button[data-mine-tab].is-open{background:rgba(255,255,255,.1);color:var(--fg)}
+
+  /* ---------- the brief, as a note: memo header, a stamp, numbered parts, signed ---------- */
+  .st-bpanel{background:#fbfaf6}
+  .st-bpanel > header{border-bottom:1px dashed #ddd9cd;padding-bottom:14px}
+  .st-bpanel .note{padding:28px 56px 40px}
+  .bn{position:relative;max-width:760px;margin:0 auto;color:#1c1c1c}
+  .bn-stamp{position:absolute;top:2px;right:0;padding:6px 12px;border:2px solid #c2410c;border-radius:8px;color:#c2410c;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+    font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;transform:rotate(6deg);opacity:.78;
+    -webkit-mask-image:radial-gradient(circle at 30% 40%,#000 60%,rgba(0,0,0,.65) 61%,#000 75%);mask-image:radial-gradient(circle at 30% 40%,#000 60%,rgba(0,0,0,.65) 61%,#000 75%)}
+  .bn.is-sent .bn-stamp{border-color:#15803d;color:#15803d}
+  .bn-stamp.thud{animation:bnthud .45s cubic-bezier(.2,1.4,.4,1) both}
+  @keyframes bnthud{0%{transform:rotate(-4deg) scale(2.2);opacity:0}60%{transform:rotate(7deg) scale(.94);opacity:.9}100%{transform:rotate(6deg) scale(1);opacity:.85}}
+  .bn-memo{display:grid;grid-template-columns:repeat(4,max-content);gap:6px 28px}
+  .bn-memo div{display:flex;flex-direction:column;gap:2px}
+  .bn-memo dt{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#8a877d}
+  .bn-memo dd{margin:0;display:flex;align-items:center;gap:6px;font-size:14px;font-weight:500;color:#1c1c1c}
+  .bn-memo dd i{width:18px;height:18px;border-radius:5px;background:#151515;display:grid;place-items:center}
+  .bn-memo dd i img{width:12px;height:12px}
+  .st-bpanel .note .bn h3{margin:0 0 12px;font-size:32px;line-height:38px;font-weight:600;letter-spacing:-.015em;max-width:24ch;color:#111}
+  .bn-ask{margin:0;font-size:17px;line-height:27px;color:#3a3a3a;max-width:64ch}
+  .bn-ask mark{background:linear-gradient(transparent 55%,#fde68a 55%,#fde68a 92%,transparent 92%);color:#111;font-weight:600;padding:0 2px}
+  .bn-hand{display:block;margin:10px 0 0 -4px;font-family:'Caveat',cursive;font-size:22px;line-height:24px;color:#2563eb;transform:rotate(-1.2deg);transform-origin:left}
+  .bn-parts{margin-top:26px;border-top:1px solid #e6e2d6}
+  .bn-s{display:grid;grid-template-columns:170px minmax(0,1fr);gap:24px;padding:20px 0;border-bottom:1px dashed #e2ded2;animation:bnin .45s cubic-bezier(.2,.8,.2,1) both}
+  .bn-s:nth-child(2){animation-delay:.04s}.bn-s:nth-child(3){animation-delay:.08s}.bn-s:nth-child(4){animation-delay:.12s}.bn-s:nth-child(5){animation-delay:.16s}.bn-s:nth-child(n+6){animation-delay:.2s}
+  @keyframes bnin{from{opacity:0;transform:translateY(8px)}}
+  .st-bpanel .bn-s header{display:flex;justify-content:flex-start;align-items:baseline;gap:10px;padding:0;border:0;font-size:14px;color:#1c1c1c}
+  .bn-s header i{font-style:normal;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;color:#a8a49a}
+  .bn-s header b{font-weight:600}
+  .bn-b{min-width:0;font-size:15.5px;line-height:24px;color:#2a2a2a}
+  .bn-ev{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+  .bn-ev span{display:flex;flex-direction:column;gap:2px;padding:12px 14px;border-radius:12px;background:#f1eee5}
+  .bn-ev b{font-size:19px;line-height:24px;font-weight:600;color:#111;letter-spacing:-.01em}
+  .bn-ev em{font-style:normal;font-size:12.5px;color:#7a776d}
+  .bn-doc{position:relative;padding:22px 20px 12px;border-radius:6px;background:#fff;box-shadow:0 1px 0 #e6e2d6,0 8px 24px rgba(60,50,20,.08);font-size:15px;line-height:23px;color:#333}
+  .bn-doc h4{margin:0 0 6px;font-size:16px;color:#111}
+  .bn-doc h4:not(:first-of-type){margin-top:12px;font-size:15px}
+  .bn-doc p{margin:0 0 8px}
+  .bn-doc b{color:#111}
+  .bn-doc ul{margin:0 0 8px;padding-left:18px}
+  .bn-doc blockquote{margin:0 0 10px;padding:8px 12px;border-left:3px solid #fde68a;background:#fffbea;color:#111}
+  .bn-doc blockquote cite{display:block;font-style:normal;font-size:12.5px;color:#7a776d}
+  .bn-doc .dc-meta{background:#f6f4ee}
+  .bn-doc .dc-meta dt{color:#7a776d}
+  .bn-doc .dc-meta dd{color:#111}
+  .bn-tape{position:absolute;top:-10px;left:50%;width:90px;height:22px;transform:translateX(-50%) rotate(-2deg);background:rgba(253,230,138,.7);border-radius:2px}
+  .bn-v{position:absolute;top:-30px;right:8px;font-family:'Caveat',cursive;font-size:20px;color:#2563eb;transform:rotate(-3deg)}
+  .bn-check,.bn-edits,.bn-rules{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+  .bn-check li{display:flex;gap:10px;align-items:flex-start}
+  .bn-check li i{width:16px;height:16px;flex:0 0 auto;margin-top:4px;border:1.5px solid #b9b5a8;border-radius:4px;background:#fff}
+  .bn-edits li{position:relative;padding-left:20px}
+  .bn-edits li::before{content:'✎';position:absolute;left:0;top:0;color:#2563eb;font-size:14px}
+  .bn-edits li.new{background:linear-gradient(transparent 55%,#fde68a 55%,#fde68a 92%,transparent 92%);width:fit-content}
+  .bn-rules li{position:relative;padding-left:20px}
+  .bn-rules li::before{content:'';position:absolute;left:2px;top:9px;width:8px;height:8px;border-radius:2px;background:#1c1c1c;transform:rotate(45deg) scale(.7)}
+  .bn-none{margin:0;color:#8a877d}
+  .bn-done{margin:0;font-weight:500;color:#111}
+  .bn-where{margin:0 0 10px;font-weight:500;color:#111}
+  .bn-pola{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+  .bn-pola span{display:block;padding:6px 6px 18px;background:#fff;border-radius:3px;box-shadow:0 6px 16px rgba(60,50,20,.12);transform:rotate(var(--r));transition:transform .3s cubic-bezier(.34,1.4,.64,1)}
+  .bn-pola span:hover{transform:rotate(0) translateY(-3px) scale(1.04)}
+  .bn-pola img{width:76px;height:95px;object-fit:cover;display:block;border-radius:2px}
+  .bn-pola em{font-style:normal;font-family:'Caveat',cursive;font-size:20px;color:#2563eb}
+  .bn-sign{display:flex;flex-direction:column;align-items:flex-end;margin-top:26px;padding-right:6px}
+  .bn-sign span{font-size:14px;color:#7a776d}
+  .bn-sign b{font-family:'Caveat',cursive;font-size:38px;line-height:40px;font-weight:600;color:#1c1c1c;transform:rotate(-4deg)}
+  .bn-sign em{font-style:normal;font-size:12px;color:#a8a49a}
+  .st-bpanel .note .bn .gate{margin-top:0;background:#f1eee5}
+  @media (max-width:760px){
+    .st-bpanel .note{padding:18px 20px 28px}
+    .bn-memo{grid-template-columns:repeat(2,max-content);margin-right:0;margin-top:34px}
+    .bn-s{grid-template-columns:1fr;gap:10px}
+    .st-bpanel .note .bn h3{font-size:26px;line-height:32px}
+  }
+  @media (prefers-reduced-motion:reduce){ .bn-s,.bn-stamp.thud{animation:none} }
+  /* the older brief rules style every dl in the note; these two are not that kind of list */
+  .st-bpanel .note .bn-memo{display:grid;grid-template-columns:repeat(4,max-content);gap:6px 32px;margin:0 140px 26px 0}
+  .st-bpanel .note .bn-memo > div,.st-bpanel .note .dc-meta > div{grid-column:auto}
+  .st-bpanel .note .bn-memo dt{margin:0;font-size:11px}
+  .st-bpanel .note .dc-meta{display:flex;flex-direction:column;gap:2px;padding:8px}
+  .st-bpanel .note .dc-meta > div{display:grid;grid-template-columns:84px 1fr;gap:12px;padding:3px 8px}
+  .st-bpanel .note .dc-meta dt{margin:0;font-size:13px}
+  @media (max-width:760px){
+    .st-bpanel .note .bn-memo{grid-template-columns:repeat(2,max-content);margin:0 0 22px}
+    .bn-stamp{position:relative;display:inline-block;top:0;margin:0 0 16px 4px}
+    .st-bpanel footer{padding:12px 14px 14px}
+    .st-bpanel footer .mem-btn,.st-bpanel .st-send{height:44px;padding:0 16px;white-space:nowrap;font-size:14px}
+  }
   /* ---------- the draft, as a document in the chat ---------- */
   .cm-doc{border-radius:20px;background:#121212;border:1px solid #232323;overflow:hidden}
   .dc-h{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid #1f1f1f}
@@ -6818,22 +6906,35 @@
       : `<div class="gate">${lg(c)}<span><b>${c.name} not connected</b>Fine to send. The team will ask for access when they need it.</span>
            <button data-stconnect="${c.id}">${cxState[c.id] === 'busy' ? '<i class="src-spin"></i> Connecting' : 'Connect'}</button></div>`;
     const rows = (p.rows || []).slice(0, 4);
+    // a brief reads like a note handed across a desk: who it is for, the ask, then numbered parts you can scan
+    const sec = (n, name, body, cls) => `<section class="bn-s${cls ? ' ' + cls : ''}"><header><i>${String(n).padStart(2, '0')}</i><b>${name}</b></header><div class="bn-b">${body}</div></section>`;
+    let n = 0;
+    const parts = [
+      rows.length && sec(++n, 'What we know', `<div class="bn-ev">${rows.map(([x, y]) => `<span><b>${esc(y)}</b><em>${esc(x)}</em></span>`).join('')}</div>`),
+      S.doc && sec(++n, 'The draft', `<div class="bn-doc"><i class="bn-tape"></i><span class="bn-v">v${S.doc.v}${S.doc.v > 1 ? ', with your edits' : ''}</span>${docBody(S.doc.b)}</div>`),
+      sec(++n, 'What to deliver', `<ul class="bn-check">${k.make.map(x => `<li><i></i>${esc(x)}</li>`).join('')}</ul>`),
+      sec(++n, 'Your changes', S.edits.length
+        ? `<ul class="bn-edits">${S.edits.map((e, m) => `<li class="${m === S.edits.length - 1 && S.fresh ? 'new' : ''}">${esc(e)}</li>`).join('')}</ul>`
+        : '<p class="bn-none">None. Go with the draft as it is.</p>'),
+      imgs.length && sec(++n, 'Assets', `<div class="bn-pola">${imgs.slice(0, 5).map((x, m) => `<span style="--r:${[-3, 2, -1.5, 3, -2][m]}deg"><img src="${x}" alt=""></span>`).join('')}${imgs.length > 5 ? `<em>+${imgs.length - 5} more</em>` : ''}</div>`),
+      sec(++n, 'Rules to follow', rules.length ? `<ul class="bn-rules">${rules.map(r => `<li>${esc(r)}</li>`).join('')}</ul>` : '<p class="bn-none">No rules set in Memory</p>'),
+      sec(++n, 'Done when', `<p class="bn-done">${esc(k.done)}</p>`),
+      sec(++n, 'Where it goes', `<p class="bn-where">${esc(k.where)}</p>${access}`)
+    ].filter(Boolean).join('');
     return `
-      <span class="to"><i><img src="${SHOPOS.avatar}" alt=""></i>To the ShopOS team · from Arata · due ${due()}</span>
-      <h3>${esc(p.title)}</h3>
-      <p class="b-ask"><b>${esc(ctaLabel(p))}.</b> ${esc(trim(p.sub, 200))}</p>
-      <dl>
-        ${rows.length ? `<div class="full"><dt>What we know</dt><dd><div class="ev">${rows.map(([x, y]) => `<span><em>${esc(x)}</em><b>${esc(y)}</b></span>`).join('')}</div></dd></div>` : ''}
-        ${S.doc ? `<div class="full"><dt>The draft · v${S.doc.v}</dt><dd><div class="b-doc">${docBody(S.doc.b)}</div></dd></div>` : ''}
-        <div><dt>What to deliver</dt><dd><ul>${k.make.map(x => `<li>${esc(x)}</li>`).join('')}</ul></dd></div>
-        <div><dt>Your changes</dt><dd>${S.edits.length
-          ? `<ul>${S.edits.map((e, n) => `<li class="${n === S.edits.length - 1 && S.fresh ? 'new' : ''}">${esc(e)}</li>`).join('')}</ul>`
-          : '<span class="none">None. Go with the draft as it is.</span>'}</dd></div>
-        ${imgs.length ? `<div class="full"><dt>Assets</dt><dd><span class="assets">${imgs.slice(0, 6).map(x => `<img src="${x}" alt="">`).join('')}${imgs.length > 6 ? `<i class="more">+${imgs.length - 6}</i>` : ''}</span></dd></div>` : ''}
-        <div><dt>Rules to follow</dt><dd>${rules.length ? `<ul>${rules.map(r => `<li>${esc(r)}</li>`).join('')}</ul>` : '<span class="none">No rules set in Memory</span>'}</dd></div>
-        <div><dt>Done when</dt><dd>${esc(k.done)}</dd></div>
-        <div class="full"><dt>Where it goes</dt><dd><p class="where">${esc(k.where)}</p>${access}</dd></div>
-      </dl>`;
+      <div class="bn${S.sent ? ' is-sent' : ''}">
+        <span class="bn-stamp" aria-hidden="true">${S.sent ? 'Sent' : 'Ready to send'}</span>
+        <dl class="bn-memo">
+          <div><dt>To</dt><dd><i><img src="${SHOPOS.avatar}" alt=""></i>ShopOS team</dd></div>
+          <div><dt>From</dt><dd>Vedant, Arata</dd></div>
+          <div><dt>Due</dt><dd>${due()}</dd></div>
+          <div><dt>Brief</dt><dd>#${String(400 + i).padStart(4, '0')}</dd></div>
+        </dl>
+        <h3>${esc(p.title)}</h3>
+        <p class="bn-ask"><mark>${esc(ctaLabel(p))}.</mark> ${esc(trim(p.sub, 200))}</p>
+        <div class="bn-parts">${parts}</div>
+        <div class="bn-sign"><span>Thanks!</span><b>Vedant</b><em>Arata · sent from ShopOS</em></div>
+      </div>`;
   };
   const sendBtn = (i) => {
     const p = ALL_POSTS[i], k = KIND[kindOf(p)], S = st(i);
@@ -7164,6 +7265,12 @@
   const sendBrief = () => {
     const i = stIdx, S = st(i); if (S.sent) return;
     if (!S.briefOpen) { setBrief(true); return setTimeout(sendBrief, 560); }
+    const stamp = studio.querySelector('.bn-stamp');
+    if (stamp && !stamp.classList.contains('thud')) {
+      const sc = studio.querySelector('.st-bpanel .note'); if (sc) sc.scrollTo({ top:0, behavior:'smooth' });
+      setTimeout(() => { stamp.textContent = 'Sent'; stamp.classList.add('thud'); stamp.closest('.bn').classList.add('is-sent'); }, 200);
+      return setTimeout(sendBrief, 950);
+    }
     const note = studio.querySelector('.st-bpanel'), r = note.getBoundingClientRect();
     const target = document.getElementById('team-pill').getBoundingClientRect();
     const fly = document.createElement('div'); fly.className = 'note-fly';
