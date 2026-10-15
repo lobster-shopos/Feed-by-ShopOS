@@ -3392,6 +3392,21 @@
   .st-bpanel .note .assets .more{width:96px;height:120px;border-radius:12px;background:#ecebe5;display:grid;place-items:center;font-style:normal;font-size:16px;font-weight:600;color:#6b6b6b}
   .st-bpanel .note .gate{margin-top:0}
 
+
+  /* take six: one line of options, one radius scale. Containers 20, inner blocks 14, controls are pills */
+  .st-quick{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding-bottom:2px;mask-image:linear-gradient(90deg,#000 calc(100% - 40px),transparent)}
+  .st-quick::-webkit-scrollbar{display:none}
+  .st-quick .st-chip{flex:0 0 auto;white-space:nowrap}
+  .st-chip .lg{width:18px;height:18px;border-radius:5px;font-size:9px}
+  .st-chip .qn{min-width:20px;height:20px;padding:0 6px;border-radius:999px;background:#151515;color:#fff;font-size:12px;font-weight:600;display:grid;place-items:center}
+  .st-chip .qn.pop{animation:npop .45s cubic-bezier(.34,1.6,.64,1)}
+  .st-chip.is-sent{color:#86efac;border-color:#1f3a27;background:#16261b;cursor:default}
+  .cm-card,.st-main .st-compose,.st-stage .st-bpanel{border-radius:20px}
+  .cm-media,.cm-strip img,.st-rows,.cm-diff,.cm-me span,.st-bpanel .note .gate,.st-bpanel .note .ev span,.st-bpanel .note .assets img,.st-bpanel .note .assets .more,.st-bpanel footer .mem-btn,.st-bpanel .st-send,.st-compose button{border-radius:14px}
+  .cm-me span{border-bottom-right-radius:4px}
+  .note .to i{background:#151515;border-radius:6px}
+  .note .to i img{width:15px;height:15px}
+
   .kb-card.is-brief{background:#fbfaf6;border-color:#fbfaf6;color:#151515}
   .kb-card.is-brief h3{color:#151515}
   .kb-card.is-brief .who,.kb-card.is-brief .kb-foot{color:#6b6b6b}
@@ -3971,7 +3986,7 @@
     crm:         { name: 'CRM specialist',       avatar: 'assets/agent-crm.svg'         }
   };
 
-  const SHOPOS = { name: 'ShopOS', avatar: 'assets/agent-orchestrator.svg' };
+  const SHOPOS = { name: 'ShopOS', avatar: 'assets/shopos-mark.svg' };
   const AG = (k) => AGENTS[k] || SHOPOS;
 
   const POSTS = [
@@ -6071,7 +6086,7 @@
     paintActions();
     S.fresh = false;
   };
-  const setBrief = (open) => { st(stIdx).briefOpen = open; paintBrief(); };
+  const setBrief = (open) => { st(stIdx).briefOpen = open; paintBrief(); if (!open) { const c = studio.querySelector('.st-chat'); if (c) c.scrollTop = c.scrollHeight; } };
 
   // ---- chat: the card is the first message, every change streams in below it ----
   const mediaBlock = (p, img, tag) => {
@@ -6120,9 +6135,9 @@
     const k = KIND[kind];
     if (kind === 'decide') return `This one is a decision, not a job. <b>Agree</b> and every agent works with it, or ask me anything first.`;
     const c = k.need && CONNECTORS.find(x => x.id === k.need);
-    const lead = p.cta ? `I’ve got a first draft for <b>${esc(ctaLabel(p).toLowerCase())}</b>.` : `Want to act on this? Tell me what you’d like made from it.`;
-    return `${lead} Pick a quick change below or tell me what to change. Everything you change goes into the brief for the team.` +
-      (c && cxState[c.id] !== 'on' ? ` It needs <b>${c.name}</b> before the team can act, you can connect it when you send.` : '');
+    const lead = p.cta ? `I’ve got a first draft for <b>${esc(ctaLabel(p).toLowerCase())}</b>.` : `Want to act on this?`;
+    return `${lead} ${p.cta ? 'Tell me what to change' : 'Tell me what you’d like made from it'}, or pick an option below.` +
+      '';
   };
   const I_BACK = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>';
   const I_NOTE = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h8M8 17h5"/></svg>';
@@ -6131,21 +6146,15 @@
     const i = stIdx; if (i == null) return;
     const p = ALL_POSTS[i], kind = kindOf(p), k = KIND[kind], S = st(i);
     const el = studio.querySelector('.st-quick'); if (!el) return;
-    if (kind === 'decide') { el.innerHTML = S.decided ? '' : `<button class="st-chip is-yes" data-styes>${I_OK} Agree</button><button class="st-chip" data-stno>Not now</button>`; return; }
-    if (S.sent) { el.innerHTML = `<div class="st-nudge is-done">${I_OK}<span>Brief sent to the ShopOS team</span></div>`; return; }
+    if (kind === 'decide') { el.innerHTML = S.decided ? '' : `<button class="st-chip is-brief" data-styes>${I_OK} Agree</button><button class="st-chip" data-stno>Not now</button>`; return; }
     const c = k.need && CONNECTORS.find(x => x.id === k.need), needs = c && cxState[c.id] !== 'on';
     const n = S.edits.length;
-    if (!n) {
-      el.innerHTML = `<button class="st-chip is-brief" data-stbrief>${I_NOTE}View brief</button><span class="st-qsep"></span>` +
-        k.tweaks.map(([t], m) => `<button class="st-chip" data-sttweak="${m}">${I_SPARK}${esc(t)}</button>`).join('');
-      return;
-    }
-    el.innerHTML = `<div class="st-nudge${S.fresh ? ' pop' : ''}">
-        <span class="nd-ic">${I_NOTE}</span>
-        <span class="nd-t"><b>Your brief is ready</b><em>${n} change${n > 1 ? 's' : ''}${needs ? ` · needs ${c.name}` : ' · the team takes it from here'}</em></span>
-        <button class="mem-btn" data-stbrief>View brief</button>
-        <button class="mem-btn is-primary" ${needs ? 'data-stneed' : 'id="st-send"'}>${needs ? `Connect ${c.name}` : `Send to team ${I_SEND}`}</button>
-      </div>`;
+    const brief = `<button class="st-chip is-brief" data-stbrief>${I_NOTE}View brief${n ? `<span class="qn${S.fresh ? ' pop' : ''}">${n}</span>` : ''}</button>`;
+    const send = S.sent ? `<span class="st-chip is-sent">${I_OK} Sent to the team</span>`
+      : n ? (needs ? `<button class="st-chip" data-stneed>${lg(c)}Connect ${c.name}</button>` : `<button class="st-chip" id="st-send">${I_SEND}Send to team</button>`) : '';
+    const left = S.sent ? [] : k.tweaks.filter(([t]) => !S.edits.includes(t));
+    el.innerHTML = brief + send + (left.length ? '<span class="st-qsep"></span>' : '') +
+      left.map(([t]) => `<button class="st-chip" data-sttweak="${k.tweaks.findIndex(x => x[0] === t)}">${I_SPARK}${esc(t)}</button>`).join('');
   };
   const paintStudio = (i) => {
     const p = ALL_POSTS[i], a = AG(p.agent), kind = kindOf(p), k = KIND[kind], S = st(i);
@@ -6214,14 +6223,13 @@
   const applyTweak = (n) => {
     const i = stIdx, p = ALL_POSTS[i], k = KIND[kindOf(p)], S = st(i), [t, fx] = k.tweaks[n];
     if (S.edits.includes(t)) return;
-    S.edits.push(t);
-    studio.querySelector('.st-quick').innerHTML = '';
+    S.edits.push(t); paintActions();
     S.msgs.push({ me:true, t }); paintChat();
     const imgs = p.images || [];
     if (fx === 'img' && imgs.length > 1) S.img = (S.img + 1) % imgs.length;
     const msg = imgs.length
-      ? { t:`Here’s the update with <b>${esc(t.toLowerCase())}</b>. It’s in the brief.`, img:S.img, tag:t }
-      : { t:`Done. I’ve changed it and added it to the brief.`, diff:t };
+      ? { t:`Here’s the update with <b>${esc(t.toLowerCase())}</b>. Anything else?`, img:S.img, tag:t }
+      : { t:`Done, here’s what changed. Anything else?`, diff:t };
     aiSay(msg, () => { S.fresh = true; afterChange(S); });
   };
   const sendBrief = () => {
@@ -6289,7 +6297,8 @@
     if (kind === 'decide') return aiSay('Good question. The numbers on this card are the basis, and you can change your mind any time from Memory.');
     S.edits.push(trim(v, 80));
     if (S.briefOpen) { S.fresh = true; S.msgs.push({ t:'Added to the brief.', diff:trim(v, 80) }); return paintBrief(); }
-    aiSay({ t:'On it. I’ve made that change and noted it in the brief so the team gets it exactly.', diff:trim(v, 80) }, () => { S.fresh = true; afterChange(S); });
+    const imgs = ALL_POSTS[i].images || [];
+    aiSay(imgs.length ? { t:'Done. Here’s the updated version.', img:S.img, tag:trim(v, 40) } : { t:'Done, here’s what changed.', diff:trim(v, 80) }, () => { S.fresh = true; afterChange(S); });
   });
   studio.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' && !e.shiftKey && e.target.id === 'st-q') { e.preventDefault(); studio.querySelector('#st-form').requestSubmit(); }
