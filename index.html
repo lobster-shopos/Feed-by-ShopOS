@@ -3694,6 +3694,17 @@
   .st-compose .st-model .model-pop button:hover{background:rgba(255,255,255,.08);color:var(--fg)}
   .st-compose .st-model .model-pop button[aria-selected="true"]{background:rgba(255,255,255,.12);color:var(--fg)}
   .st-compose .st-model .chat-chip{width:auto;border-radius:999px}
+
+  /* ---------- no hard cuts: edges fade instead of ending on a line ---------- */
+  .st-top{border-bottom:0}
+  .st-main .st-chat{-webkit-mask-image:linear-gradient(transparent 0,#000 32px,#000 calc(100% - 40px),transparent 100%);mask-image:linear-gradient(transparent 0,#000 32px,#000 calc(100% - 40px),transparent 100%)}
+  body.is-deck .topbar,body.deck-on .topbar{box-shadow:none;border-bottom:0}
+  body.is-deck .topbar::after{content:'';position:absolute;left:0;right:0;top:100%;height:22px;background:linear-gradient(var(--bg),rgba(10,10,10,0));pointer-events:none}
+  .col-head{position:relative;z-index:2}
+  .col-head hr{border-top-color:transparent}
+  .col-head::after{content:'';position:absolute;left:0;right:0;top:100%;height:20px;background:linear-gradient(var(--col-bg,var(--bg)),transparent);pointer-events:none}
+  /* the team's progress: plain steps, no moving light */
+  .tpp-bar i.now{background:rgba(74,222,128,.45);animation:none}
   /* ---------- the draft, as a document in the chat ---------- */
   .cm-doc{border-radius:20px;background:#121212;border:1px solid #232323;overflow:hidden}
   .dc-h{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid #1f1f1f}
