@@ -3501,7 +3501,7 @@
     <header class="cx-top">
       <div>
         <h1 id="mem-title">Memory</h1>
-        <p>What ShopOS knows about Arata, and how your feed is tuned. Change or forget anything.</p>
+        <p>What ShopOS knows and follows for Arata.</p>
       </div>
     </header>
     <nav class="mem-tabs" role="tablist" aria-label="Memory">
@@ -3514,14 +3514,6 @@
       <section class="mem-sec">
         <div class="mem-h"><h2>Picked up from your choices</h2></div>
         <div class="mem-cards" id="learned-list"></div>
-      </section>
-      <section class="mem-sec">
-        <div class="mem-h"><h2>About Arata</h2><button class="mem-link" id="about-edit">Edit</button></div>
-        <p class="mem-about" id="about-text">Science-led shampoos and serums for Indian hair and scalp, 78 products on arata.in. Most orders come from first-time buyers, so the second order matters more than the first. People talk most about hair fall and whether the products work.</p>
-        <div class="mem-about-edit" hidden>
-          <textarea id="about-input" rows="4" aria-label="About Arata"></textarea>
-          <div class="mem-row-btns"><button class="mem-link" id="about-cancel">Cancel</button><button class="mem-btn" id="about-save">Save</button></div>
-        </div>
       </section>
     </div>
 
@@ -5311,13 +5303,11 @@
     const q = (document.getElementById('cx-q').value || '').trim().toLowerCase();
     const hit = (c) => !q || (c.name + ' ' + c.short + ' ' + c.cat).toLowerCase().includes(q);
     const on = CONNECTORS.filter(c => cxState[c.id] === 'on');
-    let html = `
+    let html = on.length ? `
       <section class="cx-sec">
         <h2>Connected</h2>
-        ${on.length
-          ? `<div class="cx-on">${on.map(c => `<span class="cx-on-t" title="${c.name}">${lg(c, true)}</span>`).join('')}</div>`
-          : `<p class="cx-empty">Nothing connected yet. Connect a tool below and it shows up here.</p>`}
-      </section>`;
+        <div class="cx-on">${on.map(c => `<span class="cx-on-t" title="${c.name}">${lg(c, true)}</span>`).join('')}</div>
+      </section>` : '';
     let shown = 0;
     CX_SECTIONS.forEach(([title, ids]) => {
       const rows = ids.map(id => CONNECTORS.find(c => c.id === id)).filter(hit);
@@ -5395,7 +5385,7 @@
   const paintLearned = () => {
     document.getElementById('learned-list').innerHTML = learned.length ? learned.map((m, i) => `
       <div class="mem-card"><img src="${AG(m.a).avatar}" alt="">
-        <b>${esc(m.t)}</b><span class="src">${esc(m.s)}</span>
+        <b>${esc(m.t)}</b>
         <button class="mem-x" data-forget="${i}" aria-label="Forget this" title="Forget">${I_FORGET}</button></div>`).join('')
       : '<p class="mem-empty">Nothing yet. Like and shortlist cards and it shows up here.</p>';
   };
@@ -5434,21 +5424,6 @@
       setMemTab(tab.dataset.mtab);
       memBtn.classList.toggle('is-on', tab.dataset.mtab !== 'feed');
       document.querySelector('[data-nav="tune"]').classList.toggle('is-on', tab.dataset.mtab === 'feed');
-      return;
-    }
-    if (t.closest('#about-edit')) {
-      document.getElementById('about-input').value = document.getElementById('about-text').textContent;
-      document.getElementById('about-text').hidden = true;
-      document.querySelector('.mem-about-edit').hidden = false;
-      return document.getElementById('about-input').focus();
-    }
-    if (t.closest('#about-save') || t.closest('#about-cancel')) {
-      if (t.closest('#about-save')) {
-        document.getElementById('about-text').textContent = document.getElementById('about-input').value.trim();
-        toast('Saved. Every agent reads this now.');
-      }
-      document.getElementById('about-text').hidden = false;
-      document.querySelector('.mem-about-edit').hidden = true;
       return;
     }
     const f = t.closest('[data-forget]');
