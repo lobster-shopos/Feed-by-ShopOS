@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&display=swap" rel="stylesheet">
 <title>ShopOS Feed</title>
 <style>
   html{color-scheme:dark}
@@ -3407,6 +3408,83 @@
   .note .to i{background:#151515;border-radius:6px}
   .note .to i img{width:15px;height:15px}
 
+
+  /* ---------- hello: date, greeting, three numbers, over a soft blue glow ---------- */
+  body::before{
+    content:'';position:fixed;left:60px;right:0;top:0;height:620px;z-index:-1;pointer-events:none;
+    background:radial-gradient(45% 70% at 38% 0%,rgba(56,92,190,.38) 0%,rgba(33,50,110,.14) 50%,transparent 100%),
+               radial-gradient(35% 50% at 72% 5%,rgba(120,80,200,.14) 0%,transparent 100%);
+    -webkit-mask-image:linear-gradient(#000 40%,transparent);mask-image:linear-gradient(#000 40%,transparent);
+  }
+  body:not(:has(#hello:not([hidden])))::before{opacity:0}
+  .hello{width:var(--feed-w);margin:0 auto;padding:28px 2px 4px;animation:stfade .6s cubic-bezier(.2,.8,.2,1) both}
+  .hello[hidden]{display:none}
+  .hello-date{margin:0;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--fg-3)}
+  .hello-h{margin:6px 0 20px;font-size:40px;line-height:46px;font-weight:600;letter-spacing:-.025em}
+  .hello-tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+  .ht{
+    display:flex;flex-direction:column;align-items:flex-start;gap:2px;padding:16px 16px 14px;border:1px solid rgba(255,255,255,.08);border-radius:20px;
+    background:rgba(255,255,255,.04);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);color:var(--fg);font:inherit;text-align:left;cursor:pointer;
+    transition:transform .2s cubic-bezier(.34,1.4,.64,1),background .2s,border-color .2s;
+  }
+  .ht:hover{transform:translateY(-2px);background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.14)}
+  .ht:active{transform:scale(.98)}
+  .ht b{font-size:34px;line-height:40px;font-weight:600;letter-spacing:-.02em;font-variant-numeric:tabular-nums;margin-bottom:6px}
+  .ht span{font-size:15px;font-weight:500}
+  .ht em{font-style:normal;font-size:13px;line-height:18px;color:var(--fg-3)}
+  .ht.is-main{background:#fafafa;color:#0a0a0a;border-color:#fafafa}
+  .ht.is-main em{color:#6b6b6b}
+  .ht.is-main:hover{background:#fff}
+  .card.is-flash{animation:cardflash 1.4s ease}
+  @keyframes cardflash{20%{box-shadow:0 0 0 3px rgba(250,250,250,.6)}100%{box-shadow:none}}
+  .story-cover.is-brand{background:#f2f4f8}
+  .story-cover.is-brand img{width:62%;height:62%}
+  /* stories: big numbers and a kicker over rich gradients and real photos */
+  .sv-big{position:absolute;left:24px;right:24px;top:84px;z-index:2;font-size:96px;line-height:1;font-weight:700;letter-spacing:-.05em;color:#fff;
+    text-shadow:0 10px 40px rgba(0,0,0,.25);animation:svbig .7s cubic-bezier(.2,.8,.2,1) both}
+  @keyframes svbig{from{opacity:0;transform:translateY(18px) scale(.96)}}
+  .sv-k{display:inline-block;margin-bottom:10px;padding:5px 10px;border-radius:999px;background:rgba(255,255,255,.16);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+    font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:#fff}
+  @media (max-width:600px){ .hello-tiles{grid-template-columns:1fr 1fr} .ht.is-main{grid-column:1 / -1} .hello-h{font-size:32px;line-height:38px} }
+
+
+  /* ---------- stickers in the feed margins ---------- */
+  .stickers{position:absolute;left:60px;right:0;top:0;height:0;z-index:2;pointer-events:none}
+  .stickers[hidden]{display:none}
+  .stk{
+    position:absolute;left:calc(50% + var(--x) * 100%);top:var(--y);pointer-events:auto;cursor:grab;touch-action:none;user-select:none;
+    transform:translate(-50%,0) rotate(calc(var(--r) + var(--tilt,0deg)));transition:transform .35s cubic-bezier(.34,1.4,.64,1);
+    animation:skin .7s cubic-bezier(.34,1.5,.64,1) var(--d) both;
+  }
+  @keyframes skin{from{opacity:0;transform:translate(-50%,16px) rotate(calc(var(--r) - 14deg)) scale(.7)}}
+  .stk:hover{transform:translate(-50%,-4px) rotate(calc(var(--r) * .5)) scale(1.06)}
+  .stk.is-drag{cursor:grabbing;transition:transform .12s ease;transform:translate(-50%,0) rotate(calc(var(--r) + var(--tilt,0deg))) scale(1.1);z-index:5}
+  .stk img{pointer-events:none;-webkit-user-drag:none}
+  .sk-tile,.sk-pola,.sk-star,.sk-sticky,.sk-chip{box-shadow:0 14px 28px rgba(0,0,0,.45)}
+  .sk-tag{filter:none}
+  .sk-note{text-shadow:0 2px 12px rgba(0,0,0,.6)}
+  .sk-tile{width:92px;height:92px;border-radius:24px;background:#fff;display:grid;place-items:center}
+  .sk-tile img{width:58%;height:58%}
+  .sk-tile.is-dark{background:#111;border:1px solid #2a2a2a}
+  .sk-note{display:block;width:230px;font-family:'Caveat',cursive;font-size:30px;line-height:31px;color:#f2f2f2}
+  .sk-note small{display:block;margin-bottom:4px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;letter-spacing:.14em;color:#8a8a8a}
+  .sk-pola{position:relative;display:block;width:150px;padding:9px 9px 34px;background:#f6f4ee;border-radius:4px}
+  .sk-pola img{width:132px;height:150px;object-fit:cover;display:block;border-radius:2px}
+  .sk-pola em{position:absolute;left:0;right:0;bottom:6px;text-align:center;font-family:'Caveat',cursive;font-style:normal;font-size:20px;color:#333}
+  .sk-pola .tape{position:absolute;left:50%;top:-10px;width:62px;height:22px;transform:translateX(-50%) rotate(-4deg);background:rgba(255,236,170,.75);border-radius:2px}
+  .sk-tag{display:flex;flex-direction:column;align-items:center;padding:12px 18px 10px 26px;background:#ffd84d;color:#151515;font-size:24px;font-weight:700;letter-spacing:-.02em;
+    clip-path:polygon(14px 0,100% 0,100% 100%,14px 100%,0 50%);border-radius:6px}
+  .sk-tag small{font-size:12px;font-weight:600;opacity:.7}
+  .sk-star{display:grid;place-items:center;width:118px;height:118px;border-radius:50%;background:radial-gradient(circle at 30% 25%,#8fb0ff,#3a5bd9 60%,#22348a);color:#fff;
+    font-size:30px;font-weight:700;line-height:1;text-align:center;padding-top:6px}
+  .sk-star b{font-size:20px;color:#ffe27a}
+  .sk-star small{display:block;margin-top:-18px;font-size:11px;font-weight:600;opacity:.85}
+  .sk-sticky{display:block;width:150px;padding:16px 14px 20px;background:#fff59d;color:#2a2a2a;font-family:'Caveat',cursive;font-size:24px;line-height:25px;
+    box-shadow:inset 0 -12px 18px -14px rgba(0,0,0,.25)}
+  .sk-chip{display:inline-block;padding:10px 16px;border-radius:999px;background:#1d3b2b;color:#7ff0b8;font-size:16px;font-weight:600;border:1px solid #2b5a41}
+  @media (max-width:1180px){ .stickers{display:none} }
+  @media (prefers-reduced-motion:reduce){ .stk{animation:none;transition:none} }
+
   .kb-card.is-brief{background:#fbfaf6;border-color:#fbfaf6;color:#151515}
   .kb-card.is-brief h3{color:#151515}
   .kb-card.is-brief .who,.kb-card.is-brief .kb-foot{color:#6b6b6b}
@@ -3653,22 +3731,31 @@
   </div>
 </header>
 
+<section class="hello" id="hello">
+  <p class="hello-date" id="hello-date"></p>
+  <h1 class="hello-h" id="hello-h">Hello, Vedant</h1>
+  <div class="hello-tiles" id="hello-tiles"></div>
+</section>
 <div class="stories" id="stories">
-    <button class="story" data-story="trends" style="--i:0">
+    <button class="story" data-story="today" style="--i:0">
+      <span class="story-ring"><span class="story-cover is-brand"><img src="assets/arata/mark.svg" alt=""></span></span>
+      <span class="story-label">Arata today</span>
+    </button>
+    <button class="story" data-story="trends" style="--i:1">
       <span class="story-ring"><span class="story-cover"><img src="assets/story-1.svg" alt=""></span></span>
       <span class="story-label">Trends</span>
     </button>
-    <button class="story" data-story="new" style="--i:1">
-      <span class="story-ring"><span class="story-cover"><img src="assets/story-2.svg" alt=""></span></span>
-      <span class="story-label">What is new</span>
-    </button>
-    <button class="story" data-story="howto" style="--i:2">
-      <span class="story-ring"><span class="story-cover"><img src="assets/story-3.svg" alt=""></span></span>
-      <span class="story-label">How to</span>
-    </button>
-    <button class="story" data-story="ads" style="--i:3">
+    <button class="story" data-story="ads" style="--i:2">
       <span class="story-ring"><span class="story-cover"><img src="assets/story-4.svg" alt=""></span></span>
       <span class="story-label">Popular ads</span>
+    </button>
+    <button class="story" data-story="news" style="--i:3">
+      <span class="story-ring"><span class="story-cover"><img src="assets/story-2.svg" alt=""></span></span>
+      <span class="story-label">Industry news</span>
+    </button>
+    <button class="story" data-story="howto" style="--i:4">
+      <span class="story-ring"><span class="story-cover"><img src="assets/story-3.svg" alt=""></span></span>
+      <span class="story-label">How to</span>
     </button>
 </div>
 
@@ -3676,6 +3763,7 @@
 <div id="view-feed" class="view">
   <div class="subbar" id="subbar-feed"></div>
 <p class="feed-empty" id="feed-empty" hidden>Nothing shortlisted yet. Tap the bookmark on any card to keep it here.</p>
+<div class="stickers" id="stickers" aria-hidden="true"></div>
 <main class="feed" id="feed"></main>
 
 <div class="feed" style="padding-top:24px">
@@ -4853,6 +4941,8 @@
     if (next === 'deck' && !deckBuilt) buildDeck();
     document.body.classList.toggle('deck-on', next === 'deck');
     storiesEl.hidden = next !== 'feed';
+    document.getElementById('hello').hidden = next !== 'feed';
+    skLayer.hidden = next !== 'feed';
     from.hidden = true;
     to.hidden = false;
     window.scrollTo(0, 0);
@@ -6208,6 +6298,7 @@
   };
   const closeStudio = () => {
     if (studio.hidden) return;
+    setTimeout(paintHello, 400);
     const from = stFrom && document.contains(stFrom) && stFrom.getClientRects().length ? stFrom.getBoundingClientRect() : null;
     const an = flip(studio, from, true);
     an.onfinish = () => { studio.hidden = true; an.cancel(); studio.innerHTML = ''; };
@@ -6313,6 +6404,88 @@
     openStudio(i, card);
   }, true);
 
+
+
+  // ---------- stickers: drag them anywhere; double-click to spin; they stay where you leave them ----------
+  const STICKERS = [
+    { id:'arata', x:-.36, y:150, r:-8,  html:'<span class="sk-tile"><img src="assets/arata/mark.svg" alt=""></span>' },
+    { id:'shopos', x:.33, y:120, r:9,   html:'<span class="sk-tile is-dark"><img src="assets/shopos-mark.svg" alt=""></span>' },
+    { id:'note1', x:.30, y:330, r:-3,   html:'<span class="sk-note"><small>MONDAY SWEEP</small>four of five answered in three days. that’s the bar.</span>' },
+    { id:'polaroid', x:-.40, y:470, r:-5, html:'<span class="sk-pola"><i class="tape"></i><img src="assets/arata/two-bottles-one-routine-1.webp" alt=""><em>the routine sells</em></span>' },
+    { id:'price', x:.36, y:720, r:12,   html:'<span class="sk-tag">₹1,010<small>2 bottles</small></span>' },
+    { id:'stars', x:-.33, y:930, r:6,   html:'<span class="sk-star">4.57<b>★</b><small>474 reviews</small></span>' },
+    { id:'sticky', x:.31, y:1080, r:-6, html:'<span class="sk-sticky">Pack of 3 price?<br>ask Riya by Fri</span>' },
+    { id:'note2', x:-.39, y:1320, r:4,  html:'<span class="sk-note"><small>DIWALI · 24 DAYS</small>gift the routine. one bow, two bottles.</span>' },
+    { id:'pola2', x:.34, y:1480, r:7,   html:'<span class="sk-pola"><i class="tape"></i><img src="assets/arata/474-reviews-serum-2.webp" alt=""><em>proof up top</em></span>' },
+    { id:'chip', x:-.34, y:1760, r:-10, html:'<span class="sk-chip">hair fall ↑ 190%</span>' }
+  ];
+  const skLayer = document.getElementById('stickers');
+  let skPos = {};
+  try { skPos = JSON.parse(localStorage.getItem('shopos-stickers') || '{}'); } catch (_) {}
+  const skSave = () => { try { localStorage.setItem('shopos-stickers', JSON.stringify(skPos)); } catch (_) {} };
+  const paintStickers = () => {
+    skLayer.innerHTML = STICKERS.map((k, n) => {
+      const p = skPos[k.id] || k;
+      return `<div class="stk" data-sk="${k.id}" style="--x:${p.x};--y:${p.y}px;--r:${p.r}deg;--d:${.15 + n * .06}s">${k.html}</div>`;
+    }).join('');
+  };
+  paintStickers();
+  let skDrag = null;
+  skLayer.addEventListener('pointerdown', (e) => {
+    const el = e.target.closest('.stk'); if (!el) return;
+    e.preventDefault();
+    const k = STICKERS.find(x => x.id === el.dataset.sk), p = skPos[k.id] || { x:k.x, y:k.y, r:k.r };
+    skDrag = { el, id:k.id, p:{ ...p }, sx:e.clientX, sy:e.clientY, w:skLayer.clientWidth };
+    el.setPointerCapture(e.pointerId); el.classList.add('is-drag');
+    skLayer.append(el);
+  });
+  skLayer.addEventListener('pointermove', (e) => {
+    if (!skDrag) return;
+    const dx = e.clientX - skDrag.sx, dy = e.clientY - skDrag.sy;
+    skDrag.el.style.setProperty('--x', skDrag.p.x + dx / skDrag.w);
+    skDrag.el.style.setProperty('--y', (skDrag.p.y + dy) + 'px');
+    skDrag.el.style.setProperty('--tilt', Math.max(-12, Math.min(12, (e.movementX || 0) * 1.5)) + 'deg');
+  });
+  const skDrop = (e) => {
+    if (!skDrag) return;
+    const dx = e.clientX - skDrag.sx, dy = e.clientY - skDrag.sy;
+    skPos[skDrag.id] = { x:skDrag.p.x + dx / skDrag.w, y:skDrag.p.y + dy, r:skDrag.p.r };
+    skDrag.el.classList.remove('is-drag'); skDrag.el.style.removeProperty('--tilt');
+    skDrag = null; skSave();
+  };
+  skLayer.addEventListener('pointerup', skDrop);
+  skLayer.addEventListener('pointercancel', skDrop);
+  skLayer.addEventListener('dblclick', (e) => {
+    const el = e.target.closest('.stk'); if (!el) return;
+    const k = STICKERS.find(x => x.id === el.dataset.sk), p = skPos[k.id] || { x:k.x, y:k.y, r:k.r };
+    p.r = ((p.r + 25 + 180) % 360) - 180; skPos[k.id] = p; skSave();
+    el.style.setProperty('--r', p.r + 'deg');
+  });
+  // ---------- hello: the greeting and the three numbers that matter today ----------
+  const paintHello = () => {
+    const d = new Date(), h = d.getHours();
+    document.getElementById('hello-date').textContent = d.toLocaleDateString('en-GB', { weekday:'long', day:'numeric', month:'long' });
+    document.getElementById('hello-h').textContent = `${h < 12 ? 'Morning' : h < 17 ? 'Afternoon' : 'Evening'}, Vedant`;
+    const yes = FEED_IDS.filter(i => kindOf(ALL_POSTS[i]) === 'decide' && !st(i).decided).length + kbItems.filter(x => x.col === 'you').length;
+    const ready = FEED_IDS.filter(i => ALL_POSTS[i].cta && kindOf(ALL_POSTS[i]) !== 'decide' && !st(i).sent).length;
+    const team = kbItems.filter(x => x.col === 'sent' || x.col === 'progress').length;
+    document.getElementById('hello-tiles').innerHTML = `
+      <button class="ht is-main" data-hello="yes"><b>${yes}</b><span>Need your yes</span><em>Calls only you make</em></button>
+      <button class="ht" data-hello="ready"><b>${ready}</b><span>Ready to brief</span><em>Drafts to shape</em></button>
+      <button class="ht" data-hello="team"><b>${team}</b><span>With the team</span><em>Being made now</em></button>`;
+  };
+  paintHello();
+  document.getElementById('hello-tiles').addEventListener('click', (e) => {
+    const t = e.target.closest('[data-hello]'); if (!t) return;
+    const k = t.dataset.hello;
+    if (k === 'team') return setKbPage(true);
+    const i = FEED_IDS.find(i => k === 'yes' ? kindOf(ALL_POSTS[i]) === 'decide' && !st(i).decided : ALL_POSTS[i].cta && kindOf(ALL_POSTS[i]) !== 'decide' && !st(i).sent);
+    if (i == null) return k === 'yes' && kbItems.some(x => x.col === 'you') ? setKbPage(true) : toast('All clear');
+    const c = document.querySelector(`#feed .card[data-post="${i}"]`);
+    if (!c) return;
+    c.scrollIntoView({ behavior:'smooth', block:'center' });
+    c.classList.remove('is-flash'); void c.offsetWidth; c.classList.add('is-flash');
+  });
   // ---------- shortlisted page ----------
   const slPage = document.getElementById('sl-page');
   const SL_TABS = [['all','All'],['creatives','Creatives'],['storefront','Storefront'],['ads','Ads'],['visibility','AI visibility'],['signals','Signals'],['catalog','Catalog']];
@@ -6412,37 +6585,30 @@
 
   // ---------- stories ----------
   const STORIES = {
-    trends: { title:'Trends', avatar:'assets/agent-performance.svg', slides:[
-      { g:'linear-gradient(160deg,#38bdf8,#1d4ed8)', h:'Quiet performance is winning',
-        p:'Searches for breathable everyday shirts are up 34% this month, and the language has moved from sport to commute.' },
-      { g:'linear-gradient(160deg,#22d3ee,#0c2a6b)', h:'Shorter hems, longer wear',
-        p:'Tailored shorts are outselling chinos two to one in metro cities. The Moovex cut is sitting in the right place for it.' },
-      { g:'linear-gradient(160deg,#93c5fd,#0369a1)', h:'Proof beats promise',
-        p:'Ads that show the fabric claim on the garment hold attention roughly twice as long as ads that write it underneath.' }
+    today: { title:'Arata today', avatar:'assets/arata/mark.svg', slides:[
+      { k:'Today', nf:() => FEED_IDS.filter(i => ALL_POSTS[i].cta && !st(i).sent && !st(i).decided).length, h:'Things waiting on you', p:'A claim to sign off, prices to fix and the ad plan. Each one takes a minute or two.', g:'radial-gradient(120% 90% at 0% 0%,#4f7cff 0%,#1b2b6b 45%,#0b0d18 100%)' },
+      { img:'assets/arata/474-reviews-serum-2.webp', k:'Your strongest proof', h:'474 reviews. 4.57★.', p:'The Intensive serum’s reviews are the line to lead every ad with this week.' },
+      { k:'Store', n:'₹863', h:'Pack 2 got cheaper', p:'Damage Defence Pack 2 dropped from ₹898. Cards and ads still quote the old price.', g:'radial-gradient(110% 90% at 100% 0%,#ff9b5c 0%,#7a2a12 50%,#140906 100%)' }
     ]},
-    new: { title:'What is new', avatar:'assets/agent-creative.svg', slides:[
-      { g:'linear-gradient(160deg,#34d399,#065f46)', h:'Every ratio, one feed',
-        p:'Cards now post at 4:5, 1:1 and 16:9, matched to wherever the work is actually going to run.' },
-      { g:'linear-gradient(160deg,#5eead4,#0f766e)', h:'Remix with Agent',
-        p:'Take any post into chat, tell the agent what to change, and get three directions back.' },
-      { g:'linear-gradient(160deg,#a7f3d0,#047857)', h:'Jam with the team',
-        p:'Pull a ShopOS specialist onto any post. They pick it up on WhatsApp and stay on it with you.' }
+    trends: { title:'Trends', avatar:'assets/agent-visibility.svg', slides:[
+      { k:'Search', n:'+190%', h:'“Serum for hair growth and thickness”', p:'Searches are up 190%, and the India version is up 90%. Your Intensive serum fits it.', g:'radial-gradient(120% 90% at 0% 100%,#2fd2a4 0%,#0b5a4a 45%,#06110e 100%)' },
+      { k:'People', n:'196', h:'Mentions of “recommendation”', p:'58% positive. People ask friends before they buy, so reviews do the selling.', g:'radial-gradient(120% 90% at 100% 100%,#b18cff 0%,#40207a 45%,#0d0816 100%)' },
+      { img:'assets/arata/013cebb255ef9f20.webp', k:'Diwali in 24 days', h:'Gift the routine', p:'Serum + derma roller at ₹975. A gift angle is the fastest win before the festive rush.' }
     ]},
-    howto: { title:'How to', avatar:'assets/agent-visibility.svg', slides:[
-      { g:'linear-gradient(160deg,#a78bfa,#4c1d95)', h:'Tune the feed by liking',
-        p:'Every like teaches the agents what to post more of. The feed narrows to your brand within a week.' },
-      { g:'linear-gradient(160deg,#c4b5fd,#6d28d9)', h:'Start from a post, not a prompt',
-        p:'A blank box asks you to know the answer. A post gives you something to push against.' },
-      { g:'linear-gradient(160deg,#ddd6fe,#5b21b6)', h:'Jam when it needs a person',
-        p:'Pull the team into any card. The thread keeps the brief, so nobody starts from scratch.' }
+    ads: { title:'Popular ads', avatar:'assets/agent-creative.svg', slides:[
+      { img:'assets/arata/two-bottles-one-routine-1.webp', k:'Most saved', h:'Two bottles. One routine.', p:'Shampoo + serum for ₹1,010. The routine framing beats single-product ads.' },
+      { img:'assets/arata/474-reviews-serum-2.webp', k:'Holds attention', h:'Proof in the headline', p:'Putting the review count up top keeps people watching twice as long.' },
+      { img:'assets/arata/mitoactive-combo-saving-4.webp', k:'Best value', h:'MitoActive™ + shampoo', p:'₹95 less than buying both. Savings you can see work better than percentages.' }
     ]},
-    ads: { title:'Popular ads', avatar:'assets/agent-storefront.svg', slides:[
-      { img:'assets/up-sq-1.jpg', h:'Designed for Life',
-        p:'Your strongest cut this week. The lifestyle frame is holding attention twice as long as flat product.' },
-      { img:'assets/up-wide-1.jpg', h:'The Flex henley',
-        p:'Putting the fabric callouts on the garment lifted add to cart by 18% against the plain hero.' },
-      { img:'assets/up-prod-cloud.jpg', h:'The Cloud Soft Tee',
-        p:'The product proof format is your most saved post. Worth running it across the rest of the line.' }
+    news: { title:'Industry news', avatar:'assets/agent-performance.svg', slides:[
+      { img:'assets/arata/74ae882a71170b9c5ed9.webp', k:'Traya', h:'Live 193 days, 13 versions', p:'A stage-based fear hook plus a doctor plan. Long-running ads are the ones that pay.' },
+      { img:'assets/arata/da6539ae7b2176001771.webp', k:'Traya', h:'A free test as the first step', p:'Lowering the first step and a numbered proof headline kept this one live for 203 days.' },
+      { k:'AI answers', n:'12/32', h:'Where Arata gets named', p:'ChatGPT, Gemini, Perplexity and Claude name Arata in 12 of 32 answers, and 0 of 20 unbranded ones.', g:'radial-gradient(120% 90% at 50% 0%,#8f6bff 0%,#2c1b66 45%,#0b0816 100%)' }
+    ]},
+    howto: { title:'How to', avatar:'assets/shopos-mark.svg', slides:[
+      { k:'Step 1', n:'01', h:'Open any card', p:'It opens as a chat with the work right there. Ask for changes like you would a colleague.', g:'radial-gradient(120% 90% at 0% 0%,#ffffff 0%,#9aa6c7 30%,#20253a 70%,#0a0b10 100%)' },
+      { k:'Step 2', n:'02', h:'Make it yours', p:'Pick a quick change or type your own. Everything lands in the brief.', g:'radial-gradient(120% 90% at 100% 0%,#ffd6a8 0%,#a35a2c 40%,#1a0e08 100%)' },
+      { k:'Step 3', n:'03', h:'Send it to the team', p:'The ShopOS team picks it up and you follow it on the Kanban board.', g:'radial-gradient(120% 90% at 50% 100%,#7cf0c9 0%,#1d6b55 40%,#07120e 100%)' }
     ]}
   };
 
@@ -6473,7 +6639,8 @@
       <div class="sv-art">${sl.img
         ? `<span class="sv-bg" style="background-image:url(${sl.img})"></span><img src="${sl.img}" alt="">`
         : `<span style="position:absolute;inset:0;background:${sl.g}"></span>`}</div>
-      <div class="sv-copy"><h3>${sl.h}</h3><p>${sl.p}</p></div>`;
+      ${sl.n || sl.nf ? `<div class="sv-big">${sl.nf ? sl.nf() : sl.n}</div>` : ''}
+      <div class="sv-copy">${sl.k ? `<span class="sv-k">${sl.k}</span>` : ''}<h3>${sl.h}</h3><p>${sl.p}</p></div>`;
     void svSlide.offsetWidth;
     svSlide.classList.add('in');
 
