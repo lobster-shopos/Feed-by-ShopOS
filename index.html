@@ -4,8 +4,6 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ShopOS Feed</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&display=swap">
 <style>
   html{color-scheme:dark}
   body{margin:0;font:14px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
@@ -2817,22 +2815,9 @@
     background:rgba(10,10,10,.62);color:#fff;font-size:12px;font-weight:500;
     -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
   }
-  .ask-ai{margin:2px 12px 10px;padding:14px;border-radius:14px;background:#0d0d0d}
-  .ask-ai .lbl{font-size:10.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--fg-3)}
-  .ask-ai .q{margin:6px 0 8px;font-size:15px;line-height:22px;color:var(--fg)}
-  .ask-ai .a{margin:0;font-size:13.5px;line-height:20px;color:#e0a63c}
   .media + .panel{margin-top:12px}
-  .card-src{display:flex;align-items:flex-start;gap:6px;margin:8px 0 0;font-size:12px;line-height:17px;color:var(--fg-3)}
-  .card-src svg{flex:0 0 auto;margin-top:2px}
-  .card-src span{min-width:0}
-  .btn-bar.is-end{border-radius:0 0 var(--r-card) var(--r-card)}
   .card.is-data .card-actions{padding-top:14px}
   .card.is-data .card-body{padding-top:0}
-  /* a hand-written aside between cards */
-  .feed-note{display:flex;flex-direction:column;gap:2px;padding:6px 4px 0}
-  .feed-note span{font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--fg-3)}
-  .feed-note p{margin:0;font-family:"Caveat",cursive;font-size:22px;line-height:26px;color:var(--fg-2)}
-  .col .feed-note{display:none}
   @media (prefers-reduced-motion:reduce){ .act-jam:hover svg{animation:none} }
 
 
@@ -3611,19 +3596,16 @@
   /* ---------------- the card component ----------------
      One component, assembled from what the post carries:
        head     agent, time, an optional status badge, the overflow menu
-       media    one image, or a carousel; "First draft" when the agent made it
-       rows     a small table of the numbers behind the call
-       answer   a question asked of AI, and what came back
+       media    one image, or a carousel, in a 4:5 frame; "First draft" when the agent made it
+       rows     on cards without a picture, the numbers behind the call
        cta      one primary action, or none: results and learnings only report
        actions  like, jam with the team, shortlist
-       body     title, the reasoning, and where it came from
-     Media cards put the CTA under the picture; text cards end on it. */
+       body     title and the reasoning */
   const I_HAND = '<path d="M18 11V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2"/><path d="M14 10V4a2 2 0 0 0-2-2a2 2 0 0 0-2 2v2"/><path d="M10 10.5V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2v8"/><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/>';
-  const I_SRC = '<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>';
   const esc = (t) => String(t == null ? '' : t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
   const RATIO = { '4:5':'4:5', '1:1':'square', '16:9':'wide', '9:16':'4:5' };
 
-  const ctaBar = (label, end) => `<button class="btn btn-primary btn-bar${end ? ' is-end' : ''}">
+  const ctaBar = (label) => `<button class="btn btn-primary btn-bar">
         <span class="lead">${esc(label)}</span>${svg(I.chevronRight, 18)}</button>`;
 
   const card = (p) => {
@@ -3631,7 +3613,7 @@
     const idx = ALL_POSTS.indexOf(p);
     const a = AG(p.agent);
     const imgs = p.images || [];
-    const r = RATIO[p.ratio] ? ` data-r="${RATIO[p.ratio]}"` : imgs.length ? ' data-r="square"' : '';
+    const r = imgs.length ? ` data-r="${RATIO[p.ratio] || '4:5'}"` : '';
     const draft = p.draft ? `<span class="draft-chip">${svg(I.sparkle, 12, 'currentColor', true)}First draft</span>` : '';
     const mediaHTML = !imgs.length ? '' : imgs.length > 1
       ? `<div class="media is-carousel"${r}>${draft}
@@ -3640,9 +3622,7 @@
            <button class="nav nav-next" aria-label="Next image">${svg(I.chevronRight, 18)}</button>
          </div>`
       : `<div class="media"${r}>${draft}<img src="${imgs[0]}" alt="" loading="lazy"></div>`;
-    const answerHTML = p.q ? `
-      <div class="ask-ai"><span class="lbl">Asked AI</span><p class="q">“${esc(p.q)}”</p><p class="a">${esc(p.a)}</p></div>` : '';
-    const rowsHTML = p.rows && p.rows.length ? `<div class="panel"><div class="rows">${p.rows.map(([k, v]) =>
+    const rowsHTML = !imgs.length && p.rows && p.rows.length ? `<div class="panel"><div class="rows">${p.rows.map(([k, v]) =>
           `<div><span class="k">${esc(k)}</span><span class="v">${esc(v)}</span></div>`).join('')}</div></div>` : '';
     const isText = !imgs.length;
     const saved_ = saved.has(idx);
@@ -3670,9 +3650,8 @@
       </div>
 
       ${mediaHTML}
-      ${answerHTML}
       ${rowsHTML}
-      ${p.cta && !isText ? ctaBar(p.cta) : ''}
+      ${p.cta ? ctaBar(p.cta) : ''}
 
       <div class="card-actions">
         <div class="act-group">
@@ -3692,14 +3671,10 @@
       <div class="card-body">
         <h2 class="card-title">${esc(p.title)}</h2>
         <p class="card-sub">${esc(p.sub)}</p>
-        ${p.src ? `<p class="card-src">${svg(I_SRC, 13)}<span>${esc(p.src)}</span></p>` : ''}
       </div>
-      ${p.cta && isText ? ctaBar(p.cta, true) : ''}
     </article>`;
   };
 
-  // a hand-written aside between cards, the way the agent would scribble it
-  const noteHTML = (p) => p.note ? `<div class="feed-note"><span>${esc(p.note.k)}</span><p>${esc(p.note.h)}</p></div>` : '';
 
 
   /* ---------------- deck: one column per agent ---------------- */
@@ -3904,7 +3879,6 @@
   // the chip filters the single feed; in the deck it narrows to one column
   const applyChip = () => {
     const wish = chip === 'wishlist';
-    document.querySelectorAll('#feed .feed-note').forEach(n => n.hidden = wish);
     document.querySelectorAll('#feed .card').forEach(c => {
       const i = +c.dataset.post, p = ALL_POSTS[i];
       const sec = p ? sectorOf(p) : null;
@@ -4413,7 +4387,7 @@
   });
 
   document.getElementById('feed').insertAdjacentHTML('beforeend',
-    ALL_POSTS.map((c, i) => noteHTML(c) + card(c) + (i === 2 ? connectCard('meta') : i === 5 ? connectCard('shopify') : '')).join(''));
+    ALL_POSTS.map((c, i) => card(c) + (i === 2 ? connectCard('meta') : i === 5 ? connectCard('shopify') : '')).join(''));
   paintSubbars();
 
   /* ---------------- interactions ---------------- */
