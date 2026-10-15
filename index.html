@@ -513,7 +513,6 @@
   }
 
   body.deck-on{padding-bottom:0;overflow:hidden}
-  body.deck-on .dock{display:none}
 
   /* a post that is only words */
   /* a post that is a finding rather than a picture */
@@ -2685,10 +2684,30 @@
   /* account: a nod */
   [data-nav="account"]:hover .ic-head{transform:translateY(-1.5px)}
   [data-nav="account"]:hover svg{transform:scale(1.05)}
-  .rail-foot{margin-top:8px}
+  .rail-bottom{display:flex;flex-direction:column;gap:4px;margin-top:8px;width:100%}
+  .rail-bottom .rail-item.fly-up{margin-top:0}
   @media (prefers-reduced-motion:reduce){
     .rail-btn svg,.rail-btn svg *{transition:none!important;animation:none!important;transform:none!important}
   }
+
+  /* ---------- top bar: Ask ShopOS opens the chat panel ---------- */
+  .ask{
+    display:inline-flex;align-items:center;gap:8px;height:36px;padding:0 14px 0 12px;
+    border:0;border-radius:var(--r-ctl);background:#171717;color:var(--fg);
+    font:inherit;font-size:12.5px;font-weight:500;cursor:pointer;white-space:nowrap;
+    transition:background .15s;
+  }
+  .ask svg{color:#c4a8ff;transition:transform .3s cubic-bezier(.34,1.4,.64,1)}
+  .ask:hover{background:#232323}
+  .ask:hover svg{transform:rotate(18deg) scale(1.15)}
+  .ask[aria-expanded="true"]{background:#2b2b2b}
+  @media (max-width:600px){ .ask{padding:0 10px} }
+  @media (prefers-reduced-motion:reduce){ .ask svg{transition:none} }
+
+  /* jam floats; it steps aside when the chat panel is open */
+  .dock{transition:opacity .35s ease,right .36s cubic-bezier(.32,.72,0,1)}
+  body.chat-open .dock{right:calc(var(--chat-w) + 28px)}
+  @media (max-width:900px){ body.chat-open .dock{opacity:0;pointer-events:none} }
 
   /* ---------- shortlisted ---------- */
   .feed-empty{
@@ -2801,13 +2820,6 @@
       </button>
       <span class="rail-tip">Home</span>
     </div>
-    <div class="rail-item" data-item="deck">
-      <button class="rail-btn" data-nav="deck" aria-label="Deck">
-        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path class="ic-c1" d="M9 3v18"/><path class="ic-c2" d="M15 3v18"/></svg>
-        <span class="rail-label">Deck</span>
-      </button>
-      <span class="rail-tip">Deck</span>
-    </div>
     <div class="rail-item" data-item="shortlist">
       <button class="rail-btn" data-nav="shortlist" aria-label="Shortlisted">
         <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/></svg><span class="rail-count" id="shortlist-n" hidden></span>
@@ -2829,13 +2841,6 @@
       </button>
       <span class="rail-tip">Memory</span>
     </div>
-    <div class="rail-item has-menu" data-item="notifications">
-      <button class="rail-btn" data-nav="notifications" aria-label="Notifications">
-        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path class="ic-clap" d="M10.268 21a2 2 0 0 0 3.464 0"/><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"/></svg><span class="rail-dot" aria-hidden="true"></span>
-        <span class="rail-label">Notifications</span>
-      </button>
-      <div class="rail-fly" id="notif-fly"><p class="fly-head">Notifications</p></div>
-    </div>
     <div class="rail-item has-menu" data-item="connectors">
       <button class="rail-btn" data-nav="connectors" aria-label="Connectors">
         <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path class="ic-cord" d="M12 22v-5"/><path class="ic-prong" d="M9 7V2"/><path class="ic-prong" d="M15 7V2"/><path d="M6 13V8h12v5a5 5 0 0 1-10 0"/></svg>
@@ -2848,21 +2853,9 @@
         <button class="fly-row" data-fly="Google Merchant Center"><span class="tile"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22v-5"/><path d="M9 7V2"/><path d="M15 7V2"/><path d="M6 13V8h12v5a5 5 0 0 1-10 0"/></svg></span>Google Merchant Center<svg class="go" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg></button>
       </div>
     </div>
-    <span class="rail-sep" aria-hidden="true"></span>
-    <div class="rail-item" data-item="chat">
-      <button class="rail-btn" data-nav="chat" aria-label="Chat">
-        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
-        <span class="rail-label">Chat</span>
-      </button>
-      <span class="rail-tip">Chat</span>
-    </div>
-    <div class="rail-item" data-item="jam">
-      <button class="rail-btn" data-nav="jam" aria-label="Jam with the team">
-        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path class="ic-plus" d="M19 8v6"/><path class="ic-plus" d="M22 11h-6"/></svg>
-        <span class="rail-label">Jam with the team</span>
-      </button>
-      <span class="rail-tip">Jam with the team</span>
-    </div>
+  </nav>
+
+  <div class="rail-bottom">
     <div class="rail-item" data-item="tune">
       <button class="rail-btn" data-nav="tune" aria-label="Tune the feed">
         <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M10 5H3"/><path d="M12 19H3"/><path class="ic-knob1" d="M14 3v4"/><path class="ic-knob2" d="M16 17v4"/><path d="M21 12h-9"/><path d="M21 19h-5"/><path d="M21 5h-7"/><path class="ic-knob3" d="M8 10v4"/><path d="M8 12H3"/></svg>
@@ -2870,15 +2863,21 @@
       </button>
       <span class="rail-tip">Tune the feed</span>
     </div>
-  </nav>
-
-    <div class="rail-item rail-foot" data-item="account">
+    <div class="rail-item has-menu fly-up" data-item="notifications">
+      <button class="rail-btn" data-nav="notifications" aria-label="Notifications">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path class="ic-clap" d="M10.268 21a2 2 0 0 0 3.464 0"/><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"/></svg><span class="rail-dot" aria-hidden="true"></span>
+        <span class="rail-label">Notifications</span>
+      </button>
+      <div class="rail-fly" id="notif-fly"><p class="fly-head">Notifications</p></div>
+    </div>
+    <div class="rail-item" data-item="account">
       <button class="rail-btn" data-nav="account" aria-label="Account">
         <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle class="ic-head" cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/></svg>
         <span class="rail-label">Account</span>
       </button>
       <span class="rail-tip">Account</span>
     </div>
+  </div>
 </aside>
 
 <section class="start" id="start">
@@ -2943,6 +2942,10 @@
   </nav>
 
   <div class="topbar-right">
+    <button class="ask" id="ask-btn" aria-expanded="false" aria-controls="chat-panel">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.5l1.7 4.3 4.3 1.7-4.3 1.7L12 14.5l-1.7-4.3L6 8.5l4.3-1.7L12 2.5Z"/><path d="M18.5 15l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8.8-2Z"/></svg>
+      Ask ShopOS
+    </button>
     <button class="chip" aria-label="Light mode">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <circle cx="12" cy="12" r="4"/>
@@ -3272,6 +3275,16 @@
 </section>
 
 <div class="toasts" id="toasts" role="status" aria-live="polite"></div>
+
+<div class="dock">
+  <button class="pill" id="jam-float">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
+      <path d="M19 8v6"/><path d="M22 11h-6"/>
+    </svg>
+    Jam with the team
+  </button>
+</div>
 
 
 
@@ -4791,7 +4804,7 @@
 
   // ---------- chat: always a panel on the right ----------
   const chatPanel = document.getElementById('chat-panel');
-  const chatBtn = document.querySelector('[data-nav="chat"]');
+  const chatBtn = document.getElementById('ask-btn');
   const resetChat = () => {
     clearTimeout(workTimer);
     workDock.hidden = true;
@@ -4803,11 +4816,13 @@
     chatPanel.classList.toggle('on', open);
     chatPanel.setAttribute('aria-hidden', String(!open));
     document.body.classList.toggle('chat-open', open);
-    chatBtn.classList.toggle('is-on', open);
+    chatBtn.setAttribute('aria-expanded', String(open));
     // the deck columns and the feed both re-centre, so the pill has to follow
     setTimeout(syncTabs, 360);
   };
   document.getElementById('cp-close').addEventListener('click', () => setChat(false));
+  chatBtn.addEventListener('click', () => setChat(!chatPanel.classList.contains('on')));
+  document.getElementById('jam-float').addEventListener('click', () => openModal('jam-scrim'));
   document.getElementById('cp-new').addEventListener('click', resetChat);
 
   // ---------- left rail ----------
