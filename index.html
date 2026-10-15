@@ -3527,6 +3527,36 @@
   .ab-go .src-spin{border-color:rgba(0,0,0,.18);border-top-color:#0a0a0a}
   @media (max-width:520px){ .ab-f{flex-direction:column-reverse;align-items:stretch} .ab-go{justify-content:center} }
   @media (prefers-reduced-motion:reduce){ .act-box{transition:opacity .2s} }
+
+  /* ---------- round two: narrower pages, quieter notifications, a simpler team panel, an 800px chat ---------- */
+  .cx-page .cx-in,.mem-page .cx-in{width:min(864px,100%)}
+  .notif-row{gap:12px;padding:10px 12px 10px 10px}
+  .notif-row .ni{width:32px;height:32px;border-radius:10px;background:rgba(255,255,255,.07);color:#d4d4d4}
+  .notif-row .ni svg{stroke-width:1.8}
+  .notif-row:hover .ni{background:rgba(255,255,255,.1)}
+  .notif-row:hover .ni svg{transform:none}
+  .notif-row .nt span{font-size:15px;line-height:21px}
+  .notif-row .nt em{font-size:13px}
+  .tpp-h{align-items:flex-start;padding:16px 14px 12px 18px}
+  .tpp-ht{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+  .tpp-ht span{font-size:13px;line-height:18px;color:#a3a3a3}
+  .tpp-row{align-items:center}
+  .tpp-th{width:44px;height:44px}
+  .tpp-main{gap:7px}
+  .tpp-main > b{-webkit-line-clamp:1;font-size:14px}
+  .tpp-by em{font-style:normal;color:#fafafa}
+  .tpp-sep{width:3px;height:3px;border-radius:50%;background:#525252}
+  .tpp-list{padding-bottom:10px}
+  /* chat: one 800px column, and every block in it runs edge to edge */
+  .st-main .st-chat{padding-left:max(24px,calc((100% - 800px) / 2));padding-right:max(24px,calc((100% - 800px) / 2))}
+  .st-dock{padding-left:max(24px,calc((100% - 800px) / 2));padding-right:max(24px,calc((100% - 800px) / 2))}
+  .cm-ai .cm-body > *:not(.tr):not(.cm-t):not(.st-inline){width:100%;max-width:none}
+  .cm-ai .cm-diff{width:100%}
+  .pj2{max-width:none}
+  .cm-ai .cm-media,.tr-ph{width:100%;aspect-ratio:16/11;border-radius:20px}
+  .cm-ai .cm-media{background:#141414}
+  .cm-ai .cm-media::before{content:'';position:absolute;inset:-30px;background:var(--bg) center/cover;filter:blur(30px) brightness(.45);transform:scale(1.1)}
+  .cm-ai .cm-media img{position:relative;object-fit:contain}
   /* ---------- the draft, as a document in the chat ---------- */
   .cm-doc{border-radius:20px;background:#121212;border:1px solid #232323;overflow:hidden}
   .dc-h{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid #1f1f1f}
@@ -6121,14 +6151,14 @@
   // notifications: the latest from each agent, built from what is in the feed
   const notifFly = document.getElementById('notif-fly');
   const NF_I = {
-    creatives:'<rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.1-3.1a2 2 0 0 0-2.8 0L6 21"/>',
-    ads:'<path d="m16 13 5.2 3.5a.5.5 0 0 0 .8-.4V7.9a.5.5 0 0 0-.8-.4L16 11"/><rect x="2" y="6" width="14" height="12" rx="2"/>',
-    storefront:'<path d="M3 9h18l-1.5-5h-15z"/><path d="M5 9v11h14V9"/><path d="M10 20v-6h4v6"/>',
-    visibility:'<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
-    signals:'<path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 5-6"/>',
-    catalog:'<path d="M21 8 12 3 3 8v8l9 5 9-5z"/><path d="m3 8 9 5 9-5"/><path d="M12 13v8"/>'
+    creatives:'<rect x="4" y="4" width="16" height="16" rx="3"/><path d="m4 16 5-5 11 9"/>',
+    ads:'<path d="m4 16 6-6 4 4 6-7"/>',
+    storefront:'<path d="M5 8h14l-1 12H6z"/><path d="M9 8a3 3 0 0 1 6 0"/>',
+    visibility:'<circle cx="11" cy="11" r="6"/><path d="m20 20-4.3-4.3"/>',
+    signals:'<path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/>',
+    catalog:'<path d="M5 8h14l-1 12H6z"/><path d="M9 8a3 3 0 0 1 6 0"/>'
   };
-  const NF_WHAT = { creatives:'Creatives ready', ads:'Ad update', storefront:'Store change', visibility:'AI answer change', signals:'New signal', catalog:'Catalog update' };
+  const NF_WHAT = { creatives:'Brand', ads:'Performance', storefront:'Storefront', visibility:'AEO · GEO · SEO', signals:'What people say', catalog:'Storefront' };
   const nfPicked = []; const nfSec = new Set();
   FEED_IDS.map(i => ALL_POSTS[i]).forEach(p => { if (p && p.title && nfPicked.length < 7 && (!nfSec.has(p.sector) || nfPicked.length >= 5)) { nfSec.add(p.sector); nfPicked.push(p); } });
   const I_NX = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>';
@@ -6144,7 +6174,7 @@
       <button class="nf-read" id="nf-read">Mark all read</button></div>
     <div class="nf-list">${nfPicked.map((p, i) => `
       <button class="notif-row${i > 2 ? ' read' : ''}" data-post="${ALL_POSTS.indexOf(p)}">
-        <span class="ni">${svg(NF_I[p.sector] || NF_I.signals, 22)}</span>
+        <span class="ni">${svg(NF_I[p.sector] || NF_I.signals, 16)}</span>
         <span class="nt"><span>${esc(p.title)}</span><em>${NF_WHAT[p.sector] || 'Update'} · ${esc(AG(p.agent).name)} · ${esc(String(p.time).replace('Just now','now').replace(' min','m').replace(' hr','h'))}</em></span>
         <span class="nx" role="button" aria-label="Dismiss">${I_NX}</span>
       </button>`).join('')}</div>`;
@@ -6796,7 +6826,7 @@
   const mediaBlock = (p, img, tag) => {
     const imgs = p.images || [];
     if (!imgs.length) return '';
-    return `<div class="cm-media"><img src="${imgs[img] || imgs[0]}" alt="">${tag ? `<span class="st-tag">${I_SPARK}${esc(tag)}</span>` : ''}</div>`;
+    return `<div class="cm-media" style="--bg:url('${imgs[img] || imgs[0]}')"><img src="${imgs[img] || imgs[0]}" alt="">${tag ? `<span class="st-tag">${I_SPARK}${esc(tag)}</span>` : ''}</div>`;
   };
   const rowsBlock = (p) => p.rows && p.rows.length ? `<div class="st-rows">${p.rows.map(([x, y]) => `<div><span class="k">${esc(x)}</span><span class="v">${esc(y)}</span></div>`).join('')}</div>` : '';
   const msgHTML = (m, p, a) => {
@@ -7441,23 +7471,20 @@
     pill.classList.toggle('is-live', active.length > 0);
     if (pop.hidden) return;
     pop.innerHTML = `
-      <div class="tpp-h"><b>With the team</b><span>${active.length ? `${active.length} moving` : 'Nothing moving'}</span><button class="tpp-deck" data-tpdeck>Open in Deck ${I_ARR}</button></div>
+      <div class="tpp-h"><span class="tpp-ht"><b>With the team</b><span>Briefs you sent. The ShopOS team is making them.</span></span><button class="tpp-deck" data-tpdeck>Open in Deck ${I_ARR}</button></div>
       ${list.length ? `<div class="tpp-list">${list.map(it => {
         const p = ALL_POSTS[it.p], kind = kindOf(p), sg = it.by === 'agent' ? 4 : (it.stage ?? 0), m = TEAM[it.who] || null;
         const thumb = (p.images || [])[0];
-        const by = it.by === 'agent' ? `<span class="tpp-by"><img src="${AG(p.agent).avatar}" alt="">${esc(AG(p.agent).name)} did it</span>` : m ? `<span class="tpp-by">${avHTML(it.who)}${m.name} · ${esc(m.role)}</span>` : '';
+        const by = it.by === 'agent' ? `<span class="tpp-by"><img src="${AG(p.agent).avatar}" alt="">Done by ${esc(AG(p.agent).name)}</span>` : m ? `<span class="tpp-by">${avHTML(it.who)}${m.name}<i class="tpp-sep"></i><em>${STAGES[sg]}</em></span>` : '';
         return `<button class="tpp-row" data-tpopen="${it.p}">
           <span class="tpp-th">${thumb ? `<img src="${thumb}" alt="">` : `<img class="ag" src="${AG(p.agent).avatar}" alt="">`}</span>
           <span class="tpp-main">
             <b>${esc(p.title)}</b>
-            <span class="tpp-bar" style="--n:${sg}">${STAGES.map((x, n) => `<i class="${n < sg ? 'done' : n === sg ? 'now' : ''}"></i>`).join('')}</span>
-            <span class="tpp-st"><em>${STAGES[sg]}</em>${sg === 2 && it.pct ? ` · ${it.pct}%` : ''}</span>
             ${by}
-            ${it.log ? `<span class="tpp-log">“${esc(it.log)}”<small>${agoTxt(it.ago || 0)}</small></span>` : ''}
+            <span class="tpp-bar" style="--n:${sg}">${STAGES.map((x, n) => `<i class="${n < sg ? 'done' : n === sg ? 'now' : ''}"></i>`).join('')}</span>
           </span>
         </button>`;
-      }).join('')}</div>` : `<p class="tpp-empty">Briefs you send land here, with who has each one and what they last did.</p>`}
-      <div class="tpp-f">${Object.entries(TEAM).map(([k, m]) => `<span>${avHTML(k)}<em>${m.name}</em><small>${m.role}</small></span>`).join('')}</div>`;
+      }).join('')}</div>` : `<p class="tpp-empty">Nothing yet. Send a brief from any card and it shows up here.</p>`}`;
   };
   window.__paintTeam = paintTeam;
   const setTeam = (open) => {
@@ -7513,7 +7540,7 @@
     const moving = kbItems.filter(x => x.col !== 'draft');
     if (body('progress')) body('progress').innerHTML = moving.length ? moving.map(it => {
       const sg = it.by === 'agent' ? 4 : (it.stage ?? 0), m = TEAM[it.who];
-      const st = it.by === 'agent' ? `Done by ${AG(ALL_POSTS[it.p].agent).name}` : `${STAGES[sg]}${sg === 2 && it.pct ? ` · ${it.pct}%` : ''}`;
+      const st = it.by === 'agent' ? `Done by ${AG(ALL_POSTS[it.p].agent).name}` : STAGES[sg];
       return `<div class="mine-item"><p class="mine-st"><i class="is-${it.col}"></i>${esc(st)}<span>${m && it.by !== 'agent' ? `${avHTML(it.who)}${esc(m.name)}` : esc(it.t || '')}</span></p>
         <span class="tpp-bar mine-bar">${STAGES.map((x, n) => `<i class="${n < sg ? 'done' : n === sg ? 'now' : ''}"></i>`).join('')}</span>${card(ALL_POSTS[it.p])}</div>`;
     }).join('') : '<p class="mine-empty">Briefs you send to the team show up here, with where each one is.</p>';
