@@ -3058,7 +3058,7 @@
   #shortlist-n{display:none !important}
   /* tabs: the same pill everywhere (top bar, memory, shortlisted, tuning) */
   .seg-pill{background:#262626}
-  .mem-tabs button{border-radius:999px}
+  .mem-tabs button{border-radius:999px;white-space:nowrap;flex:0 0 auto}
   .mem-tabs button:hover:not([aria-selected="true"]){color:var(--fg-2);background:#161616}
   .seg3 button.on{background:#262626}
   .tab:hover:not([aria-selected="true"]){color:var(--fg-2)}
@@ -3472,6 +3472,81 @@
   .kb-col[data-col="you"] .kb-col-h .n.has{background:#1f1f1f;color:var(--fg-2)}
   .kb-col-h .row{gap:12px}
   .kb-col-h b{font-size:20px}
+
+  /* ---------- floating glass: the rail and the top bar float over the content ---------- */
+  :root{--glass:rgba(24,24,26,.52);--glass-hi:rgba(255,255,255,.09);--glass-line:rgba(255,255,255,.08);
+    --glass-fx:blur(22px) saturate(1.7);--glass-sh:0 12px 34px rgba(0,0,0,.38),inset 0 1px 0 var(--glass-hi)}
+  body{padding-left:84px}
+  .rail{top:12px;left:12px;bottom:12px;border-radius:24px;border:1px solid var(--glass-line);
+    background:var(--glass);-webkit-backdrop-filter:var(--glass-fx);backdrop-filter:var(--glass-fx);box-shadow:var(--glass-sh)}
+  .rail.open{background:rgba(20,20,22,.78);box-shadow:var(--glass-sh),26px 0 60px rgba(0,0,0,.45)}
+  .rail-item[data-item="kanban"],.rail-item[data-item="shortlist"]{display:none}
+  .topbar{background:transparent;pointer-events:none;padding:12px 16px 0 12px;height:auto;min-height:60px}
+  .topbar > *{pointer-events:auto}
+  .seg,.topbar-right{border:1px solid var(--glass-line);background:var(--glass);-webkit-backdrop-filter:var(--glass-fx);backdrop-filter:var(--glass-fx);box-shadow:var(--glass-sh)}
+  .seg{padding:3px;border-radius:999px}
+  .seg-pill{background:rgba(255,255,255,.12);top:3px;left:0}
+  .topbar-right{gap:4px;padding:4px;border-radius:999px}
+  .topbar-right .ask{background:transparent;border-radius:999px;height:34px}
+  .topbar-right .ask:hover{background:rgba(255,255,255,.1)}
+  .topbar-right .chip{background:transparent;border:0;border-radius:50%;width:34px;height:34px}
+  .topbar-right .chip:hover{background:rgba(255,255,255,.1)}
+  .view.is-out{left:84px}
+  .cx-page,.studio{left:0;padding-left:84px}
+  .stk-layer,.notes-layer{z-index:2}
+  @media (max-width:600px){
+    body{padding-left:72px}
+    .rail{top:8px;left:8px;bottom:8px;border-radius:20px}
+    .view.is-out{left:72px}
+    .cx-page.cx-page,.studio.studio{left:0;padding-left:72px}
+  }
+
+  /* ---------- deck: your columns, then the areas ---------- */
+  .side-h{margin:14px 10px 6px;font-size:11.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--fg-3)}
+  .side-h:first-child{margin-top:4px}
+  .col-split{flex:0 0 auto;align-self:stretch;width:1px;margin:0 6px;background:linear-gradient(#2a2a2a,#2a2a2a 40%,transparent);position:relative}
+  .col-split span{position:absolute;top:8px;left:50%;transform:translateX(-50%);padding:2px 8px;border-radius:999px;background:var(--bg);font-size:11px;color:var(--fg-3);white-space:nowrap;display:none}
+  .col-n{font-size:13px;color:var(--fg-3);font-variant-numeric:tabular-nums}
+  .mine-item{display:flex;flex-direction:column;gap:8px}
+  .mine-st{margin:0 4px;display:flex;align-items:center;gap:8px;font-size:13px;color:var(--fg-2)}
+  .mine-st i{width:8px;height:8px;border-radius:50%;background:#6b6b6b;flex:0 0 auto}
+  .mine-st i.is-progress{background:#3987e5}
+  .mine-st i.is-live{background:#4ade80}
+  .mine-st i.is-you{background:#f5b544}
+  .mine-st span{margin-left:auto;color:var(--fg-3)}
+  .mine-empty{margin:8px 4px;padding:28px 18px;border:1px dashed #2a2a2a;border-radius:16px;text-align:center;font-size:14px;line-height:21px;color:var(--fg-3)}
+  .dash-tiles{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+  .dash-tiles span{display:flex;flex-direction:column;gap:2px;padding:14px;border-radius:16px;background:#161616;border:1px solid #222;font-size:12.5px;line-height:17px;color:var(--fg-3)}
+  .dash-tiles b{font-size:28px;line-height:34px;font-weight:600;color:var(--fg);font-variant-numeric:tabular-nums}
+  .dash-h{margin:18px 4px 8px;font-size:13px;color:var(--fg-3)}
+  .dash-row{display:flex;align-items:center;gap:12px;padding:10px;border-radius:16px;background:#161616;border:1px solid #222;margin-bottom:8px}
+  .dash-row img,.dash-ic{width:44px;height:52px;border-radius:10px;object-fit:cover;flex:0 0 auto}
+  .dash-ic{display:grid;place-items:center;background:#222;font-style:normal;font-size:18px;color:var(--fg-2)}
+  .dash-row span{flex:1;min-width:0;display:flex;flex-direction:column;font-size:13px;line-height:18px;color:var(--fg-3)}
+  .dash-row b{font-size:14.5px;font-weight:500;color:var(--fg);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .dash-row em{font-style:normal;font-size:14px;font-weight:600;color:var(--fg-2);font-variant-numeric:tabular-nums}
+  .dash-row em.up{color:#4ade80}
+  .dash-note{margin:10px 4px 0;font-size:12.5px;color:var(--fg-3)}
+
+  /* ---------- memory: the upload comes first ---------- */
+  .mem-drop{margin-top:28px;display:flex;flex-direction:column;align-items:center;gap:8px;padding:40px 24px 34px;border-radius:24px;
+    border:1.5px dashed #343434;background:#121212;text-align:center;cursor:pointer;transition:border-color .2s,background .2s,transform .2s cubic-bezier(.34,1.4,.64,1)}
+  .mem-drop:hover{border-color:#4a4a4a;background:#151515}
+  .mem-drop.is-over{border-color:#fafafa;background:#1a1a1a;transform:scale(1.01)}
+  .mem-drop .md-ic{width:56px;height:56px;border-radius:18px;background:#fafafa;color:#0a0a0a;display:grid;place-items:center;margin-bottom:6px;transition:transform .3s cubic-bezier(.34,1.4,.64,1)}
+  .mem-drop:hover .md-ic,.mem-drop.is-over .md-ic{transform:translateY(-4px)}
+  .mem-drop b{font-size:20px;line-height:26px;font-weight:600}
+  .mem-drop > span:not(.md-ic):not(.md-btn){max-width:46ch;font-size:15px;line-height:22px;color:var(--fg-3)}
+  .mem-drop .md-btn{margin-top:10px;height:44px;padding:0 22px;border-radius:999px;background:#fafafa;color:#0a0a0a;font-size:15px;font-weight:500;display:inline-flex;align-items:center}
+  .mem-files{display:flex;flex-direction:column;gap:8px;margin-top:12px}
+  .mem-files:empty{display:none}
+  .mf-row{display:flex;align-items:center;gap:12px;padding:10px 14px 10px 10px;border-radius:16px;background:#161616;border:1px solid #222;animation:stfade .35s ease both}
+  .mf-ic{width:40px;height:40px;border-radius:10px;background:#222;display:grid;place-items:center;font-size:10.5px;font-weight:700;letter-spacing:.04em;color:var(--fg-2);flex:0 0 auto}
+  .mf-t{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+  .mf-t b{font-size:14.5px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .mf-t em{font-style:normal;font-size:13px;color:var(--fg-3)}
+  .mf-t em.is-reading{background:linear-gradient(90deg,#6b6b6b 0%,#6b6b6b 35%,#f2f2f2 50%,#6b6b6b 65%,#6b6b6b 100%);background-size:250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shim 1.3s linear infinite}
+  .mf-row.is-done .mf-ic{background:#16261b;color:#86efac}
   .stk-layer,.notes-layer{position:absolute;left:0;top:0;width:100%;height:0;pointer-events:none;z-index:2}
   .stk-layer[hidden],.notes-layer[hidden]{display:none}
   .stk{position:absolute;pointer-events:auto;cursor:grab;user-select:none;touch-action:none;--peel:0px;transform:rotate(var(--r,0deg));
@@ -3797,7 +3872,7 @@
   </div>
 </header>
 
-<section class="hello" id="hello">
+<section class="hello" id="hello" hidden>
   <p class="hello-date" id="hello-date"></p>
   <h1 class="hello-h" id="hello-h">Hello, Vedant</h1>
   <div class="hello-tiles" id="hello-tiles"></div>
@@ -4084,6 +4159,14 @@
         <p>What ShopOS knows and follows for Arata.</p>
       </div>
     </header>
+    <label class="mem-drop" id="mem-drop">
+      <input type="file" id="mem-file" multiple hidden>
+      <span class="md-ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3"/><path d="m7 8 5-5 5 5"/><path d="M20 15v4a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-4"/></svg></span>
+      <b>Drop anything here</b>
+      <span>Brand guides, past ads, product sheets, screenshots. ShopOS reads them and keeps what matters.</span>
+      <span class="md-btn">Upload files</span>
+    </label>
+    <div class="mem-files" id="mem-files"></div>
     <nav class="mem-tabs" role="tablist" aria-label="Memory">
       <button role="tab" data-mtab="learned" aria-selected="true">What we learned</button>
       <button role="tab" data-mtab="feed" aria-selected="false">Your feed</button>
@@ -4608,6 +4691,21 @@
   let colW = 480;
   const colState = {};
   COL_ORDER.forEach(k => colState[k] = { hidden:false });
+  // your own work sits in front of the areas: what is moving, what you saved, and how it is going
+  const MINE_ORDER = ['progress', 'saved', 'dash'];
+  const MINE = {
+    progress:{ name:'In progress', icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-6.2-8.6"/><path d="M21 4v5h-5"/></svg>' },
+    saved:{ name:'Shortlisted', icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/></svg>' },
+    dash:{ name:'Dashboard', icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 5-6"/></svg>' }
+  };
+  MINE_ORDER.forEach(k => colState[k] = { hidden:false });
+  const mineColHTML = (k) => `
+      <section class="col is-mine" data-col="${k}">
+        <div class="col-head"><div class="col-top"><h2>${MINE[k].name}</h2><span class="col-fill"></span><span class="col-n" data-mine-n="${k}"></span></div><hr></div>
+        <div class="col-body" data-mine="${k}"></div>
+        <p class="col-end" hidden></p>
+        <span class="grab" role="separator" aria-orientation="vertical" aria-label="Column width"></span>
+      </section>`;
 
   const I_ROWS = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M4 6h16"/><path d="M4 12h16"/><path d="M4 18h16"/></svg>';
   const I_COLS = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><rect x="3" y="4" width="5.5" height="16" rx="1.4"/><rect x="9.25" y="4" width="5.5" height="16" rx="1.4"/><rect x="15.5" y="4" width="5.5" height="16" rx="1.4"/></svg>';
@@ -4638,6 +4736,7 @@
     document.querySelectorAll('.col').forEach(c => {
       // an agent filter belongs to the single feed; the deck keeps every column
       c.hidden = colState[c.dataset.col].hidden;
+      if (!SECTORS[c.dataset.col]) return;
       if (wish) {
         let n = 0;
         c.querySelectorAll('.card').forEach(x => {
@@ -4717,7 +4816,12 @@
   const I_JAM = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6"/><path d="M22 11h-6"/></svg>';
   const I_TUNE= '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 5H3"/><path d="M12 19H3"/><path d="M14 3v4"/><path d="M16 17v4"/><path d="M21 12h-9"/><path d="M21 19h-5"/><path d="M21 5h-7"/><path d="M8 10v4"/><path d="M8 12H3"/></svg>';
 
+  const mineCount = (k) => { try { return k === 'progress' ? (kbItems.filter(x => x.col !== 'draft').length || '') : k === 'saved' ? (saved.size || '') : ''; } catch (_) { return ''; } };
   const navHTML = () => `
+    <p class="side-h">Yours</p>
+    ${MINE_ORDER.map(k => `
+      <button data-col="${k}" aria-current="false">${MINE[k].icon}${MINE[k].name}<span class="n" data-mine-nav="${k}">${mineCount(k)}</span></button>`).join('')}
+    <p class="side-h">Areas</p>
     ${COL_ORDER.map(k => `
       <button data-col="${k}" class="${colState[k].hidden ? 'muted' : ''}"
               aria-current="false" title="${colState[k].hidden ? 'Hidden. Click to bring it back.' : SECTORS[k].name}">
@@ -4736,8 +4840,7 @@
     </div>
 
     <p class="side-note">
-      <b>This is your feed, by area.</b> Open any card to shape it and send the brief.
-      Signals reads your customers once Shopify and Klaviyo are connected.
+      <b>Your work first, then every area.</b> What is moving, what you saved and how it is going sit up front.
     </p>
 
 
@@ -4745,7 +4848,7 @@
 
     <div class="side-nav" id="side-nav">${navHTML()}</div>
 
-    <div class="side-acts">
+    <div class="side-acts" hidden>
       <div class="dash-card" id="dash-card">
         <div class="dash-art"><img src="assets/dash-preview.jpg" alt=""></div>
         <h4>All your batches and running tasks will appear in your dashboard.</h4>
@@ -4799,7 +4902,8 @@
     // scroll snapping re-snaps whatever we restore, so it is held off for the
     // one frame it takes to put the scroll back where the reader left it
     document.body.classList.add('col-dragging');
-    deckEl.innerHTML = COL_ORDER.map(k => colHTML(k, empty)).join('');
+    deckEl.innerHTML = MINE_ORDER.map(mineColHTML).join('') + '<div class="col-split" aria-hidden="true"><span>Areas</span></div>' + COL_ORDER.map(k => colHTML(k, empty)).join('');
+    window.__paintMine && window.__paintMine();
     // the deck is dense, so its cards arrive already settled
     deckEl.querySelectorAll('.card').forEach(el => el.classList.add('in'));
     if (!empty) {
@@ -4810,6 +4914,7 @@
     requestAnimationFrame(() => {
       deckEl.scrollLeft = keep;
       document.body.classList.remove('col-dragging');
+      window.__paintMine && window.__paintMine();
     });
   };
 
@@ -5010,7 +5115,6 @@
     if (next === 'deck' && !deckBuilt) buildDeck();
     document.body.classList.toggle('deck-on', next === 'deck');
     storiesEl.hidden = next !== 'feed';
-    document.getElementById('hello').hidden = next !== 'feed';
     skLayer.hidden = next !== 'feed'; if (next === 'feed') setTimeout(placeAll, 500);
     from.hidden = true;
     to.hidden = false;
@@ -5157,9 +5261,13 @@
     document.querySelector('.kbt')?.remove();
     const el = document.createElement('div');
     el.className = 'kbt';
-    el.innerHTML = `${CHECK}<span><b>Brief sent to the team</b>Check Kanban to see the progress.</span><button>Open Kanban</button>`;
+    el.innerHTML = `${CHECK}<span><b>Brief sent to the team</b>Track it in Deck, under In progress.</span><button>Open Deck</button>`;
     document.body.appendChild(el);
-    el.querySelector('button').addEventListener('click', () => { el.remove(); setKbPage(true); });
+    el.querySelector('button').addEventListener('click', () => {
+      el.remove();
+      if (layout !== 'deck') document.querySelector('[data-layout-tab="deck"]').click();
+      setTimeout(() => deckEl.scrollTo({ left:0, behavior:'smooth' }), 500);
+    });
     setTimeout(() => { el.classList.add('out'); setTimeout(() => el.remove(), 300); }, 5000);
   };
   const toast = (msg) => {
@@ -6513,6 +6621,7 @@
     const it = kbItems.find(x => x.p === i);
     if (it) { it.col = 'sent'; it.t = 'Sent just now'; } else kbItems.unshift({ p:i, col:'sent', t:'Sent just now' });
     markCard(i, 'Brief sent');
+    paintMine();
     setTimeout(() => { closeStudio(); kbToast(); }, 850);
   };
 
@@ -6612,12 +6721,12 @@
   const placeStickers = () => {
     stkLayer.innerHTML = ''; SP.clear();
     if (innerWidth < 1060 || layout !== 'feed') return;
-    const c = feedCol.getBoundingClientRect(), gutter = c.left - 60; if (gutter < 200) return;
+    const c = feedCol.getBoundingClientRect(), gutter = c.left - 84; if (gutter < 200) return;
     const top = c.top + scrollY, end = top + feedCol.offsetHeight - 260;
     STK_ORDER.forEach((k, i) => {
       const y = top + 360 + i * 980; if (y > end) return;
       const d = STK[k], cx = gutter / 2 + (i % 2 ? 30 : -30);
-      const x = 60 + Math.max(16, Math.min(cx - d.w / 2, gutter - d.w - 48));
+      const x = 84 + Math.max(16, Math.min(cx - d.w / 2, gutter - d.w - 48));
       const el = document.createElement('div');
       el.className = `stk ${d.cls || ''}`; el.dataset.corner = 'br';
       el.style.cssText = `left:${x}px;top:${y}px;width:${d.w}px;height:${d.h}px;--r:${STK_ROT[i]}deg`;
@@ -6723,6 +6832,75 @@
     c.scrollIntoView({ behavior:'smooth', block:'center' });
     c.classList.remove('is-flash'); void c.offsetWidth; c.classList.add('is-flash');
   });
+
+  // ---------- Deck: your columns ----------
+  const MINE_STATUS = { sent:'With the team', progress:null, you:'Needs your answer', live:'Live' };
+  const paintMine = () => {
+    const body = (k) => deckEl.querySelector(`[data-mine="${k}"]`);
+    const setN = (k, n) => { document.querySelectorAll(`[data-mine-n="${k}"],[data-mine-nav="${k}"]`).forEach(el => el.textContent = n || ''); };
+    // in progress: every brief that has left you, as the card it came from with where it is now
+    const moving = kbItems.filter(x => x.col !== 'draft');
+    if (body('progress')) body('progress').innerHTML = moving.length ? moving.map(it => {
+      const st = it.col === 'progress' ? `${it.job || 'Being made'} · ${it.pct || 10}%` : MINE_STATUS[it.col];
+      return `<div class="mine-item"><p class="mine-st"><i class="is-${it.col}"></i>${esc(st)}<span>${esc(it.col === 'you' ? '' : (it.t || ''))}</span></p>${card(ALL_POSTS[it.p])}</div>`;
+    }).join('') : '<p class="mine-empty">Briefs you send to the team show up here, with where each one is.</p>';
+    setN('progress', moving.length);
+    // shortlisted
+    const sv = [...saved].reverse();
+    if (body('saved')) body('saved').innerHTML = sv.length ? sv.map(i => card(ALL_POSTS[i])).join('') : '<p class="mine-empty">Tap the bookmark on any card to keep it here.</p>';
+    setN('saved', sv.length);
+    // dashboard: how the work is going, in three numbers and what moved
+    const sent = kbItems.filter(x => ['sent','progress','live'].includes(x.col)).length + 3;
+    const live = kbItems.filter(x => x.col === 'live').length + 2;
+    const yours = FEED_IDS.filter(i => kindOf(ALL_POSTS[i]) === 'decide' && !st(i).decided).length + kbItems.filter(x => x.col === 'you').length;
+    if (body('dash')) body('dash').innerHTML = `
+      <div class="dash-tiles">
+        <span><b>${sent}</b>Briefs sent this month</span>
+        <span><b>${live}</b>Live now</span>
+        <span><b>${yours}</b>Waiting on you</span>
+      </div>
+      <p class="dash-h">What moved</p>
+      <div class="dash-row"><img src="assets/arata/two-bottles-one-routine-1.webp" alt=""><span><b>Two bottles. One routine.</b>Meta ads · 2.4% click rate, up from 1.6%</span><em class="up">+50%</em></div>
+      <div class="dash-row"><img src="assets/arata/474-reviews-serum-2.webp" alt=""><span><b>Day-7 email to serum buyers</b>Klaviyo · second orders</span><em class="up">+18%</em></div>
+      <div class="dash-row"><i class="dash-ic">₹</i><span><b>Pack 2 price fixed everywhere</b>arata.in, cards and ads now say ₹863</span><em>Done</em></div>
+      <p class="dash-note">Sample numbers until Meta, Shopify and Klaviyo are connected.</p>`;
+    setN('dash', '');
+    deckEl.querySelectorAll('.is-mine .card').forEach(el => el.classList.add('in'));
+  };
+  window.__paintMine = paintMine;
+  if (deckBuilt) paintMine();
+  document.addEventListener('click', (e) => { if (e.target.closest('.act.bookmark')) requestAnimationFrame(paintMine); });
+
+  // ---------- memory: drop things in and move on ----------
+  const memDrop = document.getElementById('mem-drop'), memFiles = document.getElementById('mem-files');
+  const learnFrom = (f) => {
+    const n = f.name.toLowerCase();
+    if (/\.(png|jpe?g|webp|gif|heic)$/.test(n)) return 'Picked up the look: colours, framing and how products are shot';
+    if (/\.pdf$/.test(n)) return 'Read it: 3 rules and 12 product facts added';
+    if (/\.(csv|xlsx?)$/.test(n)) return 'Read it: prices and product names matched to arata.in';
+    if (/\.(mp4|mov|webm)$/.test(n)) return 'Watched it: hook, length and pacing noted';
+    return 'Read it and kept what matters';
+  };
+  const kb = (b) => b > 1e6 ? (b / 1e6).toFixed(1) + ' MB' : Math.max(1, Math.round(b / 1e3)) + ' KB';
+  const takeFiles = (list) => {
+    [...list].forEach((f, n) => {
+      const row = document.createElement('div');
+      row.className = 'mf-row';
+      row.innerHTML = `<span class="mf-ic">${esc((f.name.split('.').pop() || 'file').slice(0, 4).toUpperCase())}</span><span class="mf-t"><b>${esc(f.name)}</b><em class="is-reading">Reading · ${kb(f.size)}</em></span>`;
+      memFiles.prepend(row);
+      setTimeout(() => {
+        const em = row.querySelector('em'); em.classList.remove('is-reading'); em.textContent = learnFrom(f);
+        row.classList.add('is-done');
+        learned.unshift({ t:`From ${f.name}`, s:'Uploaded', a:'brew' });
+        if (!memPage.hidden) paintLearned();
+      }, 1400 + n * 500);
+    });
+    if (list.length) toast(`${list.length} file${list.length > 1 ? 's' : ''} added to Memory`);
+  };
+  document.getElementById('mem-file').addEventListener('change', (e) => { takeFiles(e.target.files); e.target.value = ''; });
+  ['dragenter','dragover'].forEach(t => memDrop.addEventListener(t, (e) => { e.preventDefault(); memDrop.classList.add('is-over'); }));
+  ['dragleave','drop'].forEach(t => memDrop.addEventListener(t, (e) => { e.preventDefault(); memDrop.classList.remove('is-over'); }));
+  memDrop.addEventListener('drop', (e) => takeFiles(e.dataTransfer.files));
   // ---------- shortlisted page ----------
   const slPage = document.getElementById('sl-page');
   const SL_TABS = [['all','All'],['creatives','Creatives'],['storefront','Storefront'],['ads','Ads'],['visibility','AI visibility'],['signals','Signals'],['catalog','Catalog']];
