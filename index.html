@@ -3660,6 +3660,26 @@
     .st-bpanel footer{padding:12px 14px 14px}
     .st-bpanel footer .mem-btn,.st-bpanel .st-send{height:44px;padding:0 16px;white-space:nowrap;font-size:14px}
   }
+
+  /* ---------- smoother: the brief eases in over the chat, the chat softens away ---------- */
+  .st-stage .st-chat{transition:transform .6s cubic-bezier(.22,1,.36,1),opacity .4s ease,filter .5s ease}
+  .st-main[data-brief="1"] .st-stage .st-chat{transform:translateX(-28px) scale(.985);opacity:0;filter:blur(3px)}
+  .st-stage .st-bpanel{transform:translateX(calc(-50% + 56px)) scale(.985);opacity:0;pointer-events:none;visibility:hidden;
+    transition:transform .6s cubic-bezier(.22,1,.36,1),opacity .38s ease,visibility 0s linear .6s}
+  .st-main[data-brief="1"] .st-bpanel{transform:translateX(-50%);opacity:1;pointer-events:auto;visibility:visible;transition:transform .6s cubic-bezier(.22,1,.36,1),opacity .38s ease,visibility 0s}
+  .bn.no-anim .bn-s{animation:none}
+  .note-fly{transition:none;will-change:transform,opacity}
+  .note-fly *{animation:none !important}
+  /* what you can do with this version */
+  .cm-next{display:flex;flex-wrap:wrap;gap:8px}
+  .cm-next .st-chip{animation:stfade .35s ease both}
+  .st-chip.is-pub{background:rgba(74,222,128,.1);border-color:rgba(74,222,128,.28);color:#bbf7d0}
+  .st-chip.is-pub:hover{background:rgba(74,222,128,.18);border-color:rgba(74,222,128,.45);color:#fff}
+  .st-chip.is-pub svg{transition:transform .25s cubic-bezier(.34,1.4,.64,1)}
+  .st-chip.is-pub:hover svg{transform:translateY(-2px)}
+  .cm-pubok{display:inline-grid;place-items:center;width:20px;height:20px;margin-right:8px;border-radius:50%;background:#4ade80;color:#0a0a0a;vertical-align:-4px;animation:abok .4s cubic-bezier(.34,1.6,.64,1) both}
+  .cm-pubok svg{width:13px;height:13px}
+  @media (prefers-reduced-motion:reduce){ .st-stage .st-chat,.st-stage .st-bpanel{transition:opacity .2s} }
   /* ---------- the draft, as a document in the chat ---------- */
   .cm-doc{border-radius:20px;background:#121212;border:1px solid #232323;overflow:hidden}
   .dc-h{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid #1f1f1f}
@@ -6945,10 +6965,12 @@
   const paintBrief = () => {
     const i = stIdx; if (i == null) return;
     const S = st(i), main = studio.querySelector('.st-main'), panel = studio.querySelector('.st-bpanel'); if (!panel) return;
+    const was = main.dataset.brief === '1';
     main.dataset.brief = S.briefOpen ? '1' : '';
     const q = studio.querySelector('#st-q'); if (q) q.placeholder = S.briefOpen ? 'Change anything in the brief…' : 'Ask for a change…';
     if (S.briefOpen) {
       panel.querySelector('.note').innerHTML = briefHTML(i);
+      if (was) panel.querySelector('.bn')?.classList.add('no-anim');
       panel.querySelector('.st-sendwrap').innerHTML = sendBtn(i);
     }
     paintActions();
@@ -6973,7 +6995,18 @@
         <p>${esc(p.sub)}</p>${rowsBlock(p)}</div>`;
     }
     if (m.me) return `<div class="cm cm-me"><span>${esc(m.t)}</span></div>`;
-    return `<div class="cm cm-ai"><div class="cm-body">${m.run ? runHTML(m.run) : ''}${m.img != null ? mediaBlock(p, m.img, m.tag) : ''}<span class="cm-t">${m.t}</span>${m.doc ? docHTML(m.doc) : ''}${m.proj != null ? projHTML(m.proj) : ''}${m.diff ? `<div class="cm-diff">${I_SPARK}<span>${esc(m.diff)}</span></div>` : ''}${m.extra || ''}</div></div>`;
+    return `<div class="cm cm-ai"><div class="cm-body">${m.run ? runHTML(m.run) : ''}${m.img != null ? mediaBlock(p, m.img, m.tag) : ''}<span class="cm-t">${m.pub ? `<i class="cm-pubok">${I_OK}</i>` : ''}${m.t}</span>${m.doc ? docHTML(m.doc) : ''}${m.proj != null ? projHTML(m.proj) : ''}${m.diff ? `<div class="cm-diff">${I_SPARK}<span>${esc(m.diff)}</span></div>` : ''}${m.extra || ''}${m.next && m === lastNext() ? nextHTML() : ''}</div></div>`;
+  };
+  // the newest version carries what you can do with it next; older ones let go of theirs
+  const lastNext = () => { const S = stIdx != null && st(stIdx); return S ? [...S.msgs].reverse().find(m => m.next) : null; };
+  const I_PUB = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></svg>';
+  const nextHTML = () => {
+    const i = stIdx, S = st(i), pubs = pubsFor(i);
+    if (S.published) return '';
+    return `<div class="cm-next">
+      <button class="st-chip" data-stagain>${I_SPARK}Make a second version</button>
+      ${pubs.map(([label], n) => `<button class="st-chip${n === 0 ? ' is-pub' : ''}" data-stpub="${n}">${I_PUB}${esc(label)}</button>`).join('')}
+    </div>`;
   };
   // full render only when the page opens; after that, messages are appended so nothing above them redraws
   const paintChat = () => {
@@ -7017,7 +7050,7 @@
     const t = el.querySelector('.cm-t'); if (!t) return;
     const late = wordify(t) * 28 + 120;
     // only what comes after the words waits for them
-    el.querySelectorAll('.cm-diff,.pj2,.st-inline,.cm-media,.cm-doc').forEach(x => {
+    el.querySelectorAll('.cm-diff,.pj2,.st-inline,.cm-media,.cm-doc,.cm-next').forEach(x => {
       if (!(t.compareDocumentPosition(x) & Node.DOCUMENT_POSITION_FOLLOWING)) return;
       x.classList.add('cm-late'); x.style.animationDelay = late + 'ms';
     });
@@ -7103,6 +7136,7 @@
         }
       }
       // the finished message is the same markup without the live bits, so swapping it in changes nothing on screen but the image
+      if (msg.doc || msg.img != null) { msg.next = true; box.querySelectorAll('.cm-next').forEach(x => x.remove()); }
       msg.run = run.filter(ph => ph.done || ph.say || ph.agent);
       if (!msg.run.length) delete msg.run;
       st(i).msgs.push(msg);
@@ -7180,9 +7214,11 @@
     const n = S.edits.length;
     const brief = `<button class="st-chip is-brief" data-stbrief>${I_NOTE}View brief${n ? `<span class="qn${S.fresh ? ' pop' : ''}">${n}</span>` : ''}</button>`;
     const proj = (kind === 'launch' || kind === 'creative') && !S.projSeen ? `<button class="st-chip is-proj" data-stproj>${I_TREND}Projected impact</button>` : '';
-    const sent = S.sent ? `<span class="st-chip is-sent">${I_OK} Sent to the team</span>` : '';
+    const sent = S.published ? `<span class="st-chip is-sent">${I_OK} ${esc(S.published)}</span>` : S.sent ? `<span class="st-chip is-sent">${I_OK} Sent to the team</span>` : '';
+    const pub0 = pubsFor(i)[0];
+    const pub = !S.published && pub0 ? `<button class="st-chip is-pub" data-stpub="0">${I_PUB}${esc(pub0[0])}</button>` : '';
     const left = S.sent ? [] : k.tweaks.filter(([t]) => !S.edits.includes(t));
-    el.innerHTML = brief + proj + sent + (left.length ? '<span class="st-qsep"></span>' : '') +
+    el.innerHTML = brief + pub + proj + sent + (left.length ? '<span class="st-qsep"></span>' : '') +
       left.map(([t]) => `<button class="st-chip" data-sttweak="${k.tweaks.findIndex(x => x[0] === t)}">${I_SPARK}${esc(t)}</button>`).join('');
   };
 
@@ -7219,8 +7255,8 @@
 
   // the page grows out of the card it came from, and shrinks back into it
   const flip = (el, from, reverse) => reverse
-    ? el.animate([{ opacity:1, transform:'none' }, { opacity:0, transform:'translateX(28px)' }], { duration:260, easing:'cubic-bezier(.4,0,1,1)', fill:'both' })
-    : el.animate([{ opacity:0, transform:'translateX(40px)' }, { opacity:1, offset:.35 }, { opacity:1, transform:'none' }], { duration:480, easing:'cubic-bezier(.32,.72,0,1)', fill:'both' });
+    ? el.animate([{ opacity:1, transform:'none', filter:'blur(0)' }, { opacity:0, transform:'translateX(18px) scale(.992)', filter:'blur(2px)' }], { duration:420, easing:'cubic-bezier(.4,0,.2,1)', fill:'both' })
+    : el.animate([{ opacity:0, transform:'translateX(24px) scale(.995)' }, { opacity:1, transform:'none' }], { duration:560, easing:'cubic-bezier(.22,1,.36,1)', fill:'both' });
   const openStudio = (i, fromEl) => {
     const p = ALL_POSTS[i]; if (!p) return;
     stIdx = i; stFrom = fromEl || null;
@@ -7274,17 +7310,18 @@
     const note = studio.querySelector('.st-bpanel'), r = note.getBoundingClientRect();
     const target = document.getElementById('team-pill').getBoundingClientRect();
     const fly = document.createElement('div'); fly.className = 'note-fly';
-    const ghost = note.cloneNode(true); Object.assign(ghost.style, { width:r.width + 'px', height:r.height + 'px', overflow:'hidden', boxShadow:'none', margin:0 });
+    const ghost = note.cloneNode(true); Object.assign(ghost.style, { width:r.width + 'px', height:r.height + 'px', overflow:'hidden', boxShadow:'none', margin:0,
+      position:'relative', left:0, top:0, transform:'none', opacity:1, visibility:'visible', transition:'none' });
     fly.appendChild(ghost); fly.style.overflow = 'hidden';
     Object.assign(fly.style, { left:r.left + 'px', top:r.top + 'px', width:r.width + 'px', height:r.height + 'px' });
     document.body.appendChild(fly);
     note.style.visibility = 'hidden';
     const dx = target.left + target.width / 2 - (r.left + r.width / 2), dy = target.top + target.height / 2 - (r.top + r.height / 2);
     fly.animate([
-      { transform:'none', opacity:1 },
-      { transform:`translate(${dx * .35}px,${dy * .35 - 40}px) scale(.55) rotate(-6deg)`, opacity:1, offset:.45 },
-      { transform:`translate(${dx}px,${dy}px) scale(.04) rotate(-12deg)`, opacity:.2 }
-    ], { duration:900, easing:'cubic-bezier(.5,0,.2,1)', fill:'forwards' }).onfinish = () => {
+      { transform:'none', opacity:1, borderRadius:'26px' },
+      { transform:`translate(${dx * .3}px,${dy * .3 - 24}px) scale(.62) rotate(-3deg)`, opacity:1, offset:.4 },
+      { transform:`translate(${dx}px,${dy}px) scale(.05) rotate(-6deg)`, opacity:0, borderRadius:'60px' }
+    ], { duration:820, easing:'cubic-bezier(.65,0,.35,1)', fill:'forwards' }).onfinish = () => {
       fly.remove();
       document.getElementById('team-pill').animate([{ transform:'scale(1)' }, { transform:'scale(1.08)' }, { transform:'scale(1)' }], { duration:380, easing:'cubic-bezier(.34,1.4,.64,1)' });
     };
@@ -7293,7 +7330,8 @@
     if (it) { it.col = 'sent'; it.t = 'Sent just now'; } else kbItems.unshift({ p:i, col:'sent', t:'Sent just now' });
     markCard(i, 'Brief sent');
     startTicket(i);
-    setTimeout(() => { closeStudio(); kbToast(i); }, 850);
+    setTimeout(() => closeStudio(), 380);
+    setTimeout(() => kbToast(i), 900);
   };
 
   studio.addEventListener('click', (e) => {
@@ -7365,6 +7403,17 @@
       : imgs.length ? { t:'Done. Here’s the updated version.', img:S.img, tag:trim(v, 40) } : { t:'Done, here’s what changed.', diff:trim(v, 80) }, () => { S.fresh = true; afterChange(S); });
   });
   studio.addEventListener('click', (e) => {
+    const pb = e.target.closest('[data-stpub]');
+    if (pb) { if (stBusy) return; return openAct(stIdx, pubCfg(stIdx, +pb.dataset.stpub)); }
+    if (e.target.closest('[data-stagain]')) {
+      if (stBusy) return;
+      const i = stIdx, p = ALL_POSTS[i], S = st(i), imgs = p.images || [];
+      S.msgs.push({ me:true, t:'Make a second version' }); syncChat();
+      const doc = DRAFTS[i] && DRAFTS[i].base && !(imgs.length && ['creative', 'launch'].includes(kindOf(p))) ? nextDoc(i, 'Second version') : null;
+      if (doc) return aiSay({ t:`Here’s a second take, v${doc.v}. Same facts, a different way in.`, doc }, () => { S.fresh = true; afterChange(S); });
+      if (imgs.length > 1) S.img = (S.img + 1) % imgs.length;
+      return aiSay({ t:'Here’s a second version, from a different photo.', img:S.img, tag:'Second version' }, () => { S.fresh = true; afterChange(S); });
+    }
     const m = e.target.closest('.dc-more'); if (!m) return;
     const d = m.closest('.cm-doc'), open = d.classList.toggle('is-open');
     m.textContent = open ? 'Show less' : 'Show all';
@@ -7384,44 +7433,74 @@
       what:() => ['Answer blocks go live on 4 product pages', 'Shown to half of visitors, so the read is fair', 'A before and after in your feed in 7 days'] }
   };
   const isPush = (p) => /^(queue|publish|update|launch|post|apply|turn on|approve|send)\b/i.test(ctaLabel(p)) && !!KIND[kindOf(p)].need;
+  // where each draft can go once you like it. The first one is the main publish
+  const PUB = {
+    48:[['Publish to Meta', 'meta', 'Published to Meta', '8 ads are live on Meta as one test. First read in three days.']],
+    6: [['Post to Instagram', 'meta', 'Posted to Instagram', 'The reel is set for Wednesday, 7:30 PM, on @arata.in.']],
+    0: [['Publish to arata.in', 'shopify', 'Live on arata.in', 'The page is live on arata.in. The next AI answer check runs Monday.'], ['Post to the blog', 'shopify', 'Posted to the blog', 'It’s up on the Arata blog, linked from the shampoo page.']],
+    14:[['Publish to arata.in', 'shopify', 'Live on arata.in', 'The three answers are live on arata.in.']],
+    2: [['Copy the reply', null, 'Copied', 'Reply copied. Post it from the Arata account.']],
+    1: [['Publish to Meta', 'meta', 'Published to Meta', 'The reel is live on Meta as a test ad. First read in three days.']],
+    22:[['Turn on in Klaviyo', 'klaviyo', 'On in Klaviyo', 'The day-14 email is on in the hair fall flow.']],
+    3: [['Update on Shopify', 'shopify', 'Prices updated', '₹863 is now the price everywhere it appears.']],
+    25:[['Publish to arata.in', 'shopify', 'Published to arata.in', 'Answer blocks are live on 4 pages, for half of visitors.']]
+  };
+  const KIND_PUB = { creative:['Publish to Meta', 'meta'], launch:['Publish to Meta', 'meta'], write:['Publish to arata.in', 'shopify'], store:['Publish to arata.in', 'shopify'], message:['Turn on in Klaviyo', 'klaviyo'] };
+  const pubsFor = (i) => {
+    const kind = kindOf(ALL_POSTS[i]); if (kind === 'decide') return [];
+    if (PUB[i]) return PUB[i];
+    const d = KIND_PUB[kind]; return d ? [[d[0], d[1], d[0].replace(/^Publish to/, 'Live on').replace(/^Turn on in/, 'On in'), `${d[0]}: done.`]] : [];
+  };
+  const pubCfg = (i, n) => {
+    const p = ALL_POSTS[i], S = st(i), [label, cx, done, tst] = pubsFor(i)[n || 0], k = KIND[kindOf(p)];
+    const ver = S.doc ? `v${S.doc.v} of the ${(DRAFTS[i] && DRAFTS[i].type || 'draft').toLowerCase()}` : (p.images || []).length ? 'The latest version' : 'The draft';
+    const what = ACTS[i] && n === 0 && /^(Publish|Update|Queue)/.test(label) ? ACTS[i].what(i)
+      : [`${ver} goes out exactly as you see it`, `Where: ${k.where}`, 'The first read shows up here, in your feed'];
+    return { label, cx, done, toast:tst, what };
+  };
   const actHost = document.createElement('div'); actHost.className = 'act-scrim'; actHost.hidden = true; document.body.appendChild(actHost);
-  let actI = null;
-  const actHTML = (i) => {
-    const p = ALL_POSTS[i], a = AG(p.agent), k = KIND[kindOf(p)], c = CONNECTORS.find(x => x.id === k.need), on = cxState[c.id] === 'on';
-    const what = ACTS[i] ? ACTS[i].what(i) : k.make;
-    return `<div class="act-box" role="dialog" aria-modal="true" aria-label="${esc(ctaLabel(p))}">
-      <div class="ab-h"><img src="${a.avatar}" alt=""><span><b>${esc(ctaLabel(p))}</b><em>${esc(p.title)}</em></span>
+  let actI = null, actC = null;
+  const cardCfg = (i) => { const p = ALL_POSTS[i], k = KIND[kindOf(p)], A = ACTS[i]; return { label:ctaLabel(p), cx:k.need, done:A ? A.done : 'Done', toast:A ? A.toast : `${ctaLabel(p)}: done.`, what:A ? A.what(i) : k.make }; };
+  const actHTML = (i, cfg) => {
+    const p = ALL_POSTS[i], a = AG(p.agent), c = CONNECTORS.find(x => x.id === cfg.cx), on = cxState[c.id] === 'on';
+    return `<div class="act-box" role="dialog" aria-modal="true" aria-label="${esc(cfg.label)}">
+      <div class="ab-h"><img src="${a.avatar}" alt=""><span><b>${esc(cfg.label)}</b><em>${esc(p.title)}</em></span>
         <button class="ab-x" data-actx aria-label="Close"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button></div>
       <p class="ab-k">What happens</p>
-      <ul class="ab-list">${what.map(x => `<li>${I_OK}<span>${esc(x)}</span></li>`).join('')}</ul>
+      <ul class="ab-list">${cfg.what.map(x => `<li>${I_OK}<span>${esc(x)}</span></li>`).join('')}</ul>
       <div class="ab-cx${on ? ' is-on' : ''}">${lg(c)}<span><b>${esc(c.name)}</b><em>${on ? 'Connected' : 'Not connected. ShopOS only asks for what this needs, and you can disconnect any time.'}</em></span>${on ? `<i class="ab-ok">${I_OK}</i>` : ''}</div>
       <div class="ab-f">
-        <button class="ab-edit" data-actedit>Change it in chat first</button>
-        <button class="ab-go" data-actgo>${on ? esc(ctaLabel(p)) : `Connect and ${esc(ctaLabel(p).split(' ')[0].toLowerCase())}`}</button>
+        <button class="ab-edit" data-actedit>${stIdx === i ? 'Not yet' : 'Change it in chat first'}</button>
+        <button class="ab-go" data-actgo>${on ? esc(cfg.label) : `Connect ${esc(c.name)}`}</button>
       </div>
     </div>`;
   };
-  const openAct = (i) => {
-    actI = i; actHost.innerHTML = actHTML(i); actHost.hidden = false;
+  const openAct = (i, cfg) => {
+    actI = i; actC = cfg || cardCfg(i);
+    if (!actC.cx) return finishAct(i);
+    actHost.innerHTML = actHTML(i, actC); actHost.hidden = false;
     requestAnimationFrame(() => actHost.classList.add('on'));
     setTimeout(() => actHost.querySelector('[data-actgo]')?.focus({ preventScroll:true }), 300);
   };
-  const closeAct = () => { actHost.classList.remove('on'); setTimeout(() => { if (!actHost.classList.contains('on')) { actHost.hidden = true; actHost.innerHTML = ''; } }, 220); };
+  const closeAct = () => { actHost.classList.remove('on'); setTimeout(() => { if (!actHost.classList.contains('on')) { actHost.hidden = true; actHost.innerHTML = ''; } }, 260); };
   const finishAct = (i) => {
-    const p = ALL_POSTS[i], A = ACTS[i] || { done:'Done', toast:`${ctaLabel(p)}: done.` };
+    const cfg = actC || cardCfg(i);
     closeAct();
-    markCard(i, A.done);
+    markCard(i, cfg.done);
     const it = kbItems.find(x => x.p === i);
     if (it) Object.assign(it, { col:'live', t:'Just now', by:'agent' }); else kbItems.unshift({ p:i, col:'live', t:'Just now', by:'agent' });
-    st(i).sent = true;
+    st(i).published = cfg.done;
     paintMine(); window.__paintTeam && window.__paintTeam();
-    toast(A.toast);
+    if (!cfg.cx) { try { navigator.clipboard && navigator.clipboard.writeText(st(i).doc ? st(i).doc.b.map(x => x[0] === 'li' ? x[1].join('\n') : String(x[1]).replace(/<[^>]+>/g, '')).join('\n\n') : ALL_POSTS[i].title); } catch (_) {} }
+    // in the chat, the result lands as the next message
+    if (stIdx === i) { studio.querySelectorAll('.cm-next').forEach(x => x.remove()); st(i).msgs.push({ t:`<b>${esc(cfg.done)}.</b> ${esc(cfg.toast)}`, pub:true }); syncChat(); paintActions(); }
+    else toast(cfg.toast);
   };
   actHost.addEventListener('click', (e) => {
     if (e.target === actHost || e.target.closest('[data-actx]')) return closeAct();
-    if (e.target.closest('[data-actedit]')) { const i = actI, card = document.querySelector(`.card[data-post="${i}"]`); closeAct(); return setTimeout(() => openStudio(i, card), 120); }
+    if (e.target.closest('[data-actedit]')) { const i = actI, card = document.querySelector(`.card[data-post="${i}"]`); closeAct(); if (stIdx === i) return; return setTimeout(() => openStudio(i, card), 120); }
     const go = e.target.closest('[data-actgo]'); if (!go || go.disabled) return;
-    const i = actI, k = KIND[kindOf(ALL_POSTS[i])], c = CONNECTORS.find(x => x.id === k.need);
+    const i = actI, c = CONNECTORS.find(x => x.id === actC.cx);
     go.disabled = true;
     const run = () => { go.innerHTML = `<i class="src-spin"></i> Working on it`; setTimeout(() => finishAct(i), 900); };
     if (cxState[c.id] === 'on') return run();
@@ -7448,7 +7527,7 @@
       st(i).decided = true; markCard(i, 'Agreed');
       return toast('Agreed. Every agent works with this from now on.');
     }
-    if (isPush(p)) return openAct(i);
+    if (isPush(p)) return openAct(i, cardCfg(i));
     openStudio(i, card);
   }, true);
 
