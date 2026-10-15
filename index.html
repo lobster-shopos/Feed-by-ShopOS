@@ -104,7 +104,6 @@
   }
   .rail-btn svg{flex:0 0 auto;margin:0 7.5px;transition:transform .2s cubic-bezier(.34,1.4,.64,1)}
   .rail-btn:hover{color:var(--fg);background:#1a1a1a}
-  .rail-btn:hover svg{transform:scale(1.08)}
   .rail-btn.is-on{background:#2b2b2b;color:#fff}
   .rail-btn.is-on svg{stroke-width:2.1}
   .rail-btn.is-on:hover{background:#333}
@@ -144,7 +143,7 @@
     font-size:12.5px;font-weight:500;line-height:28px;white-space:nowrap;
   }
   .rail-item:hover .rail-tip,
-  .rail-item:focus-within .rail-tip{opacity:1;visibility:visible;transform:none}
+  .rail-btn:focus-visible ~ .rail-tip{opacity:1;visibility:visible;transform:none}
   .rail.open .rail-tip{display:none}
   body.hist-open .rail-item[data-item="history"] .rail-tip{display:none}
 
@@ -2642,6 +2641,55 @@
     display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
   .notif-row:hover .nt span{color:#fff}
 
+
+  /* ---------- rail icons: each one moves the way its meaning moves ---------- */
+  .rail-btn svg *{transform-box:fill-box;transform-origin:center;
+    transition:transform .26s cubic-bezier(.34,1.4,.64,1)}
+  .rail-btn svg{transform-origin:center}
+  /* home: the house lifts and the door opens */
+  [data-nav="home"]:hover svg{transform:translateY(-2px)}
+  [data-nav="home"] .ic-door{transform-origin:bottom}
+  [data-nav="home"]:hover .ic-door{transform:scaleY(.62)}
+  /* deck: the columns spread */
+  [data-nav="deck"]:hover .ic-c1{transform:translateX(-2px)}
+  [data-nav="deck"]:hover .ic-c2{transform:translateX(2px)}
+  /* shortlisted: the ribbon tucks up */
+  [data-nav="shortlist"]:hover svg{transform:translateY(-2px)}
+  /* kanban: the cards shuffle, one column after another */
+  [data-nav="kanban"]:hover rect{animation:kshuffle .5s cubic-bezier(.34,1.4,.64,1)}
+  [data-nav="kanban"]:hover .ic-k2{animation-delay:.06s}
+  [data-nav="kanban"]:hover .ic-k3{animation-delay:.12s}
+  @keyframes kshuffle{40%{transform:translateY(-2.5px)}}
+  /* memory: the book flips a page */
+  [data-nav="memory"]:hover .ic-pages{animation:pageflip .55s cubic-bezier(.32,.72,0,1)}
+  @keyframes pageflip{45%{transform:scaleX(.8)}}
+  /* notifications: the bell rings and the clapper swings */
+  [data-nav="notifications"] svg{transform-origin:50% 10%}
+  [data-nav="notifications"]:hover svg{animation:ring .55s ease-in-out}
+  [data-nav="notifications"]:hover .ic-clap{animation:clap .55s ease-in-out}
+  @keyframes clap{25%{transform:translateX(-1.5px)}60%{transform:translateX(1.5px)}}
+  /* connectors: the plug pushes in */
+  [data-nav="connectors"]:hover svg{animation:plugin .5s cubic-bezier(.34,1.4,.64,1)}
+  @keyframes plugin{45%{transform:translateY(-3px)}}
+  [data-nav="connectors"]:hover .ic-prong{transform:scaleY(.7)}
+  /* chat: the bubble tips toward you */
+  [data-nav="chat"] svg{transform-origin:20% 90%}
+  [data-nav="chat"]:hover svg{transform:rotate(-10deg) scale(1.06)}
+  /* jam: the plus turns as someone joins */
+  [data-nav="jam"]:hover .ic-plus{transform:rotate(90deg)}
+  [data-nav="jam"] .ic-plus{transform-origin:19px 11px;transform-box:view-box}
+  /* tune: the slider knobs slide */
+  [data-nav="tune"]:hover .ic-knob1{transform:translateX(-3px)}
+  [data-nav="tune"]:hover .ic-knob2{transform:translateX(-4px)}
+  [data-nav="tune"]:hover .ic-knob3{transform:translateX(4px)}
+  /* account: a nod */
+  [data-nav="account"]:hover .ic-head{transform:translateY(-1.5px)}
+  [data-nav="account"]:hover svg{transform:scale(1.05)}
+  .rail-foot{margin-top:8px}
+  @media (prefers-reduced-motion:reduce){
+    .rail-btn svg,.rail-btn svg *{transition:none!important;animation:none!important;transform:none!important}
+  }
+
   /* ---------- shortlisted ---------- */
   .feed-empty{
     width:var(--feed-w);max-width:calc(100% - 32px);margin:8px auto 0;padding:28px 20px;
@@ -2746,28 +2794,20 @@
   </button>
 
   <nav class="rail-nav" aria-label="Sections">
-    <div class="rail-item" data-item="chat">
-      <button class="rail-btn" data-nav="chat" aria-label="Chat">
-        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
-        <span class="rail-label">Chat</span>
+    <div class="rail-item" data-item="home">
+      <button class="rail-btn" data-nav="home" aria-label="Home">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path class="ic-door" d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path class="ic-roof" d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+        <span class="rail-label">Home</span>
       </button>
-      <span class="rail-tip">Chat</span>
+      <span class="rail-tip">Home</span>
     </div>
-    <div class="rail-item" data-item="jam">
-      <button class="rail-btn" data-nav="jam" aria-label="Jam with the team">
-        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6"/><path d="M22 11h-6"/></svg>
-        <span class="rail-label">Jam with the team</span>
+    <div class="rail-item" data-item="deck">
+      <button class="rail-btn" data-nav="deck" aria-label="Deck">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path class="ic-c1" d="M9 3v18"/><path class="ic-c2" d="M15 3v18"/></svg>
+        <span class="rail-label">Deck</span>
       </button>
-      <span class="rail-tip">Jam with the team</span>
+      <span class="rail-tip">Deck</span>
     </div>
-    <div class="rail-item" data-item="tune">
-      <button class="rail-btn" data-nav="tune" aria-label="Tune the feed">
-        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M10 5H3"/><path d="M12 19H3"/><path d="M14 3v4"/><path d="M16 17v4"/><path d="M21 12h-9"/><path d="M21 19h-5"/><path d="M21 5h-7"/><path d="M8 10v4"/><path d="M8 12H3"/></svg>
-        <span class="rail-label">Tune the feed</span>
-      </button>
-      <span class="rail-tip">Tune the feed</span>
-    </div>
-    <span class="rail-sep" aria-hidden="true"></span>
     <div class="rail-item" data-item="shortlist">
       <button class="rail-btn" data-nav="shortlist" aria-label="Shortlisted">
         <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/></svg><span class="rail-count" id="shortlist-n" hidden></span>
@@ -2775,16 +2815,30 @@
       </button>
       <span class="rail-tip">Shortlisted</span>
     </div>
+    <div class="rail-item" data-item="kanban">
+      <button class="rail-btn" data-nav="kanban" aria-label="Kanban">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect class="ic-k1" x="3" y="3" width="5" height="18" rx="1.5"/><rect class="ic-k2" x="9.5" y="3" width="5" height="10" rx="1.5"/><rect class="ic-k3" x="16" y="3" width="5" height="14" rx="1.5"/></svg>
+        <span class="rail-label">Kanban</span>
+      </button>
+      <span class="rail-tip">Kanban</span>
+    </div>
     <div class="rail-item" data-item="memory">
       <button class="rail-btn" data-nav="memory" aria-label="Memory">
-        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/><path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"/><path d="M15 13a4.5 4.5 0 0 1-3-4 4.5 4.5 0 0 1-3 4"/></svg>
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7v14"/><path class="ic-pages" d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/></svg>
         <span class="rail-label">Memory</span>
       </button>
       <span class="rail-tip">Memory</span>
     </div>
+    <div class="rail-item has-menu" data-item="notifications">
+      <button class="rail-btn" data-nav="notifications" aria-label="Notifications">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path class="ic-clap" d="M10.268 21a2 2 0 0 0 3.464 0"/><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"/></svg><span class="rail-dot" aria-hidden="true"></span>
+        <span class="rail-label">Notifications</span>
+      </button>
+      <div class="rail-fly" id="notif-fly"><p class="fly-head">Notifications</p></div>
+    </div>
     <div class="rail-item has-menu" data-item="connectors">
       <button class="rail-btn" data-nav="connectors" aria-label="Connectors">
-        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22v-5"/><path d="M9 7V2"/><path d="M15 7V2"/><path d="M6 13V8h12v5a5 5 0 0 1-10 0"/></svg>
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path class="ic-cord" d="M12 22v-5"/><path class="ic-prong" d="M9 7V2"/><path class="ic-prong" d="M15 7V2"/><path d="M6 13V8h12v5a5 5 0 0 1-10 0"/></svg>
         <span class="rail-label">Connectors</span>
       </button>
       <div class="rail-fly">
@@ -2794,20 +2848,37 @@
         <button class="fly-row" data-fly="Google Merchant Center"><span class="tile"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22v-5"/><path d="M9 7V2"/><path d="M15 7V2"/><path d="M6 13V8h12v5a5 5 0 0 1-10 0"/></svg></span>Google Merchant Center<svg class="go" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg></button>
       </div>
     </div>
+    <span class="rail-sep" aria-hidden="true"></span>
+    <div class="rail-item" data-item="chat">
+      <button class="rail-btn" data-nav="chat" aria-label="Chat">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
+        <span class="rail-label">Chat</span>
+      </button>
+      <span class="rail-tip">Chat</span>
+    </div>
+    <div class="rail-item" data-item="jam">
+      <button class="rail-btn" data-nav="jam" aria-label="Jam with the team">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path class="ic-plus" d="M19 8v6"/><path class="ic-plus" d="M22 11h-6"/></svg>
+        <span class="rail-label">Jam with the team</span>
+      </button>
+      <span class="rail-tip">Jam with the team</span>
+    </div>
+    <div class="rail-item" data-item="tune">
+      <button class="rail-btn" data-nav="tune" aria-label="Tune the feed">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M10 5H3"/><path d="M12 19H3"/><path class="ic-knob1" d="M14 3v4"/><path class="ic-knob2" d="M16 17v4"/><path d="M21 12h-9"/><path d="M21 19h-5"/><path d="M21 5h-7"/><path class="ic-knob3" d="M8 10v4"/><path d="M8 12H3"/></svg>
+        <span class="rail-label">Tune the feed</span>
+      </button>
+      <span class="rail-tip">Tune the feed</span>
+    </div>
   </nav>
 
-  <div class="rail-item has-menu fly-up" data-item="notifications">
-    <button class="rail-btn" data-nav="notifications" aria-label="Notifications">
-      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M10.268 21a2 2 0 0 0 3.464 0"/><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"/></svg><span class="rail-dot" aria-hidden="true"></span>
-      <span class="rail-label">Notifications</span>
-    </button>
-    <div class="rail-fly" id="notif-fly"><p class="fly-head">Notifications</p></div>
-  </div>
-
-  <button class="rail-badge" aria-label="Urban Performance workspace">
-    <span class="ini">U</span>
-    <span class="rail-label">Urban Performance</span>
-  </button>
+    <div class="rail-item rail-foot" data-item="account">
+      <button class="rail-btn" data-nav="account" aria-label="Account">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle class="ic-head" cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/></svg>
+        <span class="rail-label">Account</span>
+      </button>
+      <span class="rail-tip">Account</span>
+    </div>
 </aside>
 
 <section class="start" id="start">
@@ -4020,6 +4091,9 @@
   function syncTabs() {
     document.querySelectorAll('.seg .tab').forEach(t =>
       t.setAttribute('aria-selected', String(t.dataset.layoutTab === layout)));
+    const short = chip === 'wishlist';
+    document.querySelector('[data-nav="home"]')?.classList.toggle('is-on', layout === 'feed' && !short);
+    document.querySelector('[data-nav="deck"]')?.classList.toggle('is-on', layout === 'deck' && !short);
     const pill = document.getElementById('seg-pill');
     const on = document.querySelector('.seg .tab[aria-selected="true"]');
     if (pill && on) {
@@ -4764,6 +4838,7 @@
     document.getElementById('feed-empty').hidden = !(on && saved.size === 0);
     applyChip();
     if (on) window.scrollTo({ top: 0, behavior: 'smooth' });
+    syncTabs();
   };
   // keep the count on the rail in step with every bookmark tap
   document.addEventListener('click', (e) => {
@@ -4801,8 +4876,19 @@
     if (key === 'chat')      return setChat(!chatPanel.classList.contains('on'));
     if (key === 'jam')       return openModal('jam-scrim');
     if (key === 'tune')      return openTune();
+    if (key === 'home') {
+      if (chip === 'wishlist') setShortlist(false);
+      if (layout !== 'feed') return setLayout('feed');
+      return window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    if (key === 'deck') {
+      if (chip === 'wishlist') setShortlist(false);
+      return setLayout('deck');
+    }
     if (key === 'shortlist') return setShortlist(chip !== 'wishlist');
+    if (key === 'kanban')    return toast('Kanban is not built in this prototype yet');
     if (key === 'memory')    return toast('Memory is not built in this prototype yet');
+    if (key === 'account')   return toast('Account is not built in this prototype yet');
     // connectors and notifications open on hover; a click on the icon does nothing more
   }));
 
