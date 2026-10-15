@@ -5431,6 +5431,16 @@
     const $ = (id) => document.getElementById(id);
     const startEl = $('start');
     if (!startEl) return;
+
+    // ONBOARDING IS OFF for now: the page opens straight on the feed.
+    // Set this to false to bring the URL screen and the setup run back.
+    const SKIP_ONBOARDING = true;
+    if (SKIP_ONBOARDING) {
+      startEl.remove();
+      buildDeck();
+      return;
+    }
+
     document.body.classList.add('setup');
 
     const seedOf = (t) => [...t].reduce((a, c) => (a * 31 + c.charCodeAt(0)) >>> 0, 7);
