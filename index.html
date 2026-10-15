@@ -6553,6 +6553,10 @@
         ['p', 'Full disclosure, I work with Arata. Our Damage Defence Super Conditioner isn’t a dupe, but it’s light enough for waves and doesn’t flatten them. Happy to DM a sample if you’d rather try before buying.'],
         ['p', 'Whatever you pick, look for: no heavy silicones, a little protein, and something you can leave in.']
       ],
+      short:[
+        ['p', 'Wavy (2A–2B) here too. Light leave-in on damp hair, scrunch, no towel rubbing.'],
+        ['p', 'Disclosure: I work with Arata. Our Damage Defence Super Conditioner is light enough for waves. Happy to DM a sample.']
+      ],
       warm:'Wavy (2A–2B) here too, and honestly, I felt this. Losing the one product that worked is the worst.',
       open:'Same hair type (2A–2B), same heartbreak when that cream got discontinued.',
       review:['Finally a conditioner that doesn’t turn my waves into a flat mess.', 'Ananya, r/IndianBeautyyAppers'],
@@ -6566,6 +6570,14 @@
         ['p', 'The Hair Growth Intensive Serum, used with the shampoo. Apply it to a dry scalp at night. The routine costs ₹1,010.'],
         ['h', 'Is Arata safe for daily use?'],
         ['p', 'Yes. Both shampoos are sulphate-free and pH-balanced, and the serum is alcohol-free.']
+      ],
+      short:[
+        ['h', 'Does Arata shampoo stop hair fall?'],
+        ['p', 'It reduces it: 7.4x less hair fall in eight weeks, in Arata’s tests.'],
+        ['h', 'Which Arata product is for thinning hair?'],
+        ['p', 'The Hair Growth Intensive Serum, with the shampoo. ₹1,010 for both.'],
+        ['h', 'Is Arata safe for daily use?'],
+        ['p', 'Yes. Sulphate-free and pH-balanced.']
       ],
       warm:'It helps, and it’s honest about how long that takes. In Arata’s tests, the Anti-Hair Fall Intensive Shampoo showed 7.4x less hair fall over eight weeks, with the first change from week four.',
       open:'Yes, it reduces hair fall. Arata’s Anti-Hair Fall Intensive Shampoo showed 7.4x less hair fall in eight weeks of regular use.',
@@ -6674,7 +6686,7 @@
     if (!op) { asked = trim(String(ask).trim(), 28); op = ['open', 'warm', 'review', 'offer'].find(o => !S.usedOps.includes(o) && d[o]) || 'short'; }
     S.usedOps.push(op);
     if (op === 'short') {
-      b = S.doc.v === 1 && d.short ? d.short.map(x => x.slice()) : shorten(prev);
+      b = d.short && !S.usedOps.some(o => o !== 'short' && o !== 'open' && o !== 'warm') && S.usedOps.filter(o => o === 'short').length === 1 ? d.short.map(x => x.slice()) : shorten(prev);
       n = [];
     } else if (op === 'warm' || op === 'open') {
       const k = mainP(b), t = op === 'warm' ? (d.warm || d.open) : (d.open || d.warm);
