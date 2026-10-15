@@ -2775,35 +2775,37 @@
   .cx-top h1{margin:0;font-size:30px;line-height:38px;font-weight:500;letter-spacing:-.02em}
   .cx-top p{margin:8px 0 0;max-width:62ch;font-size:15px;line-height:23px;color:var(--fg-2)}
   .cx-x{width:38px;height:38px;border-radius:11px;background:#171717}
-  .cx-filters{display:flex;flex-wrap:wrap;gap:8px;margin:28px 0 22px}
-  .cx-f{
-    height:34px;padding:0 14px;border-radius:999px;border:1px solid #262626;background:transparent;
-    color:var(--fg-2);font:inherit;font-size:13px;cursor:pointer;transition:background .15s,color .15s,border-color .15s;
+  .cx-search{
+    display:flex;align-items:center;gap:12px;height:52px;margin:26px 0 8px;padding:0 18px;
+    border:1px solid #2e2e2e;border-radius:999px;background:#151515;color:var(--fg-3);cursor:text;
+    transition:border-color .15s,background .15s;
   }
-  .cx-f:hover{color:var(--fg);border-color:#3a3a3a}
-  .cx-f[aria-selected="true"]{background:#fafafa;border-color:#fafafa;color:#0a0a0a}
-  .cx-f .n{margin-left:6px;opacity:.6;font-variant-numeric:tabular-nums}
-  .cx-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
-  .cx-card{
-    display:flex;flex-direction:column;gap:14px;padding:18px;border-radius:18px;
-    background:var(--card);border:1px solid #222;
+  .cx-search:focus-within{border-color:#4a4a4a;background:#181818}
+  .cx-search input{flex:1;min-width:0;border:0;outline:0;background:transparent;color:var(--fg);font:inherit;font-size:16px}
+  .cx-search input::placeholder{color:var(--fg-3)}
+  .cx-search input::-webkit-search-cancel-button{display:none}
+  .cx-sec{margin-top:30px}
+  .cx-sec h2{margin:0;padding:0 2px 14px;border-bottom:1px solid #222;font-size:19px;line-height:26px;font-weight:500;letter-spacing:-.01em}
+  .cx-on{display:flex;flex-wrap:wrap;gap:16px;padding:20px 2px 0}
+  .cx-on-t .lg-lg{width:52px;height:52px;border-radius:14px;font-size:18px}
+  .cx-empty{margin:0;padding:18px 2px 0;font-size:14px;color:var(--fg-3)}
+  .cx-rows{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:48px;row-gap:4px;padding-top:12px}
+  .cx-row-l{display:flex;align-items:center;gap:16px;min-width:0;padding:12px 2px}
+  .cx-row-l .lg-lg{border-radius:12px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.06)}
+  .cx-row-l .t{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+  .cx-row-l b{font-size:15.5px;font-weight:500;color:var(--fg)}
+  .cx-row-l .t span{font-size:14px;color:var(--fg-3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .cx-add,.cx-state{
+    flex:0 0 auto;width:40px;height:40px;border:0;border-radius:10px;background:transparent;
+    color:var(--fg);display:grid;place-items:center;
   }
-  .cx-card .hd{display:flex;align-items:center;gap:12px}
-  .cx-card h3{margin:0;font-size:15px;font-weight:500;letter-spacing:-.005em}
-  .cx-card .cat{display:block;margin-top:1px;font-size:12px;color:var(--fg-3)}
-  .cx-card p{margin:0;font-size:13.5px;line-height:20px;color:var(--fg-2);flex:1}
-  .cx-card .ft{display:flex;align-items:center;gap:10px}
-  .cx-card .who{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--fg-3)}
-  .cx-card .who img{width:20px;height:20px}
-  .cx-go{
-    margin-left:auto;height:32px;padding:0 14px;border:0;border-radius:999px;
-    background:#fafafa;color:#0a0a0a;font:inherit;font-size:12.5px;font-weight:500;cursor:pointer;
-    transition:opacity .15s,transform .12s;
-  }
-  .cx-go:hover{opacity:.9}
-  .cx-go:active{transform:scale(.97)}
-  .cx-go.on{background:rgba(74,222,128,.12);color:#4ade80;box-shadow:inset 0 0 0 1px rgba(74,222,128,.3)}
-  .cx-go.busy{background:#262626;color:var(--fg-2);cursor:default}
+  .cx-add{cursor:pointer;transition:background .15s,transform .12s}
+  .cx-add:hover{background:#222}
+  .cx-add:active{transform:scale(.94)}
+  .cx-add svg{transition:transform .2s cubic-bezier(.34,1.4,.64,1)}
+  .cx-add:hover svg{transform:rotate(90deg)}
+  .cx-state.on{color:#4ade80}
+  @media (max-width:760px){ .cx-rows{grid-template-columns:1fr} }
   @media (max-width:600px){ .cx-page{left:52px} .cx-in{padding:28px 16px 60px} }
   @media (prefers-reduced-motion:reduce){ .cx-page{animation:none} }
 
@@ -3406,14 +3408,17 @@
     <header class="cx-top">
       <div>
         <h1 id="cx-title">Connectors</h1>
-        <p>Connect the tools your agents read from and act in. Nothing changes in a tool until you approve it in the feed.</p>
+        <p>Connect the tools your agents read from and act in</p>
       </div>
       <button class="cp-btn cx-x" id="cx-close" aria-label="Close connectors">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
       </button>
     </header>
-    <div class="cx-filters" id="cx-filters" role="tablist" aria-label="Filter connectors"></div>
-    <div class="cx-grid" id="cx-grid"></div>
+    <label class="cx-search">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+      <input id="cx-q" type="search" placeholder="Search connectors" autocomplete="off" aria-label="Search connectors">
+    </label>
+    <div id="cx-list"></div>
   </div>
 </section>
 
@@ -5118,25 +5123,25 @@
   // logo files that exist are used; the rest show a lettered tile until one is added
   const CONNECTORS = [
     { id:'shopify',  name:'Shopify',                cat:'Store',     logo:'assets/logo-shopify.png', agent:'storefront',
-      what:'Publish rewritten descriptions, update product pages, read live stock and orders.' },
+      short:'Products, orders and pages', what:'Publish rewritten descriptions, update product pages, read live stock and orders.' },
     { id:'meta',     name:'Meta Ads',               cat:'Ads',       mono:'M',  color:'#0866FF', agent:'performance',
-      what:'Shift budget between sets, pause on frequency, rotate creative on live campaigns.' },
+      short:'Budgets, ad sets and creative', what:'Shift budget between sets, pause on frequency, rotate creative on live campaigns.' },
     { id:'gads',     name:'Google Ads',             cat:'Ads',       mono:'G',  color:'#1a73e8', agent:'performance',
-      what:'Read search and Performance Max results, and move spend toward what converts.' },
+      short:'Search and Performance Max', what:'Read search and Performance Max results, and move spend toward what converts.' },
     { id:'ga4',      name:'Google Analytics 4',     cat:'Analytics', mono:'GA', color:'#e37400', agent:'performance',
-      what:'Tie every move in the feed back to sessions, conversion and revenue.' },
+      short:'Sessions, conversion and revenue', what:'Tie every move in the feed back to sessions, conversion and revenue.' },
     { id:'gmc',      name:'Google Merchant Center', cat:'Catalog',   mono:'MC', color:'#34a853', agent:'storefront',
-      what:'Fix disapproved products and keep the shopping feed in sync with the store.' },
+      short:'Shopping feed and approvals', what:'Fix disapproved products and keep the shopping feed in sync with the store.' },
     { id:'klaviyo',  name:'Klaviyo',                cat:'Messaging', logo:'assets/logo-klaviyo.png', color:'#000', wide:true, agent:'crm',
-      what:'Email reachability, consent and journeys, so Signals can send the right message.' },
+      short:'Email flows and consent', what:'Email reachability, consent and journeys, so Signals can send the right message.' },
     { id:'whatsapp', name:'WhatsApp Business',      cat:'Messaging', logo:'assets/logo-whatsapp.png', agent:'crm',
-      what:'Opt-in lists and replies, for the customers who answer on WhatsApp instead.' },
+      short:'Opt-ins and replies', what:'Opt-in lists and replies, for the customers who answer on WhatsApp instead.' },
     { id:'judgeme',  name:'Judge.me',               cat:'Reviews',   mono:'J',  color:'#2c7a7b', agent:'creative',
-      what:'Read every review, so creative and copy quote what customers actually say.' },
+      short:'Reviews and replies', what:'Read every review, so creative and copy quote what customers actually say.' },
     { id:'amazon',   name:'Amazon',                 cat:'Store',     mono:'a',  color:'#232f3e', agent:'storefront',
-      what:'Keep listings, prices and stock in line with the main store.' },
+      short:'Listings, prices and stock', what:'Keep listings, prices and stock in line with the main store.' },
     { id:'slack',    name:'Slack',                  cat:'Team',      mono:'S',  color:'#4a154b', agent:'performance',
-      what:'Get the moves that need you in a channel, and approve them from there.' }
+      short:'Approvals in a channel', what:'Get the moves that need you in a channel, and approve them from there.' }
   ];
   const cxState = {};
   CONNECTORS.forEach(c => cxState[c.id] = 'off');
@@ -5156,34 +5161,48 @@
   };
 
   const cxPage = document.getElementById('cx-page');
-  let cxFilter = 'All';
+  const CX_SECTIONS = [
+    ['Store and ads',       ['shopify', 'amazon', 'gmc', 'meta', 'gads', 'ga4']],
+    ['Customers and team',  ['klaviyo', 'whatsapp', 'judgeme', 'slack']]
+  ];
+  const I_PLUS = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg>';
+  const I_OK = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>';
+  const cxRow = (c) => {
+    const st = cxState[c.id];
+    const act = st === 'on'
+      ? `<span class="cx-state on" title="Connected">${I_OK}</span>`
+      : st === 'busy'
+        ? `<span class="cx-state"><i class="src-spin"></i></span>`
+        : `<button class="cx-add" data-cxgo="${c.id}" aria-label="Connect ${c.name}">${I_PLUS}</button>`;
+    return `<div class="cx-row-l">${lg(c, true)}<span class="t"><b>${c.name}</b><span>${c.short}</span></span>${act}</div>`;
+  };
   const paintCxPage = () => {
-    const cats = ['All', ...new Set(CONNECTORS.map(c => c.cat))];
-    document.getElementById('cx-filters').innerHTML = cats.map(k => {
-      const n = k === 'All' ? CONNECTORS.length : CONNECTORS.filter(c => c.cat === k).length;
-      return `<button class="cx-f" role="tab" aria-selected="${k === cxFilter}" data-cxf="${k}">${k}<span class="n">${n}</span></button>`;
-    }).join('');
-    document.getElementById('cx-grid').innerHTML = CONNECTORS
-      .filter(c => cxFilter === 'All' || c.cat === cxFilter)
-      .map(c => {
-        const st = cxState[c.id];
-        return `
-        <article class="cx-card">
-          <div class="hd">${lg(c, true)}<span><h3>${c.name}</h3><span class="cat">${c.cat}</span></span></div>
-          <p>${c.what}</p>
-          <div class="ft">
-            <span class="who"><img src="${AGENTS[c.agent].avatar}" alt="">${AGENTS[c.agent].name}</span>
-            <button class="cx-go${st === 'on' ? ' on' : st === 'busy' ? ' busy' : ''}" data-cxgo="${c.id}">${
-              st === 'on' ? 'Connected' : st === 'busy' ? 'Connecting…' : 'Connect'}</button>
-          </div>
-        </article>`;
-      }).join('');
+    const q = (document.getElementById('cx-q').value || '').trim().toLowerCase();
+    const hit = (c) => !q || (c.name + ' ' + c.short + ' ' + c.cat).toLowerCase().includes(q);
+    const on = CONNECTORS.filter(c => cxState[c.id] === 'on');
+    let html = `
+      <section class="cx-sec">
+        <h2>Connected</h2>
+        ${on.length
+          ? `<div class="cx-on">${on.map(c => `<span class="cx-on-t" title="${c.name}">${lg(c, true)}</span>`).join('')}</div>`
+          : `<p class="cx-empty">Nothing connected yet. Connect a tool below and it shows up here.</p>`}
+      </section>`;
+    let shown = 0;
+    CX_SECTIONS.forEach(([title, ids]) => {
+      const rows = ids.map(id => CONNECTORS.find(c => c.id === id)).filter(hit);
+      if (!rows.length) return;
+      shown += rows.length;
+      html += `<section class="cx-sec"><h2>${title}</h2><div class="cx-rows">${rows.map(cxRow).join('')}</div></section>`;
+    });
+    if (!shown) html += `<p class="cx-empty">No connectors match “${esc(q)}”.</p>`;
+    document.getElementById('cx-list').innerHTML = html;
   };
 
   // quiet = the feed card already announced it
   function setConnector(id, on, quiet) {
     cxState[id] = on ? 'on' : 'off';
     paintCxFly();
+  document.getElementById('cx-q').addEventListener('input', paintCxPage);
     if (!cxPage.hidden) paintCxPage();
     if (on && !quiet) {
       connectFeedCards(id);
@@ -5218,8 +5237,6 @@
   });
   cxPage.addEventListener('click', (e) => {
     if (e.target.closest('#cx-close')) return setCxPage(false);
-    const f = e.target.closest('[data-cxf]');
-    if (f) { cxFilter = f.dataset.cxf; return paintCxPage(); }
     const g = e.target.closest('[data-cxgo]');
     if (g) connectNow(g.dataset.cxgo);
   });
