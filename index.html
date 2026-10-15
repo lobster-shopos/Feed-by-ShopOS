@@ -3079,6 +3079,124 @@
   .chat-panel .sugg:hover{background:#1a1a1a}
   @media (prefers-reduced-motion:reduce){ .mem-x:hover svg,.sl-acts .mem-btn:hover svg,.act-jam:hover svg{animation:none} }
 
+  /* ---------- studio: a card opened in the centre, chat beside it, the brief as a white note ---------- */
+  .st-scrim{position:fixed;inset:0;z-index:97;background:rgba(0,0,0,.62);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);opacity:0;transition:opacity .35s ease}
+  .st-scrim.on{opacity:1}
+  .studio{
+    position:fixed;z-index:98;top:20px;bottom:20px;left:80px;right:20px;margin:0 auto;max-width:1400px;
+    display:grid;grid-template-columns:minmax(0,1fr) 360px 380px;
+    border-radius:24px;background:#0f0f0f;border:1px solid #232323;box-shadow:0 40px 120px rgba(0,0,0,.6);overflow:hidden;
+    transform-origin:top left;
+  }
+  .studio[hidden]{display:none}
+  .st-col{display:flex;flex-direction:column;min-height:0;min-width:0}
+  .st-col + .st-col{border-left:1px solid #1f1f1f}
+  .st-fade{animation:stfade .5s cubic-bezier(.2,.8,.2,1) both}
+  .st-col.chatcol.st-fade{animation-delay:.08s}
+  .st-col.st-briefcol.st-fade{animation-delay:.16s}
+  @keyframes stfade{from{opacity:0;transform:translateY(10px)}}
+  .st-head{display:flex;align-items:center;gap:10px;padding:16px 20px;border-bottom:1px solid #1f1f1f}
+  .st-head img{width:28px;height:28px}
+  .st-head b{font-size:15px;font-weight:500}
+  .st-type{height:26px;padding:0 10px;border-radius:999px;background:#1f1f1f;color:var(--fg-2);font-size:13px;display:inline-flex;align-items:center}
+  .st-x{margin-left:auto;width:36px;height:36px;border:0;border-radius:10px;background:transparent;color:var(--fg-2);display:grid;place-items:center;cursor:pointer}
+  .st-x:hover{background:#1f1f1f;color:var(--fg)}
+  .st-x svg{transition:transform .25s cubic-bezier(.34,1.4,.64,1)}
+  .st-x:hover svg{transform:rotate(90deg)}
+  .st-work{flex:1;min-height:0;overflow:auto;padding:24px;display:flex;flex-direction:column;gap:18px}
+  .st-title{margin:0;font-size:22px;line-height:30px;font-weight:500;letter-spacing:-.01em}
+  .st-sub{margin:0;font-size:15px;line-height:23px;color:var(--fg-2);max-width:68ch}
+  .st-media{position:relative;flex:0 0 auto;border-radius:18px;overflow:hidden;background:#1a1a1a;aspect-ratio:4/5;width:min(100%,calc(48vh * .8))}
+  .st-media img{width:100%;height:100%;object-fit:cover;display:block}
+  .st-media.swap img{animation:stswap .55s cubic-bezier(.2,.8,.2,1)}
+  @keyframes stswap{0%{opacity:.2;filter:blur(8px);transform:scale(1.03)}100%{opacity:1;filter:none;transform:none}}
+  .st-thumbs{display:flex;gap:8px;flex-wrap:wrap}
+  .st-thumbs button{width:56px;height:70px;padding:0;border-radius:10px;overflow:hidden;border:2px solid transparent;background:#1a1a1a;cursor:pointer;opacity:.6;transition:opacity .15s,border-color .15s}
+  .st-thumbs button.on,.st-thumbs button:hover{opacity:1;border-color:#fafafa}
+  .st-thumbs img{width:100%;height:100%;object-fit:cover}
+  .st-rows{border-radius:16px;background:#151515;border:1px solid #232323;padding:4px 18px}
+  .st-rows div{display:flex;justify-content:space-between;gap:16px;padding:14px 0;font-size:15px}
+  .st-rows div + div{border-top:1px solid #232323}
+  .st-rows .k{color:var(--fg-2)} .st-rows .v{font-weight:500;text-align:right}
+  .st-tag{position:absolute;left:14px;bottom:14px;height:32px;padding:0 12px;border-radius:999px;background:rgba(20,20,20,.72);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);font-size:13px;display:flex;align-items:center;gap:6px;animation:stfade .4s ease both}
+  .st-tweaks{display:flex;flex-direction:column;gap:10px;padding:16px 24px 20px;border-top:1px solid #1f1f1f}
+  .st-tweaks p{margin:0;font-size:13px;color:var(--fg-3)}
+  .st-tweaks .row{display:flex;flex-wrap:wrap;gap:8px}
+  .st-chip{height:38px;padding:0 14px;border:1px solid #2a2a2a;border-radius:999px;background:#171717;color:var(--fg);font:inherit;font-size:14px;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:background .15s,border-color .15s,transform .12s,opacity .2s}
+  .st-chip:hover{background:#222;border-color:#3a3a3a}
+  .st-chip:active{transform:scale(.97)}
+  .st-chip svg{transition:transform .3s cubic-bezier(.34,1.4,.64,1)}
+  .st-chip:hover svg{transform:rotate(-20deg) scale(1.15)}
+  .st-chip.done{opacity:.4;pointer-events:none}
+  .st-chat{flex:1;min-height:0;overflow:auto;padding:20px 18px;display:flex;flex-direction:column;gap:14px}
+  .st-msg{display:flex;gap:10px;font-size:14.5px;line-height:22px;animation:stfade .35s ease both}
+  .st-msg img{width:26px;height:26px;flex:0 0 auto;margin-top:-2px}
+  .st-msg.me{justify-content:flex-end}
+  .st-msg.me span{max-width:85%;padding:9px 14px;border-radius:16px 16px 4px 16px;background:#232323}
+  .st-msg.ai span{color:var(--fg-2)}
+  .st-msg.ai b{color:var(--fg);font-weight:500}
+  .st-typing{display:inline-flex;gap:4px;padding-top:8px}
+  .st-typing i{width:6px;height:6px;border-radius:50%;background:var(--fg-3);animation:kbpulse 1s infinite}
+  .st-typing i:nth-child(2){animation-delay:.15s} .st-typing i:nth-child(3){animation-delay:.3s}
+  .st-compose{margin:0 14px 14px;display:flex;align-items:flex-end;gap:8px;padding:8px 8px 8px 14px;border-radius:16px;background:#181818;border:1px solid #262626}
+  .st-compose:focus-within{border-color:#3a3a3a}
+  .st-compose textarea{flex:1;min-height:24px;max-height:120px;resize:none;border:0;outline:0;background:transparent;color:var(--fg);font:inherit;font-size:14.5px;line-height:22px;padding:4px 0}
+  .st-compose button{width:34px;height:34px;border:0;border-radius:10px;background:#fafafa;color:#0a0a0a;display:grid;place-items:center;cursor:pointer;flex:0 0 auto}
+  .st-compose button svg{transition:transform .25s cubic-bezier(.34,1.4,.64,1)}
+  .st-compose button:hover svg{transform:translateY(-2px)}
+  .st-briefcol{background:#0b0b0b;padding:18px}
+  .st-briefcol > p{margin:0 0 10px 4px;font-size:13px;color:var(--fg-3)}
+  .note{
+    flex:1;min-height:0;overflow:auto;border-radius:18px;background:#fbfaf6;color:#151515;padding:22px 22px 18px;
+    box-shadow:0 18px 50px rgba(0,0,0,.45);font-size:14px;line-height:21px;
+  }
+  .note .to{display:flex;align-items:center;gap:8px;font-size:12.5px;color:#6b6b6b}
+  .note .to i{width:20px;height:20px;border-radius:6px;background:#151515;display:grid;place-items:center}
+  .note .to i img{width:13px;height:13px}
+  .note h3{margin:12px 0 14px;font-size:18px;line-height:25px;font-weight:600;letter-spacing:-.01em}
+  .note dl{margin:0;display:flex;flex-direction:column;gap:12px}
+  .note dt{font-size:11.5px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:#8a8a8a;margin-bottom:3px}
+  .note dd{margin:0;color:#222}
+  .note ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px}
+  .note li.new{animation:notenew 1.6s ease}
+  @keyframes notenew{0%{background:#ffe98a;opacity:0;transform:translateX(-6px)}20%{opacity:1;transform:none}100%{background:transparent}}
+  .note .none{color:#8a8a8a}
+  .note .assets{display:flex;gap:6px;flex-wrap:wrap}
+  .note .assets img{width:44px;height:55px;border-radius:8px;object-fit:cover;background:#ddd}
+  .note .gate{margin-top:16px;padding:12px;border-radius:12px;background:#f0eee7;display:flex;align-items:center;gap:10px;transition:background .3s}
+  .note .gate .lg{flex:0 0 auto}
+  .note .gate span{flex:1;font-size:13px;line-height:18px;color:#444}
+  .note .gate b{display:block;font-weight:600;color:#151515}
+  .note .gate button{height:34px;padding:0 12px;border:0;border-radius:9px;background:#151515;color:#fff;font:inherit;font-size:13px;font-weight:500;cursor:pointer;display:inline-flex;align-items:center;gap:6px;flex:0 0 auto}
+  .note .gate.ok{background:#e3f3e7}
+  .note .gate .src-spin{border-color:rgba(255,255,255,.3);border-top-color:#fff}
+  .st-send{flex:0 0 auto;width:100%;margin-top:12px;height:48px;border:0;border-radius:14px;background:#262626;color:var(--fg);font:inherit;font-size:15px;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:background .25s,color .25s,transform .12s}
+  .st-send.is-primary{background:#fafafa;color:#0a0a0a;animation:stnudge 1.6s ease-in-out 1}
+  @keyframes stnudge{30%{box-shadow:0 0 0 6px rgba(250,250,250,.14)}100%{box-shadow:0 0 0 0 rgba(250,250,250,0)}}
+  .st-send:active{transform:scale(.98)}
+  .st-send:disabled{opacity:.45;cursor:not-allowed}
+  .st-send svg{transition:transform .3s cubic-bezier(.34,1.4,.64,1)}
+  .st-send:hover:not(:disabled) svg{transform:translate(3px,-3px)}
+  .st-send.sent{background:#16261b;color:#86efac;pointer-events:none}
+  .st-hint{margin:8px 4px 0;font-size:12.5px;color:var(--fg-3);text-align:center}
+  .st-decide{flex:1;display:flex;flex-direction:column;gap:12px}
+  .st-decide .q{padding:20px;border-radius:18px;background:#fbfaf6;color:#222;font-size:14.5px;line-height:22px}
+  .st-decide .q b{display:block;margin-bottom:6px;color:#151515;font-size:16px;font-weight:600}
+  .st-decide .btns{display:flex;gap:8px}
+  .st-decide .btns button{flex:1;height:46px;border-radius:14px}
+  .note-fly{position:fixed;z-index:120;pointer-events:none;border-radius:18px;background:#fbfaf6;box-shadow:0 18px 50px rgba(0,0,0,.45)}
+  .cta.is-sent{background:#16261b;border-color:#1f3a27;color:#86efac}
+  .media .cta.is-sent{background:rgba(22,38,27,.78)}
+  @media (max-width:1180px){ .studio{grid-template-columns:minmax(0,1fr) 380px} .st-col.chatcol{display:none} }
+  @media (max-width:760px){ .studio{left:8px;right:8px;top:8px;bottom:8px;grid-template-columns:1fr;overflow:auto} .st-col + .st-col{border-left:0;border-top:1px solid #1f1f1f} }
+  @media (prefers-reduced-motion:reduce){ .st-fade,.st-msg,.note li.new,.st-media.swap img,.st-send.is-primary{animation:none} }
+
+  .kb-card.is-brief{background:#fbfaf6;border-color:#fbfaf6;color:#151515}
+  .kb-card.is-brief h3{color:#151515}
+  .kb-card.is-brief .who,.kb-card.is-brief .kb-foot{color:#6b6b6b}
+  .kb-card.is-brief .who em{color:#333}
+  .kb-card.is-brief .tagline{font-size:11.5px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:#8a8a8a}
+
   /* ---------- shortlisted ---------- */
   .feed-empty{
     width:var(--feed-w);max-width:calc(100% - 32px);margin:8px auto 0;padding:28px 20px;
@@ -3597,6 +3715,8 @@
 </section>
 
 
+<div class="st-scrim" id="st-scrim" hidden></div>
+<section class="studio" id="studio" hidden role="dialog" aria-modal="true" aria-label="Card"></section>
 <section class="cx-page mem-page sl-page" id="sl-page" hidden aria-labelledby="sl-title">
   <div class="cx-in">
     <header class="cx-top"><div><h1 id="sl-title">Shortlisted</h1><p>Cards you saved to come back to.</p></div></header>
@@ -5600,45 +5720,41 @@
   const kbPage = document.getElementById('kb-page');
   const kbBtn = document.querySelector('[data-nav="kanban"]');
   const KB_I = {
-    bg:'<rect x="5" y="5" width="14" height="14" rx="2"/><path d="M9 9h6v6H9z"/><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/>',
+    progress:'<rect x="5" y="5" width="14" height="14" rx="2"/><path d="M9 9h6v6H9z"/><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/>',
+    sent:'<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h8M8 17h5"/>',
     draft:'<path d="M4 7V5h16v2"/><path d="M12 5v14"/><path d="M9 19h6"/>',
-    team:'<path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/>',
     you:I_HAND,
-    ready:'<path d="m5 12 5 5L20 7"/>',
-    shared:'<path d="m22 2-7 20-4-9-9-4z"/><path d="M22 2 11 13"/>'
+    live:'<path d="m5 12 5 5L20 7"/>'
   };
   const KB_COLS = [
-    ['bg','AI in the background','Working on it right now','Nothing is running right now.'],
-    ['draft','Drafting','You and AI, before anyone sees it','Jam on a card and it starts here.'],
-    ['team','With a teammate','A teammate is looking at it','Ask a teammate from the jam with @their name.'],
-    ['you','Needs you','Someone is waiting on your answer','Nothing is waiting on you.'],
-    ['ready','Ready to share','Approved, share the brief','Approve a draft and it lands here.'],
-    ['shared','Brief shared','Sent, nothing left to do','Shared briefs end up here.']
+    ['draft','Drafting','You and AI, before the brief goes','Open a card and start shaping it.'],
+    ['sent','Brief sent','With the ShopOS team','Send a brief from any card.'],
+    ['you','Needs you','The team has a question','Nothing is waiting on you.'],
+    ['progress','In progress','Being made right now','Nothing is being made yet.'],
+    ['live','Live','Out in the world','Finished work lands here.']
   ];
   const kbItems = [
-    { p:48, col:'bg', job:'Making 8 ad variants', pct:62 },
-    { p:43, col:'bg', job:'Writing the evidence page', pct:28 },
     { p:2,  col:'draft', t:'1h ago' },
     { p:21, col:'draft', t:'3h ago' },
-    { p:45, col:'team', mate:['Riya','#c4b5fd'], t:'reviewing the copy' },
-    { p:24, col:'team', mate:['Karan','#86efac'], t:'adding the reply' },
-    { p:17, col:'you', ask:'Riya: ₹1,299 or ₹1,349 for the Pack of 3?' },
-    { p:53, col:'you', ask:'Karan: OK to send this to 2,140 buyers today?' },
-    { p:22, col:'ready', t:'Approved 20 min ago' },
-    { p:51, col:'shared', t:'Shared with 3 people · yesterday' }
+    { p:22, col:'sent', t:'Sent 20 min ago' },
+    { p:13, col:'sent', t:'Sent 2h ago' },
+    { p:17, col:'you', ask:'ShopOS team: ₹1,299 or ₹1,349 for the Pack of 3?' },
+    { p:48, col:'progress', job:'Making 8 ad variants', pct:62 },
+    { p:43, col:'progress', job:'Writing the evidence page', pct:28 },
+    { p:51, col:'live', t:'Live on Meta · yesterday' }
   ];
   const kbCard = (it, i) => {
     const p = ALL_POSTS[it.p], a = AG(p.agent), img = (p.images || [])[0];
     let foot = '';
-    if (it.col === 'bg') foot = `<div class="kb-foot"><span class="kb-live"></span>${esc(it.job)} · ${it.pct}%</div><div class="kb-bar"><i style="width:${it.pct}%"></i></div>`;
+    if (it.col === 'progress') foot = `<div class="kb-foot"><span class="kb-live"></span>${esc(it.job || 'Being made')} · ${it.pct || 10}%</div><div class="kb-bar"><i style="width:${it.pct || 10}%"></i></div>`;
     else if (it.col === 'draft') foot = `<div class="kb-foot">Edited ${esc(it.t || 'just now')}</div>`;
-    else if (it.col === 'team') foot = `<div class="kb-foot"><span class="kb-mate" style="background:${it.mate[1]}">${it.mate[0][0]}</span><span><em style="font-style:normal;color:var(--fg-2)">${it.mate[0]}</em> is ${esc(it.t)}</span></div>`;
-    else if (it.col === 'you') foot = `<div class="kb-ask">${esc(it.ask)}</div><div class="kb-foot"><button class="kb-btn" data-kbopen="${i}">Reply</button></div>`;
-    else if (it.col === 'ready') foot = `<div class="kb-foot"><button class="kb-btn" data-kbshare="${i}">Share brief</button><span>${esc(it.t || '')}</span></div>`;
-    else foot = `<div class="kb-foot"><svg class="kb-ok" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg>${esc(it.t || 'Shared just now')}</div>`;
-    return `<article class="kb-card" draggable="true" data-kb="${i}">
-      ${img && it.col !== 'shared' ? `<div class="th"><img src="${img}" alt="" loading="lazy"></div>` : ''}
-      <div class="in"><span class="who"><img src="${a.avatar}" alt=""><em>${esc(a.name)}</em></span>
+    else if (it.col === 'sent') foot = `<div class="kb-foot">${esc(it.t || 'Sent just now')}</div>`;
+    else if (it.col === 'you') foot = `<div class="kb-ask">${esc(it.ask)}</div><div class="kb-foot"><button class="kb-btn">Reply</button></div>`;
+    else foot = `<div class="kb-foot"><svg class="kb-ok" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg>${esc(it.t || 'Live')}</div>`;
+    const brief = it.col === 'sent';
+    return `<article class="kb-card${brief ? ' is-brief' : ''}" draggable="true" data-kb="${i}">
+      ${img && !brief && it.col !== 'live' ? `<div class="th"><img src="${img}" alt="" loading="lazy"></div>` : ''}
+      <div class="in">${brief ? '<span class="tagline">Brief</span>' : ''}<span class="who"><img src="${a.avatar}" alt=""><em>${esc(a.name)}</em></span>
         <h3>${esc(p.title)}</h3>${foot}</div></article>`;
   };
   const paintKb = () => {
@@ -5685,11 +5801,10 @@
     const it = kbItems[kbDrag];
     if (it.col !== z.dataset.drop) {
       it.col = z.dataset.drop;
-      if (it.col === 'bg') { it.job = it.job || 'Working on it'; it.pct = it.pct || 10; }
-      if (it.col === 'team') it.mate = it.mate || ['Riya','#c4b5fd'], it.t = 'reviewing it';
-      if (it.col === 'you') it.ask = it.ask || 'Riya: good to go?';
-      if (it.col === 'ready') it.t = 'Approved just now';
-      if (it.col === 'shared') it.t = 'Shared just now';
+      if (it.col === 'progress') { it.job = it.job || 'Being made'; it.pct = it.pct || 10; }
+      if (it.col === 'you') it.ask = it.ask || 'ShopOS team: good to go?';
+      if (it.col === 'sent') it.t = 'Sent just now';
+      if (it.col === 'live') it.t = 'Live just now';
       if (it.col === 'draft') it.t = 'just now';
       paintKb(); toast(`Moved to ${kbName(it.col)}`);
     }
@@ -5697,10 +5812,8 @@
   });
   kbPage.addEventListener('click', (e) => {
     if (e.target.closest('#kb-new')) { resetChat(); return setChat(true); }
-    const sh = e.target.closest('[data-kbshare]');
-    if (sh) { const it = kbItems[+sh.dataset.kbshare]; it.col = 'shared'; it.t = 'Shared just now'; paintKb(); return toast('Brief shared'); }
     const c = e.target.closest('.kb-card');
-    if (c) openJam(ALL_POSTS[kbItems[+c.dataset.kb].p]);
+    if (c) openStudio(kbItems[+c.dataset.kb].p, c);
   });
   // jamming on a feed card starts a draft on the board
   document.addEventListener('click', (e) => {
@@ -5712,6 +5825,260 @@
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && !kbPage.hidden && !document.querySelector('.scrim.open') && !chatPanel.classList.contains('on')) setKbPage(false);
   });
+
+  // ---------- studio: open a card, shape it a little, send the brief ----------
+  // every CTA falls into one of six kinds of work; the kind decides the quick changes,
+  // what the brief promises and which connector the team needs
+  const ACTION = [
+    ['decide',   /agree with the call/i],
+    ['store',    /fix tracking/i],
+    ['launch',   /queue the ads|launch the ad group|publish campaign|post it|shift budget|rotate creative|add to campaign/i],
+    ['message',  /turn on the journey|review ask|approve the (flows|offers)|approve all/i],
+    ['store',    /publish the page|landing page|update the prices|start the tests|claims ledger|send to storefront|apply update/i],
+    ['creative', /generate versions|make the|make our version|draft the stories|shortlist creators/i],
+    ['write',    /./]
+  ];
+  const KIND = {
+    creative:{ name:'Make a creative', to:'Final creatives in every size, ready to run', where:'Meta and Instagram', need:null,
+      tweaks:[['Swap the image','img'],['New headline','txt'],['Make it a reel','fmt'],['More like this','var']] },
+    write:{ name:'Write it', to:'Finished copy, checked against what Arata can claim', where:'arata.in, blog and forums', need:null,
+      tweaks:[['Make it shorter','txt'],['Warmer tone','txt'],['Add a real review','txt'],['Rewrite the opening','txt']] },
+    store:{ name:'Change the store', to:'The page live on arata.in, with a before and after', where:'arata.in (Shopify)', need:'shopify',
+      tweaks:[['Use version B','img'],['Tighten the copy','txt'],['Add reviews to the page','txt'],['Test it for a week first','var']] },
+    launch:{ name:'Launch it', to:'Ads set up and running, with a check-in after 3 days', where:'Meta Ads', need:'meta',
+      tweaks:[['Lower the budget','var'],['Start Monday','var'],['Only the top 2','img'],['Add a test','var']] },
+    message:{ name:'Message customers', to:'The flow built, tested and switched on', where:'Email and WhatsApp (Klaviyo)', need:'klaviyo',
+      tweaks:[['Make it shorter','txt'],['Send a day later','var'],['Only repeat buyers','var'],['Add an offer','txt']] },
+    decide:{ name:'Your call', need:null, tweaks:[] }
+  };
+  const kindOf = (p) => { const l = typeof p.cta === 'string' ? p.cta : (p.cta && p.cta.label) || ''; return ACTION.find(([, re]) => re.test(l))[0]; };
+  const ctaLabel = (p) => typeof p.cta === 'string' ? p.cta : (p.cta && p.cta.label) || '';
+  const stState = {};
+  const st = (i) => stState[i] || (stState[i] = { edits:[], msgs:[], img:0, sent:false, decided:false });
+  const studio = document.getElementById('studio');
+  const stScrim = document.getElementById('st-scrim');
+  let stIdx = null, stFrom = null;
+  const I_SEND = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4z"/><path d="M22 2 11 13"/></svg>';
+  const I_UP = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></svg>';
+  const I_SPARK = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.8L20 11l-6.1 2.2L12 19l-1.9-5.8L4 11l6.1-2.2z"/></svg>';
+  const due = () => new Date(Date.now() + 3 * 864e5).toLocaleDateString('en-IN', { weekday:'short', day:'numeric', month:'short' });
+  const trim = (t, n) => { t = String(t || ''); return t.length > n ? t.slice(0, n).replace(/\s+\S*$/, '') + '…' : t; };
+
+  const briefHTML = (i) => {
+    const p = ALL_POSTS[i], k = KIND[kindOf(p)], S = st(i), imgs = p.images || [];
+    const c = k.need && CONNECTORS.find(x => x.id === k.need);
+    const gate = !c ? '' : cxState[c.id] === 'on'
+      ? `<div class="gate ok">${lg(c)}<span><b>${c.name} connected</b>The team can make this change for you.</span></div>`
+      : `<div class="gate">${lg(c)}<span><b>Needs ${c.name}</b>So the team can make the change on your behalf.</span>
+           <button data-stconnect="${c.id}">${cxState[c.id] === 'busy' ? '<i class="src-spin"></i> Connecting' : 'Connect'}</button></div>`;
+    return `
+      <span class="to"><i><img src="${SHOPOS.avatar}" alt=""></i>To the ShopOS team · due ${due()}</span>
+      <h3>${esc(p.title)}</h3>
+      <dl>
+        <div><dt>Goal</dt><dd>${esc(trim(p.sub, 170))}</dd></div>
+        <div><dt>What you’ll get</dt><dd>${esc(k.to)}</dd></div>
+        <div><dt>Where it goes</dt><dd>${esc(k.where)}</dd></div>
+        <div><dt>${imgs.length ? 'Assets' : 'From the card'}</dt><dd>${imgs.length
+          ? `<span class="assets">${imgs.slice(0, 5).map(x => `<img src="${x}" alt="">`).join('')}</span>`
+          : (p.rows || []).slice(0, 3).map(([a, b]) => `${esc(a)}: <b>${esc(b)}</b>`).join('<br>') || 'The numbers on this card'}</dd></div>
+        <div><dt>Your changes</dt><dd>${S.edits.length
+          ? `<ul>${S.edits.map((e, n) => `<li class="${n === S.edits.length - 1 && S.fresh ? 'new' : ''}">${esc(e)}</li>`).join('')}</ul>`
+          : '<span class="none">None yet. It goes as it is.</span>'}</dd></div>
+      </dl>${gate}`;
+  };
+  const sendBtn = (i) => {
+    const p = ALL_POSTS[i], k = KIND[kindOf(p)], S = st(i);
+    if (S.sent) return `<button class="st-send sent">${I_OK} Brief sent</button>`;
+    const c = k.need && CONNECTORS.find(x => x.id === k.need);
+    if (c && cxState[c.id] !== 'on') return `<button class="st-send" disabled>Connect ${c.name} to send</button>`;
+    return `<button class="st-send${S.edits.length ? ' is-primary' : ''}" id="st-send">Send brief ${I_SEND}</button>`;
+  };
+  const paintBrief = () => {
+    const i = stIdx; if (i == null) return;
+    const note = studio.querySelector('.note'); if (!note) return;
+    const top = note.scrollTop; note.innerHTML = briefHTML(i); note.scrollTop = top;
+    studio.querySelector('.st-sendwrap').innerHTML = sendBtn(i) + (st(i).sent ? '' : `<p class="st-hint">${st(i).edits.length ? 'Looks good. The team picks it up from here.' : 'Make a change or two, or send it as it is.'}</p>`);
+    st(i).fresh = false;
+  };
+  const msgHTML = (m) => m.me
+    ? `<div class="st-msg me"><span>${esc(m.t)}</span></div>`
+    : `<div class="st-msg ai"><img src="${m.av}" alt=""><span>${m.t}</span></div>`;
+  const paintChat = () => {
+    const box = studio.querySelector('.st-chat'); if (!box) return;
+    box.innerHTML = st(stIdx).msgs.map(msgHTML).join('');
+    box.scrollTop = box.scrollHeight;
+  };
+  const aiSay = (html, after) => {
+    const i = stIdx, box = studio.querySelector('.st-chat');
+    const a = AG(ALL_POSTS[i].agent);
+    if (box) { box.insertAdjacentHTML('beforeend', `<div class="st-msg ai st-wait"><img src="${a.avatar}" alt=""><span class="st-typing"><i></i><i></i><i></i></span></div>`); box.scrollTop = box.scrollHeight; }
+    setTimeout(() => {
+      st(i).msgs.push({ av:a.avatar, t:html });
+      if (stIdx === i) { paintChat(); after && after(); }
+    }, 750);
+  };
+  const greet = (p, kind) => {
+    const k = KIND[kind];
+    if (kind === 'decide') return `This one is a decision, not a job. <b>Agree</b> and every agent works with it, or ask me anything first.`;
+    const c = k.need && CONNECTORS.find(x => x.id === k.need);
+    return `Here’s the first draft for <b>${esc(ctaLabel(p).toLowerCase())}</b>. Tweak it with the buttons or tell me what to change. The brief on the right fills in as we go.` +
+      (c && cxState[c.id] !== 'on' ? ` This one needs <b>${c.name}</b>, you can connect it right from the brief.` : '');
+  };
+
+  const paintStudio = (i) => {
+    const p = ALL_POSTS[i], a = AG(p.agent), kind = kindOf(p), k = KIND[kind], S = st(i), imgs = p.images || [];
+    if (!S.msgs.length) S.msgs.push({ av:a.avatar, t:greet(p, kind) });
+    const media = imgs.length ? `
+      <div class="st-media"><img src="${imgs[S.img] || imgs[0]}" alt="">${S.tag ? `<span class="st-tag">${I_SPARK}${esc(S.tag)}</span>` : ''}</div>
+      ${imgs.length > 1 ? `<div class="st-thumbs">${imgs.map((x, n) => `<button data-stimg="${n}" class="${n === S.img ? 'on' : ''}"><img src="${x}" alt=""></button>`).join('')}</div>` : ''}` : '';
+    const rows = !imgs.length && p.rows && p.rows.length ? `<div class="st-rows">${p.rows.map(([x, y]) => `<div><span class="k">${esc(x)}</span><span class="v">${esc(y)}</span></div>`).join('')}</div>` : '';
+    const right = kind === 'decide'
+      ? `<div class="st-col st-briefcol st-fade"><p>Your call</p>
+          <div class="st-decide"><div class="q"><b>Do you agree?</b>${esc(trim(p.sub, 220))}</div>
+            ${S.decided ? `<button class="st-send sent">${I_OK} Agreed. Every agent works with it.</button>`
+              : `<div class="btns"><button class="mem-btn" data-stno>Not now</button><button class="mem-btn is-primary" data-styes>Agree</button></div>`}</div></div>`
+      : `<div class="st-col st-briefcol st-fade"><p>Brief</p><div class="note">${briefHTML(i)}</div><div class="st-sendwrap"></div></div>`;
+    studio.innerHTML = `
+      <div class="st-col st-fade">
+        <header class="st-head"><img src="${a.avatar}" alt=""><b>${esc(a.name)}</b><span class="st-type">${esc(k.name)}</span>
+          <button class="st-x" data-stclose aria-label="Close"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button></header>
+        <div class="st-work"><h2 class="st-title">${esc(p.title)}</h2>${media}<p class="st-sub">${esc(p.sub)}</p>${rows}</div>
+        ${k.tweaks.length && !S.sent ? `<div class="st-tweaks"><p>Quick changes</p><div class="row">${k.tweaks.map(([t, fx], n) =>
+          `<button class="st-chip${S.edits.includes(t) ? ' done' : ''}" data-sttweak="${n}">${I_SPARK}${esc(t)}</button>`).join('')}</div></div>` : ''}
+      </div>
+      <div class="st-col chatcol st-fade"><div class="st-chat"></div>
+        <form class="st-compose" id="st-form"><textarea id="st-q" rows="1" placeholder="Ask for a change…"></textarea><button type="submit" aria-label="Send">${I_UP}</button></form></div>
+      ${right}`;
+    paintChat();
+    if (kind !== 'decide') paintBrief();
+  };
+
+  // the panel grows out of the card it came from, and shrinks back into it
+  const flip = (el, from, reverse) => {
+    const to = el.getBoundingClientRect();
+    if (!from || !from.width) return el.animate([{ opacity:0, transform:'translateY(16px) scale(.98)' }, { opacity:1, transform:'none' }], { duration:380, easing:'cubic-bezier(.32,.72,0,1)', direction: reverse ? 'reverse' : 'normal', fill:'both' });
+    const fr = [{ transform:`translate(${from.left - to.left}px,${from.top - to.top}px) scale(${from.width / to.width},${from.height / to.height})`, opacity:.4, borderRadius:'28px' },
+                { transform:'none', opacity:1, borderRadius:'24px' }];
+    return el.animate(fr, { duration: reverse ? 360 : 520, easing:'cubic-bezier(.32,.72,0,1)', direction: reverse ? 'reverse' : 'normal', fill:'both' });
+  };
+  const openStudio = (i, fromEl) => {
+    const p = ALL_POSTS[i]; if (!p || !p.cta) return;
+    stIdx = i; stFrom = fromEl || null;
+    if (kindOf(p) !== 'decide' && !kbItems.some(it => it.p === i)) kbItems.unshift({ p:i, col:'draft', t:'just now' });
+    if (chatPanel.classList.contains('on')) setChat(false);
+    paintStudio(i);
+    stScrim.hidden = false; studio.hidden = false;
+    requestAnimationFrame(() => stScrim.classList.add('on'));
+    flip(studio, fromEl && fromEl.getBoundingClientRect());
+    document.body.style.overflow = 'hidden';
+  };
+  const closeStudio = () => {
+    if (studio.hidden) return;
+    const from = stFrom && document.contains(stFrom) ? stFrom.getBoundingClientRect() : null;
+    stScrim.classList.remove('on');
+    const an = flip(studio, from, true);
+    an.onfinish = () => { studio.hidden = true; stScrim.hidden = true; an.cancel(); studio.innerHTML = ''; };
+    document.body.style.overflow = '';
+    if (!kbPage.hidden) paintKb();
+    stIdx = null;
+  };
+  const markCard = (i, label) => document.querySelectorAll(`.card[data-post="${i}"] .cta`).forEach(b => {
+    b.classList.add('is-sent'); b.querySelector('span').textContent = label;
+  });
+
+  const applyTweak = (n) => {
+    const i = stIdx, p = ALL_POSTS[i], k = KIND[kindOf(p)], S = st(i), [t, fx] = k.tweaks[n];
+    if (S.edits.includes(t)) return;
+    S.msgs.push({ me:true, t }); paintChat();
+    const work = studio.querySelector('.st-media');
+    aiSay(`Done. <b>${esc(t)}</b> is in the draft and the brief.`, () => {
+      S.edits.push(t); S.fresh = true;
+      if (fx === 'img' && (p.images || []).length > 1) S.img = (S.img + 1) % p.images.length;
+      S.tag = t;
+      const chip = studio.querySelector(`[data-sttweak="${n}"]`); if (chip) chip.classList.add('done');
+      if (work) {
+        const img = work.querySelector('img'); img.src = p.images[S.img] || p.images[0];
+        work.classList.remove('swap'); void work.offsetWidth; work.classList.add('swap');
+        work.querySelector('.st-tag')?.remove();
+        work.insertAdjacentHTML('beforeend', `<span class="st-tag">${I_SPARK}${esc(t)}</span>`);
+        studio.querySelectorAll('[data-stimg]').forEach((b, m) => b.classList.toggle('on', m === S.img));
+      } else {
+        const w = studio.querySelector('.st-work'); w.classList.remove('st-fade'); void w.offsetWidth; w.classList.add('st-fade');
+      }
+      paintBrief();
+      if (S.edits.length === 2) aiSay('That’s plenty to go on. Send the brief and the team takes it from here.');
+    });
+  };
+  const sendBrief = () => {
+    const i = stIdx, S = st(i); if (S.sent) return;
+    const note = studio.querySelector('.note'), r = note.getBoundingClientRect();
+    const target = kbBtn.getBoundingClientRect();
+    const fly = document.createElement('div'); fly.className = 'note-fly';
+    Object.assign(fly.style, { left:r.left + 'px', top:r.top + 'px', width:r.width + 'px', height:r.height + 'px' });
+    document.body.appendChild(fly);
+    note.style.visibility = 'hidden';
+    const dx = target.left + target.width / 2 - (r.left + r.width / 2), dy = target.top + target.height / 2 - (r.top + r.height / 2);
+    fly.animate([
+      { transform:'none', opacity:1 },
+      { transform:`translate(${dx * .35}px,${dy * .35 - 40}px) scale(.55) rotate(-6deg)`, opacity:1, offset:.45 },
+      { transform:`translate(${dx}px,${dy}px) scale(.04) rotate(-12deg)`, opacity:.2 }
+    ], { duration:900, easing:'cubic-bezier(.5,0,.2,1)', fill:'forwards' }).onfinish = () => {
+      fly.remove();
+      kbBtn.animate([{ transform:'scale(1)' }, { transform:'scale(1.25)' }, { transform:'scale(1)' }], { duration:380, easing:'cubic-bezier(.34,1.4,.64,1)' });
+    };
+    S.sent = true;
+    const it = kbItems.find(x => x.p === i);
+    if (it) { it.col = 'sent'; it.t = 'Sent just now'; } else kbItems.unshift({ p:i, col:'sent', t:'Sent just now' });
+    markCard(i, 'Brief sent');
+    setTimeout(() => { toast('Brief sent to the ShopOS team'); closeStudio(); }, 650);
+  };
+
+  studio.addEventListener('click', (e) => {
+    const t = e.target;
+    if (t.closest('[data-stclose]')) return closeStudio();
+    const tw = t.closest('[data-sttweak]'); if (tw) return applyTweak(+tw.dataset.sttweak);
+    const im = t.closest('[data-stimg]');
+    if (im) { const S = st(stIdx); S.img = +im.dataset.stimg; const w = studio.querySelector('.st-media'); w.querySelector('img').src = ALL_POSTS[stIdx].images[S.img]; w.classList.remove('swap'); void w.offsetWidth; w.classList.add('swap'); studio.querySelectorAll('[data-stimg]').forEach((b, m) => b.classList.toggle('on', m === S.img)); return; }
+    const cn = t.closest('[data-stconnect]');
+    if (cn) {
+      const id = cn.dataset.stconnect, i = stIdx;
+      if (cxState[id] !== 'off') return;
+      cxState[id] = 'busy'; paintBrief();
+      setTimeout(() => { setConnector(id, true, true); if (stIdx === i) { paintBrief(); aiSay(`${CONNECTORS.find(x => x.id === id).name} is connected. You can send the brief whenever you’re ready.`); } }, 1200);
+      return;
+    }
+    if (t.closest('#st-send')) return sendBrief();
+    if (t.closest('[data-styes]')) {
+      const i = stIdx, p = ALL_POSTS[i], S = st(i); S.decided = true;
+      learned.unshift({ t:p.title, s:'Agreed', a:p.agent });
+      markCard(i, 'Agreed'); toast('Agreed. Every agent works with it now.');
+      return setTimeout(closeStudio, 450);
+    }
+    if (t.closest('[data-stno]')) return closeStudio();
+  });
+  studio.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const q = document.getElementById('st-q'), v = q.value.trim(); if (!v) return;
+    const i = stIdx, S = st(i), kind = kindOf(ALL_POSTS[i]);
+    S.msgs.push({ me:true, t:v }); q.value = ''; paintChat();
+    aiSay(kind === 'decide' ? 'Good question. Short answer: the numbers on this card are the basis, and you can change your mind any time from Memory.'
+      : `On it. I’ve noted <b>${esc(trim(v, 60))}</b> in the brief so the team gets it exactly.`, () => {
+      if (kind !== 'decide') { S.edits.push(trim(v, 80)); S.fresh = true; paintBrief(); }
+    });
+  });
+  studio.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !e.shiftKey && e.target.id === 'st-q') { e.preventDefault(); studio.querySelector('#st-form').requestSubmit(); }
+  });
+  stScrim.addEventListener('click', closeStudio);
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !studio.hidden) { e.stopImmediatePropagation(); closeStudio(); } }, true);
+  // every card CTA opens the studio, growing out of that card
+  document.addEventListener('click', (e) => {
+    const c = e.target.closest('.card .cta');
+    if (!c || c.hasAttribute('data-connect-go')) return;
+    const card = c.closest('.card'), i = +card.dataset.post;
+    e.preventDefault(); e.stopPropagation();
+    openStudio(i, card);
+  }, true);
 
   // ---------- shortlisted page ----------
   const slPage = document.getElementById('sl-page');
