@@ -2772,8 +2772,8 @@
   .cx-in{width:min(1040px,100%);margin:0 auto;padding:48px 32px 80px}
   .cx-top{display:flex;align-items:flex-start;gap:24px}
   .cx-top > div{flex:1;min-width:0}
-  .cx-top h1{margin:0;font-size:30px;line-height:38px;font-weight:500;letter-spacing:-.02em}
-  .cx-top p{margin:8px 0 0;max-width:62ch;font-size:15px;line-height:23px;color:var(--fg-2)}
+  .cx-top h1{margin:0;font-size:32px;line-height:40px;font-weight:500;letter-spacing:-.02em}
+  .cx-top p{margin:8px 0 0;max-width:62ch;font-size:16.5px;line-height:25px;color:var(--fg-2)}
   .cx-x{width:38px;height:38px;border-radius:11px;background:#171717}
   .cx-search{
     display:flex;align-items:center;gap:12px;height:52px;margin:26px 0 8px;padding:0 18px;
@@ -2906,8 +2906,8 @@
   /* ---------- memory: what we learned, your feed, rules ---------- */
   .mem-tabs{display:flex;gap:4px;margin:26px 0 6px;border-bottom:1px solid #222}
   .mem-tabs button{
-    position:relative;height:44px;padding:0 14px;border:0;background:transparent;
-    color:var(--fg-3);font:inherit;font-size:14.5px;font-weight:500;cursor:pointer;transition:color .15s;
+    position:relative;height:48px;padding:0 16px;border:0;background:transparent;
+    color:var(--fg-3);font:inherit;font-size:16px;font-weight:500;cursor:pointer;transition:color .15s;
   }
   .mem-tabs button:hover{color:var(--fg-2)}
   .mem-tabs button[aria-selected="true"]{color:var(--fg)}
@@ -2916,10 +2916,11 @@
   .mem-panel{max-width:760px}
   .mem-sec{margin-top:30px}
   .mem-h{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
-  .mem-h h2{margin:0;font-size:16px;font-weight:500;letter-spacing:-.005em}
-  .mem-link{border:0;background:none;padding:0;color:var(--fg-3);font:inherit;font-size:13.5px;cursor:pointer}
+  .mem-h h2{margin:0;font-size:19px;line-height:26px;font-weight:500;letter-spacing:-.01em}
+  .mem-hint{font-size:14px;color:var(--fg-3)}
+  .mem-link{border:0;background:none;padding:0 4px;color:var(--fg-3);font:inherit;font-size:14.5px;cursor:pointer}
   .mem-link:hover{color:var(--fg)}
-  .mem-about{margin:0;padding:16px 18px;border-radius:16px;background:var(--card);font-size:15px;line-height:24px;color:var(--fg-2)}
+  .mem-about{margin:0;max-width:62ch;font-size:17px;line-height:28px;color:var(--fg-2)}
   .mem-about-edit textarea{
     width:100%;padding:14px 16px;border-radius:16px;border:1px solid #333;background:#151515;
     color:var(--fg);font:inherit;font-size:15px;line-height:24px;resize:vertical;outline:0;
@@ -2927,46 +2928,52 @@
   .mem-about-edit textarea:focus{border-color:#4a4a4a}
   .mem-row-btns{display:flex;justify-content:flex-end;gap:8px;margin-top:10px}
   .mem-btn{
-    height:36px;padding:0 16px;border:0;border-radius:10px;background:#222;color:var(--fg);
-    font:inherit;font-size:13.5px;font-weight:500;cursor:pointer;transition:background .15s,opacity .15s;
+    height:38px;padding:0 16px;border:0;border-radius:10px;background:#222;color:var(--fg);
+    font:inherit;font-size:14.5px;font-weight:500;cursor:pointer;transition:background .15s,opacity .15s;
   }
   .mem-btn:hover{background:#2c2c2c}
   .mem-btn.is-primary{background:#fafafa;color:#0a0a0a}
   .mem-btn.is-primary:hover{opacity:.9}
   .mem-list{display:flex;flex-direction:column}
-  .mem-item{display:flex;align-items:flex-start;gap:14px;padding:14px 2px;border-top:1px solid #1f1f1f}
-  .mem-item:first-child{border-top:0}
-  .mem-item img{width:28px;height:28px;flex:0 0 auto;margin-top:1px}
+  .mem-item{display:flex;align-items:center;gap:16px;padding:16px 14px;margin:0 -14px;border-radius:14px;transition:background .15s}
+  .mem-item:hover{background:#151515}
+  .mem-item + .mem-item{box-shadow:0 -1px 0 #1c1c1c}
+  .mem-item:hover,.mem-item:hover + .mem-item{box-shadow:none}
+  .mem-item img{width:36px;height:36px;flex:0 0 auto}
   .mem-item .t{flex:1;min-width:0}
-  .mem-item b{display:block;font-size:14.5px;line-height:21px;font-weight:400;color:var(--fg)}
-  .mem-item span{display:block;margin-top:2px;font-size:12.5px;color:var(--fg-3)}
+  .mem-item b{display:block;font-size:16.5px;line-height:24px;font-weight:400;color:var(--fg)}
+  .mem-item .t > span{display:block;margin-top:3px;font-size:14px;color:var(--fg-3)}
+  .mem-item.is-topic{padding-block:10px}
   .mem-x{
-    flex:0 0 auto;height:30px;padding:0 10px;border:0;border-radius:8px;background:transparent;
-    color:var(--fg-3);font:inherit;font-size:12.5px;cursor:pointer;transition:background .15s,color .15s;
+    flex:0 0 auto;display:inline-flex;align-items:center;gap:6px;height:34px;padding:0 12px;border:0;border-radius:10px;background:transparent;
+    color:var(--fg-3);font:inherit;font-size:14px;cursor:pointer;opacity:0;transition:background .15s,color .15s,opacity .15s;
   }
-  .mem-x:hover{background:#1f1f1f;color:var(--fg)}
-  .mem-empty{margin:0;padding:6px 2px;font-size:14px;color:var(--fg-3)}
-  .mem-lede{margin:26px 0 0;font-size:14.5px;color:var(--fg-2)}
+  .mem-item:hover .mem-x,.mem-x:focus-visible{opacity:1}
+  @media (hover:none){ .mem-x{opacity:1} .mem-x span{display:none} }
+  .mem-x:hover{background:#222;color:var(--fg)}
+  .mem-empty{margin:0;padding:6px 0;font-size:15.5px;color:var(--fg-3)}
+  .mem-lede{margin:28px 0 0;font-size:16.5px;line-height:25px;color:var(--fg-2)}
   .mem-add{
-    display:flex;align-items:center;gap:12px;margin-top:20px;padding:6px 6px 6px 16px;
+    display:flex;align-items:center;gap:12px;margin-top:28px;padding:7px 7px 7px 18px;
     border-radius:14px;background:#171717;border:1px solid #262626;color:var(--fg-3);
   }
   .mem-add:focus-within{border-color:#3a3a3a}
-  .mem-add input{flex:1;min-width:0;border:0;outline:0;background:transparent;color:var(--fg);font:inherit;font-size:15px}
+  .mem-add input{flex:1;min-width:0;border:0;outline:0;background:transparent;color:var(--fg);font:inherit;font-size:16px}
   .mem-add input::placeholder{color:var(--fg-3)}
-  .mem-chips{display:flex;flex-wrap:wrap;gap:8px}
-  .mem-chip{
-    display:inline-flex;align-items:center;gap:2px;height:36px;padding:0 4px 0 14px;border-radius:999px;
-    background:#1c1c1c;border:1px solid #262626;color:var(--fg);font-size:14px;
-  }
-  .mem-chip button{
-    height:28px;min-width:28px;padding:0 8px;border:0;border-radius:999px;background:transparent;
-    color:var(--fg-3);font:inherit;font-size:12px;cursor:pointer;transition:background .15s,color .15s;
-  }
-  .mem-chip button:hover{background:#2a2a2a;color:var(--fg)}
-  .mem-chips.is-less .mem-chip{color:var(--fg-2);border-style:dashed}
   .mem-page .tune-list{margin:0}
-  .mem-sugg{display:flex;gap:8px;flex:0 0 auto}
+  .mem-page .tune-row b{font-size:16px}
+  .mem-page .tune-row span{font-size:14px}
+  .mem-page .seg3 button{font-size:14px}
+  .sugg-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+  .sugg-card{
+    display:flex;flex-direction:column;gap:6px;padding:16px 18px;border-radius:16px;
+    border:1px dashed #333;background:transparent;
+  }
+  .sugg-card .who{display:flex;align-items:center;gap:8px;font-size:13.5px;color:var(--fg-3)}
+  .sugg-card .who img{width:22px;height:22px}
+  .sugg-card b{font-size:16.5px;line-height:24px;font-weight:400;color:var(--fg)}
+  .sugg-card .why{font-size:14px;color:var(--fg-3)}
+  .sugg-card .acts{display:flex;align-items:center;gap:10px;margin-top:8px}
 
   /* ---------- shortlisted ---------- */
   .feed-empty{
@@ -3476,9 +3483,6 @@
         <h1 id="cx-title">Connectors</h1>
         <p>Connect the tools your agents read from and act in</p>
       </div>
-      <button class="cp-btn cx-x" id="cx-close" aria-label="Close connectors">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
-      </button>
     </header>
     <label class="cx-search">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
@@ -3496,9 +3500,6 @@
         <h1 id="mem-title">Memory</h1>
         <p>What ShopOS knows about Arata, and how your feed is tuned. Change or forget anything.</p>
       </div>
-      <button class="cp-btn cx-x" id="mem-close" aria-label="Close memory">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
-      </button>
     </header>
     <nav class="mem-tabs" role="tablist" aria-label="Memory">
       <button role="tab" data-mtab="learned" aria-selected="true">What we learned</button>
@@ -3512,7 +3513,7 @@
         <p class="mem-about" id="about-text">Science-led shampoos and serums for Indian hair and scalp, 78 products on arata.in. Most orders come from first-time buyers, so the second order matters more than the first. People talk most about hair fall and whether the products work.</p>
         <div class="mem-about-edit" hidden>
           <textarea id="about-input" rows="4" aria-label="About Arata"></textarea>
-          <div class="mem-row-btns"><button class="mem-btn" id="about-cancel">Cancel</button><button class="mem-btn is-primary" id="about-save">Save</button></div>
+          <div class="mem-row-btns"><button class="mem-link" id="about-cancel">Cancel</button><button class="mem-btn" id="about-save">Save</button></div>
         </div>
       </section>
       <section class="mem-sec">
@@ -3522,21 +3523,17 @@
     </div>
 
     <div class="mem-panel" data-mpanel="feed" hidden>
-      <section class="mem-sec">
-        <div class="mem-h"><h2>More of this</h2></div>
-        <div class="mem-chips" id="chips-more"></div>
-      </section>
-      <section class="mem-sec">
-        <div class="mem-h"><h2>Less of this</h2></div>
-        <div class="mem-chips" id="chips-less"></div>
-      </section>
       <form class="mem-add" id="topic-form">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
-        <input id="topic-input" type="text" placeholder="Add a topic, e.g. sunscreen" autocomplete="off" aria-label="Add a topic">
+        <input id="topic-input" type="text" placeholder="What do you want to see more of? e.g. sunscreen" autocomplete="off" aria-label="Add a topic">
         <button class="mem-btn is-primary" type="submit">Add</button>
       </form>
       <section class="mem-sec">
-        <div class="mem-h"><h2>How much from each agent</h2></div>
+        <div class="mem-h"><h2>Topics</h2><span class="mem-hint">Set each one to less, normal or more</span></div>
+        <div class="mem-list" id="topic-list"></div>
+      </section>
+      <section class="mem-sec">
+        <div class="mem-h"><h2>Agents</h2><span class="mem-hint">How much each one posts to your feed</span></div>
         <div class="tune-list"></div>
       </section>
     </div>
@@ -3549,8 +3546,8 @@
         <button class="mem-btn is-primary" type="submit">Add</button>
       </form>
       <section class="mem-sec" id="suggest-sec">
-        <div class="mem-h"><h2>Suggested</h2></div>
-        <div class="mem-list" id="suggest-list"></div>
+        <div class="mem-h"><h2>Suggested by your agents</h2><span class="mem-hint">Not rules until you say so</span></div>
+        <div class="sugg-list" id="suggest-list"></div>
       </section>
       <section class="mem-sec">
         <div class="mem-h"><h2>Your rules</h2></div>
@@ -4541,7 +4538,7 @@
     document.querySelectorAll('.tune-list').forEach(el => el.innerHTML = html);
   };
   document.addEventListener('click', (e) => {
-    const b = e.target.closest('.seg3 button');
+    const b = e.target.closest('.seg3[data-tune] button');
     if (!b) return;
     tuneState[b.parentElement.dataset.tune] = b.dataset.v;
     paintTune();
@@ -5375,7 +5372,6 @@
     if (r) setCxPage(true);
   });
   cxPage.addEventListener('click', (e) => {
-    if (e.target.closest('#cx-close')) return setCxPage(false);
     const g = e.target.closest('[data-cxgo]');
     if (g) connectNow(g.dataset.cxgo);
   });
@@ -5395,39 +5391,41 @@
     { t:'Lead ads with the Intensive serum’s 474 reviews', s:'From the cards you shortlisted · Move 05', a:'performance' },
     { t:'Hair fall and product efficacy are what people talk about most', s:'From 1,225 things people said', a:'crm' }
   ];
-  const topics = { more:['Hair fall', 'Product efficacy', 'Shampoo reviews', 'Hair growth serum', 'AI answers'],
-                   less:['Skincare routine', 'Curl care'] };
+  const topics = [['Hair fall','more'], ['Product efficacy','more'], ['Shampoo reviews','more'], ['Hair growth serum','more'],
+                  ['AI answers','same'], ['Skincare routine','less'], ['Curl care','less']];
   const rules = [];
   const suggested = [
-    { t:'Quote real reviews instead of product claims', s:'You edited copy this way 3 times' },
-    { t:'Keep every price in rupees with the ₹ sign', s:'Noticed in 4 of your edits' }
+    { t:'Quote real reviews instead of product claims', s:'You edited copy this way 3 times', a:'creative' },
+    { t:'Keep every price in rupees with the ₹ sign', s:'Noticed in 4 of your edits', a:'storefront' }
   ];
 
+  const I_FORGET = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>';
   const paintLearned = () => {
     document.getElementById('learned-list').innerHTML = learned.length ? learned.map((m, i) => `
       <div class="mem-item"><img src="${AG(m.a).avatar}" alt="">
         <span class="t"><b>${esc(m.t)}</b><span>${esc(m.s)}</span></span>
-        <button class="mem-x" data-forget="${i}">Forget</button></div>`).join('')
+        <button class="mem-x" data-forget="${i}" aria-label="Forget this">${I_FORGET}<span>Forget</span></button></div>`).join('')
       : '<p class="mem-empty">Nothing yet. Like, shortlist and approve cards, and what ShopOS learns shows up here.</p>';
   };
-  const topicChip = (t, list) => `<span class="mem-chip">${esc(t)}
-      <button data-move="${list}" data-topic="${esc(t)}" title="${list === 'more' ? 'Move to less of this' : 'Move to more of this'}">${list === 'more' ? 'Less' : 'More'}</button>
-      <button data-drop="${list}" data-topic="${esc(t)}" aria-label="Remove ${esc(t)}">✕</button></span>`;
   const paintTopics = () => {
-    const more = document.getElementById('chips-more'), less = document.getElementById('chips-less');
-    more.innerHTML = topics.more.map(t => topicChip(t, 'more')).join('') || '<p class="mem-empty">Add a topic below.</p>';
-    less.innerHTML = topics.less.map(t => topicChip(t, 'less')).join('') || '<p class="mem-empty">Nothing muted.</p>';
-    less.classList.add('is-less');
+    document.getElementById('topic-list').innerHTML = topics.map(([t, v], i) => `
+      <div class="mem-item is-topic"><span class="t"><b>${esc(t)}</b></span>
+        <span class="seg3" data-topic="${i}">${['less','same','more'].map(x =>
+          `<button data-v="${x}" class="${v === x ? 'on' : ''}">${TUNE_LABEL[x]}</button>`).join('')}</span></div>`).join('');
   };
   const paintRules = () => {
     document.getElementById('rules-list').innerHTML = rules.length ? rules.map((r, i) => `
       <div class="mem-item"><span class="t"><b>${esc(r.t)}</b><span>${esc(r.s)}</span></span>
-        <button class="mem-x" data-unrule="${i}">Remove</button></div>`).join('')
-      : '<p class="mem-empty">No rules yet.</p>';
+        <button class="mem-x" data-unrule="${i}" aria-label="Remove rule">${I_FORGET}<span>Remove</span></button></div>`).join('')
+      : '<p class="mem-empty">No rules yet. Teach one above.</p>';
     document.getElementById('suggest-sec').hidden = !suggested.length;
     document.getElementById('suggest-list').innerHTML = suggested.map((r, i) => `
-      <div class="mem-item"><span class="t"><b>${esc(r.t)}</b><span>${esc(r.s)}</span></span>
-        <span class="mem-sugg"><button class="mem-x" data-skip="${i}">Dismiss</button><button class="mem-btn is-primary" data-keep="${i}">Make it a rule</button></span></div>`).join('');
+      <div class="sugg-card">
+        <span class="who"><img src="${AG(r.a).avatar}" alt="">${AG(r.a).name} suggests</span>
+        <b>${esc(r.t)}</b>
+        <span class="why">${esc(r.s)}</span>
+        <span class="acts"><button class="mem-btn" data-keep="${i}">Make it a rule</button><button class="mem-link" data-skip="${i}">Dismiss</button></span>
+      </div>`).join('');
     document.getElementById('rules-n').textContent = rules.length || '';
   };
   const setMemTab = (tab) => {
@@ -5447,7 +5445,6 @@
 
   memPage.addEventListener('click', (e) => {
     const t = e.target;
-    if (t.closest('#mem-close')) return setMemPage(false);
     const tab = t.closest('[data-mtab]');
     if (tab) {
       setMemTab(tab.dataset.mtab);
@@ -5472,13 +5469,8 @@
     }
     const f = t.closest('[data-forget]');
     if (f) { learned.splice(+f.dataset.forget, 1); paintLearned(); return toast('Forgotten'); }
-    const mv = t.closest('[data-move]');
-    if (mv) {
-      const from = mv.dataset.move, to = from === 'more' ? 'less' : 'more', x = mv.dataset.topic;
-      topics[from] = topics[from].filter(v => v !== x); topics[to].push(x); return paintTopics();
-    }
-    const dr = t.closest('[data-drop]');
-    if (dr) { topics[dr.dataset.drop] = topics[dr.dataset.drop].filter(v => v !== dr.dataset.topic); return paintTopics(); }
+    const tb = t.closest('.seg3[data-topic] button');
+    if (tb) { topics[+tb.parentElement.dataset.topic][1] = tb.dataset.v; return paintTopics(); }
     const keep = t.closest('[data-keep]');
     if (keep) { const r = suggested.splice(+keep.dataset.keep, 1)[0]; rules.unshift({ t:r.t, s:'You approved it · just now' }); paintRules(); return toast('Rule added. Every agent follows it now.'); }
     const skip = t.closest('[data-skip]');
@@ -5490,7 +5482,8 @@
     e.preventDefault();
     const i = document.getElementById('topic-input'), v = i.value.trim();
     if (!v) return i.focus();
-    if (!topics.more.includes(v)) topics.more.push(v);
+    const hit = topics.find(x => x[0].toLowerCase() === v.toLowerCase());
+    if (hit) hit[1] = 'more'; else topics.unshift([v, 'more']);
     i.value = ''; paintTopics();
   });
   document.getElementById('rule-form').addEventListener('submit', (e) => {
