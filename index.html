@@ -2986,11 +2986,11 @@
     flex:1;display:flex;gap:14px;overflow-x:auto;padding:28px 32px 32px;scroll-snap-type:x proximity;scroll-padding:32px;
     scrollbar-width:thin;scrollbar-color:#2a2a2a transparent;
   }
-  .kb-col{flex:0 0 304px;display:flex;flex-direction:column;min-height:0;scroll-snap-align:start;border-radius:18px;background:#111;border:1px solid #1d1d1d}
+  .kb-col{flex:0 0 380px;display:flex;flex-direction:column;min-height:0;scroll-snap-align:start;border-radius:18px;background:#111;border:1px solid #1d1d1d}
   .kb-col-h{display:flex;flex-direction:column;gap:4px;padding:16px 16px 14px}
   .kb-col-h .row{display:flex;align-items:center;gap:10px}
   .kb-col-h .ic{width:30px;height:30px;border-radius:9px;background:#1f1f1f;display:grid;place-items:center;color:var(--fg-2);flex:0 0 auto}
-  .kb-col-h b{flex:1;font-size:16px;font-weight:500;color:var(--fg)}
+  .kb-col-h b{flex:1;font-size:17px;font-weight:500;color:var(--fg)}
   .kb-col-h .n{min-width:26px;height:24px;padding:0 8px;border-radius:999px;background:#1f1f1f;color:var(--fg-2);font-size:13px;font-weight:500;display:grid;place-items:center;font-variant-numeric:tabular-nums}
   .kb-col[data-col="you"] .kb-col-h .n.has{background:rgba(245,166,35,.16);color:#f5b544}
   .kb-col-h span.sub{font-size:13.5px;color:var(--fg-3);padding-left:40px}
@@ -3004,13 +3004,13 @@
   .kb-card:hover{border-color:#333}
   .kb-card.is-drag{opacity:.4}
   .kb-card:active{cursor:grabbing}
-  .kb-card .th{height:132px;background:#232323}
+  .kb-card .th{height:180px;background:#232323}
   .kb-card .th img{width:100%;height:100%;object-fit:cover;display:block}
-  .kb-card .in{display:flex;flex-direction:column;gap:8px;padding:12px 14px 14px}
+  .kb-card .in{display:flex;flex-direction:column;gap:10px;padding:14px 16px 16px}
   .kb-card .who{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--fg-3)}
   .kb-card .who img{width:20px;height:20px}
   .kb-card .who em{font-style:normal;color:var(--fg-2)}
-  .kb-card h3{margin:0;font-size:15px;line-height:21px;font-weight:500;color:var(--fg);display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+  .kb-card h3{margin:0;font-size:16px;line-height:23px;font-weight:500;color:var(--fg);display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
   .kb-foot{display:flex;align-items:center;gap:8px;margin-top:2px;font-size:13px;color:var(--fg-3)}
   .kb-bar{position:relative;height:4px;border-radius:4px;background:#2a2a2a;overflow:hidden;margin-top:4px}
   .kb-bar i{position:absolute;inset:0 auto 0 0;border-radius:4px;background:linear-gradient(90deg,#6b8cff,#a78bfa);animation:kbgrow 1.2s cubic-bezier(.2,.8,.2,1)}
@@ -3026,6 +3026,22 @@
   .kb-ok{color:#4ade80}
   @media (max-width:600px){ .kb-page .cx-top,.kb-board{padding-inline:16px} .kb-col{flex-basis:84vw} }
   @media (prefers-reduced-motion:reduce){ .kb-bar i,.kb-bar i::after,.kb-live{animation:none} }
+
+  /* ---------- shortlisted page: what you saved, grouped by area ---------- */
+  .sl-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-top:28px}
+  .sl-card{display:flex;flex-direction:column;border-radius:16px;background:#181818;border:1px solid #242424;overflow:hidden;transition:border-color .15s}
+  .sl-card:hover{border-color:#333}
+  .sl-card .th{aspect-ratio:4/3;background:#232323;cursor:pointer}
+  .sl-card .th img{width:100%;height:100%;object-fit:cover;display:block}
+  .sl-card .in{flex:1;display:flex;flex-direction:column;gap:10px;padding:14px 16px 16px}
+  .sl-card .who{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--fg-3)}
+  .sl-card .who img{width:22px;height:22px}
+  .sl-card h3{margin:0;font-size:16px;line-height:23px;font-weight:500;color:var(--fg);cursor:pointer}
+  .sl-acts{display:flex;align-items:center;gap:8px;margin-top:auto;padding-top:4px}
+  .sl-acts .mem-btn{display:inline-flex;align-items:center;gap:8px}
+  .sl-un{display:grid;place-items:center;width:40px;height:40px;border:0;border-radius:12px;background:transparent;color:var(--fg);cursor:pointer;margin-left:auto}
+  .sl-un:hover{background:#262626}
+  .sl-empty{margin-top:40px;font-size:16px;color:var(--fg-3)}
 
   /* ---------- shortlisted ---------- */
   .feed-empty{
@@ -3544,6 +3560,14 @@
   </div>
 </section>
 
+
+<section class="cx-page mem-page sl-page" id="sl-page" hidden aria-labelledby="sl-title">
+  <div class="cx-in">
+    <header class="cx-top"><div><h1 id="sl-title">Shortlisted</h1><p>Cards you saved to come back to.</p></div></header>
+    <nav class="mem-tabs" id="sl-tabs" role="tablist" aria-label="Shortlisted"></nav>
+    <div class="sl-grid" id="sl-grid"></div>
+  </div>
+</section>
 
 <section class="cx-page kb-page" id="kb-page" hidden aria-labelledby="kb-title">
   <div class="cx-in">
@@ -4081,7 +4105,7 @@
   let BRAND_NAME = window.ARATA.brand.name;
   window.__setBrand = (name) => { BRAND_NAME = name || BRAND_NAME; };
 
-  const saved = new Set();
+  const saved = new Set([9, 15, 22, 45, 54, 25, 37]);
   let pro = false;
   let layout = 'feed';
   let chip = 'all';
@@ -5414,7 +5438,7 @@
     } else syncTabs();
   };
   cxFly.addEventListener('click', (e) => {
-    if (e.target.closest('#cx-all')) { if (!kbPage.hidden) setKbPage(false); return setCxPage(true); }
+    if (e.target.closest('#cx-all')) { if (!kbPage.hidden) setKbPage(false); if (!slPage.hidden) setSlPage(false); return setCxPage(true); }
     const r = e.target.closest('[data-cx]');
     if (r) setCxPage(true);
   });
@@ -5639,13 +5663,76 @@
     if (e.key === 'Escape' && !kbPage.hidden && !document.querySelector('.scrim.open') && !chatPanel.classList.contains('on')) setKbPage(false);
   });
 
+  // ---------- shortlisted page ----------
+  const slPage = document.getElementById('sl-page');
+  const SL_TABS = [['all','All'],['creatives','Creatives'],['storefront','Storefront'],['ads','Ads'],['visibility','AI visibility'],['signals','Signals'],['catalog','Catalog']];
+  let slTab = 'all';
+  const I_BM = '<path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/>';
+  const slCount = () => { const n = document.getElementById('shortlist-n'); n.textContent = saved.size; n.hidden = saved.size === 0; };
+  const paintSl = () => {
+    const all = [...saved].reverse();
+    const tabs = SL_TABS.filter(([k]) => k === 'all' || all.some(i => ALL_POSTS[i].sector === k));
+    if (!tabs.some(([k]) => k === slTab)) slTab = 'all';
+    document.getElementById('sl-tabs').innerHTML = tabs.map(([k, n]) => {
+      const c = k === 'all' ? all.length : all.filter(i => ALL_POSTS[i].sector === k).length;
+      return `<button role="tab" data-sltab="${k}" aria-selected="${k === slTab}">${n} <span class="n">${c}</span></button>`;
+    }).join('');
+    const list = all.filter(i => slTab === 'all' || ALL_POSTS[i].sector === slTab);
+    document.getElementById('sl-grid').innerHTML = list.length ? list.map(i => {
+      const p = ALL_POSTS[i], a = AG(p.agent), img = (p.images || [])[0];
+      return `<article class="sl-card" data-sl="${i}">
+        ${img ? `<div class="th" data-slopen="${i}"><img src="${img}" alt="" loading="lazy"></div>` : ''}
+        <div class="in"><span class="who"><img src="${a.avatar}" alt="">${esc(a.name)}</span>
+          <h3 data-slopen="${i}">${esc(p.title)}</h3>
+          <span class="sl-acts"><button class="mem-btn" data-sljam="${i}">${svg(I_HAND, 16)} Jam on it</button>
+            <button class="sl-un" data-slun="${i}" aria-label="Remove from shortlist" title="Remove">${svg(I_BM, 19, 'currentColor', true)}</button></span></div>
+      </article>`;
+    }).join('') : '';
+    document.getElementById('sl-tabs').hidden = !all.length;
+    if (!list.length) document.getElementById('sl-grid').innerHTML = '<p class="sl-empty">Nothing shortlisted yet. Tap the bookmark on any card to keep it here.</p>';
+  };
+  const setSlPage = (open) => {
+    if (open) {
+      if (!cxPage.hidden) setCxPage(false);
+      if (!memPage.hidden) setMemPage(false);
+      if (!kbPage.hidden) setKbPage(false);
+      paintSl(); slPage.hidden = false; slPage.scrollTop = 0;
+      document.querySelectorAll('[data-nav="home"]').forEach(b => b.classList.remove('is-on'));
+    } else { slPage.hidden = true; syncTabs(); }
+    shortBtn.classList.toggle('is-on', open);
+  };
+  slPage.addEventListener('click', (e) => {
+    const t = e.target;
+    const tab = t.closest('[data-sltab]');
+    if (tab) { slTab = tab.dataset.sltab; return paintSl(); }
+    const un = t.closest('[data-slun]');
+    if (un) {
+      const i = +un.dataset.slun; saved.delete(i);
+      document.querySelectorAll(`.card[data-post="${i}"] .bookmark`).forEach(x => { x.setAttribute('aria-pressed','false'); x.querySelector('svg').setAttribute('fill','none'); });
+      slCount(); paintSl(); return toast('Removed from shortlist');
+    }
+    const j = t.closest('[data-sljam]');
+    if (j) {
+      const i = +j.dataset.sljam;
+      if (!kbItems.some(it => it.p === i)) kbItems.unshift({ p:i, col:'draft', t:'just now' });
+      return openJam(ALL_POSTS[i]);
+    }
+    const o = t.closest('[data-slopen]');
+    if (o) openJam(ALL_POSTS[+o.dataset.slopen]);
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !slPage.hidden && !document.querySelector('.scrim.open') && !chatPanel.classList.contains('on')) setSlPage(false);
+  });
+  slCount();
+
   document.querySelectorAll('.rail-btn').forEach(b => b.addEventListener('click', () => {
     const key = b.dataset.nav;
     setRail(false);
-    if (key === 'connectors') { if (!memPage.hidden) setMemPage(false); if (!kbPage.hidden) setKbPage(false); return setCxPage(cxPage.hidden); }
+    if (key === 'connectors') { if (!memPage.hidden) setMemPage(false); if (!kbPage.hidden) setKbPage(false); if (!slPage.hidden) setSlPage(false); return setCxPage(cxPage.hidden); }
     if (!cxPage.hidden && key !== 'notifications') setCxPage(false);
     if (!memPage.hidden && !['memory','tune','notifications'].includes(key)) setMemPage(false);
     if (!kbPage.hidden && !['kanban','notifications','chat','jam'].includes(key)) setKbPage(false);
+    if (!slPage.hidden && !['shortlist','notifications','chat','jam'].includes(key)) setSlPage(false);
     if (key === 'chat')      return setChat(!chatPanel.classList.contains('on'));
     if (key === 'jam')       return openModal('jam-scrim');
     if (key === 'tune')      return setMemPage(true, 'feed');
@@ -5658,7 +5745,7 @@
       if (chip === 'wishlist') setShortlist(false);
       return setLayout('deck');
     }
-    if (key === 'shortlist') return setShortlist(chip !== 'wishlist');
+    if (key === 'shortlist') return setSlPage(slPage.hidden);
     if (key === 'kanban')    return setKbPage(kbPage.hidden);
     if (key === 'memory')    return setMemPage(memPage.hidden || !memBtn.classList.contains('is-on'), 'learned');
     if (key === 'account')   return toast('Account is not built in this prototype yet');
