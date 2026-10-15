@@ -2642,9 +2642,9 @@
   #notif-fly{width:420px;padding:0;overflow:hidden;border-radius:22px}
   .nf-head{display:flex;align-items:center;justify-content:space-between;padding:16px 20px 8px}
   .nf-head b{font-size:16px;font-weight:500;color:var(--fg)}
-  .nf-head b span{margin-left:8px;font-size:14px;font-weight:400;color:var(--fg-3);font-variant-numeric:tabular-nums}
-  .nf-read{border:0;background:none;padding:0;font:inherit;font-size:14px;color:var(--fg-3);cursor:pointer;transition:color .15s}
-  .nf-read:hover{color:var(--fg)}
+  .nf-head b span{margin-left:6px;font-size:16px;font-weight:400;color:var(--fg-3);font-variant-numeric:tabular-nums}
+  .nf-read{border:0;background:none;padding:0;font:inherit;font-size:14px;color:#5b8cff;cursor:pointer;transition:color .15s}
+  .nf-read:hover{color:#86a9ff}
   .nf-list{display:flex;flex-direction:column;gap:2px;padding:4px 8px 8px;max-height:520px;overflow-y:auto}
   .notif-row{
     display:flex;align-items:center;gap:14px;width:100%;padding:8px 12px 8px 8px;border:0;border-radius:16px;background:transparent;
@@ -5345,7 +5345,7 @@
   const I_NX = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>';
   const paintNotifs = () => {
     const unread = notifFly.querySelectorAll('.notif-row:not(.read)').length;
-    notifFly.querySelector('.nf-count').textContent = unread ? unread + ' new' : '';
+    notifFly.querySelector('.nf-count').textContent = unread ? `(${unread})` : '';
     document.querySelector('.rail-dot')?.toggleAttribute('hidden', unread === 0);
     const list = notifFly.querySelector('.nf-list');
     if (!list.querySelector('.notif-row')) list.innerHTML = '<p class="nf-empty">You’re all caught up.</p>';
@@ -5356,8 +5356,7 @@
     <div class="nf-list">${nfPicked.map((p, i) => `
       <button class="notif-row${i > 2 ? ' read' : ''}" data-post="${ALL_POSTS.indexOf(p)}">
         <span class="ni">${svg(NF_I[p.sector] || NF_I.signals, 22)}</span>
-        <span class="nt"><span>${esc(p.title)}</span><em>${NF_WHAT[p.sector] || 'Update'} · ${esc(AG(p.agent).name)}</em></span>
-        <span class="nd">${esc(String(p.time).replace('Just now','now').replace(' min','m').replace(' hr','h'))}</span>
+        <span class="nt"><span>${esc(p.title)}</span><em>${NF_WHAT[p.sector] || 'Update'} · ${esc(AG(p.agent).name)} · ${esc(String(p.time).replace('Just now','now').replace(' min','m').replace(' hr','h'))}</em></span>
         <span class="nx" role="button" aria-label="Dismiss">${I_NX}</span>
       </button>`).join('')}</div>`;
   paintNotifs();
