@@ -3241,6 +3241,72 @@
   @media (max-width:980px){ .studio{grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr) minmax(0,46vh)} .st-right{border-left:0;border-top:1px solid #1d1d1d} .st-pane.draft,.st-pane.brief{padding:20px} }
   @media (max-width:600px){ .studio{left:52px} }
 
+
+  /* studio, take three: the chat is the page, quick changes sit on the chat box, the brief floats on the right */
+  .studio{grid-template-columns:minmax(0,1fr) auto;grid-template-rows:auto minmax(0,1fr)}
+  .studio[data-mode="decide"]{grid-template-columns:minmax(0,1fr)}
+  .st-main{position:relative;display:flex;flex-direction:column;min-height:0;min-width:0}
+  .st-main .st-chat{flex:1;min-height:0;overflow:auto;padding:32px max(24px,calc((100% - 760px) / 2)) 24px;gap:22px}
+  .cm{animation:stfade .4s cubic-bezier(.2,.8,.2,1) both}
+  .cm-card{display:flex;flex-direction:column;gap:14px;padding:22px;border-radius:22px;background:#151515;border:1px solid #222}
+  .cm-who{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--fg-3)}
+  .cm-who img{width:26px;height:26px}
+  .cm-who b{font-weight:500;color:var(--fg)}
+  .cm-card h2{margin:0;font-size:22px;line-height:30px;font-weight:500;letter-spacing:-.01em}
+  .cm-card p{margin:0;font-size:15px;line-height:23px;color:var(--fg-2)}
+  .cm-strip{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;margin:0 -22px;padding:0 22px;scrollbar-width:none}
+  .cm-strip img{flex:0 0 auto;height:340px;aspect-ratio:4/5;object-fit:cover;border-radius:14px;scroll-snap-align:start}
+  .cm-media{position:relative;width:min(100%,380px);aspect-ratio:4/5;border-radius:16px;overflow:hidden;background:#1a1a1a}
+  .cm-media img{width:100%;height:100%;object-fit:cover;display:block}
+  .cm-ai .cm-media{margin-top:10px;animation:stswap .6s cubic-bezier(.2,.8,.2,1) both}
+  .cm-me{display:flex;justify-content:flex-end}
+  .cm-me span{max-width:70%;padding:10px 16px;border-radius:18px 18px 4px 18px;background:#232323;font-size:15px;line-height:22px}
+  .cm-ai{display:flex;gap:12px;align-items:flex-start}
+  .cm-ai .av{width:28px;height:28px;flex:0 0 auto}
+  .cm-body{flex:1;min-width:0;font-size:15px;line-height:24px;color:var(--fg-2);padding-top:2px}
+  .cm-body b{color:var(--fg);font-weight:500}
+  .cm-diff{display:flex;width:fit-content;align-items:center;gap:8px;margin-top:10px;padding:8px 12px;border-radius:12px;background:#151515;border:1px solid #262626;color:var(--fg);font-size:14px}
+  .cm-late{animation:stfade .45s cubic-bezier(.2,.8,.2,1) .35s both}
+  .st-dock{padding:0 max(24px,calc((100% - 760px) / 2)) 22px;display:flex;flex-direction:column;gap:10px}
+  .st-quick{display:flex;flex-wrap:wrap;gap:8px}
+  .st-quick:empty{display:none}
+  .st-quick .st-chip{animation:stfade .35s ease both}
+  .st-chip.is-yes{background:#fafafa;color:#0a0a0a;border-color:#fafafa}
+  .st-chip.is-yes:hover{background:#e8e8e8}
+  .st-main .st-compose{margin:0;padding:12px 12px 12px 18px;border-radius:20px}
+  .st-main .st-compose textarea{font-size:15.5px}
+  /* the floating brief */
+  .st-brief{position:relative;width:64px;transition:width .5s cubic-bezier(.32,.72,0,1)}
+  .st-brief[data-state="open"]{width:420px}
+  .st-peek{
+    position:absolute;top:16px;right:16px;z-index:2;display:flex;align-items:center;gap:12px;width:max-content;
+    padding:10px 14px 10px 10px;border:0;border-radius:16px;background:#fbfaf6;color:#151515;cursor:pointer;text-align:left;font:inherit;
+    box-shadow:0 12px 36px rgba(0,0,0,.45);transition:opacity .25s,transform .35s cubic-bezier(.32,.72,0,1);
+  }
+  .st-peek:hover{transform:translateX(-3px)}
+  .st-peek .pk-ic{width:34px;height:34px;border-radius:10px;background:#151515;color:#fff;display:grid;place-items:center}
+  .st-peek .pk-t{display:flex;flex-direction:column}
+  .st-peek .pk-t b{font-size:14px;font-weight:600}
+  .st-peek .pk-t em{font-style:normal;font-size:12.5px;color:#6b6b6b;white-space:nowrap}
+  .st-peek .pk-n{min-width:22px;height:22px;padding:0 6px;border-radius:999px;background:#151515;color:#fff;font-size:12px;font-weight:600;display:grid;place-items:center}
+  .st-peek .pk-n.pop{animation:npop .45s cubic-bezier(.34,1.6,.64,1)}
+  .st-brief[data-state="open"] .st-peek{opacity:0;pointer-events:none;transform:translateX(20px)}
+  .st-sheet{
+    position:absolute;top:16px;bottom:16px;right:16px;width:388px;display:flex;flex-direction:column;
+    border-radius:22px;background:#121212;border:1px solid #242424;padding:14px;
+    opacity:0;transform:translateX(40px);pointer-events:none;transition:opacity .35s ease,transform .5s cubic-bezier(.32,.72,0,1);
+  }
+  .st-brief[data-state="open"] .st-sheet{opacity:1;transform:none;pointer-events:auto}
+  .st-sheet-h{display:flex;align-items:center;justify-content:space-between;padding:2px 4px 12px;font-size:14px;color:var(--fg-2)}
+  .st-sheet-h span{display:inline-flex;align-items:center;gap:8px}
+  .st-min{width:32px;height:32px;border:0;border-radius:9px;background:transparent;color:var(--fg-3);display:grid;place-items:center;cursor:pointer}
+  .st-min:hover{background:#1f1f1f;color:var(--fg)}
+  .st-min svg{transition:transform .25s cubic-bezier(.34,1.4,.64,1)}
+  .st-min:hover svg{transform:translateX(2px)}
+  .st-sheet .note{flex:1;min-height:0;overflow:auto}
+  .st-sheet .st-send{width:100%}
+  @media (max-width:980px){ .st-brief[data-state="open"]{width:100%;position:fixed;inset:64px 0 0 60px;z-index:3} .st-sheet{width:auto;left:16px} }
+
   .kb-card.is-brief{background:#fbfaf6;border-color:#fbfaf6;color:#151515}
   .kb-card.is-brief h3{color:#151515}
   .kb-card.is-brief .who,.kb-card.is-brief .kb-foot{color:#6b6b6b}
@@ -5908,80 +5974,114 @@
     if (c && cxState[c.id] !== 'on') return `<button class="st-send" data-stneed>Connect ${c.name} to send</button>`;
     return `<button class="st-send${S.edits.length || S.view === 'brief' ? ' is-primary' : ''}" id="st-send">Send brief ${I_SEND}</button>`;
   };
+  // ---- the brief floats on the right: a quiet peek until something is in it, then the full note ----
   const paintBrief = () => {
     const i = stIdx; if (i == null) return;
-    const S = st(i), note = studio.querySelector('.note');
-    if (note) { note.innerHTML = briefHTML(i); }
-    const sw = studio.querySelector('.st-sendwrap'); if (sw) sw.innerHTML = sendBtn(i);
-    const n = studio.querySelector('.st-view .n');
-    if (n) { n.textContent = S.edits.length; n.hidden = !S.edits.length; if (S.fresh) { n.classList.remove('pop'); void n.offsetWidth; n.classList.add('pop'); } }
+    const S = st(i), box = studio.querySelector('.st-brief'); if (!box) return;
+    const open = S.briefOpen;
+    box.dataset.state = open ? 'open' : 'peek';
+    const n = S.edits.length;
+    box.querySelector('.st-peek').innerHTML = `
+      <span class="pk-ic">${I_NOTE}</span>
+      <span class="pk-t"><b>Brief</b><em>${S.sent ? 'Sent to the ShopOS team' : n ? `${n} change${n > 1 ? 's' : ''} so far` : 'Fills in as you go'}</em></span>
+      ${n && !S.sent ? `<span class="pk-n${S.fresh ? ' pop' : ''}">${n}</span>` : ''}`;
+    if (open) {
+      box.querySelector('.note').innerHTML = briefHTML(i);
+      box.querySelector('.st-sendwrap').innerHTML = sendBtn(i);
+    }
     S.fresh = false;
   };
-  const setView = (v) => {
-    const S = st(stIdx); S.view = v;
-    studio.querySelector('.st-left').dataset.view = v;
-    studio.querySelectorAll('[data-stview]').forEach(b => b.classList.toggle('on', b.dataset.stview === v));
-    paintBrief();
+  const setBrief = (open) => { st(stIdx).briefOpen = open; paintBrief(); };
+
+  // ---- chat: the card is the first message, every change streams in below it ----
+  const mediaBlock = (p, img, tag) => {
+    const imgs = p.images || [];
+    if (!imgs.length) return '';
+    return `<div class="cm-media"><img src="${imgs[img] || imgs[0]}" alt="">${tag ? `<span class="st-tag">${I_SPARK}${esc(tag)}</span>` : ''}</div>`;
   };
-  const msgHTML = (m) => m.me
-    ? `<div class="st-msg me"><span>${esc(m.t)}</span></div>`
-    : `<div class="st-msg ai"><img src="${m.av}" alt=""><span>${m.t}</span></div>`;
-  const paintChat = () => {
+  const rowsBlock = (p) => p.rows && p.rows.length ? `<div class="st-rows">${p.rows.map(([x, y]) => `<div><span class="k">${esc(x)}</span><span class="v">${esc(y)}</span></div>`).join('')}</div>` : '';
+  const msgHTML = (m, p, a) => {
+    if (m.card) {
+      const imgs = p.images || [];
+      return `<div class="cm cm-card">
+        <div class="cm-who"><img src="${a.avatar}" alt=""><b>${esc(a.name)}</b><span>${esc(p.time)}</span></div>
+        <h2>${esc(p.title)}</h2>
+        ${imgs.length > 1 ? `<div class="cm-strip">${imgs.map(x => `<img src="${x}" alt="">`).join('')}</div>` : mediaBlock(p, 0)}
+        <p>${esc(p.sub)}</p>${rowsBlock(p)}</div>`;
+    }
+    if (m.me) return `<div class="cm cm-me"><span>${esc(m.t)}</span></div>`;
+    return `<div class="cm cm-ai"><img class="av" src="${a.avatar}" alt=""><div class="cm-body"><span class="cm-t">${m.t}</span>${m.img != null ? mediaBlock(p, m.img, m.tag) : ''}${m.diff ? `<div class="cm-diff">${I_SPARK}<span>${esc(m.diff)}</span></div>` : ''}${m.extra || ''}</div></div>`;
+  };
+  const paintChat = (stream) => {
     const box = studio.querySelector('.st-chat'); if (!box) return;
-    box.innerHTML = st(stIdx).msgs.map(msgHTML).join('');
+    const p = ALL_POSTS[stIdx], a = AG(p.agent), S = st(stIdx);
+    box.innerHTML = S.msgs.map(m => msgHTML(m, p, a)).join('');
+    const last = box.lastElementChild;
+    if (stream && last && last.classList.contains('cm-ai')) {
+      // words appear one after another, like it is being written
+      const t = last.querySelector('.cm-t'); const html = t.innerHTML;
+      const parts = html.split(/(\s+)/); t.innerHTML = '';
+      let n = 0; const tick = () => { t.innerHTML = parts.slice(0, n += 2).join(''); box.scrollTop = box.scrollHeight; if (n < parts.length) requestAnimationFrame(() => setTimeout(tick, 18)); };
+      tick();
+      last.querySelectorAll('.cm-media,.cm-diff,.st-inline').forEach(x => x.classList.add('cm-late'));
+    }
     box.scrollTop = box.scrollHeight;
   };
-  const aiSay = (html, after) => {
+  const aiSay = (msg, after) => {
     const i = stIdx, box = studio.querySelector('.st-chat');
     const a = AG(ALL_POSTS[i].agent);
-    if (box) { box.insertAdjacentHTML('beforeend', `<div class="st-msg ai st-wait"><img src="${a.avatar}" alt=""><span class="st-typing"><i></i><i></i><i></i></span></div>`); box.scrollTop = box.scrollHeight; }
+    if (box) { box.insertAdjacentHTML('beforeend', `<div class="cm cm-ai"><img class="av" src="${a.avatar}" alt=""><div class="cm-body"><span class="st-typing"><i></i><i></i><i></i></span></div></div>`); box.scrollTop = box.scrollHeight; }
     setTimeout(() => {
-      st(i).msgs.push({ av:a.avatar, t:html });
-      if (stIdx === i) { paintChat(); after && after(); }
-    }, 750);
+      st(i).msgs.push(typeof msg === 'string' ? { t:msg } : msg);
+      if (stIdx === i) { paintChat(true); after && after(); }
+    }, 700);
   };
   const greet = (p, kind) => {
     const k = KIND[kind];
     if (kind === 'decide') return `This one is a decision, not a job. <b>Agree</b> and every agent works with it, or ask me anything first.`;
     const c = k.need && CONNECTORS.find(x => x.id === k.need);
-    const lead = p.cta ? `Here’s the first draft for <b>${esc(ctaLabel(p).toLowerCase())}</b>.` : `Want to act on this? Tell me what you’d like made from it.`;
-    return `${lead} Use a quick change above or type below. Everything you change goes into the brief, open it from <b>Brief</b> up top.` +
-      (c && cxState[c.id] !== 'on' ? ` This one needs <b>${c.name}</b>, you can connect it from the brief.` : '');
+    const lead = p.cta ? `I’ve got a first draft for <b>${esc(ctaLabel(p).toLowerCase())}</b>.` : `Want to act on this? Tell me what you’d like made from it.`;
+    return `${lead} Pick a quick change below or tell me what to change. Everything lands in the brief on the right.` +
+      (c && cxState[c.id] !== 'on' ? ` It needs <b>${c.name}</b> before the team can act, connect it from the brief.` : '');
   };
   const I_BACK = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>';
-  const I_NOTE = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h8M8 17h5"/></svg>';
+  const I_NOTE = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h8M8 17h5"/></svg>';
+  const I_MIN = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m9 18 6-6-6-6"/></svg>';
+  const paintActions = () => {
+    const i = stIdx, p = ALL_POSTS[i], kind = kindOf(p), k = KIND[kind], S = st(i);
+    const el = studio.querySelector('.st-quick'); if (!el) return;
+    el.innerHTML = kind === 'decide'
+      ? (S.decided ? '' : `<button class="st-chip is-yes" data-styes>${I_OK} Agree</button><button class="st-chip" data-stno>Not now</button>`)
+      : S.sent ? '' : k.tweaks.filter(([t]) => !S.edits.includes(t)).map(([t]) =>
+          `<button class="st-chip" data-sttweak="${k.tweaks.findIndex(x => x[0] === t)}">${I_SPARK}${esc(t)}</button>`).join('');
+  };
   const paintStudio = (i) => {
-    const p = ALL_POSTS[i], a = AG(p.agent), kind = kindOf(p), k = KIND[kind], S = st(i), imgs = p.images || [];
-    if (!S.msgs.length) S.msgs.push({ av:a.avatar, t:greet(p, kind) });
-    const media = imgs.length ? `
-      <div class="st-media"><img src="${imgs[S.img] || imgs[0]}" alt="">${S.tag ? `<span class="st-tag">${I_SPARK}${esc(S.tag)}</span>` : ''}</div>
-      ${imgs.length > 1 ? `<div class="st-thumbs">${imgs.map((x, n) => `<button data-stimg="${n}" class="${n === S.img ? 'on' : ''}"><img src="${x}" alt=""></button>`).join('')}</div>` : ''}` : '';
-    const rows = p.rows && p.rows.length ? `<div class="st-rows">${p.rows.map(([x, y]) => `<div><span class="k">${esc(x)}</span><span class="v">${esc(y)}</span></div>`).join('')}</div>` : '';
+    const p = ALL_POSTS[i], a = AG(p.agent), kind = kindOf(p), k = KIND[kind], S = st(i);
+    if (!S.msgs.length) { S.msgs.push({ card:true }); S.msgs.push({ t:greet(p, kind) }); }
     const decide = kind === 'decide';
-    const actions = decide
-      ? (S.decided ? `<p>Your call</p><button class="st-send sent">${I_OK} Agreed</button>`
-          : `<p>Your call</p><div class="row"><button class="mem-btn is-primary" data-styes>Agree</button><button class="mem-btn" data-stno>Not now</button></div>`)
-      : S.sent ? `<p>Brief sent to the ShopOS team</p>`
-      : `<p>Quick changes</p><div class="row">${k.tweaks.map(([t], n) =>
-          `<button class="st-chip${S.edits.includes(t) ? ' done' : ''}" data-sttweak="${n}">${I_SPARK}${esc(t)}</button>`).join('')}</div>`;
+    studio.dataset.mode = decide ? 'decide' : 'brief';
     studio.innerHTML = `
       <header class="st-top st-fade">
         <button class="st-back" data-stclose>${I_BACK}Back</button><span class="sep"></span>
         <img src="${a.avatar}" alt=""><b>${esc(a.name)}</b><span class="st-type">${esc(k.name)}</span>
-        <span class="grow"></span>
-        ${decide ? '' : `<span class="st-view"><button data-stview="draft" class="${S.view === 'draft' ? 'on' : ''}">Draft</button><button data-stview="brief" class="${S.view === 'brief' ? 'on' : ''}">${I_NOTE}Brief<span class="n"${S.edits.length ? '' : ' hidden'}>${S.edits.length}</span></button></span>
-        <span class="st-sendwrap"></span>`}
       </header>
-      <div class="st-left" data-view="${decide ? 'draft' : S.view}">
-        <div class="st-pane draft"><div class="st-draft-in st-fade"><h2 class="st-title">${esc(p.title)}</h2>${media}<p class="st-sub">${esc(p.sub)}</p>${rows}</div></div>
-        ${decide ? '' : `<div class="st-pane brief"><div class="note">${briefHTML(i)}</div></div>`}
-      </div>
-      <aside class="st-right st-fade">
-        <div class="st-actions">${actions}</div>
+      <main class="st-main">
         <div class="st-chat"></div>
-        <form class="st-compose" id="st-form"><textarea id="st-q" rows="1" placeholder="${decide ? 'Ask about this…' : 'Ask for a change…'}"></textarea><button type="submit" aria-label="Send">${I_UP}</button></form>
-      </aside>`;
+        <div class="st-dock">
+          <div class="st-quick"></div>
+          <form class="st-compose" id="st-form"><textarea id="st-q" rows="1" placeholder="${decide ? 'Ask about this…' : 'Ask for a change…'}"></textarea><button type="submit" aria-label="Send">${I_UP}</button></form>
+        </div>
+      </main>
+      ${decide ? '' : `<aside class="st-brief" data-state="peek">
+        <button class="st-peek" data-stbrief></button>
+        <div class="st-sheet">
+          <div class="st-sheet-h"><span>${I_NOTE} Brief</span><button class="st-min" data-stmin aria-label="Hide brief">${I_MIN}</button></div>
+          <div class="note"></div>
+          <div class="st-sendwrap"></div>
+        </div>
+      </aside>`}`;
     paintChat();
+    paintActions();
     if (!decide) paintBrief();
   };
 
@@ -6003,6 +6103,7 @@
     studio.hidden = false;
     flip(studio, fromEl && fromEl.getBoundingClientRect());
     document.body.style.overflow = 'hidden';
+    setTimeout(() => studio.querySelector('#st-q')?.focus({ preventScroll:true }), 600);
   };
   const closeStudio = () => {
     if (studio.hidden) return;
@@ -6017,33 +6118,27 @@
     b.classList.add('is-sent'); b.querySelector('span').textContent = label;
   });
 
+  const afterChange = (S) => {
+    if (!S.briefOpen && S.edits.length === 1) setTimeout(() => setBrief(true), 250);
+    else paintBrief();
+    if (S.edits.length === 2) aiSay({ t:'That’s plenty to go on. The brief on the right has everything, send it and the team takes it from here.' });
+  };
   const applyTweak = (n) => {
     const i = stIdx, p = ALL_POSTS[i], k = KIND[kindOf(p)], S = st(i), [t, fx] = k.tweaks[n];
     if (S.edits.includes(t)) return;
+    S.edits.push(t); paintActions();
     S.msgs.push({ me:true, t }); paintChat();
-    const work = studio.querySelector('.st-media');
-    aiSay(`Done. <b>${esc(t)}</b> is in the draft and the brief.`, () => {
-      S.edits.push(t); S.fresh = true;
-      if (fx === 'img' && (p.images || []).length > 1) S.img = (S.img + 1) % p.images.length;
-      S.tag = t;
-      const chip = studio.querySelector(`[data-sttweak="${n}"]`); if (chip) chip.classList.add('done');
-      if (work) {
-        const img = work.querySelector('img'); img.src = p.images[S.img] || p.images[0];
-        work.classList.remove('swap'); void work.offsetWidth; work.classList.add('swap');
-        work.querySelector('.st-tag')?.remove();
-        work.insertAdjacentHTML('beforeend', `<span class="st-tag">${I_SPARK}${esc(t)}</span>`);
-        studio.querySelectorAll('[data-stimg]').forEach((b, m) => b.classList.toggle('on', m === S.img));
-      } else {
-        const w = studio.querySelector('.st-work'); w.classList.remove('st-fade'); void w.offsetWidth; w.classList.add('st-fade');
-      }
-      paintBrief();
-      if (S.edits.length === 2) aiSay(`That’s plenty to go on. Have a look at the brief and send it, the team takes it from here.<br><button class="st-inline" data-stview="brief">View brief ${I_ARR}</button>`);
-    });
+    const imgs = p.images || [];
+    if (fx === 'img' && imgs.length > 1) S.img = (S.img + 1) % imgs.length;
+    const msg = imgs.length
+      ? { t:`Here’s the update with <b>${esc(t.toLowerCase())}</b>. It’s in the brief.`, img:S.img, tag:t }
+      : { t:`Done. I’ve changed it and added it to the brief.`, diff:t };
+    aiSay(msg, () => { S.fresh = true; afterChange(S); });
   };
   const sendBrief = () => {
     const i = stIdx, S = st(i); if (S.sent) return;
-    if (S.view !== 'brief') { setView('brief'); return setTimeout(sendBrief, 520); }
-    const note = studio.querySelector('.note'), r = note.getBoundingClientRect();
+    if (!S.briefOpen) { setBrief(true); return setTimeout(sendBrief, 480); }
+    const note = studio.querySelector('.st-brief .note'), r = note.getBoundingClientRect();
     const target = kbBtn.getBoundingClientRect();
     const fly = document.createElement('div'); fly.className = 'note-fly';
     const ghost = note.cloneNode(true); Object.assign(ghost.style, { width:r.width + 'px', height:r.height + 'px', overflow:'hidden', boxShadow:'none', margin:0 });
@@ -6064,34 +6159,35 @@
     const it = kbItems.find(x => x.p === i);
     if (it) { it.col = 'sent'; it.t = 'Sent just now'; } else kbItems.unshift({ p:i, col:'sent', t:'Sent just now' });
     markCard(i, 'Brief sent');
-    setTimeout(() => { toast('Brief sent to the ShopOS team'); closeStudio(); }, 800);
+    setTimeout(() => { toast('Brief sent to the ShopOS team'); closeStudio(); }, 850);
   };
 
   studio.addEventListener('click', (e) => {
     const t = e.target;
     if (t.closest('[data-stclose]')) return closeStudio();
+    if (t.closest('[data-stbrief]')) return setBrief(true);
+    if (t.closest('[data-stmin]')) return setBrief(false);
     const tw = t.closest('[data-sttweak]'); if (tw) return applyTweak(+tw.dataset.sttweak);
-    const im = t.closest('[data-stimg]');
-    if (im) { const S = st(stIdx); S.img = +im.dataset.stimg; const w = studio.querySelector('.st-media'); w.querySelector('img').src = ALL_POSTS[stIdx].images[S.img]; w.classList.remove('swap'); void w.offsetWidth; w.classList.add('swap'); studio.querySelectorAll('[data-stimg]').forEach((b, m) => b.classList.toggle('on', m === S.img)); return; }
     const cn = t.closest('[data-stconnect]');
     if (cn) {
       const id = cn.dataset.stconnect, i = stIdx;
       if (cxState[id] !== 'off') return;
       cxState[id] = 'busy'; paintBrief();
-      setTimeout(() => { setConnector(id, true, true); if (stIdx === i) { paintBrief(); aiSay(`${CONNECTORS.find(x => x.id === id).name} is connected. You can send the brief whenever you’re ready.`); } }, 1200);
+      setTimeout(() => { setConnector(id, true, true); if (stIdx === i) { paintBrief(); aiSay(`<b>${CONNECTORS.find(x => x.id === id).name}</b> is connected. Send the brief whenever you’re ready.`); } }, 1200);
       return;
     }
-    const v = t.closest('[data-stview]'); if (v) return setView(v.dataset.stview);
     if (t.closest('[data-stneed]')) {
-      setView('brief');
-      return setTimeout(() => { const g = studio.querySelector('.note .gate'); if (g) { g.scrollIntoView({ block:'center', behavior:'smooth' }); g.classList.remove('st-flash'); void g.offsetWidth; g.classList.add('st-flash'); } }, 450);
+      const g = studio.querySelector('.st-brief .gate');
+      if (g) { g.scrollIntoView({ block:'center', behavior:'smooth' }); g.classList.remove('st-flash'); void g.offsetWidth; g.classList.add('st-flash'); }
+      return;
     }
     if (t.closest('#st-send')) return sendBrief();
     if (t.closest('[data-styes]')) {
-      const i = stIdx, p = ALL_POSTS[i], S = st(i); S.decided = true;
+      const i = stIdx, p = ALL_POSTS[i], S = st(i); S.decided = true; paintActions();
       learned.unshift({ t:p.title, s:'Agreed', a:p.agent });
-      markCard(i, 'Agreed'); toast('Agreed. Every agent works with it now.');
-      return setTimeout(closeStudio, 500);
+      markCard(i, 'Agreed');
+      S.msgs.push({ me:true, t:'Agree' }); paintChat();
+      return aiSay('Noted. Every agent works with this from now on, and it’s in Memory if you change your mind.', () => setTimeout(closeStudio, 900));
     }
     if (t.closest('[data-stno]')) return closeStudio();
   });
@@ -6100,10 +6196,9 @@
     const q = document.getElementById('st-q'), v = q.value.trim(); if (!v) return;
     const i = stIdx, S = st(i), kind = kindOf(ALL_POSTS[i]);
     S.msgs.push({ me:true, t:v }); q.value = ''; paintChat();
-    aiSay(kind === 'decide' ? 'Good question. Short answer: the numbers on this card are the basis, and you can change your mind any time from Memory.'
-      : `On it. I’ve noted <b>${esc(trim(v, 60))}</b> in the brief so the team gets it exactly.`, () => {
-      if (kind !== 'decide') { S.edits.push(trim(v, 80)); S.fresh = true; paintBrief(); }
-    });
+    if (kind === 'decide') return aiSay('Good question. The numbers on this card are the basis, and you can change your mind any time from Memory.');
+    S.edits.push(trim(v, 80));
+    aiSay({ t:'On it. I’ve made that change and noted it in the brief so the team gets it exactly.', diff:trim(v, 80) }, () => { S.fresh = true; afterChange(S); });
   });
   studio.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' && !e.shiftKey && e.target.id === 'st-q') { e.preventDefault(); studio.querySelector('#st-form').requestSubmit(); }
