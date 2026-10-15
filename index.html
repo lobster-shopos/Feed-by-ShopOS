@@ -70,7 +70,7 @@
   .rail.open .rail-logo .swap{left:1.5px;margin-left:0}
   .rail-logo .swap{opacity:0;transform:scale(.86)}
   .rail-logo .swap svg{display:block}
-  .rail-logo:hover{background:#1c1c1c;color:var(--fg)}
+  .rail-logo:hover{background:rgba(255,255,255,0.092);color:var(--fg)}
   .rail-logo:hover .mark{transform:rotate(-12deg) scale(1.06)}
   .rail-logo .mark{transition:transform .3s cubic-bezier(.34,1.4,.64,1)}
 
@@ -104,10 +104,10 @@
     transition:background .15s,color .15s,width .34s cubic-bezier(.32,.72,0,1);
   }
   .rail-btn svg{flex:0 0 auto;margin:0 7.5px;transition:transform .2s cubic-bezier(.34,1.4,.64,1)}
-  .rail-btn:hover{color:var(--fg);background:#1a1a1a}
+  .rail-btn:hover{color:var(--fg);background:rgba(255,255,255,0.082)}
   .rail-btn.is-on{background:#2b2b2b;color:#fff}
   .rail-btn.is-on svg{stroke-width:2.1}
-  .rail-btn.is-on:hover{background:#333}
+  .rail-btn.is-on:hover{background:rgba(255,255,255,0.209)}
   .rail-label{
     font-size:14px;white-space:nowrap;opacity:0;
     transition:opacity .18s;pointer-events:none;
@@ -127,7 +127,7 @@
     background:#1f1f1f;color:var(--fg);
     display:grid;place-items:center;font-size:14px;font-weight:600;
   }
-  .rail-badge:hover{background:#1a1a1a;color:var(--fg)}
+  .rail-badge:hover{background:rgba(255,255,255,0.082);color:var(--fg)}
   .rail.open .rail-badge{width:100%}
 
   /* ---------- rail hover: tooltips and fly-outs, both outside the rail ---------- */
@@ -181,7 +181,7 @@
     background:#262626;display:grid;place-items:center;color:var(--fg-2);
   }
   .fly-row .go{margin-left:auto;color:var(--fg-3);transition:transform .2s cubic-bezier(.34,1.4,.64,1),color .14s}
-  .fly-row:hover{background:#2b2b2b;color:#fff}
+  .fly-row:hover{background:rgba(255,255,255,0.168);color:#fff}
   .fly-row:hover .go{color:#fff;transform:translate(2px,-2px)}
   .fly-row:hover .tile{color:#fff}
 
@@ -211,7 +211,7 @@
     width:28px;height:28px;border:0;border-radius:8px;background:transparent;
     color:var(--fg-3);display:grid;place-items:center;cursor:pointer;transition:background .15s,color .15s;
   }
-  .hist-close:hover{background:#1c1c1c;color:var(--fg)}
+  .hist-close:hover{background:rgba(255,255,255,0.092);color:var(--fg)}
   .hist-find{
     display:flex;align-items:center;gap:9px;height:34px;padding:0 11px;
     border-radius:10px;background:#181818;color:var(--fg-3);
@@ -234,7 +234,7 @@
     padding:9px 10px;border-radius:10px;background:transparent;
     transition:background .14s;
   }
-  .hist-row:hover{background:#1a1a1a}
+  .hist-row:hover{background:rgba(255,255,255,0.082)}
   .hist-row .t{display:block;font-size:13.5px;line-height:19px;color:var(--fg-2);
     overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   .hist-row:hover .t{color:var(--fg)}
@@ -330,7 +330,7 @@
     font:inherit;font-size:13.5px;cursor:pointer;
     transition:background .15s,color .15s;
   }
-  .tb-back:hover{background:#1c1c1c;color:var(--fg)}
+  .tb-back:hover{background:rgba(255,255,255,0.092);color:var(--fg)}
   .tb-back svg{transition:transform .2s cubic-bezier(.34,1.4,.64,1)}
   .tb-back:hover svg{transform:translateX(-3px)}
   .icon-btn{
@@ -339,7 +339,7 @@
     transition:background .15s,color .15s;
   }
   .icon-btn svg{transition:transform .2s cubic-bezier(.34,1.4,.64,1)}
-  .icon-btn:hover{background:#1a1a1a;color:var(--fg)}
+  .icon-btn:hover{background:rgba(255,255,255,0.082);color:var(--fg)}
   .icon-btn:hover svg{transform:scale(1.12)}
   .menu-btn:hover svg{transform:scale(1.2)}
   .wordmark{font-size:18px;font-weight:600;letter-spacing:-.01em}
@@ -377,7 +377,7 @@
     transition:background .15s;
   }
   .chip svg{transition:transform .25s cubic-bezier(.34,1.4,.64,1)}
-  .chip:hover{background:#232323}
+  .chip:hover{background:rgba(255,255,255,0.128)}
   .chip[aria-label="Light mode"]:hover svg{transform:rotate(52deg)}
   .chip[aria-label="Notifications"]:hover svg{animation:ring .5s ease-in-out}
   @keyframes ring{
@@ -397,7 +397,7 @@
     transition:background .15s;
   }
   .credits svg{transition:transform .25s cubic-bezier(.34,1.4,.64,1)}
-  .credits:hover{background:#232323}
+  .credits:hover{background:rgba(255,255,255,0.128)}
   .credits:hover svg{transform:rotate(90deg) scale(1.1)}
 
   /* ---------- stories ---------- */
@@ -575,7 +575,7 @@
   .chip-f.muted{opacity:.5;border-style:dashed}
   .chip-f.muted img{filter:grayscale(1)}
   .chip-f.muted:hover{opacity:.82}
-  .chip-f:hover{background:#1a1a1a;color:var(--fg)}
+  .chip-f:hover{background:rgba(255,255,255,0.082);color:var(--fg)}
   .chip-f.on{background:#fafafa;border-color:#fafafa;color:#0a0a0a}
 
   .chip-f.wish svg{margin-right:-1px}
@@ -603,7 +603,7 @@
     transition:background .14s,color .14s;
   }
   .fdrop-pop button img{width:30px;height:30px;display:block}
-  .fdrop-pop button:hover{background:#242424;color:var(--fg)}
+  .fdrop-pop button:hover{background:rgba(255,255,255,0.133);color:var(--fg)}
   .fdrop-pop button.on{background:#2b2b2b;color:#fff}
   .fdrop-pop button{font-weight:450}
   .fdrop-pop button.muted{opacity:.5}
@@ -623,7 +623,7 @@
     transition:background .15s;
   }
   .pro-cta svg{color:var(--fg-2);transition:color .15s}
-  .pro-cta:hover{background:#232323}
+  .pro-cta:hover{background:rgba(255,255,255,0.128)}
   .pro-cta:hover svg{color:var(--fg)}
   /* on a narrow top bar the label would run into the tabs */
   @media (max-width:1180px){ .pro-cta span{display:none} .pro-cta{padding:0 11px} }
@@ -679,7 +679,7 @@
     background:transparent;color:var(--fg-2);font:inherit;font-size:13px;cursor:pointer;
     transition:background .15s,color .15s;
   }
-  .side-back:hover{background:#1c1c1c;color:var(--fg)}
+  .side-back:hover{background:rgba(255,255,255,0.092);color:var(--fg)}
   .side-back svg{transition:transform .2s cubic-bezier(.34,1.4,.64,1)}
   .side-back:hover svg{transform:translateX(-3px)}
   .side-head{
@@ -693,7 +693,7 @@
     color:var(--fg-2);font:inherit;font-size:13.5px;text-align:left;cursor:pointer;
     transition:background .15s,color .15s;
   }
-  .side-nav button:hover{background:#1a1a1a;color:var(--fg)}
+  .side-nav button:hover{background:rgba(255,255,255,0.082);color:var(--fg)}
   .side-nav button[aria-current="true"]{background:#212121;color:var(--fg)}
   .side-nav button.muted{opacity:.45}
   .side-nav .col-dot{width:8px;height:8px;border-radius:50%;flex:0 0 auto}
@@ -728,7 +728,7 @@
     transition:background .15s,color .15s;
   }
   .side-act svg{width:16px;height:16px;flex:0 0 auto;color:var(--fg-3);transition:color .15s}
-  .side-act:hover{background:#1c1c1c;color:var(--fg)}
+  .side-act:hover{background:rgba(255,255,255,0.092);color:var(--fg)}
   .side-act:hover svg{color:var(--fg)}
 
   @media (max-width:1100px){
@@ -804,7 +804,7 @@
     width:28px;height:28px;border:0;border-radius:8px;background:transparent;
     color:var(--fg-3);display:grid;place-items:center;cursor:pointer;transition:background .15s,color .15s;
   }
-  .col-dots:hover{background:#1c1c1c;color:var(--fg)}
+  .col-dots:hover{background:rgba(255,255,255,0.092);color:var(--fg)}
   .col-pop{
     position:absolute;right:0;top:calc(100% + 6px);z-index:20;width:212px;padding:6px;
     border-radius:12px;background:#181818;border:1px solid #262626;
@@ -818,7 +818,7 @@
     padding:8px 10px;border:0;border-radius:8px;background:transparent;
     color:var(--fg-2);font:inherit;font-size:13.5px;text-align:left;cursor:pointer;
   }
-  .col-pop button:hover{background:#242424;color:var(--fg)}
+  .col-pop button:hover{background:rgba(255,255,255,0.133);color:var(--fg)}
   .col-pop hr{border:0;border-top:1px solid #262626;margin:5px 8px}
   .col.is-refreshing .col-body{opacity:.45;transition:opacity .2s}
   .col-body{
@@ -1092,7 +1092,7 @@
     cursor:pointer;transition:background .12s;
   }
   .menu button svg{transition:transform .2s cubic-bezier(.34,1.4,.64,1)}
-  .menu button:hover{background:#2b2b2b}
+  .menu button:hover{background:rgba(255,255,255,0.168)}
   .menu button:hover svg{transform:scale(1.15)}
   .menu button svg{flex:0 0 auto;color:var(--fg-2)}
   .menu button.danger{color:#ff6b6b}
@@ -1122,7 +1122,7 @@
     color:var(--fg-2);display:grid;place-items:center;cursor:pointer;
     transition:background .15s,color .15s;
   }
-  .ap-close:hover{background:#242424;color:var(--fg)}
+  .ap-close:hover{background:rgba(255,255,255,0.133);color:var(--fg)}
   .ap-in{width:min(1060px,100%);min-width:0;margin:0 auto}
   .agents-page h1{
     margin:0;font-size:34px;line-height:44px;font-weight:400;letter-spacing:-.015em;color:var(--fg);
@@ -1158,7 +1158,7 @@
     font:inherit;font-size:14px;font-weight:500;cursor:pointer;
     transition:background .15s;
   }
-  .ap-cta:hover{background:#2e2e2e}
+  .ap-cta:hover{background:rgba(255,255,255,0.184)}
   .ap-cta svg{transition:transform .2s cubic-bezier(.34,1.4,.64,1)}
   .ap-cta:hover svg{transform:translateX(3px)}
   @media (prefers-reduced-motion:reduce){
@@ -1270,7 +1270,7 @@
     transition:background .15s ease,transform .12s ease;
   }
   .pill svg{transition:transform .22s cubic-bezier(.34,1.4,.64,1)}
-  .pill:hover{background:#262626}
+  .pill:hover{background:rgba(255,255,255,0.143)}
   .pill:hover svg{transform:scale(1.14)}
   .pill:active{transform:scale(.98)}
   .pill svg{flex:0 0 auto}
@@ -1278,9 +1278,9 @@
   .btn-primary{background:#fafafa;color:#0a0a0a;font-weight:600}
   .btn-primary:hover{background:#fff}
   .btn-secondary{background:#1c1c1c;color:var(--fg)}
-  .btn-secondary:hover{background:#262626}
+  .btn-secondary:hover{background:rgba(255,255,255,0.143)}
   .btn-tertiary{background:#2b2b2b;color:var(--fg)}
-  .btn-tertiary:hover{background:#363636}
+  .btn-tertiary:hover{background:rgba(255,255,255,0.224)}
 
   .btn .count{
     min-width:20px;height:20px;padding:0 6px;
@@ -1326,7 +1326,7 @@
     font:inherit;font-size:12.5px;font-weight:500;line-height:1;cursor:pointer;
     transition:background .15s,color .15s;
   }
-  .dash-cta:hover{background:#1c1c1c;color:var(--fg)}
+  .dash-cta:hover{background:rgba(255,255,255,0.092);color:var(--fg)}
   .dash-cta svg{transition:transform .2s cubic-bezier(.34,1.4,.64,1)}
   .dash-cta:hover svg{transform:translateX(3px)}
 
@@ -1740,7 +1740,7 @@
     background:transparent;color:var(--fg-3);
     display:grid;place-items:center;cursor:pointer;transition:background .15s,color .15s;
   }
-  .icon-32:hover{background:#2a2a2a;color:var(--fg)}
+  .icon-32:hover{background:rgba(255,255,255,0.163);color:var(--fg)}
   .icon-32 svg{transition:transform .2s cubic-bezier(.34,1.4,.64,1)}
   .icon-32:hover svg{transform:scale(1.12)}
 
@@ -1862,7 +1862,7 @@
     display:inline-flex;align-items:center;gap:7px;
     transition:background .15s,color .15s,border-color .15s;
   }
-  .chipbtn:hover{background:#242424;color:var(--fg);border-color:#333}
+  .chipbtn:hover{background:rgba(255,255,255,0.133);color:var(--fg);border-color:#333}
 
   /* the agent working */
   .work-status{display:flex;align-items:center;gap:10px;font-size:13.5px;color:var(--fg-2)}
@@ -2021,7 +2021,7 @@
     transition:border-color .18s,background .18s;
   }
   /* 3 — hovering lifts the whole field: border, icon and text together */
-  .ofield:hover{border-color:#5a5a5a;background:#181818}
+  .ofield:hover{border-color:#5a5a5a;background:rgba(255,255,255,0.071)}
   .ofield:focus-within{background:#181818;border-color:#6b6b6b}
   .ofield .globe{color:var(--fg-3);flex:0 0 auto;transition:color .18s}
   .ofield:hover .globe,.ofield:focus-within .globe{color:var(--fg)}
@@ -2041,7 +2041,7 @@
     color:var(--fg-3);display:none;place-items:center;cursor:pointer;transition:background .15s,color .15s;
   }
   .oclear.on{display:grid}
-  .oclear:hover{background:#242424;color:var(--fg)}
+  .oclear:hover{background:rgba(255,255,255,0.133);color:var(--fg)}
   .osub{
     margin:12px 2px 0;font-size:14px;line-height:21px;color:var(--fg-3);
   }
@@ -2058,7 +2058,7 @@
     transition:background .15s,color .15s;
   }
   .orow svg{flex:0 0 auto;transition:color .15s,transform .2s cubic-bezier(.32,.72,0,1)}
-  .orow:hover{background:#151515;color:var(--fg)}
+  .orow:hover{background:rgba(255,255,255,0.06);color:var(--fg)}
   .orow:hover svg{transform:translateX(2px)}
   .cta-go{
     position:relative;overflow:hidden;
@@ -2164,7 +2164,7 @@
     background:transparent;color:var(--fg-3);display:grid;place-items:center;cursor:pointer;
     transition:background .15s,color .15s;
   }
-  .su-x:hover{background:#242424;color:var(--fg)}
+  .su-x:hover{background:rgba(255,255,255,0.133);color:var(--fg)}
 
   /* the stream says one thing at a time, and shimmers while it is saying it */
   .su-stream{
@@ -2455,7 +2455,7 @@
     animation:sigin .55s cubic-bezier(.32,.72,0,1) both;
   }
   @keyframes sigin{from{opacity:0;transform:translateY(10px)}}
-  .sig-card:hover{background:#171717}
+  .sig-card:hover{background:rgba(255,255,255,0.066)}
   .sig-card:active{transform:scale(.995)}
   .sig-top{display:flex;align-items:center;gap:9px;padding:13px 16px 0}
   .sig-top img{width:27px;height:27px}
@@ -2495,7 +2495,7 @@
     border:0;border-radius:9px;background:transparent;color:var(--fg-2);
     font:inherit;font-size:13px;text-align:left;cursor:pointer;transition:background .15s,color .15s;
   }
-  .side-src button:hover{background:#1a1a1a;color:var(--fg)}
+  .side-src button:hover{background:rgba(255,255,255,0.082);color:var(--fg)}
   .side-src i.sd{width:7px;height:7px;border-radius:50%;background:#333;flex:0 0 auto}
   .side-src .is-on i.sd{background:#4ade80}
   .side-src .tag{margin-left:auto;font-size:11px;color:var(--fg-3)}
@@ -2521,7 +2521,7 @@
     margin-left:auto;width:30px;height:30px;border:0;border-radius:9px;background:transparent;
     color:var(--fg-3);display:grid;place-items:center;cursor:pointer;transition:background .15s,color .15s;
   }
-  .dw-x:hover{background:#1c1c1c;color:var(--fg)}
+  .dw-x:hover{background:rgba(255,255,255,0.092);color:var(--fg)}
   .dw-head h2{margin:12px 0 6px;font-size:21px;line-height:29px;font-weight:600;letter-spacing:-.015em}
   .dw-head p{margin:0;font-size:14px;line-height:21px;color:var(--fg-2)}
   .dw-tabs{display:flex;gap:2px;margin:18px -4px 0;padding:0 4px;border-bottom:1px solid var(--line-soft);overflow-x:auto;scrollbar-width:none}
@@ -2605,7 +2605,7 @@
     border:1.5px dashed #2e2e2e;background:#141414;color:var(--fg-3);cursor:pointer;
     transition:border-color .18s,background .18s,color .18s;
   }
-  .drop:hover{border-color:#454545;background:#171717;color:var(--fg-2)}
+  .drop:hover{border-color:#454545;background:rgba(255,255,255,0.066);color:var(--fg-2)}
   .drop b{font-size:14px;font-weight:500;color:var(--fg)}
   .drop span{font-size:12.5px}
   .up-then{margin:0 0 10px!important;font-size:12.5px!important;color:var(--fg-3)!important}
@@ -2615,7 +2615,7 @@
     background:#141414;color:var(--fg);font:inherit;cursor:pointer;
     transition:background .15s,border-color .15s,transform .12s;
   }
-  .up-opt:hover{background:#191919;border-color:#333}
+  .up-opt:hover{background:rgba(255,255,255,0.077);border-color:#333}
   .up-opt:active{transform:scale(.99)}
   .up-opt b{display:block;font-size:13.5px;font-weight:500;line-height:19px}
   .up-opt span{display:block;font-size:12.5px;line-height:18px;color:var(--fg-3)}
@@ -2651,7 +2651,7 @@
     display:flex;align-items:center;gap:14px;width:100%;padding:8px 12px 8px 8px;border:0;border-radius:16px;background:transparent;
     font:inherit;text-align:left;cursor:pointer;transition:background .15s;
   }
-  .notif-row:hover{background:#262626}
+  .notif-row:hover{background:rgba(255,255,255,0.143)}
   .notif-row .ni{flex:0 0 auto;width:48px;height:48px;border-radius:14px;background:#262626;display:grid;place-items:center;color:var(--fg);transition:color .15s,transform .25s cubic-bezier(.34,1.4,.64,1)}
   .notif-row:hover .ni{background:transparent}
   .notif-row:hover .ni svg{transform:scale(1.12) rotate(-6deg)}
@@ -2662,7 +2662,7 @@
   .notif-row .nd{flex:0 0 auto;font-size:14px;color:var(--fg-2);font-variant-numeric:tabular-nums}
   .notif-row .nx{flex:0 0 auto;display:none;place-items:center;width:28px;height:28px;border-radius:8px;color:var(--fg-2)}
   .notif-row .nx svg{transition:transform .25s cubic-bezier(.34,1.4,.64,1)}
-  .notif-row .nx:hover{color:var(--fg);background:#333}
+  .notif-row .nx:hover{color:var(--fg);background:rgba(255,255,255,0.209)}
   .notif-row .nx:hover svg{transform:rotate(90deg)}
   .notif-row:hover .nx{display:grid}
   .notif-row.read .ni{color:var(--fg-3)}
@@ -2728,7 +2728,7 @@
     transition:background .15s;
   }
   .ask svg{color:#c4a8ff;transition:transform .3s cubic-bezier(.34,1.4,.64,1)}
-  .ask:hover{background:#232323}
+  .ask:hover{background:rgba(255,255,255,0.128)}
   .ask:hover svg{transform:rotate(18deg) scale(1.15)}
   .ask[aria-expanded="true"]{background:#2b2b2b}
   @media (max-width:600px){ .ask{padding:0 10px} }
@@ -2757,7 +2757,7 @@
     border:0;border-radius:12px;background:transparent;color:var(--fg-2);
     font:inherit;font-size:14px;text-align:left;cursor:pointer;transition:background .14s,color .14s;
   }
-  .cx-row:hover{background:#242424;color:#fff}
+  .cx-row:hover{background:rgba(255,255,255,0.133);color:#fff}
   .cx-row .st{margin-left:auto;font-size:11.5px;color:var(--fg-3)}
   .cx-row .st.on{color:#4ade80}
   .cx-all{
@@ -2766,7 +2766,7 @@
     background:transparent;color:var(--fg);font:inherit;font-size:13.5px;font-weight:500;cursor:pointer;
     transition:background .14s;
   }
-  .cx-all:hover{background:#222}
+  .cx-all:hover{background:rgba(255,255,255,0.122)}
   .cx-all svg{transition:transform .2s cubic-bezier(.34,1.4,.64,1)}
   .cx-all:hover svg{transform:translateX(3px)}
 
@@ -2807,7 +2807,7 @@
     color:var(--fg);display:grid;place-items:center;
   }
   .cx-add{cursor:pointer;transition:background .15s,transform .12s}
-  .cx-add:hover{background:#222}
+  .cx-add:hover{background:rgba(255,255,255,0.122)}
   .cx-add:active{transform:scale(.94)}
   .cx-add svg{transition:transform .2s cubic-bezier(.34,1.4,.64,1)}
   .cx-add:hover svg{transform:rotate(90deg)}
@@ -2849,7 +2849,7 @@
     height:32px;padding:0 10px 0 8px;border:0;border-radius:9px;background:transparent;font:inherit;font-size:13.5px;
     gap:7px;transition:background .15s;
   }
-  .model-pick .chat-chip:hover,.model-pick.open .chat-chip{background:#2c2c2c;color:var(--fg)}
+  .model-pick .chat-chip:hover,.model-pick.open .chat-chip{background:rgba(255,255,255,0.173);color:var(--fg)}
   .model-pick .chat-chip > svg:last-child{transition:transform .2s}
   .model-pick.open .chat-chip > svg:last-child{transform:rotate(180deg)}
   .model-pop{
@@ -2863,7 +2863,7 @@
     display:flex;flex-direction:column;gap:1px;width:100%;padding:9px 10px;border:0;border-radius:10px;
     background:transparent;color:var(--fg-2);font:inherit;text-align:left;cursor:pointer;transition:background .14s;
   }
-  .model-pop button:hover{background:#262626;color:var(--fg)}
+  .model-pop button:hover{background:rgba(255,255,255,0.143);color:var(--fg)}
   .model-pop button[aria-selected="true"]{background:#2b2b2b;color:var(--fg)}
   .model-pop b{font-size:13.5px;font-weight:500}
   .model-pop span{font-size:12px;color:var(--fg-3)}
@@ -2883,7 +2883,7 @@
   .cta > span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   .cta > svg{flex:0 0 auto}
   .cta > svg:last-child{color:var(--fg-2);transition:transform .2s cubic-bezier(.34,1.4,.64,1),color .15s}
-  .cta:hover{background:#323232;border-color:rgba(255,255,255,.12)}
+  .cta:hover{background:rgba(255,255,255,0.204);border-color:rgba(255,255,255,.12)}
   .cta:hover > svg:last-child{transform:translateX(3px);color:var(--fg)}
   .cta:active{transform:scale(.99)}
   .cta:disabled{cursor:default}
@@ -2940,7 +2940,7 @@
     height:40px;padding:0 18px;border:0;border-radius:12px;background:#262626;color:var(--fg);
     font:inherit;font-size:var(--t-ctl);font-weight:500;cursor:pointer;transition:background .15s,opacity .15s;
   }
-  .mem-btn:hover{background:#2f2f2f}
+  .mem-btn:hover{background:rgba(255,255,255,0.189)}
   .mem-btn.is-primary{background:#fafafa;color:#0a0a0a}
   .mem-btn.is-primary:hover{opacity:.9}
   .mem-empty{margin:0;font-size:var(--t-body);color:var(--fg-3)}
@@ -2962,7 +2962,7 @@
     flex:0 0 auto;display:grid;place-items:center;width:36px;height:36px;border:0;border-radius:10px;background:transparent;
     color:var(--fg-3);cursor:pointer;transition:background .15s,color .15s;
   }
-  .mem-x:hover{background:#262626;color:var(--fg)}
+  .mem-x:hover{background:rgba(255,255,255,0.143);color:var(--fg)}
 
   /* your feed: topics are pills */
   .pills{display:flex;flex-wrap:wrap;gap:10px}
@@ -2971,7 +2971,7 @@
     background:#1c1c1c;border:1px solid #2a2a2a;color:var(--fg);font-size:var(--t-ctl);font-weight:500;
   }
   .pill button{display:grid;place-items:center;width:28px;height:28px;border:0;border-radius:50%;background:transparent;color:var(--fg-3);cursor:pointer}
-  .pill button:hover{background:#2c2c2c;color:var(--fg)}
+  .pill button:hover{background:rgba(255,255,255,0.173);color:var(--fg)}
   .pill.is-new{animation:pillIn .3s cubic-bezier(.2,.8,.2,1)}
   @keyframes pillIn{from{opacity:0;transform:scale(.9)}}
   .mem-page .tune-list{margin:0}
@@ -3031,7 +3031,7 @@
   .kb-mate{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-size:11px;font-weight:600;color:#0a0a0a}
   .kb-ask{padding:10px 12px;border-radius:10px;background:#141414;border:1px solid #262626;font-size:13.5px;line-height:19px;color:var(--fg-2)}
   .kb-btn{height:34px;padding:0 14px;border:0;border-radius:10px;background:#262626;color:var(--fg);font:inherit;font-size:13.5px;font-weight:500;cursor:pointer}
-  .kb-btn:hover{background:#303030}
+  .kb-btn:hover{background:rgba(255,255,255,0.194)}
   .kb-ok{color:#4ade80}
   @media (max-width:600px){ .kb-page .cx-top,.kb-board{padding-inline:16px} .kb-col{flex-basis:84vw} }
   @media (prefers-reduced-motion:reduce){ .kb-bar i,.kb-bar i::after,.kb-live{animation:none} }
@@ -3049,7 +3049,7 @@
   .sl-acts{display:flex;align-items:center;gap:8px;margin-top:auto;padding-top:4px}
   .sl-acts .mem-btn{display:inline-flex;align-items:center;gap:8px}
   .sl-un{display:grid;place-items:center;width:40px;height:40px;border:0;border-radius:12px;background:transparent;color:var(--fg);cursor:pointer;margin-left:auto}
-  .sl-un:hover{background:#262626}
+  .sl-un:hover{background:rgba(255,255,255,0.143)}
   .sl-empty{margin-top:40px;font-size:16px;color:var(--fg-3)}
 
 
@@ -3059,7 +3059,7 @@
   /* tabs: the same pill everywhere (top bar, memory, shortlisted, tuning) */
   .seg-pill{background:#262626}
   .mem-tabs button{border-radius:999px;white-space:nowrap;flex:0 0 auto}
-  .mem-tabs button:hover:not([aria-selected="true"]){color:var(--fg-2);background:#161616}
+  .mem-tabs button:hover:not([aria-selected="true"]){color:var(--fg-2);background:rgba(255,255,255,0.061)}
   .seg3 button.on{background:#262626}
   .tab:hover:not([aria-selected="true"]){color:var(--fg-2)}
   /* icon motion, same spring as the rail */
@@ -3079,7 +3079,7 @@
   /* chat starter prompts get a surface on hover like every other row */
   .sugg{border-radius:12px;transition:background .15s}
   .chat-panel .sugg{padding:11px 12px;margin-inline:-12px}
-  .chat-panel .sugg:hover{background:#1a1a1a}
+  .chat-panel .sugg:hover{background:rgba(255,255,255,0.082)}
   @media (prefers-reduced-motion:reduce){ .mem-x:hover svg,.sl-acts .mem-btn:hover svg,.act-jam:hover svg{animation:none} }
 
   /* ---------- studio: a card opened in the centre, chat beside it, the brief as a white note ---------- */
@@ -3103,7 +3103,7 @@
   .st-head b{font-size:15px;font-weight:500}
   .st-type{height:26px;padding:0 10px;border-radius:999px;background:#1f1f1f;color:var(--fg-2);font-size:13px;display:inline-flex;align-items:center}
   .st-x{margin-left:auto;width:36px;height:36px;border:0;border-radius:10px;background:transparent;color:var(--fg-2);display:grid;place-items:center;cursor:pointer}
-  .st-x:hover{background:#1f1f1f;color:var(--fg)}
+  .st-x:hover{background:rgba(255,255,255,0.107);color:var(--fg)}
   .st-x svg{transition:transform .25s cubic-bezier(.34,1.4,.64,1)}
   .st-x:hover svg{transform:rotate(90deg)}
   .st-work{flex:1;min-height:0;overflow:auto;padding:24px;display:flex;flex-direction:column;gap:18px}
@@ -3126,7 +3126,7 @@
   .st-tweaks p{margin:0;font-size:13px;color:var(--fg-3)}
   .st-tweaks .row{display:flex;flex-wrap:wrap;gap:8px}
   .st-chip{height:38px;padding:0 14px;border:1px solid #2a2a2a;border-radius:999px;background:#171717;color:var(--fg);font:inherit;font-size:14px;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:background .15s,border-color .15s,transform .12s,opacity .2s}
-  .st-chip:hover{background:#222;border-color:#3a3a3a}
+  .st-chip:hover{background:rgba(255,255,255,0.122);border-color:#3a3a3a}
   .st-chip:active{transform:scale(.97)}
   .st-chip svg{transition:transform .3s cubic-bezier(.34,1.4,.64,1)}
   .st-chip:hover svg{transform:rotate(-20deg) scale(1.15)}
@@ -3202,7 +3202,7 @@
   }
   .st-top{grid-column:1 / -1;display:flex;align-items:center;gap:12px;height:64px;padding:0 20px 0 16px;border-bottom:1px solid #1d1d1d}
   .st-back{display:inline-flex;align-items:center;gap:6px;height:38px;padding:0 12px 0 8px;border:0;border-radius:10px;background:transparent;color:var(--fg-2);font:inherit;font-size:15px;cursor:pointer}
-  .st-back:hover{background:#1a1a1a;color:var(--fg)}
+  .st-back:hover{background:rgba(255,255,255,0.082);color:var(--fg)}
   .st-back svg{transition:transform .25s cubic-bezier(.34,1.4,.64,1)}
   .st-back:hover svg{transform:translateX(-3px)}
   .st-top .sep{width:1px;height:22px;background:#262626}
@@ -3307,7 +3307,7 @@
   .st-sheet-h{display:flex;align-items:center;justify-content:space-between;padding:2px 4px 12px;font-size:14px;color:var(--fg-2)}
   .st-sheet-h span{display:inline-flex;align-items:center;gap:8px}
   .st-min{width:32px;height:32px;border:0;border-radius:9px;background:transparent;color:var(--fg-3);display:grid;place-items:center;cursor:pointer}
-  .st-min:hover{background:#1f1f1f;color:var(--fg)}
+  .st-min:hover{background:rgba(255,255,255,0.107);color:var(--fg)}
   .st-min svg{transition:transform .25s cubic-bezier(.34,1.4,.64,1)}
   .st-min:hover svg{transform:translateX(2px)}
   .st-sheet .note{flex:1;min-height:0;overflow:auto}
@@ -3330,7 +3330,7 @@
   .st-nudge .mem-btn{height:40px;background:#ecebe5;color:#151515;display:inline-flex;align-items:center;gap:8px}
   .st-nudge .mem-btn:hover{background:#e2e0d8}
   .st-nudge .mem-btn.is-primary{background:#151515;color:#fff}
-  .st-nudge .mem-btn.is-primary:hover{background:#2a2a2a;opacity:1}
+  .st-nudge .mem-btn.is-primary:hover{background:rgba(255,255,255,0.163);opacity:1}
   .st-nudge .mem-btn svg{transition:transform .3s cubic-bezier(.34,1.4,.64,1)}
   .st-nudge .mem-btn:hover svg{transform:translate(3px,-3px)}
   .st-nudge.is-done{background:#16261b;color:#86efac;padding:14px 16px;gap:10px;font-size:15px}
@@ -3366,7 +3366,7 @@
   .st-bpanel footer .mem-btn:hover{background:#e2e0d8}
   .st-bpanel .st-send{width:auto;margin:0;padding:0 24px;height:48px;background:#151515;color:#fff}
   .st-bpanel .st-send.is-primary{background:#151515;color:#fff;animation:none}
-  .st-bpanel .st-send:hover:not(:disabled){background:#2a2a2a}
+  .st-bpanel .st-send:hover:not(:disabled){background:rgba(255,255,255,0.163)}
   .st-bpanel .st-send:disabled{background:#d6d4cc;color:#6b6b6b;opacity:1}
   .st-bpanel .st-send[data-stneed]{background:#d6d4cc;color:#151515}
   @media (max-width:760px){ .st-bpanel .note{padding:8px 22px 24px} .st-bpanel .note dl{grid-template-columns:1fr} .st-nudge{flex-wrap:wrap} }
@@ -3415,6 +3415,163 @@
   .cm-media,.cm-strip img,.st-rows,.cm-diff,.cm-me span,.st-bpanel .note .gate,.st-bpanel .note .ev span,.st-bpanel .note .assets img,.st-bpanel .note .assets .more,.st-bpanel footer .mem-btn,.st-bpanel .st-send,.st-compose button{border-radius:14px}
   .cm-me span{border-bottom-right-radius:4px}
 
+
+
+
+  .mine-bar{margin:0 2px 10px}
+  .mine-st span i.tav{display:inline-grid;width:18px;height:18px;border-radius:50%;background:var(--c);color:#0a0a0a;font-size:9px;font-weight:700;box-shadow:none;margin:0 6px 0 0;vertical-align:-4px;animation:none}
+  /* hover states: a light, translucent lift everywhere, not a darker box */
+  .st-chip,.mem-btn,.menu button,.col-pop button,.cx-row,.side button,#deck-side button{transition:background-color .18s ease,box-shadow .18s ease,color .18s ease,transform .15s ease}
+  .st-chip:hover,.mem-btn:hover:not(.st-bpanel .mem-btn),.menu button:hover,.col-pop button:hover,#deck-side button:hover{box-shadow:inset 0 0 0 1px rgba(255,255,255,.07)}
+  .st-chip:active,.mem-btn:active{transform:scale(.97)}
+  /* ---------- with the team: a pill in the top bar and its panel ---------- */
+  .team-pill{display:inline-flex;align-items:center;gap:8px;height:34px;padding:0 12px 0 6px;border:0;border-radius:999px;background:transparent;color:var(--fg);font:inherit;font-size:13.5px;font-weight:500;cursor:pointer;white-space:nowrap;transition:background .2s}
+  .team-pill:hover,.team-pill[aria-expanded="true"]{background:rgba(255,255,255,.1)}
+  .team-pill.bump{animation:tpbump .5s cubic-bezier(.34,1.5,.64,1)}
+  @keyframes tpbump{40%{transform:scale(1.06)}}
+  .tp-av{display:inline-flex}
+  .tp-av:empty{display:none}
+  .tp-av .tav + .tav{margin-left:-7px}
+  .team-pill:not(.is-live){padding-left:12px}
+  .tav{width:24px;height:24px;flex:0 0 auto;border-radius:50%;background:var(--c);color:#0a0a0a;display:inline-grid;place-items:center;font-style:normal;font-size:11px;font-weight:700;box-shadow:0 0 0 2px #161616}
+  .tp-dot{display:none;width:6px;height:6px;border-radius:50%;background:#4ade80;box-shadow:0 0 0 0 rgba(74,222,128,.6);animation:tpdot 2s ease-out infinite}
+  .team-pill.is-live .tp-dot{display:block}
+  @keyframes tpdot{0%{box-shadow:0 0 0 0 rgba(74,222,128,.55)}70%,100%{box-shadow:0 0 0 7px rgba(74,222,128,0)}}
+  .team-pop{position:fixed;top:64px;right:16px;z-index:120;width:min(420px,calc(100vw - 32px));max-height:min(640px,calc(100vh - 88px));display:flex;flex-direction:column;
+    border-radius:22px;background:rgba(26,26,28,.8);-webkit-backdrop-filter:blur(28px) saturate(160%);backdrop-filter:blur(28px) saturate(160%);border:1px solid rgba(255,255,255,.09);
+    box-shadow:0 30px 80px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.06);
+    opacity:0;transform:translateY(-8px) scale(.98);transform-origin:top right;transition:opacity .2s ease,transform .35s cubic-bezier(.32,.72,0,1)}
+  .team-pop.on{opacity:1;transform:none}
+  .team-pop[hidden]{display:none}
+  .tpp-h{display:flex;align-items:center;gap:10px;padding:16px 16px 10px 18px}
+  .tpp-h b{font-size:16px;font-weight:600}
+  .tpp-h span{flex:1;font-size:13px;color:#a3a3a3}
+  .tpp-deck{display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 12px;border:0;border-radius:999px;background:rgba(255,255,255,.07);color:#fafafa;font:inherit;font-size:12.5px;cursor:pointer;transition:background .2s}
+  .tpp-deck:hover{background:rgba(255,255,255,.13)}
+  .tpp-deck svg{transition:transform .25s cubic-bezier(.34,1.4,.64,1)}
+  .tpp-deck:hover svg{transform:translateX(2px)}
+  .tpp-list{flex:1;min-height:0;overflow:auto;padding:4px 8px 8px;display:flex;flex-direction:column;gap:2px}
+  .tpp-row{display:flex;gap:12px;align-items:flex-start;width:100%;padding:10px;border:0;border-radius:16px;background:transparent;color:inherit;font:inherit;text-align:left;cursor:pointer;transition:background .2s;animation:tprow .35s cubic-bezier(.2,.8,.2,1) both}
+  .tpp-row:nth-child(2){animation-delay:.04s}
+  .tpp-row:nth-child(3){animation-delay:.08s}
+  .tpp-row:hover{background:rgba(255,255,255,.07)}
+  @keyframes tprow{from{opacity:0;transform:translateY(6px)}}
+  .tpp-th{width:48px;height:60px;flex:0 0 auto;border-radius:10px;overflow:hidden;background:#1d1d1d;display:grid;place-items:center}
+  .tpp-th img{width:100%;height:100%;object-fit:cover}
+  .tpp-th img.ag{width:26px;height:26px;object-fit:contain}
+  .tpp-main{flex:1;min-width:0;display:flex;flex-direction:column;gap:6px}
+  .tpp-main > b{font-size:14px;line-height:19px;font-weight:500;color:#fafafa;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .tpp-bar{display:grid;grid-template-columns:repeat(5,1fr);gap:3px}
+  .tpp-bar i{height:4px;border-radius:2px;background:rgba(255,255,255,.1);transition:background .5s}
+  .tpp-bar i.done{background:#4ade80}
+  .tpp-bar i.now{background:linear-gradient(90deg,#4ade80,rgba(74,222,128,.25),#4ade80) 0 0/200% 100%;animation:tpnow 1.6s linear infinite}
+  @keyframes tpnow{to{background-position:-200% 0}}
+  .tpp-st{font-size:12.5px;color:#a3a3a3}
+  .tpp-st em{font-style:normal;color:#fafafa}
+  .tpp-by{display:flex;align-items:center;gap:6px;font-size:12.5px;color:#d4d4d4}
+  .tpp-by .tav{width:18px;height:18px;font-size:9px;box-shadow:none}
+  .tpp-by img{width:18px;height:18px}
+  .tpp-log{font-size:13px;line-height:18px;color:#d4d4d4}
+  .tpp-log small{display:block;margin-top:2px;font-size:11.5px;color:#8a8a8a}
+  .tpp-empty{margin:4px 18px 16px;font-size:14px;line-height:21px;color:#a3a3a3}
+  .tpp-f{display:flex;gap:6px;padding:12px 14px 14px;border-top:1px solid rgba(255,255,255,.06);overflow-x:auto;scrollbar-width:none}
+  .tpp-f span{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;gap:3px;padding:4px 2px;text-align:center}
+  .tpp-f em{font-style:normal;font-size:12.5px;color:#fafafa}
+  .tpp-f small{font-size:11px;color:#8a8a8a;white-space:nowrap}
+  @media (max-width:600px){
+    .tp-t{display:none} .team-pill{padding:0 8px;gap:6px} .team-pill:not(.is-live){padding:0 10px} .team-pill:not(.is-live) .tp-t{display:inline}
+    .topbar-right .chip{display:none}
+    .seg .tab{font-size:0;gap:0;padding:0 12px}
+    .team-pop{top:60px;right:8px;width:calc(100vw - 16px)}
+  }
+  @media (prefers-reduced-motion:reduce){ .tp-dot,.tpp-bar i.now,.tpp-row{animation:none} }
+  /* ---------- the confirm for a push action: glass, small, honest about what happens ---------- */
+  .act-scrim{position:fixed;inset:0;z-index:140;display:grid;place-items:center;padding:16px;background:rgba(0,0,0,0);-webkit-backdrop-filter:blur(0);backdrop-filter:blur(0);transition:background .25s ease,backdrop-filter .25s ease,-webkit-backdrop-filter .25s ease}
+  .act-scrim[hidden]{display:none}
+  .act-scrim.on{background:rgba(0,0,0,.45);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+  .act-box{width:min(460px,100%);padding:20px;border-radius:24px;background:rgba(28,28,28,.78);-webkit-backdrop-filter:blur(28px) saturate(150%);backdrop-filter:blur(28px) saturate(150%);
+    border:1px solid rgba(255,255,255,.09);box-shadow:0 30px 80px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.06);
+    opacity:0;transform:translateY(10px) scale(.97);transition:opacity .22s ease,transform .38s cubic-bezier(.32,.72,0,1)}
+  .act-scrim.on .act-box{opacity:1;transform:none}
+  .ab-h{display:flex;align-items:flex-start;gap:12px}
+  .ab-h img{width:32px;height:32px;flex:0 0 auto}
+  .ab-h span{flex:1;min-width:0;display:flex;flex-direction:column}
+  .ab-h b{font-size:18px;line-height:24px;font-weight:600;color:#fafafa}
+  .ab-h em{font-style:normal;font-size:13.5px;line-height:19px;color:#a3a3a3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .ab-x{width:32px;height:32px;margin:-4px -4px 0 0;border:0;border-radius:10px;background:transparent;color:#a3a3a3;display:grid;place-items:center;cursor:pointer;transition:background .2s,color .2s}
+  .ab-x:hover{background:rgba(255,255,255,.08);color:#fafafa}
+  .ab-x svg{transition:transform .25s cubic-bezier(.34,1.4,.64,1)}
+  .ab-x:hover svg{transform:rotate(90deg)}
+  .ab-k{margin:20px 0 8px;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#8a8a8a}
+  .ab-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+  .ab-list li{display:flex;gap:10px;align-items:flex-start;font-size:14.5px;line-height:21px;color:#e5e5e5}
+  .ab-list svg{width:16px;height:16px;flex:0 0 auto;margin-top:2.5px;color:#86efac}
+  .ab-cx{display:flex;align-items:center;gap:12px;margin-top:18px;padding:12px 14px;border-radius:16px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.06);transition:background .3s,border-color .3s}
+  .ab-cx .lg{width:30px;height:30px;flex:0 0 auto}
+  .ab-cx span{flex:1;min-width:0;display:flex;flex-direction:column}
+  .ab-cx b{font-size:14px;font-weight:500;color:#fafafa}
+  .ab-cx em{font-style:normal;font-size:12.5px;line-height:17px;color:#a3a3a3}
+  .ab-cx.is-busy{border-color:rgba(255,255,255,.14)}
+  .ab-cx.is-on{background:rgba(74,222,128,.08);border-color:rgba(74,222,128,.18)}
+  .ab-cx.is-on em{color:#86efac}
+  .ab-ok{width:24px;height:24px;border-radius:50%;background:#4ade80;color:#0a0a0a;display:grid;place-items:center;animation:abok .4s cubic-bezier(.34,1.6,.64,1) both}
+  .ab-ok svg{width:14px;height:14px}
+  @keyframes abok{from{transform:scale(.3);opacity:0}}
+  .ab-f{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:20px}
+  .ab-edit{height:44px;padding:0 14px;white-space:nowrap;border:0;border-radius:999px;background:transparent;color:#d4d4d4;font:inherit;font-size:14px;cursor:pointer;transition:background .2s,color .2s}
+  .ab-edit:hover{background:rgba(255,255,255,.08);color:#fafafa}
+  .ab-go{height:44px;padding:0 18px;white-space:nowrap;border:0;border-radius:999px;background:#fafafa;color:#0a0a0a;font:inherit;font-size:14px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:transform .15s,background .2s}
+  .ab-go:hover:not(:disabled){background:#fff}
+  .ab-go:active:not(:disabled){transform:scale(.97)}
+  .ab-go:disabled{cursor:default;opacity:.9}
+  .ab-go .src-spin{border-color:rgba(0,0,0,.18);border-top-color:#0a0a0a}
+  @media (max-width:520px){ .ab-f{flex-direction:column-reverse;align-items:stretch} .ab-go{justify-content:center} }
+  @media (prefers-reduced-motion:reduce){ .act-box{transition:opacity .2s} }
+  /* ---------- the draft, as a document in the chat ---------- */
+  .cm-doc{border-radius:20px;background:#121212;border:1px solid #232323;overflow:hidden}
+  .dc-h{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid #1f1f1f}
+  .dc-ic{width:30px;height:30px;flex:0 0 auto;border-radius:9px;background:#1d1d1d;color:#d4d4d4;display:grid;place-items:center}
+  .dc-t{flex:1;min-width:0;display:flex;flex-direction:column;line-height:18px}
+  .dc-t b{font-size:14px;font-weight:500;color:#fafafa}
+  .dc-t em{font-style:normal;font-size:12.5px;color:#8a8a8a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .dc-v{flex:0 0 auto;padding:3px 10px;border-radius:999px;background:#1d1d1d;font-size:12.5px;color:#d4d4d4;white-space:nowrap}
+  .dc-body{position:relative;padding:16px 18px 6px;font-size:15px;line-height:24px;color:#d4d4d4}
+  .cm-doc.is-long:not(.is-open) .dc-body{max-height:300px;overflow:hidden;-webkit-mask-image:linear-gradient(#000 70%,transparent);mask-image:linear-gradient(#000 70%,transparent)}
+  .dc-body h4{margin:0 0 8px;font-size:17px;line-height:24px;font-weight:600;color:#fafafa}
+  .dc-body h4:not(:first-child){margin-top:16px;font-size:15px}
+  .dc-body p{margin:0 0 10px}
+  .dc-body b{color:#fafafa;font-weight:500}
+  .dc-body s{color:#8a8a8a}
+  .dc-body ul{margin:0 0 10px;padding-left:20px;display:flex;flex-direction:column;gap:4px}
+  .dc-body blockquote{margin:0 0 12px;padding:10px 14px;border-radius:12px;background:#1a1a1a;color:#fafafa;font-size:15px}
+  .dc-body blockquote cite{display:block;margin-top:4px;font-style:normal;font-size:12.5px;color:#8a8a8a}
+  .dc-meta{display:flex;flex-direction:column;gap:2px;margin:0 0 14px;padding:8px;border-radius:12px;background:#1a1a1a;font-size:13.5px;line-height:20px}
+  .dc-meta div{display:grid;grid-template-columns:84px 1fr;gap:12px;padding:3px 8px;border-radius:8px}
+  .dc-body .dc-meta div.is-new{background:rgba(74,222,128,.1);box-shadow:inset 2px 0 0 #4ade80;animation:dcnew 1.6s ease both}
+  .dc-meta dt{color:#8a8a8a}
+  .dc-meta dd{margin:0;color:#fafafa}
+  /* what changed this version */
+  .dc-body .is-new{position:relative;border-radius:8px;background:rgba(74,222,128,.07);box-shadow:-10px 0 0 rgba(74,222,128,.07),inset 2px 0 0 #4ade80;padding-left:8px;animation:dcnew 1.6s ease both}
+  .dc-body h4.is-new,.dc-body p.is-new{padding-top:2px;padding-bottom:2px}
+  @keyframes dcnew{0%{background:rgba(74,222,128,.22)}100%{background:rgba(74,222,128,.07)}}
+  .dc-f{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 14px 12px 18px;font-size:12.5px;color:#8a8a8a}
+  .dc-f i{font-style:normal;margin-left:4px}
+  .dc-f i.dn{color:#86efac}
+  .dc-f i.up{color:#93c5fd}
+  .dc-more{height:30px;padding:0 12px;border:0;border-radius:999px;background:rgba(255,255,255,.07);color:#fafafa;font:inherit;font-size:12.5px;cursor:pointer;transition:background .2s}
+  .dc-more:hover{background:rgba(255,255,255,.13)}
+  /* the same draft, on the brief */
+  .st-bpanel .note .b-doc{max-height:260px;overflow:auto;padding:16px 18px;border-radius:14px;background:#f0eee7;font-size:15px;line-height:23px;color:#333}
+  .b-doc h4{margin:0 0 6px;font-size:16px;color:#151515}
+  .b-doc h4:not(:first-child){margin-top:12px;font-size:15px}
+  .b-doc p{margin:0 0 8px}
+  .b-doc b{color:#151515}
+  .b-doc ul{margin:0 0 8px;padding-left:18px}
+  .b-doc blockquote{margin:0 0 10px;padding:8px 12px;border-radius:10px;background:#e6e3da;color:#151515}
+  .b-doc blockquote cite{display:block;font-style:normal;font-size:12.5px;color:#6b6b6b}
+  .b-doc .dc-meta{background:#e6e3da}
+  .b-doc .dc-meta dt{color:#6b6b6b}
+  .b-doc .dc-meta dd{color:#151515}
   /* ---------- chat streaming, after the Figma (Chat exp 15 / 21 / 28 / 29) ---------- */
   .st-main .st-chat{gap:36px}
   .cm-me span{max-width:80%;padding:12px;border-radius:12px 12px 0 12px;background:#262626;color:#fafafa;font-size:16px;line-height:24px}
@@ -3577,7 +3734,7 @@
   /* ---------- memory: the upload comes first ---------- */
   .mem-drop{margin-top:28px;display:flex;flex-direction:column;align-items:center;gap:8px;padding:40px 24px 34px;border-radius:24px;
     border:1.5px dashed #343434;background:#121212;text-align:center;cursor:pointer;transition:border-color .2s,background .2s,transform .2s cubic-bezier(.34,1.4,.64,1)}
-  .mem-drop:hover{border-color:#4a4a4a;background:#151515}
+  .mem-drop:hover{border-color:#4a4a4a;background:rgba(255,255,255,0.06)}
   .mem-drop.is-over{border-color:#fafafa;background:#1a1a1a;transform:scale(1.01)}
   .mem-drop .md-ic{width:56px;height:56px;border-radius:18px;background:#fafafa;color:#0a0a0a;display:grid;place-items:center;margin-bottom:6px;transition:transform .3s cubic-bezier(.34,1.4,.64,1)}
   .mem-drop:hover .md-ic,.mem-drop.is-over .md-ic{transform:translateY(-4px)}
@@ -3710,7 +3867,7 @@
     color:var(--fg-3);display:grid;place-items:center;cursor:pointer;
     transition:background .15s,color .15s;
   }
-  .cp-btn:hover{background:#1c1c1c;color:var(--fg)}
+  .cp-btn:hover{background:rgba(255,255,255,0.092);color:var(--fg)}
   .cp-body{flex:1 1 auto;min-height:0;overflow-y:auto;scrollbar-width:thin}
   .cp-body::-webkit-scrollbar{width:6px}
   .cp-body::-webkit-scrollbar-thumb{background:#262626;border-radius:3px}
@@ -3903,6 +4060,7 @@
   </nav>
 
   <div class="topbar-right">
+    <button class="team-pill" id="team-pill" aria-expanded="false" aria-controls="team-pop"><span class="tp-av" id="tp-av"></span><span class="tp-t" id="tp-t">Team</span><i class="tp-dot" aria-hidden="true"></i></button>
     <button class="ask" id="ask-btn" aria-expanded="false" aria-controls="chat-panel">
       Ask ShopOS
     </button>
@@ -3956,6 +4114,7 @@
 <p class="feed-empty" id="feed-empty" hidden>Nothing shortlisted yet. Tap the bookmark on any card to keep it here.</p>
 <div class="stk-layer" id="stk" aria-hidden="true"></div><div class="notes-layer" id="notes" aria-hidden="true"></div>
 <main class="feed" id="feed"></main>
+<div class="team-pop" id="team-pop" hidden role="dialog" aria-label="With the team"></div>
 
 <div class="feed" style="padding-top:24px">
   <section class="feed-end">
@@ -4052,7 +4211,7 @@
     <div class="modal-body">
       <h2 id="pro-title">Upgrade to Pro</h2>
       <p>The free feed stops at ten cards a day. Pro opens the full feed, one column per sector,
-         and unlocks <b>Signals</b>: your customer data read as who to talk to next, with the
+         and unlocks the <b>CRM agent</b>: your customer data read as who to talk to next, with the
          journey already drafted.</p>
       <button class="btn btn-lg btn-primary btn-block" id="pro-go">
         Upgrade to Pro
@@ -4477,7 +4636,9 @@
   const RATIO = { '4:5':'4:5', '1:1':'square', '16:9':'wide', '9:16':'4:5' };
 
   const I_LOOP = '<path d="M6 16c5 0 7-8 12-8a4 4 0 0 1 0 8c-5 0-7-8-12-8a4 4 0 1 0 0 8"/>';
-  const ctaBar = (label) => `<button class="cta">${svg(I_LOOP, 19)}<span>${esc(label)}</span>${svg(I.chevronRight, 17)}</button>`;
+  // a card remembers what its button already did, wherever it is drawn again
+  const SENT = {};
+  const ctaBar = (label, sent) => `<button class="cta${sent ? ' is-sent' : ''}">${svg(I_LOOP, 19)}<span>${esc(sent || label)}</span>${svg(I.chevronRight, 17)}</button>`;
 
   const card = (p) => {
     // take the index BEFORE anything else: the deck and feed find posts by it
@@ -4486,7 +4647,7 @@
     const imgs = p.images || [];
     const r = imgs.length ? ` data-r="${RATIO[p.ratio] || '4:5'}"` : '';
     const draft = p.draft ? `<span class="draft-chip">${svg(I.sparkle, 12, 'currentColor', true)}First draft</span>` : '';
-    const cta = p.cta ? ctaBar(p.cta) : '';
+    const cta = p.cta ? ctaBar(p.cta, SENT[idx]) : '';
     const mediaHTML = !imgs.length ? '' : imgs.length > 1
       ? `<div class="media is-carousel"${r}>${draft}
            <div class="track">${imgs.map(src => `<div class="slide"><img src="${src}" alt="" loading="lazy"></div>`).join('')}</div>
@@ -4635,17 +4796,18 @@
   const IN_FEED = new Set(FEED_IDS);
 
   // the deck is organised by what the work is about, not by who made it
-  const COL_ORDER = ['signals', 'catalog', 'creatives', 'ads', 'storefront', 'visibility'];
+  // four areas the drafts come from, and the CRM agent, which needs your customer data to unlock
+  const COL_ORDER = ['creatives', 'ads', 'storefront', 'visibility', 'signals'];
   const SECTORS = {
-    signals:    { name:'Signals',    dot:'#5eead4' },
-    catalog:    { name:'Catalog',    dot:'#e8e8e8' },
-    creatives:  { name:'Creatives',  dot:'#f0a6c8' },
-    ads:        { name:'Ads',        dot:'#ef8b33' },
-    storefront: { name:'Storefront', dot:'#e8c34a' },
-    visibility: { name:'Visibility', dot:'#7aa8ff' }
+    creatives:  { name:'Brand',           dot:'#f0a6c8' },
+    ads:        { name:'Performance',     dot:'#ef8b33' },
+    storefront: { name:'Storefront',      dot:'#e8c34a' },
+    visibility: { name:'AEO · GEO · SEO', dot:'#7aa8ff' },
+    signals:    { name:'CRM agent',       dot:'#5eead4' },
+    catalog:    { name:'Storefront',      dot:'#e8c34a' }
   };
   const SECTOR_BY_AGENT = {
-    creative:'creatives', performance:'ads', storefront:'storefront', visibility:'visibility'
+    creative:'creatives', performance:'ads', storefront:'storefront', visibility:'visibility', crm:'signals'
   };
   // catalog is its own segment: the product feed itself, mostly the creative director
   const CATALOG = new Set([
@@ -4654,7 +4816,12 @@
     'A second casting for the same line',
     'Show why The Cloud Soft Tee outperforms a basic tee'
   ]);
-  const sectorOf = (p) => p.sector || SECTOR_BY_AGENT[p.agent];
+  const sectorOf = (p) => {
+    let k = p.sector || SECTOR_BY_AGENT[p.agent];
+    if (k === 'catalog') k = 'storefront';                 // the product feed is part of the store
+    if (k === 'signals' && p.agent !== 'crm') k = 'creatives';  // what people say about the brand is brand work
+    return k;
+  };
   const byAgent = (k) => FEED_IDS.map(i => ALL_POSTS[i]).filter(p => sectorOf(p) === k);
 
   // some work needs an account we cannot see yet, so the agent asks for it in the feed
@@ -4874,7 +5041,7 @@
         <i class="col-dot" style="background:${SECTORS[k].dot}"></i>
         ${SECTORS[k].name}
         <span class="n">${k === 'signals'
-          ? (typeof signalsLive === 'function' && signalsLive() ? SIGNALS.length : '')
+          ? ((typeof signalsLive === 'function' && signalsLive() ? SIGNALS.length : 0) + byAgent(k).length || '')
           : byAgent(k).length}</span>
       </button>`).join('')}
 `;
@@ -5304,16 +5471,15 @@
 
   const host = document.getElementById('toasts');
   // bottom-right, with a way to follow the work
-  const kbToast = () => {
+  const kbToast = (i) => {
     document.querySelector('.kbt')?.remove();
+    const it = kbItems.find(x => x.p === i), m = it && TEAM[it.who];
     const el = document.createElement('div');
     el.className = 'kbt';
-    el.innerHTML = `${CHECK}<span><b>Brief sent to the team</b>Track it in Deck, under In progress.</span><button>Open Deck</button>`;
+    el.innerHTML = `${CHECK}<span><b>Brief sent to the team</b>${m ? `${m.name} picks it up next. Follow it from “with the team” up top.` : 'Follow it from “with the team” up top.'}</span><button>Follow it</button>`;
     document.body.appendChild(el);
-    el.querySelector('button').addEventListener('click', () => {
-      el.remove();
-      if (layout !== 'deck') document.querySelector('[data-layout-tab="deck"]').click();
-      setTimeout(() => deckEl.scrollTo({ left:0, behavior:'smooth' }), 500);
+    el.querySelector('button').addEventListener('click', (e) => {
+      e.stopPropagation(); el.remove(); setTeam(true);
     });
     setTimeout(() => { el.classList.add('out'); setTimeout(() => el.remove(), 300); }, 5000);
   };
@@ -6237,8 +6403,8 @@
     ['live','Live','Out in the world','Finished work lands here.']
   ];
   const kbItems = [
-    { p:22, col:'sent', t:'Sent 20 min ago' },
-    { p:48, col:'progress', job:'Making 8 ad variants', pct:62 }
+    { p:22, col:'sent', t:'Sent 20 min ago', stage:1, who:'meera', log:'Read the brief and pulled the day-7 email for tone', ago:18 },
+    { p:48, col:'progress', job:'Making 8 ad variants', pct:62, stage:2, who:'riya', log:'Resized 5 of 8 for Stories', ago:4 }
   ];
   const kbCard = (it, i) => {
     const p = ALL_POSTS[it.p], a = AG(p.agent);
@@ -6353,6 +6519,210 @@
     // the CRM agent's work is always a message to customers, whatever the button says
     return p.agent === 'crm' && k !== 'decide' ? 'message' : k;
   };
+
+  // ---- drafts: the actual words behind each text card, so a change shows what changed ----
+  // blocks: ['h', text] heading · ['p', html] paragraph · ['li', [items]] list · ['q', quote, who] review · ['meta', [[k, v]]] header fields
+  const DRAFTS = {
+    0: { type:'Page draft', where:'arata.in/pages/hair-fall-shampoo-men',
+      base:[
+        ['h', 'The best shampoo for hair fall for men in India, under ₹500'],
+        ['p', 'Short answer: pick a shampoo with caffeine, rosemary and biotin, use it three times a week for at least eight weeks, and don’t judge it before week four. Arata’s Anti-Hair Fall Intensive Shampoo (200 ml, ₹449) is built around exactly that.'],
+        ['h', 'What actually slows hair fall'],
+        ['li', ['Caffeine and rosemary worked into the scalp, not just the lengths', 'A gentle, sulphate-free wash, so you can use it often', 'Eight weeks of use. Hair grows in cycles, so one bottle is not a verdict', 'Less heat and tight styling while you give it time']],
+        ['h', 'How Arata compares'],
+        ['p', 'Most shampoos under ₹500 lean on one hero ingredient. Arata puts Hairdan AP, rosemary, caffeine, biotin and rice extract in one formula, and keeps it pH-balanced for daily use.'],
+        ['h', 'Questions men ask'],
+        ['p', '<b>Can I use it every day?</b> Yes. It’s sulphate-free and pH-balanced.'],
+        ['p', '<b>When will I see less hair on the pillow?</b> Most people notice it between week four and week eight.']
+      ],
+      short:[
+        ['h', 'The best shampoo for hair fall for men in India, under ₹500'],
+        ['p', 'Use a caffeine and rosemary shampoo three times a week for eight weeks. Arata’s Anti-Hair Fall Intensive Shampoo (₹449) is made for exactly that.'],
+        ['li', ['Caffeine and rosemary on the scalp', 'Sulphate-free, fine for daily use', 'Give it eight weeks']],
+        ['p', '<b>When will I see a difference?</b> Usually between week four and week eight.']
+      ],
+      warm:'Losing more hair than usual is stressful, and the internet doesn’t make it easier. So here’s the honest version: a caffeine and rosemary shampoo, three times a week, for eight weeks. Arata’s Anti-Hair Fall Intensive Shampoo (₹449) is built for exactly that.',
+      open:'If you’re a man in India staring at your comb and wondering what to buy, start here: a caffeine and rosemary shampoo, used three times a week, for eight weeks. That’s what Arata’s Anti-Hair Fall Intensive Shampoo (₹449) is for.',
+      review:['Week six and the shower drain finally looks normal. Didn’t believe it till I saw it.', 'Rohan, Pune · verified buyer · ★★★★★'],
+      offer:'Pair it with the Hair Growth Intensive Serum: the full routine is ₹1,010 instead of ₹1,048.' },
+
+    2: { type:'Reply draft', where:'r/IndianBeautyyAppers · reply to the thread',
+      base:[
+        ['p', 'Wavy (2A–2B) here too, and yes, that L’Oréal cream going away hurt.'],
+        ['p', 'What’s worked for me since: a light leave-in on damp hair, scrunch, then leave it alone. No towel rubbing, no brushing once it’s dry.'],
+        ['p', 'Full disclosure, I work with Arata. Our Damage Defence Super Conditioner isn’t a dupe, but it’s light enough for waves and doesn’t flatten them. Happy to DM a sample if you’d rather try before buying.'],
+        ['p', 'Whatever you pick, look for: no heavy silicones, a little protein, and something you can leave in.']
+      ],
+      warm:'Wavy (2A–2B) here too, and honestly, I felt this. Losing the one product that worked is the worst.',
+      open:'Same hair type (2A–2B), same heartbreak when that cream got discontinued.',
+      review:['Finally a conditioner that doesn’t turn my waves into a flat mess.', 'Ananya, r/IndianBeautyyAppers'],
+      offer:'If it helps, there’s 15% off the conditioner this week with code WAVES15. No pressure at all.' },
+
+    14: { type:'Answer blocks', where:'arata.in · 3 answers for AI to quote',
+      base:[
+        ['h', 'Does Arata shampoo stop hair fall?'],
+        ['p', 'It reduces it. In Arata’s tests, the Anti-Hair Fall Intensive Shampoo showed 7.4x less hair fall over eight weeks of regular use, with the first change from week four.'],
+        ['h', 'Which Arata product is for thinning hair?'],
+        ['p', 'The Hair Growth Intensive Serum, used with the shampoo. Apply it to a dry scalp at night. The routine costs ₹1,010.'],
+        ['h', 'Is Arata safe for daily use?'],
+        ['p', 'Yes. Both shampoos are sulphate-free and pH-balanced, and the serum is alcohol-free.']
+      ],
+      warm:'It helps, and it’s honest about how long that takes. In Arata’s tests, the Anti-Hair Fall Intensive Shampoo showed 7.4x less hair fall over eight weeks, with the first change from week four.',
+      open:'Yes, it reduces hair fall. Arata’s Anti-Hair Fall Intensive Shampoo showed 7.4x less hair fall in eight weeks of regular use.',
+      review:['I’ve tried five hair fall shampoos. This is the first one I re-ordered.', 'Karan, Delhi · verified buyer · ★★★★★'],
+      offer:'The shampoo and serum together are ₹1,010, ₹38 less than buying them apart.' },
+
+    1: { type:'Our version · 30s reel script', where:'Meta and Instagram · 9:16',
+      base:[
+        ['meta', [['Hook', 'Plan, not panic'], ['Length', '30 seconds'], ['Ends on', 'Shop the routine']]],
+        ['p', '<b>0–3s</b> Close-up of a comb with a few hairs in it. VO: “More hair on your comb? Don’t panic. Plan.”'],
+        ['p', '<b>3–12s</b> The shampoo and serum on a bathroom shelf in morning light. VO: “Arata’s routine: the shampoo three times a week, the serum every night.”'],
+        ['p', '<b>12–22s</b> A calendar flips from week 2 to week 4 to week 8. On screen: “474 reviews · 4.57★”.'],
+        ['p', '<b>22–30s</b> End card: “The routine, ₹1,010”. Button: Shop the routine.']
+      ],
+      short:[
+        ['meta', [['Hook', 'Plan, not panic'], ['Length', '15 seconds'], ['Ends on', 'Shop the routine']]],
+        ['p', '<b>0–3s</b> Comb, a few hairs. VO: “Don’t panic. Plan.”'],
+        ['p', '<b>3–10s</b> Shampoo and serum on the shelf. On screen: “474 reviews · 4.57★”.'],
+        ['p', '<b>10–15s</b> End card: “The routine, ₹1,010”.']
+      ],
+      warm:'<b>0–3s</b> A man checks his hairline in the mirror, then smiles at himself. VO: “Noticed more hair fall lately? You’re not alone, and it’s fixable.”',
+      open:'<b>0–3s</b> A shower drain, then the same drain eight weeks later. VO: “Same shower. Eight weeks apart.”',
+      review:['Started the routine for my wedding. Eight weeks later, the photos say it all.', 'Nikhil, Bengaluru · ★★★★★'],
+      offer:'<b>End card</b> “First routine? ₹100 off with FIRST100.”' },
+
+    22: { type:'Email draft', where:'Klaviyo · hair fall flow · day 14',
+      base:[
+        ['meta', [['Subject', 'Two weeks in. Is it working?'], ['Preview', 'A 20-second check, and what to expect next'], ['Sends', 'Day 14 after delivery'], ['To', 'Everyone who bought the serum']]],
+        ['p', 'Hi {{first_name}},'],
+        ['p', 'It’s been two weeks since your Hair Growth Intensive Serum arrived. Honest truth: this is usually too early for a big change. Hair grows in cycles, and most people notice less fall between week four and week eight.'],
+        ['p', 'One habit that helps: take a photo of your crown in the same light every Sunday. You’ll see the change before you feel it.'],
+        ['p', 'Not sure it’s working, or something feels off? Just reply to this email. A real person on our team reads every one.'],
+        ['p', '— Team Arata']
+      ],
+      short:[
+        ['meta', [['Subject', 'Two weeks in. Is it working?'], ['Preview', 'What to expect next'], ['Sends', 'Day 14 after delivery'], ['To', 'Everyone who bought the serum']]],
+        ['p', 'Hi {{first_name}},'],
+        ['p', 'Two weeks in is early. Most people see less hair fall between week four and eight.'],
+        ['p', 'Take a crown photo every Sunday, and reply if anything feels off. We read every email.'],
+        ['p', '— Team Arata']
+      ],
+      warm:'Two weeks in! We hope you’re liking the routine. Quick honest note: it’s usually too early for a big change. Hair grows in cycles, and most people notice less fall between week four and week eight, so hang in there.',
+      open:'Quick check-in: you’re two weeks into the serum, and this is exactly when most people start wondering if it’s working.',
+      review:['Week two I almost gave up. Week seven my barber asked what I changed.', 'Aditya, Mumbai · verified buyer'],
+      offer:'P.S. Running low? Your next bottle is ₹100 off with code WEEK8, till Sunday.',
+      vars:{ 'Send a day later':['Sends', 'Day 15 after delivery'], 'Only repeat buyers':['To', 'Serum buyers with 2 or more orders'] } },
+
+    3: { type:'Change list', where:'arata.in, Meta and 6 cards',
+      base:[
+        ['h', 'Pack 2 price: ₹898 → ₹863'],
+        ['li', ['Product page: Damage Defence Super Shampoo, 200 ml, Pack 2', 'Two live Meta ads that say ₹898 in the caption', 'Six feed cards and the “Routine” story that quote the old price', 'Google Merchant feed, which picks it up from Shopify on the next sync']],
+        ['p', 'No other prices changed in this sync. Stock is fine at 142 packs, so nothing else needs to move.']
+      ],
+      open:'Also show the saving on the product page: <s>₹898</s> ₹863, you save ₹35.',
+      review:['Bought pack 2 for me and my brother. Same results, better price.', 'Sahil, Jaipur · verified buyer · ★★★★★'],
+      vars:{ 'Test it for a week first':['Rollout', 'Half of visitors for 7 days, then everyone'] } },
+
+    25: { type:'Answer blocks', where:'arata.in · 4 product pages · half of visitors',
+      base:[
+        ['h', 'Answers beside the buy button'],
+        ['p', '<b>Will it work on thinning hair?</b> It reduces hair fall from the roots. For thinning, pair it with the Hair Growth Intensive Serum.'],
+        ['p', '<b>How long before I see a difference?</b> Most people notice less fall by week four. Give it eight weeks.'],
+        ['p', '<b>Is it safe on coloured hair?</b> Yes. It’s colour-safe and sulphate-free.'],
+        ['p', '<b>Can I use the shampoo and conditioner every day?</b> Yes. Both are pH-balanced.']
+      ],
+      open:'<b>Will it work for me?</b> If your hair fall is from stress, diet or styling, yes, usually by week four. If it’s hereditary, the serum does more of the work.',
+      review:['The FAQ answered my exact question, so I finally ordered.', 'Pooja, Hyderabad · verified buyer · ★★★★★'],
+      vars:{ 'Test it for a week first':['Rollout', 'Half of visitors for 7 days, then everyone'] } },
+
+    48: { type:'Campaign setup', where:'Meta Ads · from your ad plan',
+      base:[
+        ['meta', [['Campaign', 'Arata · ad plan test · Move 21'], ['Ads', 'All 8, shown evenly at first'], ['Budget', '₹2,500 a day for 7 days'], ['Starts', 'As soon as you approve'], ['Audience', 'India, 22–40, interested in hair care'], ['Test', 'None']]],
+        ['p', 'First read after three days: click rate and add to carts for each ad. On day four the bottom four are paused and their budget moves to the top four.'],
+        ['p', 'Every ad links to the routine page on arata.in, tagged so each one’s sales show up on its own.']
+      ],
+      vars:{ 'Lower the budget':['Budget', '₹1,500 a day for 7 days'], 'Start Monday':['Starts', 'Monday, 9 AM'], 'Add a test':['Test', 'Headline A vs B on the top two ads'] },
+      heads:['Two bottles. One routine. ₹1,010.', '474 reviews can’t all be lucky.', 'Less hair on the comb by week four.', 'Your shower drain will notice first.'] },
+    6:  { type:'Headline options', where:'For the reel', heads:['Weeks, not overnight.', 'The routine that works if you stick to it.', 'Week four is when it starts.', 'Stop counting hairs. Start the routine.'] }
+  };
+  const docWords = (b) => b.reduce((n, x) => n + (x[0] === 'li' ? x[1].join(' ') : x[0] === 'meta' ? '' : String(x[1])).replace(/<[^>]+>/g, '').split(/\s+/).filter(Boolean).length, 0);
+  const firstSentence = (h) => { const m = String(h).match(/^(<b>.*?<\/b>\s*)?[^.!?]*[.!?”]/); return m ? m[0] : h; };
+  const shorten = (b) => b.filter(x => x[0] !== 'q').map(x => x[0] === 'p' ? ['p', firstSentence(x[1])] : x[0] === 'li' ? ['li', x[1].slice(0, 3)] : x);
+  const mainP = (b) => b.findIndex(x => x[0] === 'p' && x[1].replace(/<[^>]+>/g, '').length > 40);
+  const OPS = [
+    ['short',  /shorter|short|tighten|trim|cut|concise|brief/i],
+    ['warm',   /warm|friendly|tone|softer|human|kind/i],
+    ['open',   /opening|intro|hook|start|version b|first line|rewrite/i],
+    ['review', /review|proof|testimonial|quote/i],
+    ['offer',  /offer|discount|code|deal|price off/i],
+    ['heads',  /headline/i]
+  ];
+  const OP_LABEL = { short:'Shorter', warm:'Warmer', open:'New opening', review:'With a review', offer:'With an offer', heads:'Headlines', vars:'Updated', note:'Your note' };
+  // the next version of the draft, with what changed marked
+  const nextDoc = (i, ask) => {
+    const d = DRAFTS[i]; if (!d) return null;
+    const S = st(i);
+    if (!S.doc) S.doc = { v:1, b:(d.base || []).map(x => x.slice()) };
+    const prev = S.doc.b, prevW = docWords(prev);
+    let b = prev.map(x => x.slice()), n = [], op = (OPS.find(([, re]) => re.test(ask)) || [])[0];
+    if (d.vars && d.vars[ask]) op = 'vars';
+    if (d.heads && /headline/i.test(ask)) op = 'heads';
+    if (!d.base && op !== 'heads') return null;
+    // an ask we have no recipe for gets the next rewrite we have not shown yet, labelled with what was asked
+    let asked = null;
+    S.usedOps = S.usedOps || [];
+    if (!op) { asked = trim(String(ask).trim(), 28); op = ['open', 'warm', 'review', 'offer'].find(o => !S.usedOps.includes(o) && d[o]) || 'short'; }
+    S.usedOps.push(op);
+    if (op === 'short') {
+      b = S.doc.v === 1 && d.short ? d.short.map(x => x.slice()) : shorten(prev);
+      n = [];
+    } else if (op === 'warm' || op === 'open') {
+      const k = mainP(b), t = op === 'warm' ? (d.warm || d.open) : (d.open || d.warm);
+      if (k >= 0 && t) { b[k] = ['p', t]; n = [k]; } else if (t) { b.push(['p', t]); n = [b.length - 1]; }
+    } else if (op === 'review' && d.review) {
+      const k = Math.max(0, b.findIndex(x => x[0] === 'li' || (x[0] === 'p' && x[1].length > 40)));
+      b.splice(k + 1, 0, ['q', d.review[0], d.review[1]]); n = [k + 1];
+    } else if (op === 'offer' && d.offer) {
+      const sign = b.findIndex(x => x[0] === 'p' && /^—/.test(x[1]));
+      const at = sign >= 0 ? sign : b.length; b.splice(at, 0, ['p', d.offer]); n = [at];
+    } else if (op === 'vars') {
+      const [key, val] = d.vars[ask];
+      let m = b.findIndex(x => x[0] === 'meta');
+      if (m < 0) { b.unshift(['meta', []]); m = 0; n = [0]; }
+      const rows = b[m][1].map(r => r.slice()), r = rows.findIndex(x => x[0] === key);
+      if (r >= 0) rows[r][1] = val; else rows.push([key, val]);
+      b[m] = ['meta', rows]; n = []; var nk = key;
+    } else if (op === 'heads') {
+      const used = S.headN || 0; S.headN = used + 1;
+      const hs = d.heads.slice(used % 2 * 2).concat(d.heads.slice(0, used % 2 * 2));
+      b = [['li', hs]]; n = [0];
+    } else {
+      const t = String(ask).trim().replace(/^./, c => c.toUpperCase());
+      b.push(['p', esc(/[.!?]$/.test(t) ? t : t + '.')]); n = [b.length - 1]; op = 'note';
+    }
+    S.doc = { v:S.doc.v + 1, b };
+    const w = docWords(b);
+    return { v:S.doc.v, b, n, nk:op === 'vars' ? nk : null, label:asked || (op === 'vars' ? ask : (OP_LABEL[op] || 'Updated')), w, delta:w - prevW, type:d.type, where:d.where };
+  };
+  const firstDoc = (i) => {
+    const d = DRAFTS[i]; if (!d || !d.base) return null;
+    const S = st(i); if (!S.doc) S.doc = { v:1, b:d.base.map(x => x.slice()) };
+    return { v:1, b:d.base, n:[], label:'First draft', w:docWords(d.base), delta:0, type:d.type, where:d.where };
+  };
+  const docBody = (b, n, nk) => b.map((x, k) => {
+    const nw = n && n.includes(k) ? ' class="is-new"' : '';
+    if (x[0] === 'h') return `<h4${nw}>${x[1]}</h4>`;
+    if (x[0] === 'li') return `<ul${nw}>${x[1].map(t => `<li>${t}</li>`).join('')}</ul>`;
+    if (x[0] === 'q') return `<blockquote${nw}>“${x[1]}”<cite>${x[2]}</cite></blockquote>`;
+    if (x[0] === 'meta') return `<dl class="dc-meta${nw ? ' is-new' : ''}">${x[1].map(([k, v]) => `<div${k === nk ? ' class="is-new"' : ''}><dt>${k}</dt><dd>${v}</dd></div>`).join('')}</dl>`;
+    return `<p${nw}>${x[1]}</p>`;
+  }).join('');
+  // a new version opens in full so the marked change is in view; the first draft starts folded
+  const docHTML = (d) => `<div class="cm-doc${d.w > 95 ? ' is-long' : ''}${d.v > 1 && d.w > 95 ? ' is-open' : ''}">
+      <div class="dc-h"><span class="dc-ic">${I_NOTE}</span><span class="dc-t"><b>${esc(d.type)}</b><em>${esc(d.where)}</em></span><span class="dc-v">v${d.v} · ${esc(d.label)}</span></div>
+      <div class="dc-body">${docBody(d.b, d.n, d.nk)}</div>
+      <div class="dc-f"><span>${d.w} words${d.delta ? ` <i class="${d.delta < 0 ? 'dn' : 'up'}">${d.delta > 0 ? '+' : '−'}${Math.abs(d.delta)}</i>` : ''}</span>${d.w > 95 ? `<button class="dc-more" type="button">${d.v > 1 ? 'Show less' : 'Show all'}</button>` : ''}</div>
+    </div>`;
   const stState = {};
   const st = (i) => stState[i] || (stState[i] = { edits:[], msgs:[], img:0, sent:false, decided:false, view:'draft' });
   const studio = document.getElementById('studio');
@@ -6379,6 +6749,7 @@
       <p class="b-ask"><b>${esc(ctaLabel(p))}.</b> ${esc(trim(p.sub, 200))}</p>
       <dl>
         ${rows.length ? `<div class="full"><dt>What we know</dt><dd><div class="ev">${rows.map(([x, y]) => `<span><em>${esc(x)}</em><b>${esc(y)}</b></span>`).join('')}</div></dd></div>` : ''}
+        ${S.doc ? `<div class="full"><dt>The draft · v${S.doc.v}</dt><dd><div class="b-doc">${docBody(S.doc.b)}</div></dd></div>` : ''}
         <div><dt>What to deliver</dt><dd><ul>${k.make.map(x => `<li>${esc(x)}</li>`).join('')}</ul></dd></div>
         <div><dt>Your changes</dt><dd>${S.edits.length
           ? `<ul>${S.edits.map((e, n) => `<li class="${n === S.edits.length - 1 && S.fresh ? 'new' : ''}">${esc(e)}</li>`).join('')}</ul>`
@@ -6426,7 +6797,7 @@
         <p>${esc(p.sub)}</p>${rowsBlock(p)}</div>`;
     }
     if (m.me) return `<div class="cm cm-me"><span>${esc(m.t)}</span></div>`;
-    return `<div class="cm cm-ai"><div class="cm-body">${m.run ? runHTML(m.run) : ''}${m.img != null ? mediaBlock(p, m.img, m.tag) : ''}<span class="cm-t">${m.t}</span>${m.proj != null ? projHTML(m.proj) : ''}${m.diff ? `<div class="cm-diff">${I_SPARK}<span>${esc(m.diff)}</span></div>` : ''}${m.extra || ''}</div></div>`;
+    return `<div class="cm cm-ai"><div class="cm-body">${m.run ? runHTML(m.run) : ''}${m.img != null ? mediaBlock(p, m.img, m.tag) : ''}<span class="cm-t">${m.t}</span>${m.doc ? docHTML(m.doc) : ''}${m.proj != null ? projHTML(m.proj) : ''}${m.diff ? `<div class="cm-diff">${I_SPARK}<span>${esc(m.diff)}</span></div>` : ''}${m.extra || ''}</div></div>`;
   };
   // full render only when the page opens; after that, messages are appended so nothing above them redraws
   const paintChat = () => {
@@ -6470,7 +6841,7 @@
     const t = el.querySelector('.cm-t'); if (!t) return;
     const late = wordify(t) * 28 + 120;
     // only what comes after the words waits for them
-    el.querySelectorAll('.cm-diff,.pj2,.st-inline,.cm-media').forEach(x => {
+    el.querySelectorAll('.cm-diff,.pj2,.st-inline,.cm-media,.cm-doc').forEach(x => {
       if (!(t.compareDocumentPosition(x) & Node.DOCUMENT_POSITION_FOLLOWING)) return;
       x.classList.add('cm-late'); x.style.animationDelay = late + 'ms';
     });
@@ -6508,8 +6879,8 @@
       { live:'Assigning the image request to Creative director', done:'Assigned the image request to Creative director', agent:'creative', task:'Making the new version', ph:true,
         tools:[['brain','Read brand memory'], ['gear','Image generation tool call (1/1)'], ['zap','Read the ad creative skill']] }
     ];
-    if (msg.diff) return [
-      { think:true, live:'Thinking', done:'Read the draft' },
+    if (msg.diff || msg.doc) return [
+      { think:true, live:'Thinking', done:msg.doc && msg.doc.label === 'Headlines' ? 'Read the ad plan and the brand voice' : 'Read the draft' },
       { live:`Assigning the rewrite to ${AG(own).name}`, done:`Assigned the rewrite to ${AG(own).name}`, agent:own, task:'Rewriting the draft',
         tools:[['brain','Read brand memory'], ['zap','Rewrote it with your change']] }
     ];
@@ -6572,7 +6943,7 @@
     const k = KIND[kind];
     if (kind === 'decide') return `This one is a decision, not a job. <b>Agree</b> and every agent works with it, or ask me anything first.`;
     const c = k.need && CONNECTORS.find(x => x.id === k.need);
-    const lead = p.cta ? `I’ve got a first draft for <b>${esc(ctaLabel(p).toLowerCase())}</b>.` : `Want to act on this?`;
+    const lead = p.cta ? `I’ve got a first draft for <b>${esc(ctaLabel(p).toLowerCase())}</b>.` : DRAFTS[ALL_POSTS.indexOf(p)] ? `I’ve drafted something to act on this.` : `Want to act on this?`;
     return `${lead} ${p.cta ? 'Tell me what to change' : 'Tell me what you’d like made from it'}, or pick an option below.` +
       '';
   };
@@ -6641,7 +7012,7 @@
 
   const paintStudio = (i) => {
     const p = ALL_POSTS[i], a = AG(p.agent), kind = kindOf(p), k = KIND[kind], S = st(i);
-    if (!S.msgs.length) { S.msgs.push({ card:true }); S.msgs.push({ t:greet(p, kind) }); }
+    if (!S.msgs.length) { S.msgs.push({ card:true }); const d0 = kind !== 'creative' && kind !== 'decide' ? firstDoc(i) : null; S.msgs.push(d0 ? { t:greet(p, kind), doc:d0 } : { t:greet(p, kind) }); }
     const decide = kind === 'decide';
     studio.dataset.mode = 'chat';
     studio.innerHTML = `
@@ -6695,9 +7066,9 @@
     if (!kbPage.hidden) paintKb();
     stIdx = null;
   };
-  const markCard = (i, label) => document.querySelectorAll(`.card[data-post="${i}"] .cta`).forEach(b => {
+  const markCard = (i, label) => { SENT[i] = label; document.querySelectorAll(`.card[data-post="${i}"] .cta`).forEach(b => {
     b.classList.add('is-sent'); b.querySelector('span').textContent = label;
-  });
+  }); };
 
   const afterChange = (S) => { paintBrief(); };
   const applyTweak = (n) => {
@@ -6710,6 +7081,7 @@
     if (fx === 'img' && imgs.length > 1) S.img = (S.img + 1) % imgs.length;
     const msg = imgs.length && (fx === 'img' || (kindOf(p) === 'creative' && fx !== 'txt'))
       ? { t:`Here’s the update with <b>${esc(t.toLowerCase())}</b>. Anything else?`, img:S.img, tag:t }
+      : DRAFTS[i] && (DRAFTS[i].base || /headline/i.test(t)) ? (() => { const doc = nextDoc(i, t); return { t:doc.label === 'Headlines' ? `Four headline options, written in Arata’s voice. Pick one, or ask for more.` : `Here’s v${doc.v}, <b>${esc(doc.label.toLowerCase())}</b>. The changed parts are marked.`, doc }; })()
       : { t:`Done, here’s what changed. Anything else?`, diff:t };
     aiSay(msg, () => { S.fresh = true; afterChange(S); });
   };
@@ -6717,7 +7089,7 @@
     const i = stIdx, S = st(i); if (S.sent) return;
     if (!S.briefOpen) { setBrief(true); return setTimeout(sendBrief, 560); }
     const note = studio.querySelector('.st-bpanel'), r = note.getBoundingClientRect();
-    const target = kbBtn.getBoundingClientRect();
+    const target = document.getElementById('team-pill').getBoundingClientRect();
     const fly = document.createElement('div'); fly.className = 'note-fly';
     const ghost = note.cloneNode(true); Object.assign(ghost.style, { width:r.width + 'px', height:r.height + 'px', overflow:'hidden', boxShadow:'none', margin:0 });
     fly.appendChild(ghost); fly.style.overflow = 'hidden';
@@ -6731,14 +7103,14 @@
       { transform:`translate(${dx}px,${dy}px) scale(.04) rotate(-12deg)`, opacity:.2 }
     ], { duration:900, easing:'cubic-bezier(.5,0,.2,1)', fill:'forwards' }).onfinish = () => {
       fly.remove();
-      kbBtn.animate([{ transform:'scale(1)' }, { transform:'scale(1.25)' }, { transform:'scale(1)' }], { duration:380, easing:'cubic-bezier(.34,1.4,.64,1)' });
+      document.getElementById('team-pill').animate([{ transform:'scale(1)' }, { transform:'scale(1.08)' }, { transform:'scale(1)' }], { duration:380, easing:'cubic-bezier(.34,1.4,.64,1)' });
     };
     S.sent = true;
     const it = kbItems.find(x => x.p === i);
     if (it) { it.col = 'sent'; it.t = 'Sent just now'; } else kbItems.unshift({ p:i, col:'sent', t:'Sent just now' });
     markCard(i, 'Brief sent');
-    paintMine();
-    setTimeout(() => { closeStudio(); kbToast(); }, 850);
+    startTicket(i);
+    setTimeout(() => { closeStudio(); kbToast(i); }, 850);
   };
 
   studio.addEventListener('click', (e) => {
@@ -6804,18 +7176,96 @@
     S.edits.push(trim(v, 80));
     if (S.briefOpen) { S.fresh = true; S.msgs.push({ t:'Added to the brief.', diff:trim(v, 80) }); return paintBrief(); }
     const imgs = ALL_POSTS[i].images || [];
-    aiSay(imgs.length ? { t:'Done. Here’s the updated version.', img:S.img, tag:trim(v, 40) } : { t:'Done, here’s what changed.', diff:trim(v, 80) }, () => { S.fresh = true; afterChange(S); });
+    const visual = /image|photo|picture|visual|colou?r|bright|dark|background|scene|model|shot|frame/i.test(v);
+    const dv = DRAFTS[i] && (!imgs.length || !visual) && (DRAFTS[i].base || /headline/i.test(v)) ? nextDoc(i, v) : null;
+    aiSay(dv ? { t:dv.label === 'Headlines' ? `Four headline options, written in Arata’s voice. Pick one, or ask for more.` : `Here’s v${dv.v} with your change. The changed parts are marked.`, doc:dv }
+      : imgs.length ? { t:'Done. Here’s the updated version.', img:S.img, tag:trim(v, 40) } : { t:'Done, here’s what changed.', diff:trim(v, 80) }, () => { S.fresh = true; afterChange(S); });
+  });
+  studio.addEventListener('click', (e) => {
+    const m = e.target.closest('.dc-more'); if (!m) return;
+    const d = m.closest('.cm-doc'), open = d.classList.toggle('is-open');
+    m.textContent = open ? 'Show less' : 'Show all';
   });
   studio.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' && !e.shiftKey && e.target.id === 'st-q') { e.preventDefault(); studio.querySelector('#st-form').requestSubmit(); }
   });
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !studio.hidden) { e.stopImmediatePropagation(); closeStudio(); } }, true);
-  // every card CTA opens the studio, growing out of that card
+  // ---- the card's own button: it does what it says ----
+  const metaVal = (i, key) => { const b = st(i).doc ? st(i).doc.b : (DRAFTS[i] && DRAFTS[i].base) || []; const m = b.find(x => x[0] === 'meta'); const r = m && m[1].find(x => x[0] === key); return r ? r[1] : ''; };
+  const ACTS = {
+    48: { done:'Queued on Meta', toast:'8 ads queued on Meta. First read in three days.',
+      what:(i) => ['All 8 ads go out on Meta as one test', `${metaVal(i, 'Budget') || '₹2,500 a day for 7 days'}, from your ad plan`, `Starts: ${(metaVal(i, 'Starts') || 'as soon as you approve').toLowerCase()}`, 'First read in three days, right here in your feed'] },
+    3:  { done:'Prices updated', toast:'₹863 is now the price everywhere it appears.',
+      what:() => ['Pack 2 moves to ₹863 on arata.in', 'Two Meta ad captions and six cards follow', 'Google Merchant picks it up on the next sync'] },
+    25: { done:'Published to arata.in', toast:'Answer blocks are live on 4 pages, for half of visitors.',
+      what:() => ['Answer blocks go live on 4 product pages', 'Shown to half of visitors, so the read is fair', 'A before and after in your feed in 7 days'] }
+  };
+  const isPush = (p) => /^(queue|publish|update|launch|post|apply|turn on|approve|send)\b/i.test(ctaLabel(p)) && !!KIND[kindOf(p)].need;
+  const actHost = document.createElement('div'); actHost.className = 'act-scrim'; actHost.hidden = true; document.body.appendChild(actHost);
+  let actI = null;
+  const actHTML = (i) => {
+    const p = ALL_POSTS[i], a = AG(p.agent), k = KIND[kindOf(p)], c = CONNECTORS.find(x => x.id === k.need), on = cxState[c.id] === 'on';
+    const what = ACTS[i] ? ACTS[i].what(i) : k.make;
+    return `<div class="act-box" role="dialog" aria-modal="true" aria-label="${esc(ctaLabel(p))}">
+      <div class="ab-h"><img src="${a.avatar}" alt=""><span><b>${esc(ctaLabel(p))}</b><em>${esc(p.title)}</em></span>
+        <button class="ab-x" data-actx aria-label="Close"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button></div>
+      <p class="ab-k">What happens</p>
+      <ul class="ab-list">${what.map(x => `<li>${I_OK}<span>${esc(x)}</span></li>`).join('')}</ul>
+      <div class="ab-cx${on ? ' is-on' : ''}">${lg(c)}<span><b>${esc(c.name)}</b><em>${on ? 'Connected' : 'Not connected. ShopOS only asks for what this needs, and you can disconnect any time.'}</em></span>${on ? `<i class="ab-ok">${I_OK}</i>` : ''}</div>
+      <div class="ab-f">
+        <button class="ab-edit" data-actedit>Change it in chat first</button>
+        <button class="ab-go" data-actgo>${on ? esc(ctaLabel(p)) : `Connect and ${esc(ctaLabel(p).split(' ')[0].toLowerCase())}`}</button>
+      </div>
+    </div>`;
+  };
+  const openAct = (i) => {
+    actI = i; actHost.innerHTML = actHTML(i); actHost.hidden = false;
+    requestAnimationFrame(() => actHost.classList.add('on'));
+    setTimeout(() => actHost.querySelector('[data-actgo]')?.focus({ preventScroll:true }), 300);
+  };
+  const closeAct = () => { actHost.classList.remove('on'); setTimeout(() => { if (!actHost.classList.contains('on')) { actHost.hidden = true; actHost.innerHTML = ''; } }, 220); };
+  const finishAct = (i) => {
+    const p = ALL_POSTS[i], A = ACTS[i] || { done:'Done', toast:`${ctaLabel(p)}: done.` };
+    closeAct();
+    markCard(i, A.done);
+    const it = kbItems.find(x => x.p === i);
+    if (it) Object.assign(it, { col:'live', t:'Just now', by:'agent' }); else kbItems.unshift({ p:i, col:'live', t:'Just now', by:'agent' });
+    st(i).sent = true;
+    paintMine(); window.__paintTeam && window.__paintTeam();
+    toast(A.toast);
+  };
+  actHost.addEventListener('click', (e) => {
+    if (e.target === actHost || e.target.closest('[data-actx]')) return closeAct();
+    if (e.target.closest('[data-actedit]')) { const i = actI, card = document.querySelector(`.card[data-post="${i}"]`); closeAct(); return setTimeout(() => openStudio(i, card), 120); }
+    const go = e.target.closest('[data-actgo]'); if (!go || go.disabled) return;
+    const i = actI, k = KIND[kindOf(ALL_POSTS[i])], c = CONNECTORS.find(x => x.id === k.need);
+    go.disabled = true;
+    const run = () => { go.innerHTML = `<i class="src-spin"></i> Working on it`; setTimeout(() => finishAct(i), 900); };
+    if (cxState[c.id] === 'on') return run();
+    go.innerHTML = `<i class="src-spin"></i> Connecting ${esc(c.name)}`;
+    const row = actHost.querySelector('.ab-cx'); row.classList.add('is-busy');
+    setTimeout(() => {
+      setConnector(c.id, true, true);
+      row.classList.remove('is-busy'); row.classList.add('is-on');
+      row.querySelector('em').textContent = 'Connected';
+      row.insertAdjacentHTML('beforeend', `<i class="ab-ok">${I_OK}</i>`);
+      setTimeout(run, 450);
+    }, 1300);
+  });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !actHost.hidden) { e.stopImmediatePropagation(); closeAct(); } }, true);
+
+  // make-type buttons open the agent chat, push-type ones confirm and run, a call is agreed in place
   document.addEventListener('click', (e) => {
     const c = e.target.closest('.card .cta');
     if (!c || c.hasAttribute('data-connect-go')) return;
-    const card = c.closest('.card'), i = +card.dataset.post;
+    const card = c.closest('.card'), i = +card.dataset.post, p = ALL_POSTS[i];
     e.preventDefault(); e.stopPropagation();
+    if (c.classList.contains('is-sent')) return openStudio(i, card);
+    if (kindOf(p) === 'decide') {
+      st(i).decided = true; markCard(i, 'Agreed');
+      return toast('Agreed. Every agent works with this from now on.');
+    }
+    if (isPush(p)) return openAct(i);
     openStudio(i, card);
   }, true);
 
@@ -6949,6 +7399,99 @@
     c.classList.remove('is-flash'); void c.offsetWidth; c.classList.add('is-flash');
   });
 
+
+  // ---------- with the team: who has each brief, and what they last did ----------
+  const TEAM = {
+    riya:  { name:'Riya',  role:'Design',            c:'#f0a6c8' },
+    kabir: { name:'Kabir', role:'Performance',       c:'#ef8b33' },
+    meera: { name:'Meera', role:'Copy and CRM',      c:'#5eead4' },
+    dev:   { name:'Dev',   role:'Storefront',        c:'#e8c34a' }
+  };
+  const WHO_BY_KIND = { creative:'riya', launch:'kabir', write:'meera', message:'meera', store:'dev' };
+  const STAGES = ['Brief in', 'Picked up', 'Making it', 'Your review', 'Live'];
+  // what each person says as the work moves, by kind
+  const STEP_LOG = {
+    creative:['Got your brief', 'Picked it up. Starting with the first frame', 'Two versions done, finishing the rest', 'Ready for you to look at', 'Live'],
+    launch:  ['Got your brief', 'Picked it up. Checking tracking first', 'Setting up the test on Meta', 'Ready for your go-ahead', 'Live on Meta'],
+    write:   ['Got your brief', 'Picked it up. Checking claims against Memory', 'Writing the full draft', 'Ready for your read', 'Live on arata.in'],
+    message: ['Got your brief', 'Picked it up. Pulling the flow from Klaviyo', 'Building the email and the timing', 'Test send is in your inbox', 'Switched on'],
+    store:   ['Got your brief', 'Picked it up. Taking before screenshots', 'Making the change on a draft page', 'Ready for your check', 'Live on arata.in']
+  };
+  const avHTML = (k) => { const m = TEAM[k] || TEAM.riya; return `<i class="tav" style="--c:${m.c}" title="${m.name} · ${m.role}">${m.name[0]}</i>`; };
+  const agoTxt = (m) => m < 1 ? 'just now' : m < 60 ? `${Math.round(m)} min ago` : `${Math.round(m / 60)} hr ago`;
+  const teamItems = () => kbItems.filter(x => x.col !== 'draft');
+  const pill = document.getElementById('team-pill'), pop = document.getElementById('team-pop');
+  const paintTeam = () => {
+    const list = teamItems(), active = list.filter(x => (x.stage ?? 0) < 4 && x.by !== 'agent');
+    const people = [...new Set(active.map(x => x.who).filter(Boolean))].slice(0, 3);
+    document.getElementById('tp-av').innerHTML = people.map(avHTML).join('');
+    document.getElementById('tp-t').textContent = active.length ? `${active.length} with the team` : 'Team';
+    pill.classList.toggle('is-live', active.length > 0);
+    if (pop.hidden) return;
+    pop.innerHTML = `
+      <div class="tpp-h"><b>With the team</b><span>${active.length ? `${active.length} moving` : 'Nothing moving'}</span><button class="tpp-deck" data-tpdeck>Open in Deck ${I_ARR}</button></div>
+      ${list.length ? `<div class="tpp-list">${list.map(it => {
+        const p = ALL_POSTS[it.p], kind = kindOf(p), sg = it.by === 'agent' ? 4 : (it.stage ?? 0), m = TEAM[it.who] || null;
+        const thumb = (p.images || [])[0];
+        const by = it.by === 'agent' ? `<span class="tpp-by"><img src="${AG(p.agent).avatar}" alt="">${esc(AG(p.agent).name)} did it</span>` : m ? `<span class="tpp-by">${avHTML(it.who)}${m.name} · ${esc(m.role)}</span>` : '';
+        return `<button class="tpp-row" data-tpopen="${it.p}">
+          <span class="tpp-th">${thumb ? `<img src="${thumb}" alt="">` : `<img class="ag" src="${AG(p.agent).avatar}" alt="">`}</span>
+          <span class="tpp-main">
+            <b>${esc(p.title)}</b>
+            <span class="tpp-bar" style="--n:${sg}">${STAGES.map((x, n) => `<i class="${n < sg ? 'done' : n === sg ? 'now' : ''}"></i>`).join('')}</span>
+            <span class="tpp-st"><em>${STAGES[sg]}</em>${sg === 2 && it.pct ? ` · ${it.pct}%` : ''}</span>
+            ${by}
+            ${it.log ? `<span class="tpp-log">“${esc(it.log)}”<small>${agoTxt(it.ago || 0)}</small></span>` : ''}
+          </span>
+        </button>`;
+      }).join('')}</div>` : `<p class="tpp-empty">Briefs you send land here, with who has each one and what they last did.</p>`}
+      <div class="tpp-f">${Object.entries(TEAM).map(([k, m]) => `<span>${avHTML(k)}<em>${m.name}</em><small>${m.role}</small></span>`).join('')}</div>`;
+  };
+  window.__paintTeam = paintTeam;
+  const setTeam = (open) => {
+    if (open) { pop.hidden = false; paintTeam(); requestAnimationFrame(() => pop.classList.add('on')); }
+    else { pop.classList.remove('on'); setTimeout(() => { if (!pop.classList.contains('on')) pop.hidden = true; }, 220); }
+    pill.setAttribute('aria-expanded', open);
+  };
+  pill.addEventListener('click', (e) => { e.stopPropagation(); setTeam(pop.hidden); });
+  document.addEventListener('click', (e) => {
+    if (pop.hidden || e.target.closest('#team-pop')) return;
+    setTeam(false);
+  });
+  pop.addEventListener('click', (e) => {
+    const o = e.target.closest('[data-tpopen]');
+    if (o) { setTeam(false); return openStudio(+o.dataset.tpopen, null); }
+    if (e.target.closest('[data-tpdeck]')) {
+      setTeam(false);
+      if (layout !== 'deck') document.querySelector('[data-layout-tab="deck"]').click();
+      setTimeout(() => deckEl.scrollTo({ left:0, behavior:'smooth' }), 500);
+    }
+  });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !pop.hidden) setTeam(false); });
+  // a new brief: someone picks it up, then starts on it. The work keeps moving while you are here
+  const moveTicket = (it, stage, log) => {
+    const kind = kindOf(ALL_POSTS[it.p]);
+    it.stage = stage; it.ago = 0; it.log = log || STEP_LOG[kind][stage];
+    it.col = stage >= 4 ? 'live' : stage === 3 ? 'you' : stage === 2 ? 'progress' : 'sent';
+    if (stage === 2 && !it.pct) { it.pct = 8; it.job = STEP_LOG[kind][2]; }
+    if (stage === 3) it.ask = STEP_LOG[kind][3];
+    pill.classList.remove('bump'); void pill.offsetWidth; pill.classList.add('bump');
+    paintTeam(); paintMine();
+  };
+  const startTicket = (i) => {
+    const it = kbItems.find(x => x.p === i); if (!it) return;
+    it.who = it.who || WHO_BY_KIND[kindOf(ALL_POSTS[i])] || 'riya';
+    moveTicket(it, 0);
+    setTimeout(() => moveTicket(it, 1), 7000);
+    setTimeout(() => moveTicket(it, 2), 22000);
+  };
+  setInterval(() => {
+    kbItems.forEach(it => { if (it.ago != null) it.ago += .5; });
+    const w = kbItems.find(x => x.col === 'progress' && x.pct && x.pct < 92);
+    if (w) { w.pct = Math.min(92, w.pct + 3); if (w.p === 48) w.log = `Resized ${Math.min(8, Math.round(w.pct / 12))} of 8 for Stories`; }
+    paintTeam(); if (w) paintMine();
+  }, 30000);
+  paintTeam();
   // ---------- Deck: your columns ----------
   const MINE_STATUS = { sent:'With the team', progress:null, you:'Needs your answer', live:'Live' };
   const paintMine = () => {
@@ -6957,8 +7500,10 @@
     // in progress: every brief that has left you, as the card it came from with where it is now
     const moving = kbItems.filter(x => x.col !== 'draft');
     if (body('progress')) body('progress').innerHTML = moving.length ? moving.map(it => {
-      const st = it.col === 'progress' ? `${it.job || 'Being made'} · ${it.pct || 10}%` : MINE_STATUS[it.col];
-      return `<div class="mine-item"><p class="mine-st"><i class="is-${it.col}"></i>${esc(st)}<span>${esc(it.col === 'you' ? '' : (it.t || ''))}</span></p>${card(ALL_POSTS[it.p])}</div>`;
+      const sg = it.by === 'agent' ? 4 : (it.stage ?? 0), m = TEAM[it.who];
+      const st = it.by === 'agent' ? `Done by ${AG(ALL_POSTS[it.p].agent).name}` : `${STAGES[sg]}${sg === 2 && it.pct ? ` · ${it.pct}%` : ''}`;
+      return `<div class="mine-item"><p class="mine-st"><i class="is-${it.col}"></i>${esc(st)}<span>${m && it.by !== 'agent' ? `${avHTML(it.who)}${esc(m.name)}` : esc(it.t || '')}</span></p>
+        <span class="tpp-bar mine-bar">${STAGES.map((x, n) => `<i class="${n < sg ? 'done' : n === sg ? 'now' : ''}"></i>`).join('')}</span>${card(ALL_POSTS[it.p])}</div>`;
     }).join('') : '<p class="mine-empty">Briefs you send to the team show up here, with where each one is.</p>';
     setN('progress', moving.length);
     // shortlisted
@@ -7471,15 +8016,15 @@
       <article class="sig-lock">
         <div class="sig-lock-art" aria-hidden="true"><img src="assets/signals-hero.jpg" alt=""></div>
         <div class="sig-lock-body">
-          <h3>Signals reads the people buying from your store and turns that into a card you
-              can act on.</h3>
+          <h3>The CRM agent reads the people buying from your store and turns that into a card you
+              can act on. Its drafts show up below either way.</h3>
           <div class="sig-will">
             <div><i></i>First-time buyers who are due a second order</div>
             <div><i></i>Repeat customers worth early access to a drop</div>
             <div><i></i>People who went quiet, and what to ask them</div>
           </div>
           <button class="sig-unlock" id="sig-unlock">
-            Unlock Signals
+            Unlock the CRM agent
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
           </button>
         </div>
@@ -7628,7 +8173,7 @@
     if (e.target.closest('#sig-unlock')) {
       sigUnlocked = true;
       paintSignals();
-      toast('Signals unlocked. Connect a source to fill it in.');
+      toast('CRM agent unlocked. Connect Shopify and a channel to fill it in.');
       return;
     }
     if (con) return connectSource(con.dataset.connect);
