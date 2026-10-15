@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&display=swap" rel="stylesheet">
 <title>ShopOS Feed</title>
 <style>
   html{color-scheme:dark}
@@ -2722,9 +2722,9 @@
 
   /* ---------- top bar: Ask ShopOS opens the chat panel ---------- */
   .ask{
-    display:inline-flex;align-items:center;gap:8px;height:36px;padding:0 14px 0 12px;
+    display:inline-flex;align-items:center;gap:8px;height:36px;padding:0 14px;
     border:0;border-radius:var(--r-ctl);background:#171717;color:var(--fg);
-    font:inherit;font-size:12.5px;font-weight:500;cursor:pointer;white-space:nowrap;
+    font:inherit;font-size:12px;font-weight:500;line-height:20px;cursor:pointer;white-space:nowrap;
     transition:background .15s;
   }
   .ask svg{color:#c4a8ff;transition:transform .3s cubic-bezier(.34,1.4,.64,1)}
@@ -3450,105 +3450,64 @@
   @media (max-width:600px){ .hello-tiles{grid-template-columns:1fr 1fr} .ht.is-main{grid-column:1 / -1} .hello-h{font-size:32px;line-height:38px} }
 
 
-  /* ---------- stickers in the feed margins ---------- */
+  /* ---------- stickers (left gutter, logos only, peel from the nearest corner) and margin notes (right gutter) ---------- */
+  :root{--stk-paper:#fff;--stk-curl-a:#fff;--stk-curl-b:#cfcfcf;--stk-sh:rgba(0,0,0,.45);--note-ink:#f2f2ee;--note-k:#8a8a86;
+    --font-hand:"Caveat","Bradley Hand","Segoe Print",cursive;--font-mono:"SF Mono","JetBrains Mono",ui-monospace,Menlo,monospace}
 
-  .kbt{position:fixed;right:24px;bottom:24px;z-index:130;display:flex;align-items:center;gap:12px;padding:12px 12px 12px 16px;border-radius:16px;
-    background:#fafafa;color:#111;box-shadow:0 14px 40px rgba(0,0,0,.5);animation:kbtin .45s cubic-bezier(.32,.72,0,1) both;max-width:420px}
-  .kbt span{display:flex;flex-direction:column;font-size:13.5px;color:#555}
-  .kbt b{font-size:14.5px;font-weight:600;color:#111}
-  .kbt button{height:36px;padding:0 14px;border:0;border-radius:10px;background:#151515;color:#fff;font:inherit;font-size:13.5px;font-weight:500;cursor:pointer;white-space:nowrap}
-  .kbt button:hover{background:#2a2a2a}
-  .kbt.out{animation:kbtout .3s ease forwards}
-  @keyframes kbtin{from{opacity:0;transform:translate(20px,10px) scale(.96)}}
-  @keyframes kbtout{to{opacity:0;transform:translateX(20px)}}
-
-  /* ---------- phones ---------- */
-  @media (max-width:600px){
-    .st-top{gap:8px;padding:0 12px 0 8px}
-    .st-top b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:40vw}
-    .st-top .st-type{display:none}
-    .st-back{padding:0 8px 0 4px}
-    .st-main .st-chat{padding:16px 16px 12px;gap:16px}
-    .st-dock{padding:0 12px 12px}
-    .cm-card{padding:16px}
-    .cm-card h2{font-size:19px;line-height:26px}
-    .cm-strip{margin:0 -16px;padding:0 16px}
-    .cm-strip img{height:260px}
-    .cm-me span{max-width:85%}
-    .st-stage .st-bpanel{top:10px;bottom:6px;width:calc(100% - 16px)}
-    .st-bpanel header{padding:14px 10px 0 20px}
-    .st-bpanel .note{padding:6px 20px 20px;font-size:15px;line-height:23px}
-    .st-bpanel .note h3{font-size:24px;line-height:30px;margin:10px 0 18px}
-    .st-bpanel .note .b-ask{font-size:15px;line-height:23px;margin:-6px 0 22px}
-    .st-bpanel .note dl{grid-template-columns:1fr;gap:18px}
-    .st-bpanel footer{padding:12px 14px 14px;gap:8px}
-    .st-bpanel footer .mem-btn,.st-bpanel .st-send{height:44px;padding:0 16px;white-space:nowrap;font-size:14px}
-    .mem-tabs{overflow-x:auto;scrollbar-width:none;margin-inline:-16px;padding-inline:16px}
-    .mem-tabs::-webkit-scrollbar{display:none}
-    .mem-tabs button{white-space:nowrap;flex:0 0 auto}
-    .chat-panel.chat-panel{top:0;right:0;bottom:0;left:52px;width:auto;border-radius:0;border:0}
-    .hello-h{font-size:30px;line-height:36px}
-    .ht b{font-size:28px;line-height:32px}
-    .kbt{left:12px;right:12px;bottom:12px;max-width:none}
-    .kbt span{min-width:0}
-  }
-
-  /* streaming: steps shimmer while the agents work, then the answer fades in word by word */
-  .cm-work .cm-body{padding-top:4px}
-  .cm-steps{display:flex;flex-direction:column;gap:6px}
-  .cm-step{display:flex;align-items:center;gap:8px;font-size:14px;line-height:20px;animation:stfade .3s ease both}
-  .cm-step i{width:14px;height:14px;flex:0 0 auto;border-radius:50%;border:1.5px solid #3a3a3a;border-top-color:#cfcfcf;animation:stspin .8s linear infinite}
-  .cm-step em{font-style:normal;color:var(--fg-3)}
-  .cm-step.is-live em{background:linear-gradient(90deg,#6b6b6b 0%,#6b6b6b 35%,#f2f2f2 50%,#6b6b6b 65%,#6b6b6b 100%);background-size:250% 100%;
-    -webkit-background-clip:text;background-clip:text;color:transparent;animation:shim 1.3s linear infinite}
-  .cm-step.is-done i{animation:none;border:0;background:#1d3b27;position:relative}
-  .cm-step.is-done i::after{content:'';position:absolute;left:4.5px;top:3px;width:3px;height:6px;border:solid #86efac;border-width:0 1.5px 1.5px 0;transform:rotate(45deg)}
-  .cm-step.is-done em{color:var(--fg-3)}
-  @keyframes shim{from{background-position:100% 0}to{background-position:-150% 0}}
-  @keyframes stspin{to{transform:rotate(360deg)}}
-  .cm-did{display:flex;align-items:center;gap:6px;margin-bottom:6px;font-size:12.5px;color:var(--fg-3)}
-  .cm-did svg{width:13px;height:13px;color:#86efac}
-  .cm.no-in{animation:none}
-  .w{opacity:0;animation:win .32s ease forwards;animation-delay:calc(var(--i) * 28ms)}
-  @keyframes win{from{opacity:0;filter:blur(3px)}to{opacity:1;filter:none}}
-  .cm-late{animation:stfade .45s cubic-bezier(.2,.8,.2,1) both}
-  @media (prefers-reduced-motion:reduce){ .w{animation:none;opacity:1} .cm-step.is-live em{animation:none;color:var(--fg-2)} }
-  .stickers{position:absolute;left:60px;right:0;top:0;height:0;z-index:2;pointer-events:none}
-  .stickers[hidden]{display:none}
-  .stk{
-    position:absolute;left:calc(50% + var(--x) * 100%);top:var(--y);pointer-events:auto;cursor:grab;touch-action:none;user-select:none;
-    transform:translate(-50%,0) rotate(calc(var(--r) + var(--tilt,0deg)));transition:transform .35s cubic-bezier(.34,1.4,.64,1);
-    opacity:0;
-  }
-  .stk.in{opacity:1;animation:skin .7s cubic-bezier(.34,1.5,.64,1) both}
-  @keyframes skin{from{opacity:0;transform:translate(-50%,24px) rotate(calc(var(--r) - 14deg)) scale(.7)}}
-  .stk:hover{transform:translate(-50%,-4px) rotate(calc(var(--r) * .5)) scale(1.06)}
-  .stk.is-drag{cursor:grabbing;transition:transform .12s ease;transform:translate(-50%,0) rotate(calc(var(--r) + var(--tilt,0deg))) scale(1.1);z-index:5}
-  .stk img{pointer-events:none;-webkit-user-drag:none}
-  .sk-tile,.sk-pola,.sk-star,.sk-sticky,.sk-chip{box-shadow:0 14px 28px rgba(0,0,0,.45)}
-  .sk-tag{filter:none}
-  .sk-note{text-shadow:0 2px 12px rgba(0,0,0,.6)}
-  .sk-tile{width:92px;height:92px;border-radius:24px;background:#fff;display:grid;place-items:center}
-  .sk-tile img{width:58%;height:58%}
-  .sk-tile.is-dark{background:#111;border:1px solid #2a2a2a}
-  .sk-note{display:block;width:230px;font-family:'Caveat',cursive;font-size:30px;line-height:31px;color:#f2f2f2}
-  .sk-note small{display:block;margin-bottom:4px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;letter-spacing:.14em;color:#8a8a8a}
-  .sk-pola{position:relative;display:block;width:150px;padding:9px 9px 34px;background:#f6f4ee;border-radius:4px}
-  .sk-pola img{width:132px;height:150px;object-fit:cover;display:block;border-radius:2px}
-  .sk-pola em{position:absolute;left:0;right:0;bottom:6px;text-align:center;font-family:'Caveat',cursive;font-style:normal;font-size:20px;color:#333}
-  .sk-pola .tape{position:absolute;left:50%;top:-10px;width:62px;height:22px;transform:translateX(-50%) rotate(-4deg);background:rgba(255,236,170,.75);border-radius:2px}
-  .sk-tag{display:flex;flex-direction:column;align-items:center;padding:12px 18px 10px 26px;background:#ffd84d;color:#151515;font-size:24px;font-weight:700;letter-spacing:-.02em;
-    clip-path:polygon(14px 0,100% 0,100% 100%,14px 100%,0 50%);border-radius:6px}
-  .sk-tag small{font-size:12px;font-weight:600;opacity:.7}
-  .sk-star{display:grid;place-items:center;width:118px;height:118px;border-radius:50%;background:radial-gradient(circle at 30% 25%,#8fb0ff,#3a5bd9 60%,#22348a);color:#fff;
-    font-size:30px;font-weight:700;line-height:1;text-align:center;padding-top:6px}
-  .sk-star b{font-size:20px;color:#ffe27a}
-  .sk-star small{display:block;margin-top:-18px;font-size:11px;font-weight:600;opacity:.85}
-  .sk-sticky{display:block;width:150px;padding:16px 14px 20px;background:#fff59d;color:#2a2a2a;font-family:'Caveat',cursive;font-size:24px;line-height:25px;
-    box-shadow:inset 0 -12px 18px -14px rgba(0,0,0,.25)}
-  .sk-chip{display:inline-block;padding:10px 16px;border-radius:999px;background:#1d3b2b;color:#7ff0b8;font-size:16px;font-weight:600;border:1px solid #2b5a41}
-  @media (max-width:1180px){ .stickers{display:none} }
-  @media (prefers-reduced-motion:reduce){ .stk{animation:none;transition:none} }
+  /* kanban, plain: no pictures, no loaders, one card shape for every column */
+  .kb-card{background:#161616;border-color:#232323;border-radius:20px}
+  .kb-card .in{gap:10px;padding:16px 18px 14px}
+  .kb-card .who{gap:10px}
+  .kb-card .who img{width:32px;height:32px}
+  .kb-card .who > span{display:flex;flex-direction:column;line-height:18px}
+  .kb-card .who em{font-size:14.5px;color:var(--fg)}
+  .kb-card .who small{font-size:13px;color:var(--fg-3)}
+  .kb-card h3{font-size:16.5px;line-height:23px;font-weight:600}
+  .kb-sub{margin:0;font-size:14px;line-height:21px;color:var(--fg-2);display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+  .kb-sub.is-ask{color:var(--fg)}
+  .kb-open{display:flex;align-items:center;gap:6px;padding:12px 18px;border-top:1px solid #222;font-size:14.5px;color:var(--fg-2)}
+  .kb-open svg{transition:transform .25s cubic-bezier(.34,1.4,.64,1)}
+  .kb-card:hover .kb-open{color:var(--fg)}
+  .kb-card:hover .kb-open svg{transform:translateX(3px)}
+  .kb-col[data-col="you"] .kb-col-h .n.has{background:#1f1f1f;color:var(--fg-2)}
+  .kb-col-h .row{gap:12px}
+  .kb-col-h b{font-size:20px}
+  .stk-layer,.notes-layer{position:absolute;left:0;top:0;width:100%;height:0;pointer-events:none;z-index:2}
+  .stk-layer[hidden],.notes-layer[hidden]{display:none}
+  .stk{position:absolute;pointer-events:auto;cursor:grab;user-select:none;touch-action:none;--peel:0px;transform:rotate(var(--r,0deg));
+    filter:drop-shadow(0 6px 10px var(--stk-sh));animation:stkIn .9s ease both;will-change:transform}
+  .stk.is-drag{cursor:grabbing;filter:drop-shadow(0 16px 20px var(--stk-sh))}
+  .stk-art{position:absolute;inset:0;padding:4px;background:var(--stk-paper);border-radius:18px;overflow:hidden}
+  .stk-art img,.stk-art svg{display:block;width:100%;height:100%;border-radius:14px;object-fit:cover;pointer-events:none;-webkit-user-drag:none}
+  .stk.is-word .stk-art{padding:8px 10px;border-radius:16px}
+  .stk.is-word .stk-art img{object-fit:contain;border-radius:0}
+  .stk.is-mark .stk-art img{object-fit:contain;padding:12%;background:#111;border-radius:14px}
+  .stk.is-mark-inv .stk-art img{object-fit:contain;padding:14%;background:#f3f3f1;border-radius:14px;filter:invert(1) hue-rotate(180deg)}
+  .stk[data-corner="br"] .stk-art{clip-path:polygon(0 0,100% 0,100% calc(100% - var(--peel)),calc(100% - var(--peel)) 100%,0 100%)}
+  .stk[data-corner="bl"] .stk-art{clip-path:polygon(0 0,100% 0,100% 100%,var(--peel) 100%,0 calc(100% - var(--peel)))}
+  .stk[data-corner="tr"] .stk-art{clip-path:polygon(0 0,calc(100% - var(--peel)) 0,100% var(--peel),100% 100%,0 100%)}
+  .stk[data-corner="tl"] .stk-art{clip-path:polygon(var(--peel) 0,100% 0,100% 100%,0 100%,0 var(--peel))}
+  .stk-curl{position:absolute;width:var(--peel);height:var(--peel);filter:drop-shadow(0 0 2px rgba(0,0,0,.25))}
+  .stk-curl::before{content:'';position:absolute;inset:0}
+  .stk[data-corner="br"] .stk-curl{right:0;bottom:0}.stk[data-corner="br"] .stk-curl::before{clip-path:polygon(0 0,100% 0,0 100%);background:linear-gradient(315deg,var(--stk-curl-a),#eee 35%,var(--stk-curl-b))}
+  .stk[data-corner="bl"] .stk-curl{left:0;bottom:0}.stk[data-corner="bl"] .stk-curl::before{clip-path:polygon(0 0,100% 0,100% 100%);background:linear-gradient(45deg,var(--stk-curl-a),#eee 35%,var(--stk-curl-b))}
+  .stk[data-corner="tr"] .stk-curl{right:0;top:0}.stk[data-corner="tr"] .stk-curl::before{clip-path:polygon(0 0,0 100%,100% 100%);background:linear-gradient(225deg,var(--stk-curl-a),#eee 35%,var(--stk-curl-b))}
+  .stk[data-corner="tl"] .stk-curl{left:0;top:0}.stk[data-corner="tl"] .stk-curl::before{clip-path:polygon(100% 0,100% 100%,0 100%);background:linear-gradient(135deg,var(--stk-curl-a),#eee 35%,var(--stk-curl-b))}
+  .stk-shine{position:absolute;inset:0;pointer-events:none;border-radius:18px;background:linear-gradient(115deg,transparent 38%,rgba(255,255,255,.7) 47%,rgba(255,255,255,.18) 53%,transparent 60%) var(--shx,-50%) 0/260% 100% no-repeat;mix-blend-mode:soft-light}
+  @keyframes stkIn{from{opacity:0;transform:rotate(var(--r,0deg)) scale(1.4)}to{opacity:1}}
+  .mnote{position:absolute;width:210px;pointer-events:none;color:var(--note-ink);opacity:0;transform:translateY(8px);transition:opacity .6s ease,transform .6s ease}
+  .mnote.on{opacity:1;transform:none}
+  .mnote .k{display:block;font-family:var(--font-mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--note-k);margin:0 0 4px 22px}
+  .mnote .h{display:block;font-family:var(--font-hand);font-weight:700;font-size:23px;line-height:24px;margin-left:22px;transform:rotate(-2deg);transform-origin:left top}
+  .mnote svg{position:absolute;left:-30px;top:2px;width:48px;height:24px;overflow:visible}
+  .mnote svg path{fill:none;stroke:var(--note-ink);stroke-width:1.6;stroke-linecap:round;stroke-dasharray:80;stroke-dashoffset:80;transition:stroke-dashoffset .9s ease .2s}
+  .mnote.on svg path{stroke-dashoffset:0}
+  .mnote.is-inline{position:static;width:auto;margin:0 4px 12px;opacity:1;transform:none}
+  .mnote.is-inline .k,.mnote.is-inline .h{margin-left:0}
+  .mnote.is-inline .h{font-size:21px;line-height:22px;transform:none}
+  .mnote.is-inline svg{display:none}
+  @media (max-width:1059px){ .stk-layer{display:none} }
+  @media (prefers-reduced-motion:reduce){ .stk{animation:none} .mnote{transition:none} }
 
 
   /* projected impact inside the card page */
@@ -3824,7 +3783,6 @@
 
   <div class="topbar-right">
     <button class="ask" id="ask-btn" aria-expanded="false" aria-controls="chat-panel">
-      <img class="ask-mark" src="assets/shopos-mark.svg" alt="">
       Ask ShopOS
     </button>
     <button class="chip" aria-label="Light mode">
@@ -3875,7 +3833,7 @@
 <div id="view-feed" class="view">
   <div class="subbar" id="subbar-feed"></div>
 <p class="feed-empty" id="feed-empty" hidden>Nothing shortlisted yet. Tap the bookmark on any card to keep it here.</p>
-<div class="stickers" id="stickers" aria-hidden="true"></div>
+<div class="stk-layer" id="stk" aria-hidden="true"></div><div class="notes-layer" id="notes" aria-hidden="true"></div>
 <main class="feed" id="feed"></main>
 
 <div class="feed" style="padding-top:24px">
@@ -5053,7 +5011,7 @@
     document.body.classList.toggle('deck-on', next === 'deck');
     storiesEl.hidden = next !== 'feed';
     document.getElementById('hello').hidden = next !== 'feed';
-    skLayer.hidden = next !== 'feed';
+    skLayer.hidden = next !== 'feed'; if (next === 'feed') setTimeout(placeAll, 500);
     from.hidden = true;
     to.hidden = false;
     window.scrollTo(0, 0);
@@ -6128,18 +6086,17 @@
     { p:48, col:'progress', job:'Making 8 ad variants', pct:62 }
   ];
   const kbCard = (it, i) => {
-    const p = ALL_POSTS[it.p], a = AG(p.agent), img = (p.images || [])[0];
-    let foot = '';
-    if (it.col === 'progress') foot = `<div class="kb-foot"><span class="kb-live"></span>${esc(it.job || 'Being made')} · ${it.pct || 10}%</div><div class="kb-bar"><i style="width:${it.pct || 10}%"></i></div>`;
-    else if (it.col === 'draft') foot = `<div class="kb-foot">Edited ${esc(it.t || 'just now')}</div>`;
-    else if (it.col === 'sent') foot = `<div class="kb-foot">${esc(it.t || 'Sent just now')}</div>`;
-    else if (it.col === 'you') foot = `<div class="kb-ask">${esc(it.ask)}</div><div class="kb-foot"><button class="kb-btn">Reply</button></div>`;
-    else foot = `<div class="kb-foot"><svg class="kb-ok" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg>${esc(it.t || 'Live')}</div>`;
-    const brief = it.col === 'sent';
-    return `<article class="kb-card${brief ? ' is-brief' : ''}" draggable="true" data-kb="${i}">
-      ${img && !brief && it.col !== 'live' ? `<div class="th"><img src="${img}" alt="" loading="lazy"></div>` : ''}
-      <div class="in">${brief ? '<span class="tagline">Brief</span>' : ''}<span class="who"><img src="${a.avatar}" alt=""><em>${esc(a.name)}</em></span>
-        <h3>${esc(p.title)}</h3>${foot}</div></article>`;
+    const p = ALL_POSTS[it.p], a = AG(p.agent);
+    const when = it.col === 'progress' ? `${it.job || 'Being made'} · ${it.pct || 10}%` : it.col === 'you' ? '' : (it.t || 'just now');
+    const sub = it.col === 'you' ? it.ask : p.sub;
+    return `<article class="kb-card" draggable="true" data-kb="${i}">
+      <div class="in">
+        <span class="who"><img src="${a.avatar}" alt=""><span><em>${esc(a.name)}</em>${when ? `<small>${esc(when)}</small>` : ''}</span></span>
+        <h3>${esc(p.title)}</h3>
+        ${sub ? `<p class="kb-sub${it.col === 'you' ? ' is-ask' : ''}">${esc(sub)}</p>` : ''}
+      </div>
+      <div class="kb-open">${it.col === 'you' ? 'Reply' : 'Open'}<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></div>
+    </article>`;
   };
   const paintKb = () => {
     document.getElementById('kb-board').innerHTML = KB_COLS.map(([k, name, sub, empty]) => {
@@ -6639,59 +6596,108 @@
 
 
 
-  // ---------- stickers: drag them anywhere; double-click to spin; they stay where you leave them ----------
-  const STICKERS = [
-    { id:'arata',   x:-.36, y:620,  r:-8,  html:'<span class="sk-tile"><img src="assets/arata/mark.svg" alt=""></span>' },
-    { id:'note1',   x:.31,  y:1500, r:-3,  html:'<span class="sk-note"><small>MONDAY SWEEP</small>four of five answered in three days. that’s the bar.</span>' },
-    { id:'polaroid',x:-.38, y:2500, r:-5,  html:'<span class="sk-pola"><i class="tape"></i><img src="assets/arata/two-bottles-one-routine-1.webp" alt=""><em>the routine sells</em></span>' },
-    { id:'stars',   x:.34,  y:3500, r:6,   html:'<span class="sk-star">4.57<b>★</b><small>474 reviews</small></span>' },
-    { id:'price',   x:-.35, y:4500, r:10,  html:'<span class="sk-tag">₹1,010<small>2 bottles</small></span>' },
-    { id:'shopos',  x:.33,  y:5500, r:9,   html:'<span class="sk-tile is-dark"><img src="assets/shopos-mark.svg" alt=""></span>' }
-  ];
-  const skLayer = document.getElementById('stickers');
-  let skPos = {};
-  try { skPos = JSON.parse(localStorage.getItem('shopos-stickers-2') || '{}'); } catch (_) {}
-  const skSave = () => { try { localStorage.setItem('shopos-stickers-2', JSON.stringify(skPos)); } catch (_) {} };
-  const paintStickers = () => {
-    skLayer.innerHTML = STICKERS.map((k, n) => {
-      const p = skPos[k.id] || k;
-      return `<div class="stk" data-sk="${k.id}" style="--x:${p.x};--y:${p.y}px;--r:${p.r}deg">${k.html}</div>`;
-    }).join('');
-    const io = new IntersectionObserver((es) => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { rootMargin:'0px 0px -12% 0px' });
-    skLayer.querySelectorAll('.stk').forEach(el => io.observe(el));
+  // ---------- stickers: logos only, in the left gutter, peel from the nearest corner; springs when you drag them ----------
+  const stkLayer = document.getElementById('stk'), notesLayer = document.getElementById('notes');
+  const skLayer = { set hidden(v) { stkLayer.hidden = v; notesLayer.hidden = v; document.querySelectorAll('.mnote.is-inline').forEach(n => n.hidden = v); } };
+  const STK = { brand:{ w:68, h:68, art:'<img src="assets/arata/mark.svg" alt="">', cls:'is-word' },
+                shop:{ w:66, h:66, art:'<img src="assets/shopos-mark.svg" alt="">', cls:'is-mark' },
+                word:{ w:108, h:70, art:'<img src="assets/arata/logo.svg" alt="">', cls:'is-word' },
+                shopInv:{ w:60, h:60, art:'<img src="assets/shopos-mark.svg" alt="">', cls:'is-mark-inv' } };
+  const STK_ORDER = ['brand','shop','word','shopInv','brand','shop','word','shopInv','brand'];
+  const STK_ROT = [-7, 6, -4, 8, -6, 4, -5, 7, -3];
+  const SP = new Map(), ptr = { x:-9999, y:-9999 };
+  let stkRaf = 0, stkIdle = 0, stkMoving = false, stkDrag = null;
+  const feedCol = document.getElementById('feed');
+  const feedOn = () => layout === 'feed' && studio.hidden;
+  const placeStickers = () => {
+    stkLayer.innerHTML = ''; SP.clear();
+    if (innerWidth < 1060 || layout !== 'feed') return;
+    const c = feedCol.getBoundingClientRect(), gutter = c.left - 60; if (gutter < 200) return;
+    const top = c.top + scrollY, end = top + feedCol.offsetHeight - 260;
+    STK_ORDER.forEach((k, i) => {
+      const y = top + 360 + i * 980; if (y > end) return;
+      const d = STK[k], cx = gutter / 2 + (i % 2 ? 30 : -30);
+      const x = 60 + Math.max(16, Math.min(cx - d.w / 2, gutter - d.w - 48));
+      const el = document.createElement('div');
+      el.className = `stk ${d.cls || ''}`; el.dataset.corner = 'br';
+      el.style.cssText = `left:${x}px;top:${y}px;width:${d.w}px;height:${d.h}px;--r:${STK_ROT[i]}deg`;
+      el.innerHTML = `<div class="stk-art">${d.art}</div><span class="stk-shine"></span><span class="stk-curl"></span>`;
+      stkLayer.appendChild(el);
+    });
   };
-  paintStickers();
-  let skDrag = null;
-  skLayer.addEventListener('pointerdown', (e) => {
-    const el = e.target.closest('.stk'); if (!el) return;
-    e.preventDefault();
-    const k = STICKERS.find(x => x.id === el.dataset.sk), p = skPos[k.id] || { x:k.x, y:k.y, r:k.r };
-    skDrag = { el, id:k.id, p:{ ...p }, sx:e.clientX, sy:e.clientY, w:skLayer.clientWidth };
-    el.setPointerCapture(e.pointerId); el.classList.add('is-drag');
-    skLayer.append(el);
-  });
-  skLayer.addEventListener('pointermove', (e) => {
-    if (!skDrag) return;
-    const dx = e.clientX - skDrag.sx, dy = e.clientY - skDrag.sy;
-    skDrag.el.style.setProperty('--x', skDrag.p.x + dx / skDrag.w);
-    skDrag.el.style.setProperty('--y', (skDrag.p.y + dy) + 'px');
-    skDrag.el.style.setProperty('--tilt', Math.max(-12, Math.min(12, (e.movementX || 0) * 1.5)) + 'deg');
-  });
-  const skDrop = (e) => {
-    if (!skDrag) return;
-    const dx = e.clientX - skDrag.sx, dy = e.clientY - skDrag.sy;
-    skPos[skDrag.id] = { x:skDrag.p.x + dx / skDrag.w, y:skDrag.p.y + dy, r:skDrag.p.r };
-    skDrag.el.classList.remove('is-drag'); skDrag.el.style.removeProperty('--tilt');
-    skDrag = null; skSave();
+  const spr = (el) => { if (!SP.has(el)) SP.set(el, { x:0, y:0, r:0, vr:0, s:1, vs:0, p:0, vp:0, vx:0, corner:'br' }); return SP.get(el); };
+  const sstep = (o, k, t, K, Dm, dt) => { const v = 'v' + k; o[v] += (K * (t - o[k]) - Dm * o[v]) * dt; o[k] += o[v] * dt; };
+  const stkTick = () => {
+    let busy = false;
+    stkLayer.querySelectorAll('.stk').forEach((el) => {
+      const o = spr(el), base = parseFloat(el.style.getPropertyValue('--r')) || 0, r = el.getBoundingClientRect(), isDrag = stkDrag && stkDrag.el === el;
+      const corners = { tl:[r.left, r.top], tr:[r.right, r.top], bl:[r.left, r.bottom], br:[r.right, r.bottom] };
+      let best = 'br', bd = Infinity; for (const [k, [cx, cy]] of Object.entries(corners)) { const d = Math.hypot(ptr.x - cx, ptr.y - cy); if (d < bd) { bd = d; best = k; } }
+      const near = isDrag ? 1 : Math.max(0, 1 - bd / 120);
+      if (!isDrag && near > .05 && best !== o.corner && o.p < .08) { o.corner = best; el.dataset.corner = best; }
+      const tp = isDrag ? .9 : near * .75 + (stkMoving ? .12 : 0);
+      sstep(o, 'r', isDrag ? Math.max(-12, Math.min(12, o.vx * .6)) : 0, 260, 20, 1 / 60); sstep(o, 's', isDrag ? 1.06 : 1, 500, 26, 1 / 60); sstep(o, 'p', tp, 320, 22, 1 / 60); o.vx *= .8;
+      el.style.transform = `translate(${o.x}px,${o.y}px) rotate(${(base + o.r).toFixed(2)}deg) scale(${o.s.toFixed(3)})`;
+      el.style.setProperty('--peel', (Math.max(0, o.p) * 34).toFixed(1) + 'px');
+      if (Math.abs(o.vr) + Math.abs(o.vp) * 40 + Math.abs(tp - o.p) * 40 > .04 || near > 0 || isDrag) busy = true;
+    });
+    stkIdle = busy ? 0 : stkIdle + 1; stkRaf = stkIdle > 12 ? 0 : requestAnimationFrame(stkTick);
   };
-  skLayer.addEventListener('pointerup', skDrop);
-  skLayer.addEventListener('pointercancel', skDrop);
-  skLayer.addEventListener('dblclick', (e) => {
-    const el = e.target.closest('.stk'); if (!el) return;
-    const k = STICKERS.find(x => x.id === el.dataset.sk), p = skPos[k.id] || { x:k.x, y:k.y, r:k.r };
-    p.r = ((p.r + 25 + 180) % 360) - 180; skPos[k.id] = p; skSave();
-    el.style.setProperty('--r', p.r + 'deg');
+  const stkKick = () => { stkIdle = 0; if (!stkRaf) stkRaf = requestAnimationFrame(stkTick); };
+  addEventListener('pointermove', (e) => {
+    ptr.x = e.clientX; ptr.y = e.clientY;
+    if (stkDrag) { const o = stkDrag.o; o.x = stkDrag.ox + e.clientX - stkDrag.x; o.y = stkDrag.oy + e.clientY - stkDrag.y; o.vx = e.clientX - stkDrag.lx; stkDrag.lx = e.clientX; }
+    if (stkLayer.childElementCount) stkKick();
+  }, { passive:true });
+  let stkScrollT;
+  addEventListener('scroll', () => {
+    stkLayer.style.setProperty('--shx', ((scrollY / 1400) % 1 * 200 - 50).toFixed(1) + '%');
+    stkMoving = true; stkKick(); clearTimeout(stkScrollT); stkScrollT = setTimeout(() => { stkMoving = false; stkKick(); }, 300);
+  }, { passive:true });
+  document.addEventListener('pointerdown', (e) => {
+    const el = e.target.closest('#stk .stk'); if (!el) return;
+    e.preventDefault(); const o = spr(el);
+    stkDrag = { el, o, x:e.clientX, y:e.clientY, ox:o.x, oy:o.y, lx:e.clientX }; el.classList.add('is-drag'); stkKick();
   });
+  addEventListener('pointerup', () => { if (stkDrag) { stkDrag.el.classList.remove('is-drag'); stkDrag = null; stkKick(); } });
+
+  // ---------- margin notes: a handwritten note after every 2 or 3 cards, in the right gutter; a card's own note points at it ----------
+  const ARROW = '<svg viewBox="0 0 48 24" aria-hidden="true"><path d="M46 14 C 34 4, 18 4, 4 10 M4 10 l7 -5 M4 10 l8 3"/></svg>';
+  const NOTE_SEED = (() => { try { const k = 'shopos-note-seed', v = +sessionStorage.getItem(k); if (v) return v; const n = 1 + Math.floor(Math.random() * 1e9); sessionStorage.setItem(k, String(n)); return n; } catch (_) { return 1 + Math.floor(Math.random() * 1e9); } })();
+  const noteGap = (k) => { let x = (NOTE_SEED ^ Math.imul(k + 1, 0x9e3779b1)) >>> 0; x = Math.imul(x ^ (x >>> 15), 0x85ebca6b) >>> 0; x = (x ^ (x >>> 13)) >>> 0; return 2 + (x % 2); };
+  const NOTE_POOL = (() => { const seen = new Set(); return ALL_POSTS.map(p => p && p.note).filter(n => n && n.h && !seen.has(n.h) && seen.add(n.h)); })();
+  let noteIO = null;
+  const placeNotes = () => {
+    notesLayer.innerHTML = ''; document.querySelectorAll('.mnote.is-inline').forEach(n => n.remove());
+    if (layout !== 'feed' || !NOTE_POOL.length) return;
+    const wide = innerWidth >= 1060, cards = [...feedCol.querySelectorAll('.card[data-post]')];
+    let lastBottom = -1e9, since = 0, slot = 0, gap = noteGap(0), last = '', pp = NOTE_SEED % NOTE_POOL.length;
+    const near = (i) => new Set(cards.slice(i + 1, i + 4).map(c => (ALL_POSTS[+c.dataset.post] || {}).note?.h).filter(Boolean));
+    const fromPool = (avoid) => { for (const ok of [(n) => n.h !== last && !avoid.has(n.h), (n) => n.h !== last || NOTE_POOL.length === 1]) for (let k = 0; k < NOTE_POOL.length; k++) { const n = NOTE_POOL[(pp + k) % NOTE_POOL.length]; if (ok(n)) { pp = (pp + k + 1) % NOTE_POOL.length; return n; } } return null; };
+    cards.forEach((card, i) => {
+      if (since < gap) { since++; return; }
+      const p = ALL_POSTS[+card.dataset.post] || {}, own = p.note && p.note.h && p.note.h !== last ? p.note : null, note = own || fromPool(near(i));
+      if (!note) { since++; return; }
+      const html = `<span class="k">${esc(note.k || '')}</span><span class="h">${esc(note.h)}</span>`;
+      if (!wide) { const n = document.createElement('div'); n.className = 'mnote is-inline'; n.innerHTML = html; card.before(n); }
+      else {
+        const r = card.getBoundingClientRect(), a = (card.querySelector('.media, .panel') || card).getBoundingClientRect();
+        const top = a.top + scrollY + Math.min(90, a.height * .3); if (top < lastBottom + 24) { since++; return; } lastBottom = top + 110;
+        const n = document.createElement('div'); n.className = `mnote${own ? '' : ' is-loose'}`; n.innerHTML = (own ? ARROW : '') + html;
+        n.style.left = (r.right + 44) + 'px'; n.style.top = top + 'px'; notesLayer.appendChild(n);
+      }
+      last = note.h; since = 1; gap = noteGap(++slot);
+    });
+    noteIO && noteIO.disconnect();
+    noteIO = new IntersectionObserver((es) => es.forEach(en => en.isIntersecting && en.target.classList.add('on')), { threshold:.4 });
+    notesLayer.querySelectorAll('.mnote').forEach(n => noteIO.observe(n));
+  };
+  const placeAll = () => { placeStickers(); placeNotes(); };
+  let placeT; const placeSoon = () => { clearTimeout(placeT); placeT = setTimeout(placeAll, 200); };
+  addEventListener('resize', placeSoon);
+  addEventListener('load', placeAll);
+  new ResizeObserver(placeSoon).observe(feedCol);
+  requestAnimationFrame(placeAll);
   // ---------- hello: the greeting and the three numbers that matter today ----------
   const paintHello = () => {
     const d = new Date(), h = d.getHours();
