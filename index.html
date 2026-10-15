@@ -3442,6 +3442,16 @@
 
 
   /* ---------- stickers in the feed margins ---------- */
+
+  .kbt{position:fixed;right:24px;bottom:24px;z-index:130;display:flex;align-items:center;gap:12px;padding:12px 12px 12px 16px;border-radius:16px;
+    background:#fafafa;color:#111;box-shadow:0 14px 40px rgba(0,0,0,.5);animation:kbtin .45s cubic-bezier(.32,.72,0,1) both;max-width:420px}
+  .kbt span{display:flex;flex-direction:column;font-size:13.5px;color:#555}
+  .kbt b{font-size:14.5px;font-weight:600;color:#111}
+  .kbt button{height:36px;padding:0 14px;border:0;border-radius:10px;background:#151515;color:#fff;font:inherit;font-size:13.5px;font-weight:500;cursor:pointer;white-space:nowrap}
+  .kbt button:hover{background:#2a2a2a}
+  .kbt.out{animation:kbtout .3s ease forwards}
+  @keyframes kbtin{from{opacity:0;transform:translate(20px,10px) scale(.96)}}
+  @keyframes kbtout{to{opacity:0;transform:translateX(20px)}}
   .stickers{position:absolute;left:60px;right:0;top:0;height:0;z-index:2;pointer-events:none}
   .stickers[hidden]{display:none}
   .stk{
@@ -3526,11 +3536,7 @@
   .pj2-tip span{margin-right:8px;font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--fg-3)}
   .pj2 .st-chip{align-self:flex-start}
   .pj2 .st-chip:disabled{opacity:1;background:#16261b;border-color:#1f3a27;color:#86efac;cursor:default}
-  .kb-card.is-brief{background:#fbfaf6;border-color:#fbfaf6;color:#151515}
-  .kb-card.is-brief h3{color:#151515}
-  .kb-card.is-brief .who,.kb-card.is-brief .kb-foot{color:#6b6b6b}
-  .kb-card.is-brief .who em{color:#333}
-  .kb-card.is-brief .tagline{font-size:11.5px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:#8a8a8a}
+  .kb-card.is-brief .tagline{font-size:11.5px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--fg-3)}
 
   /* ---------- shortlisted ---------- */
   .feed-empty{
@@ -5128,6 +5134,16 @@
     '<circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>';
 
   const host = document.getElementById('toasts');
+  // bottom-right, with a way to follow the work
+  const kbToast = () => {
+    document.querySelector('.kbt')?.remove();
+    const el = document.createElement('div');
+    el.className = 'kbt';
+    el.innerHTML = `${CHECK}<span><b>Brief sent to the team</b>Check Kanban to see the progress.</span><button>Open Kanban</button>`;
+    document.body.appendChild(el);
+    el.querySelector('button').addEventListener('click', () => { el.remove(); setKbPage(true); });
+    setTimeout(() => { el.classList.add('out'); setTimeout(() => el.remove(), 300); }, 5000);
+  };
   const toast = (msg) => {
     // one at a time — a stack of confirmations reads as an error state
     host.innerHTML = '';
@@ -6182,7 +6198,7 @@
     const c = k.need && CONNECTORS.find(x => x.id === k.need);
     const access = !c ? '<span class="none">Nothing to connect</span>' : cxState[c.id] === 'on'
       ? `<div class="gate ok">${lg(c)}<span><b>${c.name} connected</b>The team can make this change for you.</span></div>`
-      : `<div class="gate">${lg(c)}<span><b>Needs ${c.name}</b>So the team can make the change on your behalf.</span>
+      : `<div class="gate">${lg(c)}<span><b>${c.name} not connected</b>Fine to send. The team will ask for access when they need it.</span>
            <button data-stconnect="${c.id}">${cxState[c.id] === 'busy' ? '<i class="src-spin"></i> Connecting' : 'Connect'}</button></div>`;
     const rows = (p.rows || []).slice(0, 4);
     return `
@@ -6204,8 +6220,6 @@
   const sendBtn = (i) => {
     const p = ALL_POSTS[i], k = KIND[kindOf(p)], S = st(i);
     if (S.sent) return `<button class="st-send sent">${I_OK} Brief sent</button>`;
-    const c = k.need && CONNECTORS.find(x => x.id === k.need);
-    if (c && cxState[c.id] !== 'on') return `<button class="st-send" data-stneed>Connect ${c.name} to send</button>`;
     return `<button class="st-send${S.edits.length || S.view === 'brief' ? ' is-primary' : ''}" id="st-send">Send brief ${I_SEND}</button>`;
   };
   // ---- the brief: a large sheet over the chat, opened from the nudge above the chat box ----
@@ -6321,7 +6335,6 @@
         <svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" aria-label="Projected add to carts rising above today's pace"><path d="${pt(D.pace)}" class="pj-pace"/><path d="${pt(D.withAd)}" class="pj-ad"/></svg>
       </div>
       <p class="pj2-tip"><span>Do better</span>Lead with the 474 reviews in the first frame.</p>
-      <button class="st-chip is-brief" data-stfixes>${I_SPARK}Add to the brief</button>
     </div>`;
   };
   const paintActions = () => {
@@ -6329,16 +6342,15 @@
     const p = ALL_POSTS[i], kind = kindOf(p), k = KIND[kind], S = st(i);
     const el = studio.querySelector('.st-quick'); if (!el) return;
     if (kind === 'decide') { el.innerHTML = S.decided ? '' : `<button class="st-chip is-brief" data-styes>${I_OK} Agree</button><button class="st-chip" data-stno>Not now</button>`; return; }
-    const c = k.need && CONNECTORS.find(x => x.id === k.need), needs = c && cxState[c.id] !== 'on';
     const n = S.edits.length;
     const brief = `<button class="st-chip is-brief" data-stbrief>${I_NOTE}View brief${n ? `<span class="qn${S.fresh ? ' pop' : ''}">${n}</span>` : ''}</button>`;
-    const send = S.sent ? `<span class="st-chip is-sent">${I_OK} Sent to the team</span>`
-      : n ? (needs ? `<button class="st-chip" data-stneed>${lg(c)}Connect ${c.name}</button>` : `<button class="st-chip" id="st-send">${I_SEND}Send to team</button>`) : '';
-    const left = S.sent ? [] : k.tweaks.filter(([t]) => !S.edits.includes(t));
     const proj = (kind === 'launch' || kind === 'creative') && !S.projSeen ? `<button class="st-chip is-proj" data-stproj>${I_TREND}Projected impact</button>` : '';
-    el.innerHTML = brief + send + proj + (left.length ? '<span class="st-qsep"></span>' : '') +
+    const sent = S.sent ? `<span class="st-chip is-sent">${I_OK} Sent to the team</span>` : '';
+    const left = S.sent ? [] : k.tweaks.filter(([t]) => !S.edits.includes(t));
+    el.innerHTML = brief + proj + sent + (left.length ? '<span class="st-qsep"></span>' : '') +
       left.map(([t]) => `<button class="st-chip" data-sttweak="${k.tweaks.findIndex(x => x[0] === t)}">${I_SPARK}${esc(t)}</button>`).join('');
   };
+
   const paintStudio = (i) => {
     const p = ALL_POSTS[i], a = AG(p.agent), kind = kindOf(p), k = KIND[kind], S = st(i);
     if (!S.msgs.length) { S.msgs.push({ card:true }); S.msgs.push({ t:greet(p, kind) }); }
@@ -6440,7 +6452,7 @@
     const it = kbItems.find(x => x.p === i);
     if (it) { it.col = 'sent'; it.t = 'Sent just now'; } else kbItems.unshift({ p:i, col:'sent', t:'Sent just now' });
     markCard(i, 'Brief sent');
-    setTimeout(() => { toast('Brief sent to the ShopOS team'); closeStudio(); }, 850);
+    setTimeout(() => { closeStudio(); kbToast(); }, 850);
   };
 
   studio.addEventListener('click', (e) => {
