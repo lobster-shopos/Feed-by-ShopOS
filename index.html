@@ -3414,6 +3414,61 @@
   .cm-card,.st-main .st-compose,.st-stage .st-bpanel{border-radius:20px}
   .cm-media,.cm-strip img,.st-rows,.cm-diff,.cm-me span,.st-bpanel .note .gate,.st-bpanel .note .ev span,.st-bpanel .note .assets img,.st-bpanel .note .assets .more,.st-bpanel footer .mem-btn,.st-bpanel .st-send,.st-compose button{border-radius:14px}
   .cm-me span{border-bottom-right-radius:4px}
+
+  /* ---------- chat streaming, after the Figma (Chat exp 15 / 21 / 28 / 29) ---------- */
+  .st-main .st-chat{gap:36px}
+  .cm-me span{max-width:80%;padding:12px;border-radius:12px 12px 0 12px;background:#262626;color:#fafafa;font-size:16px;line-height:24px}
+  .cm-ai .cm-body{display:flex;flex-direction:column;gap:12px;padding-top:0;font-size:16px;line-height:24px;color:#fafafa}
+  .cm-ai .cm-body > .cm-media,.cm-ai .cm-body > .cm-diff,.cm-ai .cm-body > .pj2{margin-top:0}
+  .tr{display:flex;flex-direction:column;gap:12px}
+  .tr-in{animation:trin .35s cubic-bezier(.2,.8,.2,1) both}
+  @keyframes trin{from{opacity:0;transform:translateY(6px)}}
+  .tr-s{display:flex;align-items:center;gap:12px;min-height:24px;font-size:16px;line-height:24px;color:#a3a3a3}
+  .tr-say{margin:0;font-size:16px;line-height:24px;color:#fafafa}
+  .tr-say b{font-weight:500}
+  /* shimmer: a soft light passing over grey text */
+  .tr-s.is-live > span,.tr-pill em.is-live,.tr-tool.is-live span{
+    background:linear-gradient(90deg,#a1a1a1 0%,#a1a1a1 35%,#f5f5f5 50%,#a1a1a1 65%,#a1a1a1 100%) 0 0/250% 100%;
+    -webkit-background-clip:text;background-clip:text;color:transparent;animation:trshim 1.8s linear infinite;
+  }
+  @keyframes trshim{from{background-position:100% 0}to{background-position:-150% 0}}
+  /* the 3x3 thinking grid: a diagonal of light sweeping across */
+  .tr-grid{display:grid;grid-template-columns:repeat(3,3.4px);gap:2.9px;width:16px;flex:0 0 auto}
+  .tr-grid b{width:3.4px;height:3.4px;border-radius:50%;background:#262626;animation:trgrid 1.1s ease-in-out var(--d) infinite}
+  @keyframes trgrid{0%,55%,100%{background:#262626}22%{background:#d4d4d4}}
+  /* sources being read */
+  .tr-web{display:inline-flex;align-items:center}
+  .tr-web i{width:24px;height:24px;margin-right:-10px;border-radius:50%;border:2px solid var(--bg);background:var(--c);color:#e5e5e5;display:grid;place-items:center;
+    font-style:normal;font-size:10.5px;font-weight:600;animation:trpop .4s cubic-bezier(.34,1.5,.64,1) both}
+  .tr-web i:nth-child(2){animation-delay:.18s}
+  .tr-web i:nth-child(3){animation-delay:.36s}
+  @keyframes trpop{from{opacity:0;transform:scale(.4)}}
+  /* an agent at work, with its tool calls hanging off a thread */
+  .tr-ag{display:flex;flex-direction:column}
+  .tr-pill{display:inline-flex;align-items:center;gap:8px;width:fit-content;max-width:100%;padding:4px 12px 4px 8px;border-radius:999px;background:#171717;font-size:14px;line-height:20px}
+  .tr-pill img{width:16px;height:16px;flex:0 0 auto}
+  .tr-pill b{font-weight:400;color:#d4d4d4;white-space:nowrap}
+  .tr-pill em{font-style:normal;color:#a1a1a1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .tr-dot{width:4px;height:4px;border-radius:50%;background:#404040;flex:0 0 auto}
+  .tr-tools{position:relative;display:flex;flex-direction:column;gap:12px;padding:12px 0 12px 33px}
+  .tr-tools:empty{padding:6px 0}
+  .tr-tools::before{content:'';position:absolute;left:15.75px;top:12px;bottom:12px;width:1.5px;border-radius:2px;background:#262626}
+  .tr-tools:empty::before{display:none}
+  .tr-tool{display:flex;align-items:center;gap:4px;font-size:14px;line-height:20px;color:#a3a3a3}
+  .tr-tool img{width:16px;height:16px;flex:0 0 auto}
+  /* the image being made */
+  .tr-ph{position:relative;width:min(100%,380px);aspect-ratio:4/5;border-radius:14px;overflow:hidden;
+    background:#141414 radial-gradient(circle,#2b2b2b 1px,transparent 1.3px) 0 0/9px 9px}
+  .tr-ph::after{content:'';position:absolute;inset:0;background:linear-gradient(100deg,transparent 30%,rgba(255,255,255,.05) 50%,transparent 70%) 0 0/250% 100%;animation:trshim 1.6s linear infinite}
+  .cm-run + .cm,.cm.no-in{animation:none}
+  .cm.no-in .cm-media{animation:trimg .6s cubic-bezier(.2,.8,.2,1) both}
+  @keyframes trimg{from{opacity:0;filter:blur(10px);transform:scale(.985)}}
+  /* while a run is going, the send button becomes stop and the options wait */
+  .st-stop{display:none;width:12px;height:12px;border-radius:3px;background:currentColor}
+  .st-dock.is-busy .st-compose button svg{display:none}
+  .st-dock.is-busy .st-stop{display:block}
+  .st-dock.is-busy .st-quick{opacity:.45;pointer-events:none;transition:opacity .2s}
+  @media (prefers-reduced-motion:reduce){ .tr-s.is-live > span,.tr-pill em.is-live,.tr-tool.is-live span,.tr-grid b,.tr-ph::after{animation:none} }
   .note .to i{background:#151515;border-radius:6px}
   .note .to i img{width:15px;height:15px}
 
@@ -6371,7 +6426,7 @@
         <p>${esc(p.sub)}</p>${rowsBlock(p)}</div>`;
     }
     if (m.me) return `<div class="cm cm-me"><span>${esc(m.t)}</span></div>`;
-    return `<div class="cm cm-ai"><img class="av" src="${a.avatar}" alt=""><div class="cm-body">${m.steps && m.steps.length > 1 ? `<span class="cm-did">${I_OK}${m.steps.map(esc).join(' · ')}</span>` : ''}<span class="cm-t">${m.t}</span>${m.proj != null ? projHTML(m.proj) : ''}${m.img != null ? mediaBlock(p, m.img, m.tag) : ''}${m.diff ? `<div class="cm-diff">${I_SPARK}<span>${esc(m.diff)}</span></div>` : ''}${m.extra || ''}</div></div>`;
+    return `<div class="cm cm-ai"><div class="cm-body">${m.run ? runHTML(m.run) : ''}${m.img != null ? mediaBlock(p, m.img, m.tag) : ''}<span class="cm-t">${m.t}</span>${m.proj != null ? projHTML(m.proj) : ''}${m.diff ? `<div class="cm-diff">${I_SPARK}<span>${esc(m.diff)}</span></div>` : ''}${m.extra || ''}</div></div>`;
   };
   // full render only when the page opens; after that, messages are appended so nothing above them redraws
   const paintChat = () => {
@@ -6390,9 +6445,8 @@
     box.scrollTo({ top:box.scrollHeight, behavior:'smooth' });
   };
   // words fade in one after another; nothing is re-rendered, so nothing flickers
-  const streamWords = (el, box) => {
-    const t = el.querySelector('.cm-t'); if (!t) return;
-    let n = 0;
+  const wordify = (t, from) => {
+    let n = from || 0;
     const walk = (node) => [...node.childNodes].forEach(c => {
       if (c.nodeType === 3) {
         const frag = document.createDocumentFragment();
@@ -6405,46 +6459,114 @@
       } else walk(c);
     });
     walk(t);
-    const late = n * 28 + 120;
-    el.querySelectorAll('.cm-media,.cm-diff,.pj2,.st-inline').forEach(x => { x.classList.add('cm-late'); x.style.animationDelay = late + 'ms'; });
-    const end = Date.now() + late + 600;
-    const follow = () => { box.scrollTop = box.scrollHeight; if (Date.now() < end) requestAnimationFrame(follow); };
-    follow();
+    return n - (from || 0);
   };
-  // what the agents say they are doing, one step at a time, before the answer lands
-  const stepsFor = (msg, a) => {
-    if (typeof msg === 'string') return ['Thinking'];
-    if (msg.proj != null) return ['Reading the last 30 days of results', `Asking ${a.name}`, 'Modelling the next two weeks'];
-    if (msg.img != null) return ['Thinking', `Handing it to ${a.name}`, 'Rendering the new version'];
-    if (msg.diff) return ['Thinking', `Asking ${a.name}`, 'Rewriting the draft'];
-    return ['Thinking'];
+  const follow = (box, ms) => {
+    const end = Date.now() + ms;
+    const go = () => { box.scrollTop = box.scrollHeight; if (Date.now() < end) requestAnimationFrame(go); };
+    go();
   };
-  const aiSay = (msg, after, steps) => {
+  const streamWords = (el, box) => {
+    const t = el.querySelector('.cm-t'); if (!t) return;
+    const late = wordify(t) * 28 + 120;
+    // only what comes after the words waits for them
+    el.querySelectorAll('.cm-diff,.pj2,.st-inline,.cm-media').forEach(x => {
+      if (!(t.compareDocumentPosition(x) & Node.DOCUMENT_POSITION_FOLLOWING)) return;
+      x.classList.add('cm-late'); x.style.animationDelay = late + 'ms';
+    });
+    follow(box, late + 600);
+  };
+
+  // ---- the run trace (one look, live or finished) ----
+  const TOOL_IC = { brain:'assets/chat/brain.svg', gear:'assets/chat/gear.svg', zap:'assets/chat/zap.svg', search:'assets/chat/search.svg' };
+  const GRID = '<i class="tr-grid" aria-hidden="true">' + [0,1,2,3,4,5,6,7,8].map(n => `<b style="--d:${(Math.floor(n / 3) + 2 - n % 3) * .12}s"></b>`).join('') + '</i>';
+  const trStatus = (ph, live) => `<div class="tr-s${live ? ' is-live' : ''}">${live && ph.think ? GRID : ''}<span>${esc(live ? ph.live : ph.done)}</span>${ph.web ? trWeb(ph.web) : ''}</div>`;
+  const trWeb = (w) => `<span class="tr-web">${w.map(([l, t, c]) => `<i title="${esc(t)}" style="--c:${c}">${esc(l)}</i>`).join('')}</span>`;
+  const trTool = ([ic, t], live) => `<div class="tr-tool${live ? ' is-live' : ''}"><img src="${TOOL_IC[ic]}" alt=""><span>${esc(t)}</span></div>`;
+  const trAgent = (ph, live) => {
+    const ag = AG(ph.agent);
+    return `<div class="tr-ag"><span class="tr-pill"><img src="${ag.avatar}" alt=""><b>${esc(ag.name)}</b><i class="tr-dot"></i><em class="${live ? 'is-live' : ''}">${esc(ph.task)}</em></span>
+      <div class="tr-tools">${live ? '' : ph.tools.map(x => trTool(x)).join('')}</div></div>`;
+  };
+  const runHTML = (run) => '<div class="tr">' + run.map(ph =>
+    (ph.done ? trStatus(ph) : '') + (ph.say ? `<p class="tr-say">${ph.say}</p>` : '') + (ph.agent ? trAgent(ph) : '')
+  ).join('') + '</div>';
+
+  // what the orchestrator does for each kind of request
+  const runFor = (msg, p) => {
+    const own = p.agent && AGENTS[p.agent] ? p.agent : 'creative';
+    if (msg.proj != null) return [
+      { think:true, live:'Thinking', done:'Read the last 30 days of results for this ad',
+        say:'Pulling add to carts, spend and reach for this card, then checking how ads like it did across hair care.' },
+      { live:'Web searching', done:'Searched hair care benchmarks', web:[['N','Nykaa','#3a2030'],['A','Amazon','#3a3020'],['G','Google Trends','#1f2c3d']] },
+      { live:'Handing the projection to Performance marketer', done:'Handed the projection to Performance marketer', agent:'performance', task:'Modelling the next two weeks',
+        tools:[['brain','Read brand memory'], ['search','Fetched campaign history'], ['zap','Ran the projection model']] }
+    ];
+    if (msg.img != null) return [
+      { think:true, live:'Thinking', done:'Understood the change',
+        say:`Your change: <b>${esc((msg.tag || 'this').toLowerCase())}</b>. Everything else in the draft stays as it is.` },
+      { live:'Assigning the image request to Creative director', done:'Assigned the image request to Creative director', agent:'creative', task:'Making the new version', ph:true,
+        tools:[['brain','Read brand memory'], ['gear','Image generation tool call (1/1)'], ['zap','Read the ad creative skill']] }
+    ];
+    if (msg.diff) return [
+      { think:true, live:'Thinking', done:'Read the draft' },
+      { live:`Assigning the rewrite to ${AG(own).name}`, done:`Assigned the rewrite to ${AG(own).name}`, agent:own, task:'Rewriting the draft',
+        tools:[['brain','Read brand memory'], ['zap','Rewrote it with your change']] }
+    ];
+    return [{ think:true, live:'Thinking' }];
+  };
+
+  let stBusy = false;
+  const setBusy = (on) => { stBusy = on; studio.querySelector('.st-dock')?.classList.toggle('is-busy', on); };
+  const aiSay = (msg, after) => {
     const i = stIdx, box = studio.querySelector('.st-chat'); if (!box) return;
-    const a = AG(ALL_POSTS[i].agent);
+    const p = ALL_POSTS[i], a = AG(p.agent);
     msg = typeof msg === 'string' ? { t:msg } : msg;
-    steps = steps || stepsFor(msg.t && Object.keys(msg).length === 1 ? msg.t : msg, a);
-    box.insertAdjacentHTML('beforeend', `<div class="cm cm-ai cm-work"><img class="av" src="${a.avatar}" alt=""><div class="cm-body"><div class="cm-steps"></div></div></div>`);
-    const node = box.lastElementChild, list = node.querySelector('.cm-steps');
-    box.scrollTo({ top:box.scrollHeight, behavior:'smooth' });
-    let k = 0;
-    const next = () => {
-      if (stIdx !== i) return;
-      const prev = list.querySelector('.is-live'); if (prev) { prev.classList.remove('is-live'); prev.classList.add('is-done'); }
-      if (k < steps.length) {
-        list.insertAdjacentHTML('beforeend', `<span class="cm-step is-live"><i></i><em>${esc(steps[k])}</em></span>`);
-        k++; return setTimeout(next, k === 1 ? 650 : 750);
+    const run = runFor(msg, p);
+    box.insertAdjacentHTML('beforeend', `<div class="cm cm-ai cm-run"><div class="cm-body"><div class="tr"></div></div></div>`);
+    const node = box.lastElementChild, tr = node.querySelector('.tr');
+    const wait = (ms) => new Promise(r => setTimeout(r, ms));
+    const gone = () => stIdx !== i || !node.isConnected;
+    const add = (html) => { tr.insertAdjacentHTML('beforeend', html); const el = tr.lastElementChild; el.classList.add('tr-in'); box.scrollTo({ top:box.scrollHeight, behavior:'smooth' }); return el; };
+    setBusy(true);
+    (async () => {
+      for (const ph of run) {
+        const sEl = add(trStatus(ph, true));
+        await wait(ph.think ? 900 : 700); if (gone()) return setBusy(false);
+        if (ph.web) { await wait(900); if (gone()) return setBusy(false); }
+        if (ph.agent) {
+          const ag = add(trAgent(ph, true)), list = ag.querySelector('.tr-tools');
+          await wait(450);
+          for (const t of ph.tools) {
+            list.querySelector('.is-live')?.classList.remove('is-live');
+            list.insertAdjacentHTML('beforeend', trTool(t, true)); list.lastElementChild.classList.add('tr-in');
+            box.scrollTo({ top:box.scrollHeight, behavior:'smooth' });
+            await wait(700); if (gone()) return setBusy(false);
+          }
+          list.querySelector('.is-live')?.classList.remove('is-live');
+          if (ph.ph) { add('<div class="tr-ph"></div>'); await wait(1400); if (gone()) return setBusy(false); }
+          ag.querySelector('.tr-pill em').classList.remove('is-live');
+        }
+        if (ph.done) { sEl.classList.remove('is-live'); sEl.querySelector('.tr-grid')?.remove(); sEl.querySelector('span').textContent = ph.done; }
+        else sEl.remove();
+        if (ph.say) {
+          const say = add(`<p class="tr-say">${ph.say}</p>`);
+          const n = wordify(say); follow(box, n * 28 + 300);
+          await wait(n * 28 + 350); if (gone()) return setBusy(false);
+        }
       }
-      msg.steps = steps;
+      // the finished message is the same markup without the live bits, so swapping it in changes nothing on screen but the image
+      msg.run = run.filter(ph => ph.done || ph.say || ph.agent);
+      if (!msg.run.length) delete msg.run;
       st(i).msgs.push(msg);
-      const tmp = document.createElement('div'); tmp.innerHTML = msgHTML(msg, ALL_POSTS[i], a);
+      const tmp = document.createElement('div'); tmp.innerHTML = msgHTML(msg, p, a);
       const fresh = tmp.firstElementChild; fresh.classList.add('no-in');
       node.replaceWith(fresh);
       box.dataset.n = st(i).msgs.length;
       streamWords(fresh, box);
+      setBusy(false);
       after && after();
-    };
-    next();
+    })();
   };
   const greet = (p, kind) => {
     const k = KIND[kind];
@@ -6538,10 +6660,11 @@
         </div>
         <div class="st-dock">
           <div class="st-quick"></div>
-          <form class="st-compose" id="st-form"><textarea id="st-q" rows="1" placeholder="${decide ? 'Ask about this…' : 'Ask for a change…'}"></textarea><button type="submit" aria-label="Send">${I_UP}</button></form>
+          <form class="st-compose" id="st-form"><textarea id="st-q" rows="1" placeholder="${decide ? 'Ask about this…' : 'Ask for a change…'}"></textarea><button type="submit" aria-label="Send">${I_UP}<i class="st-stop"></i></button></form>
         </div>
       </main>
 `;
+    stBusy = false;
     paintChat();
     paintActions();
     if (!decide) paintBrief();
@@ -6578,13 +6701,14 @@
 
   const afterChange = (S) => { paintBrief(); };
   const applyTweak = (n) => {
+    if (stBusy) return;
     const i = stIdx, p = ALL_POSTS[i], k = KIND[kindOf(p)], S = st(i), [t, fx] = k.tweaks[n];
     if (S.edits.includes(t)) return;
     S.edits.push(t); paintActions();
     S.msgs.push({ me:true, t }); syncChat();
     const imgs = p.images || [];
     if (fx === 'img' && imgs.length > 1) S.img = (S.img + 1) % imgs.length;
-    const msg = imgs.length
+    const msg = imgs.length && (fx === 'img' || (kindOf(p) === 'creative' && fx !== 'txt'))
       ? { t:`Here’s the update with <b>${esc(t.toLowerCase())}</b>. Anything else?`, img:S.img, tag:t }
       : { t:`Done, here’s what changed. Anything else?`, diff:t };
     aiSay(msg, () => { S.fresh = true; afterChange(S); });
@@ -6673,7 +6797,7 @@
   });
   studio.addEventListener('submit', (e) => {
     e.preventDefault();
-    const q = document.getElementById('st-q'), v = q.value.trim(); if (!v) return;
+    const q = document.getElementById('st-q'), v = q.value.trim(); if (!v || stBusy) return;
     const i = stIdx, S = st(i), kind = kindOf(ALL_POSTS[i]);
     S.msgs.push({ me:true, t:v }); q.value = ''; syncChat();
     if (kind === 'decide') return aiSay('Good question. The numbers on this card are the basis, and you can change your mind any time from Memory.');
