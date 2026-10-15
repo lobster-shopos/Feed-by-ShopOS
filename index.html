@@ -3492,6 +3492,27 @@
     .kbt{left:12px;right:12px;bottom:12px;max-width:none}
     .kbt span{min-width:0}
   }
+
+  /* streaming: steps shimmer while the agents work, then the answer fades in word by word */
+  .cm-work .cm-body{padding-top:4px}
+  .cm-steps{display:flex;flex-direction:column;gap:6px}
+  .cm-step{display:flex;align-items:center;gap:8px;font-size:14px;line-height:20px;animation:stfade .3s ease both}
+  .cm-step i{width:14px;height:14px;flex:0 0 auto;border-radius:50%;border:1.5px solid #3a3a3a;border-top-color:#cfcfcf;animation:stspin .8s linear infinite}
+  .cm-step em{font-style:normal;color:var(--fg-3)}
+  .cm-step.is-live em{background:linear-gradient(90deg,#6b6b6b 0%,#6b6b6b 35%,#f2f2f2 50%,#6b6b6b 65%,#6b6b6b 100%);background-size:250% 100%;
+    -webkit-background-clip:text;background-clip:text;color:transparent;animation:shim 1.3s linear infinite}
+  .cm-step.is-done i{animation:none;border:0;background:#1d3b27;position:relative}
+  .cm-step.is-done i::after{content:'';position:absolute;left:4.5px;top:3px;width:3px;height:6px;border:solid #86efac;border-width:0 1.5px 1.5px 0;transform:rotate(45deg)}
+  .cm-step.is-done em{color:var(--fg-3)}
+  @keyframes shim{from{background-position:100% 0}to{background-position:-150% 0}}
+  @keyframes stspin{to{transform:rotate(360deg)}}
+  .cm-did{display:flex;align-items:center;gap:6px;margin-bottom:6px;font-size:12.5px;color:var(--fg-3)}
+  .cm-did svg{width:13px;height:13px;color:#86efac}
+  .cm.no-in{animation:none}
+  .w{opacity:0;animation:win .32s ease forwards;animation-delay:calc(var(--i) * 28ms)}
+  @keyframes win{from{opacity:0;filter:blur(3px)}to{opacity:1;filter:none}}
+  .cm-late{animation:stfade .45s cubic-bezier(.2,.8,.2,1) both}
+  @media (prefers-reduced-motion:reduce){ .w{animation:none;opacity:1} .cm-step.is-live em{animation:none;color:var(--fg-2)} }
   .stickers{position:absolute;left:60px;right:0;top:0;height:0;z-index:2;pointer-events:none}
   .stickers[hidden]{display:none}
   .stk{
@@ -6293,31 +6314,80 @@
         <p>${esc(p.sub)}</p>${rowsBlock(p)}</div>`;
     }
     if (m.me) return `<div class="cm cm-me"><span>${esc(m.t)}</span></div>`;
-    return `<div class="cm cm-ai"><img class="av" src="${a.avatar}" alt=""><div class="cm-body"><span class="cm-t">${m.t}</span>${m.proj != null ? projHTML(m.proj) : ''}${m.img != null ? mediaBlock(p, m.img, m.tag) : ''}${m.diff ? `<div class="cm-diff">${I_SPARK}<span>${esc(m.diff)}</span></div>` : ''}${m.extra || ''}</div></div>`;
+    return `<div class="cm cm-ai"><img class="av" src="${a.avatar}" alt=""><div class="cm-body">${m.steps && m.steps.length > 1 ? `<span class="cm-did">${I_OK}${m.steps.map(esc).join(' · ')}</span>` : ''}<span class="cm-t">${m.t}</span>${m.proj != null ? projHTML(m.proj) : ''}${m.img != null ? mediaBlock(p, m.img, m.tag) : ''}${m.diff ? `<div class="cm-diff">${I_SPARK}<span>${esc(m.diff)}</span></div>` : ''}${m.extra || ''}</div></div>`;
   };
-  const paintChat = (stream) => {
+  // full render only when the page opens; after that, messages are appended so nothing above them redraws
+  const paintChat = () => {
     const box = studio.querySelector('.st-chat'); if (!box) return;
     const p = ALL_POSTS[stIdx], a = AG(p.agent), S = st(stIdx);
     box.innerHTML = S.msgs.map(m => msgHTML(m, p, a)).join('');
-    const last = box.lastElementChild;
-    if (stream && last && last.classList.contains('cm-ai')) {
-      // words appear one after another, like it is being written
-      const t = last.querySelector('.cm-t'); const html = t.innerHTML;
-      const parts = html.split(/(\s+)/); t.innerHTML = '';
-      let n = 0; const tick = () => { t.innerHTML = parts.slice(0, n += 2).join(''); box.scrollTop = box.scrollHeight; if (n < parts.length) requestAnimationFrame(() => setTimeout(tick, 18)); };
-      tick();
-      last.querySelectorAll('.cm-media,.cm-diff,.st-inline').forEach(x => x.classList.add('cm-late'));
-    }
+    box.dataset.n = S.msgs.length;
     box.scrollTop = box.scrollHeight;
   };
-  const aiSay = (msg, after) => {
-    const i = stIdx, box = studio.querySelector('.st-chat');
+  const syncChat = () => {
+    const box = studio.querySelector('.st-chat'); if (!box) return;
+    const p = ALL_POSTS[stIdx], a = AG(p.agent), S = st(stIdx);
+    const n = +box.dataset.n || 0;
+    S.msgs.slice(n).forEach(m => box.insertAdjacentHTML('beforeend', msgHTML(m, p, a)));
+    box.dataset.n = S.msgs.length;
+    box.scrollTo({ top:box.scrollHeight, behavior:'smooth' });
+  };
+  // words fade in one after another; nothing is re-rendered, so nothing flickers
+  const streamWords = (el, box) => {
+    const t = el.querySelector('.cm-t'); if (!t) return;
+    let n = 0;
+    const walk = (node) => [...node.childNodes].forEach(c => {
+      if (c.nodeType === 3) {
+        const frag = document.createDocumentFragment();
+        c.textContent.split(/(\s+)/).forEach(w => {
+          if (!w) return;
+          if (/^\s+$/.test(w)) return frag.append(w);
+          const sp = document.createElement('span'); sp.className = 'w'; sp.style.setProperty('--i', n++); sp.textContent = w; frag.append(sp);
+        });
+        c.replaceWith(frag);
+      } else walk(c);
+    });
+    walk(t);
+    const late = n * 28 + 120;
+    el.querySelectorAll('.cm-media,.cm-diff,.pj2,.st-inline').forEach(x => { x.classList.add('cm-late'); x.style.animationDelay = late + 'ms'; });
+    const end = Date.now() + late + 600;
+    const follow = () => { box.scrollTop = box.scrollHeight; if (Date.now() < end) requestAnimationFrame(follow); };
+    follow();
+  };
+  // what the agents say they are doing, one step at a time, before the answer lands
+  const stepsFor = (msg, a) => {
+    if (typeof msg === 'string') return ['Thinking'];
+    if (msg.proj != null) return ['Reading the last 30 days of results', `Asking ${a.name}`, 'Modelling the next two weeks'];
+    if (msg.img != null) return ['Thinking', `Handing it to ${a.name}`, 'Rendering the new version'];
+    if (msg.diff) return ['Thinking', `Asking ${a.name}`, 'Rewriting the draft'];
+    return ['Thinking'];
+  };
+  const aiSay = (msg, after, steps) => {
+    const i = stIdx, box = studio.querySelector('.st-chat'); if (!box) return;
     const a = AG(ALL_POSTS[i].agent);
-    if (box) { box.insertAdjacentHTML('beforeend', `<div class="cm cm-ai"><img class="av" src="${a.avatar}" alt=""><div class="cm-body"><span class="st-typing"><i></i><i></i><i></i></span></div></div>`); box.scrollTop = box.scrollHeight; }
-    setTimeout(() => {
-      st(i).msgs.push(typeof msg === 'string' ? { t:msg } : msg);
-      if (stIdx === i) { paintChat(true); after && after(); }
-    }, 700);
+    msg = typeof msg === 'string' ? { t:msg } : msg;
+    steps = steps || stepsFor(msg.t && Object.keys(msg).length === 1 ? msg.t : msg, a);
+    box.insertAdjacentHTML('beforeend', `<div class="cm cm-ai cm-work"><img class="av" src="${a.avatar}" alt=""><div class="cm-body"><div class="cm-steps"></div></div></div>`);
+    const node = box.lastElementChild, list = node.querySelector('.cm-steps');
+    box.scrollTo({ top:box.scrollHeight, behavior:'smooth' });
+    let k = 0;
+    const next = () => {
+      if (stIdx !== i) return;
+      const prev = list.querySelector('.is-live'); if (prev) { prev.classList.remove('is-live'); prev.classList.add('is-done'); }
+      if (k < steps.length) {
+        list.insertAdjacentHTML('beforeend', `<span class="cm-step is-live"><i></i><em>${esc(steps[k])}</em></span>`);
+        k++; return setTimeout(next, k === 1 ? 650 : 750);
+      }
+      msg.steps = steps;
+      st(i).msgs.push(msg);
+      const tmp = document.createElement('div'); tmp.innerHTML = msgHTML(msg, ALL_POSTS[i], a);
+      const fresh = tmp.firstElementChild; fresh.classList.add('no-in');
+      node.replaceWith(fresh);
+      box.dataset.n = st(i).msgs.length;
+      streamWords(fresh, box);
+      after && after();
+    };
+    next();
   };
   const greet = (p, kind) => {
     const k = KIND[kind];
@@ -6454,7 +6524,7 @@
     const i = stIdx, p = ALL_POSTS[i], k = KIND[kindOf(p)], S = st(i), [t, fx] = k.tweaks[n];
     if (S.edits.includes(t)) return;
     S.edits.push(t); paintActions();
-    S.msgs.push({ me:true, t }); paintChat();
+    S.msgs.push({ me:true, t }); syncChat();
     const imgs = p.images || [];
     if (fx === 'img' && imgs.length > 1) S.img = (S.img + 1) % imgs.length;
     const msg = imgs.length
@@ -6495,7 +6565,7 @@
     if (t.closest('[data-stbrief]')) return setBrief(true);
     if (t.closest('[data-stproj]')) {
       const i = stIdx, S = st(i); S.projSeen = true; paintActions();
-      S.msgs.push({ me:true, t:'What will this do for my signals?' }); paintChat();
+      S.msgs.push({ me:true, t:'What will this do for my signals?' }); syncChat();
       return aiSay({ t:'Here’s the likely lift if this runs. A projection, not a promise.', proj:i });
     }
     if (t.closest('[data-stfixes]')) {
@@ -6525,7 +6595,7 @@
       const i = stIdx, p = ALL_POSTS[i], S = st(i); S.decided = true; paintActions();
       learned.unshift({ t:p.title, s:'Agreed', a:p.agent });
       markCard(i, 'Agreed');
-      S.msgs.push({ me:true, t:'Agree' }); paintChat();
+      S.msgs.push({ me:true, t:'Agree' }); syncChat();
       return aiSay('Noted. Every agent works with this from now on, and it’s in Memory if you change your mind.', () => setTimeout(closeStudio, 900));
     }
     if (t.closest('[data-stno]')) return closeStudio();
@@ -6547,7 +6617,7 @@
     e.preventDefault();
     const q = document.getElementById('st-q'), v = q.value.trim(); if (!v) return;
     const i = stIdx, S = st(i), kind = kindOf(ALL_POSTS[i]);
-    S.msgs.push({ me:true, t:v }); q.value = ''; paintChat();
+    S.msgs.push({ me:true, t:v }); q.value = ''; syncChat();
     if (kind === 'decide') return aiSay('Good question. The numbers on this card are the basis, and you can change your mind any time from Memory.');
     S.edits.push(trim(v, 80));
     if (S.briefOpen) { S.fresh = true; S.msgs.push({ t:'Added to the brief.', diff:trim(v, 80) }); return paintBrief(); }
