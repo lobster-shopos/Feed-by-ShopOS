@@ -2903,77 +2903,80 @@
   .card.is-connect .cta{margin-top:14px}
 
 
-  /* ---------- memory: what we learned, your feed, rules ---------- */
-  .mem-tabs{display:flex;gap:4px;margin:26px 0 6px;border-bottom:1px solid #222}
+  /* ---------- memory: what we learned, your feed, rules ----------
+     five type styles only: title 32/500 · heading 18/500 · body 16/400 · control 15/500 · meta 14/400 */
+  .mem-page{--t-head:18px;--t-body:16px;--t-ctl:15px;--t-meta:14px}
+  .mem-tabs{display:flex;gap:6px;margin:28px 0 4px}
   .mem-tabs button{
-    position:relative;height:48px;padding:0 16px;border:0;background:transparent;
-    color:var(--fg-3);font:inherit;font-size:16px;font-weight:500;cursor:pointer;transition:color .15s;
+    height:44px;padding:0 18px;border:0;border-radius:14px;background:transparent;
+    color:var(--fg-3);font:inherit;font-size:var(--t-ctl);font-weight:500;cursor:pointer;transition:color .15s,background .15s;
   }
   .mem-tabs button:hover{color:var(--fg-2)}
-  .mem-tabs button[aria-selected="true"]{color:var(--fg)}
-  .mem-tabs button[aria-selected="true"]::after{content:'';position:absolute;left:10px;right:10px;bottom:-1px;height:2px;border-radius:2px;background:var(--fg)}
+  .mem-tabs button[aria-selected="true"]{background:#262626;color:var(--fg)}
   .mem-tabs .n{margin-left:4px;color:var(--fg-3);font-variant-numeric:tabular-nums}
   .mem-panel{max-width:760px}
-  .mem-sec{margin-top:30px}
-  .mem-h{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
-  .mem-h h2{margin:0;font-size:19px;line-height:26px;font-weight:500;letter-spacing:-.01em}
-  .mem-hint{font-size:14px;color:var(--fg-3)}
-  .mem-link{border:0;background:none;padding:0 4px;color:var(--fg-3);font:inherit;font-size:14.5px;cursor:pointer}
+  .mem-sec{margin-top:32px}
+  .mem-h{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
+  .mem-h h2{margin:0;font-size:var(--t-head);line-height:26px;font-weight:500}
+  .mem-link{border:0;background:none;padding:0 4px;color:var(--fg-3);font:inherit;font-size:var(--t-ctl);font-weight:500;cursor:pointer}
   .mem-link:hover{color:var(--fg)}
-  .mem-about{margin:0;max-width:62ch;font-size:17px;line-height:28px;color:var(--fg-2)}
+  .mem-about{margin:0;max-width:62ch;font-size:var(--t-body);line-height:27px;color:var(--fg-2)}
   .mem-about-edit textarea{
-    width:100%;padding:14px 16px;border-radius:16px;border:1px solid #333;background:#151515;
-    color:var(--fg);font:inherit;font-size:15px;line-height:24px;resize:vertical;outline:0;
+    width:100%;padding:14px 16px;border-radius:14px;border:1px solid #2e2e2e;background:#181818;
+    color:var(--fg);font:inherit;font-size:var(--t-body);line-height:26px;resize:vertical;outline:0;
   }
   .mem-about-edit textarea:focus{border-color:#4a4a4a}
   .mem-row-btns{display:flex;justify-content:flex-end;gap:8px;margin-top:10px}
   .mem-btn{
-    height:38px;padding:0 16px;border:0;border-radius:10px;background:#222;color:var(--fg);
-    font:inherit;font-size:14.5px;font-weight:500;cursor:pointer;transition:background .15s,opacity .15s;
+    height:40px;padding:0 18px;border:0;border-radius:12px;background:#262626;color:var(--fg);
+    font:inherit;font-size:var(--t-ctl);font-weight:500;cursor:pointer;transition:background .15s,opacity .15s;
   }
-  .mem-btn:hover{background:#2c2c2c}
+  .mem-btn:hover{background:#2f2f2f}
   .mem-btn.is-primary{background:#fafafa;color:#0a0a0a}
   .mem-btn.is-primary:hover{opacity:.9}
-  .mem-list{display:flex;flex-direction:column}
-  .mem-item{display:flex;align-items:center;gap:16px;padding:16px 14px;margin:0 -14px;border-radius:14px;transition:background .15s}
-  .mem-item:hover{background:#151515}
-  .mem-item + .mem-item{box-shadow:0 -1px 0 #1c1c1c}
-  .mem-item:hover,.mem-item:hover + .mem-item{box-shadow:none}
-  .mem-item img{width:36px;height:36px;flex:0 0 auto}
-  .mem-item .t{flex:1;min-width:0}
-  .mem-item b{display:block;font-size:16.5px;line-height:24px;font-weight:400;color:var(--fg)}
-  .mem-item .t > span{display:block;margin-top:3px;font-size:14px;color:var(--fg-3)}
-  .mem-item.is-topic{padding-block:10px}
-  .mem-x{
-    flex:0 0 auto;display:inline-flex;align-items:center;gap:6px;height:34px;padding:0 12px;border:0;border-radius:10px;background:transparent;
-    color:var(--fg-3);font:inherit;font-size:14px;cursor:pointer;opacity:0;transition:background .15s,color .15s,opacity .15s;
-  }
-  .mem-item:hover .mem-x,.mem-x:focus-visible{opacity:1}
-  @media (hover:none){ .mem-x{opacity:1} .mem-x span{display:none} }
-  .mem-x:hover{background:#222;color:var(--fg)}
-  .mem-empty{margin:0;padding:6px 0;font-size:15.5px;color:var(--fg-3)}
-  .mem-lede{margin:28px 0 0;font-size:16.5px;line-height:25px;color:var(--fg-2)}
+  .mem-empty{margin:0;font-size:var(--t-body);color:var(--fg-3)}
   .mem-add{
-    display:flex;align-items:center;gap:12px;margin-top:28px;padding:7px 7px 7px 18px;
-    border-radius:14px;background:#171717;border:1px solid #262626;color:var(--fg-3);
+    display:flex;align-items:center;gap:12px;margin-top:28px;padding:6px 6px 6px 18px;
+    border-radius:14px;background:#181818;border:1px solid #262626;color:var(--fg-3);
   }
   .mem-add:focus-within{border-color:#3a3a3a}
-  .mem-add input{flex:1;min-width:0;border:0;outline:0;background:transparent;color:var(--fg);font:inherit;font-size:16px}
+  .mem-add input{flex:1;min-width:0;border:0;outline:0;background:transparent;color:var(--fg);font:inherit;font-size:var(--t-body)}
   .mem-add input::placeholder{color:var(--fg-3)}
-  .mem-page .tune-list{margin:0}
-  .mem-page .tune-row b{font-size:16px}
-  .mem-page .tune-row span{font-size:14px}
-  .mem-page .seg3 button{font-size:14px}
-  .sugg-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
-  .sugg-card{
-    display:flex;flex-direction:column;gap:6px;padding:16px 18px;border-radius:16px;
-    border:1px dashed #333;background:transparent;
+
+  /* what we learned: one card per row (icon, line, where it came from, forget) */
+  .mem-cards{display:flex;flex-direction:column;gap:10px}
+  .mem-card{display:flex;align-items:center;gap:14px;min-height:60px;padding:10px 10px 10px 14px;border-radius:14px;background:#181818}
+  .mem-card img{width:32px;height:32px;flex:0 0 auto}
+  .mem-card b{flex:1;min-width:0;font-size:var(--t-body);line-height:24px;font-weight:400;color:var(--fg)}
+  .mem-card .src{flex:0 0 auto;height:auto;padding:0 6px;background:none;border:0;font-size:var(--t-meta);color:var(--fg-3);white-space:nowrap}
+  .mem-x{
+    flex:0 0 auto;display:grid;place-items:center;width:36px;height:36px;border:0;border-radius:10px;background:transparent;
+    color:var(--fg-3);cursor:pointer;transition:background .15s,color .15s;
   }
-  .sugg-card .who{display:flex;align-items:center;gap:8px;font-size:13.5px;color:var(--fg-3)}
-  .sugg-card .who img{width:22px;height:22px}
-  .sugg-card b{font-size:16.5px;line-height:24px;font-weight:400;color:var(--fg)}
-  .sugg-card .why{font-size:14px;color:var(--fg-3)}
-  .sugg-card .acts{display:flex;align-items:center;gap:10px;margin-top:8px}
+  .mem-x:hover{background:#262626;color:var(--fg)}
+
+  /* your feed: topics are pills */
+  .pills{display:flex;flex-wrap:wrap;gap:10px}
+  .pill{
+    display:inline-flex;align-items:center;gap:4px;height:40px;padding:0 6px 0 16px;border-radius:999px;
+    background:#1c1c1c;border:1px solid #2a2a2a;color:var(--fg);font-size:var(--t-ctl);font-weight:500;
+  }
+  .pill button{display:grid;place-items:center;width:28px;height:28px;border:0;border-radius:50%;background:transparent;color:var(--fg-3);cursor:pointer}
+  .pill button:hover{background:#2c2c2c;color:var(--fg)}
+  .pill.is-new{animation:pillIn .3s cubic-bezier(.2,.8,.2,1)}
+  @keyframes pillIn{from{opacity:0;transform:scale(.9)}}
+  .mem-page .tune-list{margin:0}
+  .mem-page .tune-row b{font-size:var(--t-body);font-weight:400;color:var(--fg)}
+  .mem-page .tune-row span{font-size:var(--t-meta)}
+  .mem-page .seg3 button{font-size:var(--t-meta)}
+
+  /* rules: a plain table, one line per rule, remove on the right */
+  .mem-table{border-radius:16px;background:#181818;border:1px solid #262626;padding:0 20px}
+  .mem-tr{display:flex;align-items:center;gap:16px;min-height:64px;padding:8px 0}
+  .mem-tr + .mem-tr{border-top:1px solid #262626}
+  .mem-tr b{flex:1;min-width:0;font-size:var(--t-body);line-height:24px;font-weight:400;color:var(--fg)}
+  .mem-tr .mem-link{color:var(--fg-3)}
+  .mem-tr .mem-link:hover{color:var(--fg)}
 
   /* ---------- shortlisted ---------- */
   .feed-empty{
@@ -3509,6 +3512,10 @@
 
     <div class="mem-panel" data-mpanel="learned">
       <section class="mem-sec">
+        <div class="mem-h"><h2>Picked up from your choices</h2></div>
+        <div class="mem-cards" id="learned-list"></div>
+      </section>
+      <section class="mem-sec">
         <div class="mem-h"><h2>About Arata</h2><button class="mem-link" id="about-edit">Edit</button></div>
         <p class="mem-about" id="about-text">Science-led shampoos and serums for Indian hair and scalp, 78 products on arata.in. Most orders come from first-time buyers, so the second order matters more than the first. People talk most about hair fall and whether the products work.</p>
         <div class="mem-about-edit" hidden>
@@ -3516,42 +3523,30 @@
           <div class="mem-row-btns"><button class="mem-link" id="about-cancel">Cancel</button><button class="mem-btn" id="about-save">Save</button></div>
         </div>
       </section>
-      <section class="mem-sec">
-        <div class="mem-h"><h2>Picked up from your choices</h2></div>
-        <div class="mem-list" id="learned-list"></div>
-      </section>
     </div>
 
     <div class="mem-panel" data-mpanel="feed" hidden>
       <form class="mem-add" id="topic-form">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
-        <input id="topic-input" type="text" placeholder="What do you want to see more of? e.g. sunscreen" autocomplete="off" aria-label="Add a topic">
+        <input id="topic-input" type="text" placeholder="Add a topic, e.g. sunscreen" autocomplete="off" aria-label="Add a topic">
         <button class="mem-btn is-primary" type="submit">Add</button>
       </form>
       <section class="mem-sec">
-        <div class="mem-h"><h2>Topics</h2><span class="mem-hint">Set each one to less, normal or more</span></div>
-        <div class="mem-list" id="topic-list"></div>
+        <div class="mem-h"><h2>Topics</h2></div>
+        <div class="pills" id="topic-list"></div>
       </section>
       <section class="mem-sec">
-        <div class="mem-h"><h2>Agents</h2><span class="mem-hint">How much each one posts to your feed</span></div>
+        <div class="mem-h"><h2>Agents</h2></div>
         <div class="tune-list"></div>
       </section>
     </div>
 
     <div class="mem-panel" data-mpanel="rules" hidden>
-      <p class="mem-lede">Every agent follows these. Teach one, or approve one an agent noticed.</p>
       <form class="mem-add" id="rule-form">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
-        <input id="rule-input" type="text" placeholder="Teach a rule, e.g. never say ‘guaranteed’" autocomplete="off" aria-label="Teach a rule">
+        <input id="rule-input" type="text" placeholder="Add a rule, e.g. never say ‘guaranteed’" autocomplete="off" aria-label="Add a rule">
         <button class="mem-btn is-primary" type="submit">Add</button>
       </form>
-      <section class="mem-sec" id="suggest-sec">
-        <div class="mem-h"><h2>Suggested by your agents</h2><span class="mem-hint">Not rules until you say so</span></div>
-        <div class="sugg-list" id="suggest-list"></div>
-      </section>
       <section class="mem-sec">
-        <div class="mem-h"><h2>Your rules</h2></div>
-        <div class="mem-list" id="rules-list"></div>
+        <div id="rules-list"></div>
       </section>
     </div>
   </div>
@@ -5386,46 +5381,35 @@
   const memPage = document.getElementById('mem-page');
   const memBtn = document.querySelector('[data-nav="memory"]');
   const learned = [
-    { t:'MitoActive claims stay on hold until R&D sends a basis', s:'You agreed with a decision · Move 05', a:'brew' },
-    { t:'Every pack should save the buyer money, not cost more', s:'You agreed with a decision · Move 06', a:'storefront' },
-    { t:'Lead ads with the Intensive serum’s 474 reviews', s:'From the cards you shortlisted · Move 05', a:'performance' },
-    { t:'Hair fall and product efficacy are what people talk about most', s:'From 1,225 things people said', a:'crm' }
+    { t:'MitoActive claims stay on hold until R&D sends a basis', s:'Agreed', a:'brew' },
+    { t:'Every pack should save the buyer money, not cost more', s:'Agreed', a:'storefront' },
+    { t:'Lead ads with the Intensive serum’s 474 reviews', s:'Shortlisted', a:'performance' },
+    { t:'Hair fall and product efficacy are what people talk about most', s:'From reviews', a:'crm' }
   ];
-  const topics = [['Hair fall','more'], ['Product efficacy','more'], ['Shampoo reviews','more'], ['Hair growth serum','more'],
-                  ['AI answers','same'], ['Skincare routine','less'], ['Curl care','less']];
-  const rules = [];
-  const suggested = [
-    { t:'Quote real reviews instead of product claims', s:'You edited copy this way 3 times', a:'creative' },
-    { t:'Keep every price in rupees with the ₹ sign', s:'Noticed in 4 of your edits', a:'storefront' }
-  ];
+  const topics = ['Hair fall', 'Product efficacy', 'Shampoo reviews', 'Hair growth serum', 'AI answers'];
+  const rules = ['Quote real reviews instead of product claims', 'Keep every price in rupees with the ₹ sign'];
+  let newTopic = '';
 
   const I_FORGET = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>';
+  const I_X = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>';
   const paintLearned = () => {
     document.getElementById('learned-list').innerHTML = learned.length ? learned.map((m, i) => `
-      <div class="mem-item"><img src="${AG(m.a).avatar}" alt="">
-        <span class="t"><b>${esc(m.t)}</b><span>${esc(m.s)}</span></span>
-        <button class="mem-x" data-forget="${i}" aria-label="Forget this">${I_FORGET}<span>Forget</span></button></div>`).join('')
-      : '<p class="mem-empty">Nothing yet. Like, shortlist and approve cards, and what ShopOS learns shows up here.</p>';
+      <div class="mem-card"><img src="${AG(m.a).avatar}" alt="">
+        <b>${esc(m.t)}</b><span class="src">${esc(m.s)}</span>
+        <button class="mem-x" data-forget="${i}" aria-label="Forget this" title="Forget">${I_FORGET}</button></div>`).join('')
+      : '<p class="mem-empty">Nothing yet. Like and shortlist cards and it shows up here.</p>';
   };
   const paintTopics = () => {
-    document.getElementById('topic-list').innerHTML = topics.map(([t, v], i) => `
-      <div class="mem-item is-topic"><span class="t"><b>${esc(t)}</b></span>
-        <span class="seg3" data-topic="${i}">${['less','same','more'].map(x =>
-          `<button data-v="${x}" class="${v === x ? 'on' : ''}">${TUNE_LABEL[x]}</button>`).join('')}</span></div>`).join('');
+    document.getElementById('topic-list').innerHTML = topics.length ? topics.map((t, i) => `
+      <span class="pill${t === newTopic ? ' is-new' : ''}">${esc(t)}<button data-untopic="${i}" aria-label="Remove ${esc(t)}">${I_X}</button></span>`).join('')
+      : '<p class="mem-empty">No topics yet.</p>';
+    newTopic = '';
   };
   const paintRules = () => {
-    document.getElementById('rules-list').innerHTML = rules.length ? rules.map((r, i) => `
-      <div class="mem-item"><span class="t"><b>${esc(r.t)}</b><span>${esc(r.s)}</span></span>
-        <button class="mem-x" data-unrule="${i}" aria-label="Remove rule">${I_FORGET}<span>Remove</span></button></div>`).join('')
-      : '<p class="mem-empty">No rules yet. Teach one above.</p>';
-    document.getElementById('suggest-sec').hidden = !suggested.length;
-    document.getElementById('suggest-list').innerHTML = suggested.map((r, i) => `
-      <div class="sugg-card">
-        <span class="who"><img src="${AG(r.a).avatar}" alt="">${AG(r.a).name} suggests</span>
-        <b>${esc(r.t)}</b>
-        <span class="why">${esc(r.s)}</span>
-        <span class="acts"><button class="mem-btn" data-keep="${i}">Make it a rule</button><button class="mem-link" data-skip="${i}">Dismiss</button></span>
-      </div>`).join('');
+    document.getElementById('rules-list').innerHTML = rules.length
+      ? '<div class="mem-table">' + rules.map((r, i) => `
+        <div class="mem-tr"><b>${esc(r)}</b><button class="mem-link" data-unrule="${i}">Remove</button></div>`).join('') + '</div>'
+      : '<p class="mem-empty">No rules yet.</p>';
     document.getElementById('rules-n').textContent = rules.length || '';
   };
   const setMemTab = (tab) => {
@@ -5469,12 +5453,8 @@
     }
     const f = t.closest('[data-forget]');
     if (f) { learned.splice(+f.dataset.forget, 1); paintLearned(); return toast('Forgotten'); }
-    const tb = t.closest('.seg3[data-topic] button');
-    if (tb) { topics[+tb.parentElement.dataset.topic][1] = tb.dataset.v; return paintTopics(); }
-    const keep = t.closest('[data-keep]');
-    if (keep) { const r = suggested.splice(+keep.dataset.keep, 1)[0]; rules.unshift({ t:r.t, s:'You approved it · just now' }); paintRules(); return toast('Rule added. Every agent follows it now.'); }
-    const skip = t.closest('[data-skip]');
-    if (skip) { suggested.splice(+skip.dataset.skip, 1); return paintRules(); }
+    const ut = t.closest('[data-untopic]');
+    if (ut) { topics.splice(+ut.dataset.untopic, 1); return paintTopics(); }
     const un = t.closest('[data-unrule]');
     if (un) { rules.splice(+un.dataset.unrule, 1); return paintRules(); }
   });
@@ -5482,16 +5462,15 @@
     e.preventDefault();
     const i = document.getElementById('topic-input'), v = i.value.trim();
     if (!v) return i.focus();
-    const hit = topics.find(x => x[0].toLowerCase() === v.toLowerCase());
-    if (hit) hit[1] = 'more'; else topics.unshift([v, 'more']);
+    if (!topics.some(x => x.toLowerCase() === v.toLowerCase())) { topics.push(v); newTopic = v; }
     i.value = ''; paintTopics();
   });
   document.getElementById('rule-form').addEventListener('submit', (e) => {
     e.preventDefault();
     const i = document.getElementById('rule-input'), v = i.value.trim();
     if (!v) return i.focus();
-    rules.unshift({ t:v, s:'You taught it · just now' });
-    i.value = ''; paintRules(); toast('Rule added. Every agent follows it now.');
+    rules.unshift(v);
+    i.value = ''; paintRules(); toast('Rule added');
   });
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && !memPage.hidden && !document.querySelector('.scrim.open')) setMemPage(false);
@@ -5502,7 +5481,7 @@
     if (!b || b.getAttribute('aria-pressed') !== 'true') return;
     const p = ALL_POSTS[+b.closest('.card').dataset.post];
     if (!p) return;
-    learned.unshift({ t:p.title, s:`You liked it, so more like this · ${AG(p.agent).name}`, a:p.agent });
+    learned.unshift({ t:p.title, s:'Liked', a:p.agent });
     if (!memPage.hidden) paintLearned();
   });
 
