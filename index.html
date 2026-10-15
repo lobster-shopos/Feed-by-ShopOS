@@ -2632,13 +2632,30 @@
   .rail-item.fly-up .rail-fly{top:auto;bottom:-8px;transform:translateX(-8px)}
   .rail-item.fly-up.has-menu:hover .rail-fly,
   .rail-item.fly-up.has-menu:focus-within .rail-fly{transform:none}
-  .notif-row{height:auto;min-height:56px;padding:9px 12px;align-items:flex-start}
-  .notif-row img{margin-top:2px}
-  .notif-row .nt{display:flex;flex-direction:column;gap:2px;min-width:0}
-  .notif-row .nt b{font-size:12px;font-weight:500;color:var(--fg-3)}
-  .notif-row .nt span{font-size:13.5px;line-height:19px;color:var(--fg-2);
+  /* notifications: a header, one tidy row per item, unread marked on the right */
+  #notif-fly{width:360px;padding:0;overflow:hidden}
+  .nf-head{display:flex;align-items:center;justify-content:space-between;padding:14px 16px 10px}
+  .nf-head b{font-size:14px;font-weight:600;color:var(--fg);letter-spacing:-.005em}
+  .nf-head b span{margin-left:6px;font-size:11.5px;font-weight:500;color:var(--fg-3);font-variant-numeric:tabular-nums}
+  .nf-read{border:0;background:none;padding:0;font:inherit;font-size:12px;color:var(--fg-3);cursor:pointer;transition:color .15s}
+  .nf-read:hover{color:var(--fg)}
+  .nf-list{display:flex;flex-direction:column;padding:0 6px 6px}
+  .notif-row{
+    display:grid;grid-template-columns:30px 1fr 8px;align-items:start;gap:12px;
+    width:100%;padding:11px 10px;border:0;border-radius:12px;background:transparent;
+    font:inherit;text-align:left;cursor:pointer;transition:background .14s;
+  }
+  .notif-row + .notif-row{box-shadow:0 -1px 0 #222}
+  .notif-row:hover{background:#222;box-shadow:none}
+  .notif-row:hover + .notif-row{box-shadow:none}
+  .notif-row img{width:30px;height:30px;display:block}
+  .notif-row .nt{display:flex;flex-direction:column;gap:3px;min-width:0}
+  .notif-row .nt span{font-size:13.5px;line-height:19px;color:var(--fg);
     display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-  .notif-row:hover .nt span{color:#fff}
+  .notif-row .nt em{font-style:normal;font-size:12px;color:var(--fg-3)}
+  .notif-row .ud{width:8px;height:8px;margin-top:6px;border-radius:50%;background:#5b8cff}
+  .notif-row.read .ud{background:transparent}
+  .notif-row.read .nt span{color:var(--fg-2)}
 
 
   /* ---------- rail icons: each one moves the way its meaning moves ---------- */
@@ -2706,8 +2723,83 @@
 
   /* jam floats; it steps aside when the chat panel is open */
   .dock{transition:opacity .35s ease,right .36s cubic-bezier(.32,.72,0,1)}
-  body.chat-open .dock{right:calc(var(--chat-w) + 28px)}
-  @media (max-width:900px){ body.chat-open .dock{opacity:0;pointer-events:none} }
+  body.chat-open .dock{opacity:0;pointer-events:none}
+
+
+  /* ---------- connectors: logo tiles, the flyout and the full page ---------- */
+  .lg{
+    width:28px;height:28px;flex:0 0 auto;border-radius:8px;overflow:hidden;
+    display:grid;place-items:center;background:var(--lg,#fff);font-style:normal;
+    font-size:12px;font-weight:700;letter-spacing:-.02em;color:#fff;
+  }
+  .lg img{width:72%;height:72%;object-fit:contain;display:block}
+  .lg.mono{background:var(--lg,#333)}
+  .lg.wide img{width:90%;height:90%}
+  .rail-item.fly-off .rail-fly{opacity:0!important;visibility:hidden!important;pointer-events:none!important}
+  .lg-lg{width:44px;height:44px;border-radius:12px;font-size:16px}
+  #cx-fly{width:320px;padding:6px}
+  #cx-fly .fly-head{margin:8px 0 6px}
+  .cx-row{
+    display:flex;align-items:center;gap:12px;width:100%;height:46px;padding:0 10px;
+    border:0;border-radius:12px;background:transparent;color:var(--fg-2);
+    font:inherit;font-size:14px;text-align:left;cursor:pointer;transition:background .14s,color .14s;
+  }
+  .cx-row:hover{background:#242424;color:#fff}
+  .cx-row .st{margin-left:auto;font-size:11.5px;color:var(--fg-3)}
+  .cx-row .st.on{color:#4ade80}
+  .cx-all{
+    display:flex;align-items:center;justify-content:center;gap:6px;width:100%;
+    height:40px;margin-top:6px;border:0;border-top:1px solid #262626;border-radius:0 0 14px 14px;
+    background:transparent;color:var(--fg);font:inherit;font-size:13.5px;font-weight:500;cursor:pointer;
+    transition:background .14s;
+  }
+  .cx-all:hover{background:#222}
+  .cx-all svg{transition:transform .2s cubic-bezier(.34,1.4,.64,1)}
+  .cx-all:hover svg{transform:translateX(3px)}
+
+  .cx-page{
+    position:fixed;top:0;right:0;bottom:0;left:60px;z-index:55;
+    background:var(--bg);overflow-y:auto;
+    animation:cxin .38s cubic-bezier(.32,.72,0,1);
+  }
+  @keyframes cxin{from{opacity:0;transform:translateY(14px)}}
+  .cx-in{width:min(1040px,100%);margin:0 auto;padding:48px 32px 80px}
+  .cx-top{display:flex;align-items:flex-start;gap:24px}
+  .cx-top > div{flex:1;min-width:0}
+  .cx-top h1{margin:0;font-size:30px;line-height:38px;font-weight:500;letter-spacing:-.02em}
+  .cx-top p{margin:8px 0 0;max-width:62ch;font-size:15px;line-height:23px;color:var(--fg-2)}
+  .cx-x{width:38px;height:38px;border-radius:11px;background:#171717}
+  .cx-filters{display:flex;flex-wrap:wrap;gap:8px;margin:28px 0 22px}
+  .cx-f{
+    height:34px;padding:0 14px;border-radius:999px;border:1px solid #262626;background:transparent;
+    color:var(--fg-2);font:inherit;font-size:13px;cursor:pointer;transition:background .15s,color .15s,border-color .15s;
+  }
+  .cx-f:hover{color:var(--fg);border-color:#3a3a3a}
+  .cx-f[aria-selected="true"]{background:#fafafa;border-color:#fafafa;color:#0a0a0a}
+  .cx-f .n{margin-left:6px;opacity:.6;font-variant-numeric:tabular-nums}
+  .cx-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+  .cx-card{
+    display:flex;flex-direction:column;gap:14px;padding:18px;border-radius:18px;
+    background:var(--card);border:1px solid #222;
+  }
+  .cx-card .hd{display:flex;align-items:center;gap:12px}
+  .cx-card h3{margin:0;font-size:15px;font-weight:500;letter-spacing:-.005em}
+  .cx-card .cat{display:block;margin-top:1px;font-size:12px;color:var(--fg-3)}
+  .cx-card p{margin:0;font-size:13.5px;line-height:20px;color:var(--fg-2);flex:1}
+  .cx-card .ft{display:flex;align-items:center;gap:10px}
+  .cx-card .who{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--fg-3)}
+  .cx-card .who img{width:20px;height:20px}
+  .cx-go{
+    margin-left:auto;height:32px;padding:0 14px;border:0;border-radius:999px;
+    background:#fafafa;color:#0a0a0a;font:inherit;font-size:12.5px;font-weight:500;cursor:pointer;
+    transition:opacity .15s,transform .12s;
+  }
+  .cx-go:hover{opacity:.9}
+  .cx-go:active{transform:scale(.97)}
+  .cx-go.on{background:rgba(74,222,128,.12);color:#4ade80;box-shadow:inset 0 0 0 1px rgba(74,222,128,.3)}
+  .cx-go.busy{background:#262626;color:var(--fg-2);cursor:default}
+  @media (max-width:600px){ .cx-page{left:52px} .cx-in{padding:28px 16px 60px} }
+  @media (prefers-reduced-motion:reduce){ .cx-page{animation:none} }
 
   /* ---------- shortlisted ---------- */
   .feed-empty{
@@ -2717,22 +2809,22 @@
   }
   body.shortlist-on .feed-end{display:none}
 
-  /* ---------- chat: a panel on the right that the page makes room for ---------- */
-  :root{--chat-w:440px}
-  body{transition:padding-right .36s cubic-bezier(.32,.72,0,1)}
-  body.chat-open{padding-right:var(--chat-w)}
+  /* ---------- chat: a floating window over the page ---------- */
+  :root{--chat-w:420px}
   .chat-panel{
-    position:fixed;top:0;right:0;bottom:0;z-index:45;
-    width:var(--chat-w);max-width:100vw;
-    display:flex;flex-direction:column;
-    background:#0f0f0f;border-left:1px solid var(--line-soft);
-    transform:translateX(100%);visibility:hidden;
-    transition:transform .36s cubic-bezier(.32,.72,0,1),visibility .36s;
+    position:fixed;top:12px;right:12px;bottom:12px;z-index:85;
+    width:min(var(--chat-w),calc(100vw - 84px));
+    display:flex;flex-direction:column;overflow:hidden;
+    background:#121212;border:1px solid #262626;border-radius:22px;
+    box-shadow:0 30px 80px rgba(0,0,0,.65),0 0 0 1px rgba(255,255,255,.02) inset;
+    transform-origin:calc(100% - 60px) 24px;
+    opacity:0;visibility:hidden;transform:translateY(-8px) scale(.97);
+    transition:opacity .2s ease,transform .32s cubic-bezier(.32,.72,0,1),visibility .2s;
   }
-  .chat-panel.on{transform:none;visibility:visible}
+  .chat-panel.on{opacity:1;visibility:visible;transform:none}
   .cp-head{
     flex:0 0 auto;display:flex;align-items:center;gap:4px;
-    height:64px;padding:0 12px 0 20px;border-bottom:1px solid var(--line-soft);
+    height:56px;padding:0 10px 0 18px;border-bottom:1px solid #1f1f1f;
   }
   .cp-head h3{flex:1;margin:0;font-size:15px;font-weight:500;color:var(--fg)}
   .cp-btn{
@@ -2766,12 +2858,8 @@
   .chat-panel .composer-dock.arrive{animation:cpdock .5s cubic-bezier(.32,.72,0,1) .1s both}
   @keyframes cpdock{from{opacity:0;transform:translateY(16px)}}
 
-  @media (max-width:900px){
-    body.chat-open{padding-right:0}
-    .chat-panel{width:min(var(--chat-w),calc(100vw - 60px));box-shadow:-26px 0 60px rgba(0,0,0,.55)}
-  }
   @media (prefers-reduced-motion:reduce){
-    body,.chat-panel{transition:none}
+    .chat-panel{transition:none}
     .chat-panel .composer-dock.arrive{animation:none}
   }
 
@@ -2846,12 +2934,7 @@
         <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path class="ic-cord" d="M12 22v-5"/><path class="ic-prong" d="M9 7V2"/><path class="ic-prong" d="M15 7V2"/><path d="M6 13V8h12v5a5 5 0 0 1-10 0"/></svg>
         <span class="rail-label">Connectors</span>
       </button>
-      <div class="rail-fly">
-        <p class="fly-head">Connectors</p>
-        <button class="fly-row" data-fly="Shopify"><span class="tile"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22v-5"/><path d="M9 7V2"/><path d="M15 7V2"/><path d="M6 13V8h12v5a5 5 0 0 1-10 0"/></svg></span>Shopify<svg class="go" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg></button>
-        <button class="fly-row" data-fly="Meta Ads"><span class="tile"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22v-5"/><path d="M9 7V2"/><path d="M15 7V2"/><path d="M6 13V8h12v5a5 5 0 0 1-10 0"/></svg></span>Meta Ads<svg class="go" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg></button>
-        <button class="fly-row" data-fly="Google Merchant Center"><span class="tile"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22v-5"/><path d="M9 7V2"/><path d="M15 7V2"/><path d="M6 13V8h12v5a5 5 0 0 1-10 0"/></svg></span>Google Merchant Center<svg class="go" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg></button>
-      </div>
+      <div class="rail-fly" id="cx-fly"></div>
     </div>
   </nav>
 
@@ -2868,7 +2951,7 @@
         <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path class="ic-clap" d="M10.268 21a2 2 0 0 0 3.464 0"/><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"/></svg><span class="rail-dot" aria-hidden="true"></span>
         <span class="rail-label">Notifications</span>
       </button>
-      <div class="rail-fly" id="notif-fly"><p class="fly-head">Notifications</p></div>
+      <div class="rail-fly" id="notif-fly"></div>
     </div>
     <div class="rail-item" data-item="account">
       <button class="rail-btn" data-nav="account" aria-label="Account">
@@ -3271,6 +3354,23 @@
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
       </button>
     </div>
+  </div>
+</section>
+
+
+<section class="cx-page" id="cx-page" hidden aria-labelledby="cx-title">
+  <div class="cx-in">
+    <header class="cx-top">
+      <div>
+        <h1 id="cx-title">Connectors</h1>
+        <p>Connect the tools your agents read from and act in. Nothing changes in a tool until you approve it in the feed.</p>
+      </div>
+      <button class="cp-btn cx-x" id="cx-close" aria-label="Close connectors">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </header>
+    <div class="cx-filters" id="cx-filters" role="tablist" aria-label="Filter connectors"></div>
+    <div class="cx-grid" id="cx-grid"></div>
   </div>
 </section>
 
@@ -4033,10 +4133,9 @@
 
   // ---- chips and the layout switch, from either sub bar
   // the connect nudge: asking for access is one tap, the rest is the agent's problem
-  document.addEventListener('click', (e) => {
-    const go = e.target.closest('[data-connect-go]');
-    if (!go) return;
-    const id = go.dataset.connectGo, c = CONNECTS[id];
+  const connectFeedCards = (id) => {
+    const c = CONNECTS[id];
+    if (!c) return;
     document.querySelectorAll(`[data-connect-go="${id}"]`).forEach(btn => {
       btn.disabled = true;
       btn.innerHTML = `<span class="lead">${svg(I.check, 18)} ${c.name} connected</span>`;
@@ -4050,7 +4149,14 @@
       if (h) h.textContent = `${c.name} is connected. Those three are unlocked.`;
       el.querySelectorAll('.cn-list li').forEach(li => li.style.color = 'var(--fg-2)');
     });
-    toast(`${c.name} connected. ${AGENTS[c.agent].name} can act on it now.`);
+  };
+  document.addEventListener('click', (e) => {
+    const go = e.target.closest('[data-connect-go]');
+    if (!go) return;
+    const id = go.dataset.connectGo;
+    connectFeedCards(id);
+    if (typeof setConnector === 'function') setConnector(id, true, true);
+    toast(`${CONNECTS[id].name} connected. ${AGENTS[CONNECTS[id].agent].name} can act on it now.`);
   });
 
   document.addEventListener('click', (e) => {
@@ -4817,8 +4923,6 @@
     chatPanel.setAttribute('aria-hidden', String(!open));
     document.body.classList.toggle('chat-open', open);
     chatBtn.setAttribute('aria-expanded', String(open));
-    // the deck columns and the feed both re-centre, so the pill has to follow
-    setTimeout(syncTabs, 360);
   };
   document.getElementById('cp-close').addEventListener('click', () => setChat(false));
   chatBtn.addEventListener('click', () => setChat(!chatPanel.classList.contains('on')));
@@ -4841,8 +4945,6 @@
     setRail(!rail.classList.contains('open')));
   railScrim.addEventListener('click', () => setRail(false));
 
-  document.querySelectorAll('[data-item="connectors"] .fly-row').forEach(r => r.addEventListener('click', () =>
-    toast(r.dataset.fly + ' is not built in this prototype yet')));
 
   // shortlisted: the feed narrows to what you bookmarked, in feed or deck
   const shortBtn = document.querySelector('[data-nav="shortlist"]');
@@ -4868,26 +4970,158 @@
 
   // notifications: the latest from each agent, built from what is in the feed
   const notifFly = document.getElementById('notif-fly');
-  const seen = new Set();
-  const latest = ALL_POSTS.filter(p => p && p.title && AGENTS[p.agent] && !seen.has(p.agent) && seen.add(p.agent)).slice(0, 4);
-  notifFly.insertAdjacentHTML('beforeend', latest.map(p => `
-    <button class="fly-row notif-row" data-post="${ALL_POSTS.indexOf(p)}">
-      <img src="${AGENTS[p.agent].avatar}" alt="">
-      <span class="nt"><b>${AGENTS[p.agent].name}</b><span>${p.title}</span></span>
-    </button>`).join(''));
+  const seenAg = new Set();
+  const latest = ALL_POSTS.filter(p => p && p.title && AGENTS[p.agent] && !seenAg.has(p.agent) && seenAg.add(p.agent)).slice(0, 4);
+  const paintNotifs = () => {
+    const unread = notifFly.querySelectorAll('.notif-row:not(.read)').length;
+    notifFly.querySelector('.nf-count').textContent = unread ? unread + ' new' : '';
+    document.querySelector('.rail-dot')?.toggleAttribute('hidden', unread === 0);
+  };
+  notifFly.innerHTML = `
+    <div class="nf-head"><b>Notifications<span class="nf-count"></span></b>
+      <button class="nf-read" id="nf-read">Mark all read</button></div>
+    <div class="nf-list">${latest.map(p => `
+      <button class="notif-row" data-post="${ALL_POSTS.indexOf(p)}">
+        <img src="${AGENTS[p.agent].avatar}" alt="">
+        <span class="nt"><span>${p.title}</span><em>${AGENTS[p.agent].name} · ${p.time} ago</em></span>
+        <i class="ud" aria-hidden="true"></i>
+      </button>`).join('')}</div>`;
+  paintNotifs();
   notifFly.addEventListener('click', (e) => {
+    if (e.target.closest('#nf-read')) {
+      notifFly.querySelectorAll('.notif-row').forEach(r => r.classList.add('read'));
+      return paintNotifs();
+    }
     const r = e.target.closest('.notif-row'); if (!r) return;
-    document.querySelector('.rail-dot')?.remove();
+    r.classList.add('read'); paintNotifs();
+    const wait = layout === 'feed' ? 0 : 700;
     if (layout !== 'feed') setLayout('feed');
     setTimeout(() => {
       const c = document.querySelector(`#feed .card[data-post="${r.dataset.post}"]`);
       if (c) c.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }, layout === 'feed' ? 0 : 700);
+    }, wait);
   });
+
+
+  // ---------- connectors: one list behind the rail flyout and the page ----------
+  // logo files that exist are used; the rest show a lettered tile until one is added
+  const CONNECTORS = [
+    { id:'shopify',  name:'Shopify',                cat:'Store',     logo:'assets/logo-shopify.png', agent:'storefront',
+      what:'Publish rewritten descriptions, update product pages, read live stock and orders.' },
+    { id:'meta',     name:'Meta Ads',               cat:'Ads',       mono:'M',  color:'#0866FF', agent:'performance',
+      what:'Shift budget between sets, pause on frequency, rotate creative on live campaigns.' },
+    { id:'gads',     name:'Google Ads',             cat:'Ads',       mono:'G',  color:'#1a73e8', agent:'performance',
+      what:'Read search and Performance Max results, and move spend toward what converts.' },
+    { id:'ga4',      name:'Google Analytics 4',     cat:'Analytics', mono:'GA', color:'#e37400', agent:'performance',
+      what:'Tie every move in the feed back to sessions, conversion and revenue.' },
+    { id:'gmc',      name:'Google Merchant Center', cat:'Catalog',   mono:'MC', color:'#34a853', agent:'storefront',
+      what:'Fix disapproved products and keep the shopping feed in sync with the store.' },
+    { id:'klaviyo',  name:'Klaviyo',                cat:'Messaging', logo:'assets/logo-klaviyo.png', color:'#000', wide:true, agent:'crm',
+      what:'Email reachability, consent and journeys, so Signals can send the right message.' },
+    { id:'whatsapp', name:'WhatsApp Business',      cat:'Messaging', logo:'assets/logo-whatsapp.png', agent:'crm',
+      what:'Opt-in lists and replies, for the customers who answer on WhatsApp instead.' },
+    { id:'judgeme',  name:'Judge.me',               cat:'Reviews',   mono:'J',  color:'#2c7a7b', agent:'creative',
+      what:'Read every review, so creative and copy quote what customers actually say.' },
+    { id:'amazon',   name:'Amazon',                 cat:'Store',     mono:'a',  color:'#232f3e', agent:'storefront',
+      what:'Keep listings, prices and stock in line with the main store.' },
+    { id:'slack',    name:'Slack',                  cat:'Team',      mono:'S',  color:'#4a154b', agent:'performance',
+      what:'Get the moves that need you in a channel, and approve them from there.' }
+  ];
+  const cxState = {};
+  CONNECTORS.forEach(c => cxState[c.id] = 'off');
+  const lg = (c, big) => c.logo
+    ? `<i class="lg${big ? ' lg-lg' : ''}${c.wide ? ' wide' : ''}"${c.color ? ` style="--lg:${c.color}"` : ''}><img src="${c.logo}" alt=""></i>`
+    : `<i class="lg mono${big ? ' lg-lg' : ''}" style="--lg:${c.color}">${c.mono}</i>`;
+
+  const cxFly = document.getElementById('cx-fly');
+  const I_ARR = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>';
+  const paintCxFly = () => {
+    cxFly.innerHTML = `<p class="fly-head">Connectors</p>` +
+      CONNECTORS.slice(0, 5).map(c => `
+        <button class="cx-row" data-cx="${c.id}">${lg(c)}${c.name}
+          <span class="st${cxState[c.id] === 'on' ? ' on' : ''}">${cxState[c.id] === 'on' ? 'Connected' : 'Connect'}</span>
+        </button>`).join('') +
+      `<button class="cx-all" id="cx-all">View all connectors ${I_ARR}</button>`;
+  };
+
+  const cxPage = document.getElementById('cx-page');
+  let cxFilter = 'All';
+  const paintCxPage = () => {
+    const cats = ['All', ...new Set(CONNECTORS.map(c => c.cat))];
+    document.getElementById('cx-filters').innerHTML = cats.map(k => {
+      const n = k === 'All' ? CONNECTORS.length : CONNECTORS.filter(c => c.cat === k).length;
+      return `<button class="cx-f" role="tab" aria-selected="${k === cxFilter}" data-cxf="${k}">${k}<span class="n">${n}</span></button>`;
+    }).join('');
+    document.getElementById('cx-grid').innerHTML = CONNECTORS
+      .filter(c => cxFilter === 'All' || c.cat === cxFilter)
+      .map(c => {
+        const st = cxState[c.id];
+        return `
+        <article class="cx-card">
+          <div class="hd">${lg(c, true)}<span><h3>${c.name}</h3><span class="cat">${c.cat}</span></span></div>
+          <p>${c.what}</p>
+          <div class="ft">
+            <span class="who"><img src="${AGENTS[c.agent].avatar}" alt="">${AGENTS[c.agent].name}</span>
+            <button class="cx-go${st === 'on' ? ' on' : st === 'busy' ? ' busy' : ''}" data-cxgo="${c.id}">${
+              st === 'on' ? 'Connected' : st === 'busy' ? 'Connecting…' : 'Connect'}</button>
+          </div>
+        </article>`;
+      }).join('');
+  };
+
+  // quiet = the feed card already announced it
+  function setConnector(id, on, quiet) {
+    cxState[id] = on ? 'on' : 'off';
+    paintCxFly();
+    if (!cxPage.hidden) paintCxPage();
+    if (on && !quiet) {
+      connectFeedCards(id);
+      const c = CONNECTORS.find(x => x.id === id);
+      toast(`${c.name} connected. ${AGENTS[c.agent].name} can act on it now.`);
+    }
+  }
+  const connectNow = (id) => {
+    if (cxState[id] !== 'off') return;
+    cxState[id] = 'busy';
+    if (!cxPage.hidden) paintCxPage();
+    setTimeout(() => setConnector(id, true), 1100);
+  };
+
+  const cxBtn = document.querySelector('[data-nav="connectors"]');
+  const setCxPage = (open) => {
+    if (open) { paintCxPage(); cxPage.hidden = false; cxPage.scrollTop = 0; }
+    else cxPage.hidden = true;
+    cxBtn.classList.toggle('is-on', open);
+    // the hover menu steps out of the way until the pointer leaves the icon
+    const item = cxBtn.closest('.rail-item');
+    if (open) {
+      item.classList.add('fly-off');
+      cxBtn.addEventListener('pointerenter', () => item.classList.remove('fly-off'), { once: true });
+      document.querySelectorAll('[data-nav="home"],[data-nav="shortlist"]').forEach(b => b.classList.remove('is-on'));
+    } else syncTabs();
+  };
+  cxFly.addEventListener('click', (e) => {
+    if (e.target.closest('#cx-all')) return setCxPage(true);
+    const r = e.target.closest('[data-cx]');
+    if (r) setCxPage(true);
+  });
+  cxPage.addEventListener('click', (e) => {
+    if (e.target.closest('#cx-close')) return setCxPage(false);
+    const f = e.target.closest('[data-cxf]');
+    if (f) { cxFilter = f.dataset.cxf; return paintCxPage(); }
+    const g = e.target.closest('[data-cxgo]');
+    if (g) connectNow(g.dataset.cxgo);
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !cxPage.hidden && !document.querySelector('.scrim.open')) setCxPage(false);
+  });
+  paintCxFly();
 
   document.querySelectorAll('.rail-btn').forEach(b => b.addEventListener('click', () => {
     const key = b.dataset.nav;
     setRail(false);
+    if (key === 'connectors') return setCxPage(cxPage.hidden);
+    if (!cxPage.hidden && key !== 'notifications') setCxPage(false);
     if (key === 'chat')      return setChat(!chatPanel.classList.contains('on'));
     if (key === 'jam')       return openModal('jam-scrim');
     if (key === 'tune')      return openTune();
@@ -4904,7 +5138,6 @@
     if (key === 'kanban')    return toast('Kanban is not built in this prototype yet');
     if (key === 'memory')    return toast('Memory is not built in this prototype yet');
     if (key === 'account')   return toast('Account is not built in this prototype yet');
-    // connectors and notifications open on hover; a click on the icon does nothing more
   }));
 
   document.addEventListener('keydown', (e) => {
