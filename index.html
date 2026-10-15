@@ -3360,12 +3360,15 @@
   .st-bpanel footer .mem-btn:hover{background:#e2e0d8}
   .st-bpanel .st-send{width:auto;margin:0;padding:0 24px;height:48px;background:#151515;color:#fff}
   .st-bpanel .st-send.is-primary{background:#151515;color:#fff;animation:none}
+  .st-bpanel .st-send:hover:not(:disabled){background:#2a2a2a}
   .st-bpanel .st-send:disabled{background:#d6d4cc;color:#6b6b6b;opacity:1}
   .st-bpanel .st-send[data-stneed]{background:#d6d4cc;color:#151515}
   @media (max-width:760px){ .st-bpanel .note{padding:8px 22px 24px} .st-bpanel .note dl{grid-template-columns:1fr} .st-nudge{flex-wrap:wrap} }
 
 
   /* take five: View brief leads the row; the brief slides in from the right over the chat, the chat box stays */
+  .ask-mark{width:18px;height:18px;display:block;transition:transform .3s cubic-bezier(.34,1.4,.64,1)}
+  .ask:hover .ask-mark{transform:rotate(20deg) scale(1.12)}
   .st-chip.is-brief{background:#fbfaf6;color:#151515;border-color:#fbfaf6;font-weight:500}
   .st-chip.is-brief:hover{background:#ecebe5;border-color:#ecebe5}
   .st-chip.is-brief svg{transition:transform .3s cubic-bezier(.34,1.4,.64,1)}
@@ -3452,6 +3455,37 @@
   .kbt.out{animation:kbtout .3s ease forwards}
   @keyframes kbtin{from{opacity:0;transform:translate(20px,10px) scale(.96)}}
   @keyframes kbtout{to{opacity:0;transform:translateX(20px)}}
+
+  /* ---------- phones ---------- */
+  @media (max-width:600px){
+    .st-top{gap:8px;padding:0 12px 0 8px}
+    .st-top b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:40vw}
+    .st-top .st-type{display:none}
+    .st-back{padding:0 8px 0 4px}
+    .st-main .st-chat{padding:16px 16px 12px;gap:16px}
+    .st-dock{padding:0 12px 12px}
+    .cm-card{padding:16px}
+    .cm-card h2{font-size:19px;line-height:26px}
+    .cm-strip{margin:0 -16px;padding:0 16px}
+    .cm-strip img{height:260px}
+    .cm-me span{max-width:85%}
+    .st-stage .st-bpanel{top:10px;bottom:6px;width:calc(100% - 16px)}
+    .st-bpanel header{padding:14px 10px 0 20px}
+    .st-bpanel .note{padding:6px 20px 20px;font-size:15px;line-height:23px}
+    .st-bpanel .note h3{font-size:24px;line-height:30px;margin:10px 0 18px}
+    .st-bpanel .note .b-ask{font-size:15px;line-height:23px;margin:-6px 0 22px}
+    .st-bpanel .note dl{grid-template-columns:1fr;gap:18px}
+    .st-bpanel footer{padding:12px 14px 14px;gap:8px}
+    .st-bpanel footer .mem-btn,.st-bpanel .st-send{height:44px;padding:0 16px;white-space:nowrap;font-size:14px}
+    .mem-tabs{overflow-x:auto;scrollbar-width:none;margin-inline:-16px;padding-inline:16px}
+    .mem-tabs::-webkit-scrollbar{display:none}
+    .mem-tabs button{white-space:nowrap;flex:0 0 auto}
+    .chat-panel.chat-panel{top:0;right:0;bottom:0;left:52px;width:auto;border-radius:0;border:0}
+    .hello-h{font-size:30px;line-height:36px}
+    .ht b{font-size:28px;line-height:32px}
+    .kbt{left:12px;right:12px;bottom:12px;max-width:none}
+    .kbt span{min-width:0}
+  }
   .stickers{position:absolute;left:60px;right:0;top:0;height:0;z-index:2;pointer-events:none}
   .stickers[hidden]{display:none}
   .stk{
@@ -3763,7 +3797,7 @@
 
   <div class="topbar-right">
     <button class="ask" id="ask-btn" aria-expanded="false" aria-controls="chat-panel">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.5l1.7 4.3 4.3 1.7-4.3 1.7L12 14.5l-1.7-4.3L6 8.5l4.3-1.7L12 2.5Z"/><path d="M18.5 15l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8.8-2Z"/></svg>
+      <img class="ask-mark" src="assets/shopos-mark.svg" alt="">
       Ask ShopOS
     </button>
     <button class="chip" aria-label="Light mode">
@@ -4717,9 +4751,8 @@
     </div>
 
     <p class="side-note">
-      <b>This is your feed.</b> The free one stops at ten cards a day.
-      Pro opens the full feed and your customer signals: who to talk to next,
-      and the journey that goes with it.
+      <b>This is your feed, by area.</b> Open any card to shape it and send the brief.
+      Signals reads your customers once Shopify and Klaviyo are connected.
     </p>
 
 
