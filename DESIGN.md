@@ -218,6 +218,7 @@ window.BRAND = {
 23. **Notifications lead with what happened.** Agent face, then the headline wrapped up to three lines (unread is brighter and 500 weight); agent · area · time underneath. Grouped New / Earlier, with All / Unread tabs. Unread is a white dot (not blue: one accent). Dismiss appears on hover in the dot's place, so nothing shifts.
 24. **Agents are alive.** Every agent face is `blob(key, live)`: the SVG is inlined so the body can bob and squash, the pupils look around and the eyes blink. Each agent runs on its own clock (`--abd`, `--abl`, `--abo` per `data-blob`), so a row never moves in step. Hover a live one and it hops. `live=false` is greyscale at 45%, still. The near-black orchestrator gets a #3a3a3a body in dark mode.
 25. **Onboarding asks while it reads.** Website → three questions (role, what comes first + what you're pushing, connect tools) while a pill at the top shows the reading → an honest wait screen (about an hour; you can leave; we'll email and ping) → "Your feed is ready" → five findings, one card at a time → the feed. Centred, one thing per screen, 520–600px column.
+26. **Status pills are Apple tints.** Capsule, 22px, 12px/600. Label = the colour, fill = the same colour at ~16%, **no border**. Tokens `--t-{green,orange,red,blue,gray}` and `--t-*-bg`, defined per theme (dark: #30D158 / #FF9F0A / #FF6961 / #409CFF; light uses Apple's accessible variants #248A3D / #C93400 / #D70015 / #0062CC). `--ok-*` follow the same rule and `--ok-line` is transparent, so no green outlines anywhere.
 
 ---
 

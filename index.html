@@ -31,7 +31,10 @@
     --fg-4:#4a4a4a;
     --ink:255,255,255;             /* tints: rgba(var(--ink),.08) */
     --sh:1;                        /* shadow strength: every shadow alpha is multiplied by this */
-    --ok-bg:#16261b;--ok-line:#1f3a27;--ok-fg:#86efac;
+    --ok-bg:rgba(48,209,88,.16);--ok-line:transparent;--ok-fg:#30d158;
+    /* Apple system tints: the label is the colour, the fill is the same colour at ~16%, no border */
+    --t-blue:#409cff;--t-blue-bg:rgba(10,132,255,.18);--t-green:#30d158;--t-green-bg:rgba(48,209,88,.16);
+    --t-orange:#ff9f0a;--t-orange-bg:rgba(255,159,10,.16);--t-red:#ff6961;--t-red-bg:rgba(255,69,58,.16);--t-gray:#aeaeb2;--t-gray-bg:rgba(142,142,147,.2);
     --feed-w:500px;
     --r-card:20px;
     --r-btn:12px;
@@ -46,7 +49,9 @@
     --fg:#000000;--fg-1:#1c1c1e;--fg-2:#6e6e73;--fg-3:#8e8e93;--fg-4:#c7c7cc;
     --ink:0,0,0;
     --sh:.16;
-    --ok-bg:#e9f8ee;--ok-line:#bfe7cb;--ok-fg:#248a3d;
+    --ok-bg:rgba(52,199,89,.14);--ok-line:transparent;--ok-fg:#248a3d;
+    --t-blue:#0062cc;--t-blue-bg:rgba(0,122,255,.11);--t-green:#248a3d;--t-green-bg:rgba(52,199,89,.14);
+    --t-orange:#c93400;--t-orange-bg:rgba(255,149,0,.14);--t-red:#d70015;--t-red-bg:rgba(255,59,48,.11);--t-gray:#636366;--t-gray-bg:rgba(142,142,147,.14);
   }
   *{box-sizing:border-box}
   body{
@@ -4227,6 +4232,36 @@
   .ds-ag code{font-size:11.5px;color:var(--fg-3)}
   .ds-agents.is-small .ds-ag{width:auto;padding:12px}
   .ds-agents.is-small .ablob{width:32px;height:32px;margin:0}
+
+  /* ---------- the Demo pill ---------- */
+  .demo{position:fixed;right:16px;bottom:16px;z-index:95}
+  body.chat-open .demo{right:calc(min(var(--chat-w),calc(100vw - 84px)) + 28px)}
+  .demo-btn{display:inline-flex;align-items:center;gap:7px;height:34px;padding:0 13px;border:1px solid var(--glass-line);border-radius:999px;background:var(--glass);-webkit-backdrop-filter:var(--glass-fx);backdrop-filter:var(--glass-fx);box-shadow:var(--glass-sh);color:var(--fg-1);font:inherit;font-size:13px;font-weight:500;cursor:pointer;transition:background .15s}
+  .demo-btn:hover,.demo-btn[aria-expanded="true"]{background:var(--glass-hover)}
+  .demo-pop{position:absolute;right:0;bottom:calc(100% + 8px);width:290px;padding:6px;border-radius:16px;background:var(--s1);box-shadow:0 0 0 1px var(--line),0 18px 44px rgba(0,0,0,calc(.5 * var(--sh)))}
+  .demo-pop[hidden]{display:none}
+  :root[data-theme="light"] .demo-pop{background:#fff;box-shadow:0 0 0 1px var(--line),0 14px 36px rgba(0,0,0,.1)}
+  .demo-pop p{margin:6px 10px 6px;font-size:12px;font-weight:600;color:var(--fg-3)}
+  .demo-pop button{display:flex;align-items:center;justify-content:space-between;width:100%;height:38px;padding:0 10px;border:0;border-radius:10px;background:transparent;color:var(--fg);font:inherit;font-size:14px;text-align:left;cursor:pointer}
+  .demo-pop button:hover{background:rgba(var(--ink),.07)}
+  .demo-pop kbd{font:inherit;font-size:11.5px;color:var(--fg-3);padding:1px 6px;border-radius:5px;box-shadow:inset 0 0 0 1px var(--line)}
+  .demo-sw{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:4px;padding:10px;border-top:1px solid var(--line-soft);font-size:13px;color:var(--fg-2);cursor:pointer}
+  .demo-sw input{position:absolute;opacity:0;pointer-events:none}
+  .demo-sw i{flex:0 0 auto;width:34px;height:20px;border-radius:999px;background:rgba(var(--ink),.16);position:relative;transition:background .2s}
+  .demo-sw i::after{content:'';position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.25);transition:transform .2s cubic-bezier(.22,1,.36,1)}
+  .demo-sw input:checked + i{background:var(--ok-fg)}
+  .demo-sw input:checked + i::after{transform:translateX(14px)}
+  .demo-sw input:focus-visible + i{outline:2px solid var(--fg-3);outline-offset:2px}
+  @media (max-width:600px){ .demo{right:12px;bottom:12px} }
+
+  /* ---------- status pills: Apple tinted capsules. Colour carries meaning, no border, no glow ---------- */
+  .badge{height:22px;padding:0 9px;border:0!important;font-size:12px;font-weight:600;letter-spacing:0;box-shadow:none}
+  .badge.ok{color:var(--t-green);background:var(--t-green-bg)}
+  .badge.warn{color:var(--t-orange);background:var(--t-orange-bg)}
+  .badge.info{color:var(--t-blue);background:var(--t-blue-bg)}
+  .badge.bad{color:var(--t-red);background:var(--t-red-bg)}
+  .badge.muted{color:var(--t-gray);background:var(--t-gray-bg)}
+  .ca-st.is-on,.ob-cxb.on{box-shadow:none}
   /* ---------- the draft, as a document in the chat ---------- */
   .cm-doc{border-radius:20px;background:var(--s1);border:1px solid var(--s3);overflow:hidden}
   .dc-h{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--s2)}
@@ -4656,11 +4691,22 @@
         <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle class="ic-head" cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/></svg>
         <span class="rail-label">Account</span>
       </button>
-      <span class="rail-tip">Account</span>
+      <span class="rail-tip">Replay onboarding</span>
     </div>
   </div>
 </aside>
 
+
+<div class="demo" id="demo">
+  <div class="demo-pop" id="demo-pop" role="menu" hidden>
+    <p>Prototype</p>
+    <button role="menuitem" data-demo="onboard"><span>Replay onboarding</span><kbd>O</kbd></button>
+    <button role="menuitem" data-demo="ds"><span>Design system</span></button>
+    <button role="menuitem" data-demo="theme"><span>Switch light / dark</span></button>
+    <label class="demo-sw"><span>Start with onboarding on every load</span><input type="checkbox" id="demo-always"><i></i></label>
+  </div>
+  <button class="demo-btn" id="demo-btn" aria-expanded="false" aria-haspopup="menu"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h10"/><path d="M18 7h2"/><circle cx="16" cy="7" r="2"/><path d="M4 17h4"/><path d="M12 17h8"/><circle cx="10" cy="17" r="2"/></svg>Demo</button>
+</div>
 
 <section class="ob" id="ob" hidden aria-label="Set up your feed">
   <header class="ob-top">
@@ -8509,6 +8555,7 @@
     ['Nothing is cut off silently','Anything truncated by an ellipsis or a line clamp shows its full text in the tooltip on hover, automatically. Prefer wrapping to two or three lines over cutting at one.'],
     ['Agents are alive','Every agent face is a blob(): working ones bob, squash, look around and blink, each on its own clock; stopped ones are grey and still. Never a static avatar where the agent is doing something.'],
     ['Onboarding asks while it reads','Website first, then three quick questions while the agents read in the background. Then we say plainly it takes about an hour and let people leave. When it is ready: five findings, one card at a time, then the feed. Centred, one thing per screen.'],
+    ['Status pills are Apple tints','A capsule with the colour as the label and the same colour at about 16% as the fill. No border, no outline, no glow. Green done or live, orange needs attention, red losing, blue information, grey neutral. Light mode uses Apple’s darker accessible variants for the label.'],
     ['Lighter is louder','Emphasis comes from brightness and weight, not colour. Green is reserved for done and live.']
   ];
   const dsIcons = () => {
@@ -8845,7 +8892,7 @@
     if (key === 'shortlist') return setSlPage(slPage.hidden);
     if (key === 'kanban')    return setKbPage(kbPage.hidden);
     if (key === 'memory')    return (memPage.hidden || !memBtn.classList.contains('is-on')) ? pageLoad('memory', () => setMemPage(true, 'learned')) : setMemPage(false);
-    if (key === 'account')   return toast('Account is not built in this prototype yet');
+    if (key === 'account')   return window.__openOnboarding();
   }));
 
   document.addEventListener('keydown', (e) => {
@@ -9541,6 +9588,27 @@
     if (location.hash === '#onboarding') setTimeout(open, 60);
     window.addEventListener('hashchange', () => { if (location.hash === '#onboarding' && ob.hidden) open(); });
   })();
+
+
+  // ---------- the Demo pill: replay onboarding, open the design system, switch theme ----------
+  {
+    const btn = document.getElementById('demo-btn'), pop = document.getElementById('demo-pop'), always = document.getElementById('demo-always');
+    let pref = false; try { pref = localStorage.getItem('shopos-ob-always') === '1'; } catch (_) {}
+    always.checked = pref;
+    const setPop = (on) => { pop.hidden = !on; btn.setAttribute('aria-expanded', String(on)); if (on) pop.animate([{ opacity:0, transform:'translateY(6px) scale(.98)' }, { opacity:1, transform:'none' }], { duration:220, easing:'cubic-bezier(.22,1,.36,1)' }); };
+    btn.addEventListener('click', (e) => { e.stopPropagation(); setPop(pop.hidden); });
+    document.addEventListener('click', (e) => { if (!e.target.closest('#demo')) setPop(false); });
+    pop.addEventListener('click', (e) => {
+      const b = e.target.closest('[data-demo]'); if (!b) return;
+      setPop(false);
+      if (b.dataset.demo === 'onboard') window.__openOnboarding();
+      if (b.dataset.demo === 'ds') pageLoad('design', () => setDsPage(true));
+      if (b.dataset.demo === 'theme') document.getElementById('theme-btn').click();
+    });
+    always.addEventListener('change', () => { try { localStorage.setItem('shopos-ob-always', always.checked ? '1' : '0'); } catch (_) {} toast(always.checked ? 'Onboarding will open every time the prototype loads' : 'The prototype opens on the feed again'); });
+    document.addEventListener('keydown', (e) => { if ((e.key === 'o' || e.key === 'O') && !e.metaKey && !e.ctrlKey && !e.altKey && !e.target.matches('input,textarea,[contenteditable]') && document.getElementById('ob').hidden) window.__openOnboarding(); });
+    if (pref && location.hash !== '#onboarding') setTimeout(() => window.__openOnboarding(), 80);
+  }
 
   /* ================= onboarding: the feed builds itself ================= */
   (() => {
