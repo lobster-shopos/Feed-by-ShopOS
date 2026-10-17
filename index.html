@@ -4047,8 +4047,45 @@
   .col-tip{display:block}
   .col-tip > span,.col-tip .what{color:var(--tip-fg)!important;font-size:12.5px}
   .col-tip .what{background:none!important;-webkit-text-fill-color:currentColor;animation:none!important}
+  .gtip{white-space:normal!important;max-width:320px;text-wrap:pretty}
   .gtip{position:fixed;z-index:400;left:0;top:0;pointer-events:none;opacity:0;transform:translateY(3px);transition:opacity .14s ease,transform .18s cubic-bezier(.22,1,.36,1)}
   .gtip.on{opacity:1;transform:none}
+
+  /* ---------- notifications: a sentence per event, grouped, nothing cut off ---------- */
+  #notif-fly{width:400px;border-radius:20px}
+  .nf-head{display:flex;align-items:center;gap:8px;padding:16px 16px 4px 20px}
+  .nf-head b{font-size:16px;font-weight:600;color:var(--fg)}
+  .nf-count{min-width:20px;height:20px;padding:0 6px;border-radius:999px;background:var(--fg);color:var(--bg);font-size:11.5px;font-weight:600;display:inline-grid;place-items:center;font-variant-numeric:tabular-nums}
+  .nf-count[hidden]{display:none}
+  .nf-read{margin-left:auto;height:28px;padding:0 10px;border:0;border-radius:999px;background:transparent;color:var(--fg-2);font:inherit;font-size:13px;cursor:pointer;transition:background .15s,color .15s}
+  .nf-read:hover:not(:disabled){background:rgba(var(--ink),.08);color:var(--fg)}
+  .nf-read:disabled{color:var(--fg-4);cursor:default}
+  .nf-tabs{display:flex;gap:4px;padding:8px 16px 6px}
+  .nf-tabs button{height:28px;padding:0 12px;border:0;border-radius:999px;background:transparent;color:var(--fg-2);font:inherit;font-size:13px;cursor:pointer;transition:background .15s,color .15s}
+  .nf-tabs button:hover{color:var(--fg)}
+  .nf-tabs button[aria-selected="true"]{background:rgba(var(--ink),.1);color:var(--fg)}
+  .nf-list{display:block;padding:0 8px 8px;max-height:min(520px,70vh);overflow-y:auto}
+  .nf-g{margin:10px 12px 4px;font-size:12px;font-weight:600;color:var(--fg-3)}
+  .nf-row{position:relative;display:flex;align-items:flex-start;gap:12px;padding:10px 12px;border-radius:14px;cursor:pointer;transition:background .15s;outline:none}
+  .nf-row:hover,.nf-row:focus-visible{background:rgba(var(--ink),.06)}
+  .nf-av{width:32px;height:32px;flex:0 0 auto;margin-top:1px}
+  .nf-t{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+  .nf-s{font-size:14px;line-height:20px;color:var(--fg-2);display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;text-wrap:pretty}
+  .nf-s{color:var(--fg-1)}
+  .nf-row.is-new .nf-s{color:var(--fg);font-weight:500}
+  .nf-m{font-size:12.5px;line-height:16px;color:var(--fg-3)}
+  .nf-side{flex:0 0 22px;position:relative;align-self:stretch;display:flex;justify-content:flex-end}
+  .nf-dot{width:8px;height:8px;margin-top:7px;border-radius:50%;background:var(--fg);display:none}
+  .nf-row.is-new .nf-dot{display:block}
+  .nf-x{position:absolute;top:-2px;right:-6px;width:28px;height:28px;border:0;border-radius:8px;background:var(--s2);color:var(--fg-2);display:grid;place-items:center;cursor:pointer;opacity:0;transform:scale(.9);transition:opacity .15s,transform .15s,background .15s,color .15s}
+  .nf-x svg{width:14px;height:14px}
+  .nf-row:hover .nf-x,.nf-x:focus-visible{opacity:1;transform:none}
+  .nf-x:hover{background:rgba(var(--ink),.14);color:var(--fg)}
+  .nf-row:hover .nf-dot{visibility:hidden}
+  .nf-empty{display:flex;flex-direction:column;align-items:center;gap:10px;padding:32px 20px 36px;margin:0;font-size:14px;color:var(--fg-3);text-align:center}
+  .nf-empty .px{color:var(--fg-3)}
+  :root[data-theme="light"] .nf-x{background:#fff}
+  @media (max-width:600px){ #notif-fly{width:calc(100vw - 24px)} }
   /* ---------- the draft, as a document in the chat ---------- */
   .cm-doc{border-radius:20px;background:var(--s1);border:1px solid var(--s3);overflow:hidden}
   .dc-h{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--s2)}
@@ -6711,39 +6748,60 @@
   const nfPicked = []; const nfSec = new Set();
   FEED_IDS.map(i => ALL_POSTS[i]).forEach(p => { if (p && p.title && nfPicked.length < 7 && (!nfSec.has(p.sector) || nfPicked.length >= 5)) { nfSec.add(p.sector); nfPicked.push(p); } });
   const I_NX = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>';
+  // what each agent did, said as a sentence: the agent is the subject, the card is the object
+  const NF_VERB = { creatives:'posted', ads:'flagged', storefront:'found', visibility:'checked', signals:'heard', catalog:'found' };
+  const nfAgo = (p) => String(p.time).replace('Just now', 'now').replace(' min', 'm').replace(' hr', 'h');
+  let nfTab = 'all';
+  // the card's own headline, without the dangling ':…' some of them carry
+  const nfTitle = (p) => p.title.replace(/\s*[:,]?\s*…$/, '');
+  const nfRow = (p, unread) => `
+      <div class="nf-row${unread ? ' is-new' : ''}" role="button" tabindex="0" data-post="${ALL_POSTS.indexOf(p)}">
+        <img class="nf-av" src="${AG(p.agent).avatar}" alt="">
+        <span class="nf-t"><span class="nf-s">${esc(nfTitle(p))}</span><span class="nf-m">${esc(AG(p.agent).name)} · ${NF_WHAT[p.sector] || 'Update'} · ${esc(nfAgo(p))}</span></span>
+        <span class="nf-side"><i class="nf-dot" aria-label="Unread"></i><button class="nf-x" data-nfx aria-label="Dismiss" title="Dismiss">${I_NX}</button></span>
+      </div>`;
+  const nfState = nfPicked.map((p, i) => ({ p, unread:i <= 2, gone:false }));
   const paintNotifs = () => {
-    const unread = notifFly.querySelectorAll('.notif-row:not(.read)').length;
-    notifFly.querySelector('.nf-count').textContent = unread ? `(${unread})` : '';
-    document.querySelector('.rail-dot')?.toggleAttribute('hidden', unread === 0);
-    const list = notifFly.querySelector('.nf-list');
-    if (!list.querySelector('.notif-row')) list.innerHTML = '<p class="nf-empty">You’re all caught up.</p>';
+    const live = nfState.filter(x => !x.gone), unread = live.filter(x => x.unread);
+    const shown = nfTab === 'unread' ? unread : live;
+    const fresh = shown.filter(x => x.unread), older = shown.filter(x => !x.unread);
+    notifFly.querySelector('.nf-count').textContent = unread.length || '';
+    notifFly.querySelector('.nf-count').hidden = !unread.length;
+    notifFly.querySelectorAll('[data-nftab]').forEach(t => t.setAttribute('aria-selected', String(t.dataset.nftab === nfTab)));
+    notifFly.querySelector('#nf-read').disabled = !unread.length;
+    document.querySelector('.rail-dot')?.toggleAttribute('hidden', unread.length === 0);
+    notifFly.querySelector('.nf-list').innerHTML = shown.length
+      ? (fresh.length ? `<p class="nf-g">New</p>${fresh.map(x => nfRow(x.p, true)).join('')}` : '') + (older.length ? `<p class="nf-g">Earlier</p>${older.map(x => nfRow(x.p, false)).join('')}` : '')
+      : `<p class="nf-empty">${pix('clover', 32)}${nfTab === 'unread' ? 'Nothing unread.' : 'You’re all caught up.'}</p>`;
   };
   notifFly.innerHTML = `
-    <div class="nf-head"><b>Notifications<span class="nf-count"></span></b>
-      <button class="nf-read" id="nf-read">Mark all read</button></div>
-    <div class="nf-list">${nfPicked.map((p, i) => `
-      <button class="notif-row${i > 2 ? ' read' : ''}" data-post="${ALL_POSTS.indexOf(p)}">
-        <span class="ni">${svg(NF_I[p.sector] || NF_I.signals, 16)}</span>
-        <span class="nt"><span>${esc(p.title)}</span><em>${NF_WHAT[p.sector] || 'Update'} · ${esc(AG(p.agent).name)} · ${esc(String(p.time).replace('Just now','now').replace(' min','m').replace(' hr','h'))}</em></span>
-        <span class="nx" role="button" aria-label="Dismiss">${I_NX}</span>
-      </button>`).join('')}</div>`;
+    <div class="nf-head"><b>Notifications</b><span class="nf-count" hidden></span>
+      <button class="nf-read" id="nf-read">Mark all as read</button></div>
+    <div class="nf-tabs" role="tablist"><button role="tab" data-nftab="all">All</button><button role="tab" data-nftab="unread">Unread</button></div>
+    <div class="nf-list"></div>`;
   paintNotifs();
-  notifFly.addEventListener('click', (e) => {
-    if (e.target.closest('#nf-read')) {
-      notifFly.querySelectorAll('.notif-row').forEach(r => r.classList.add('read'));
-      return paintNotifs();
-    }
-    const x = e.target.closest('.nx');
-    if (x) { e.stopPropagation(); x.closest('.notif-row').remove(); return paintNotifs(); }
-    const r = e.target.closest('.notif-row'); if (!r) return;
-    r.classList.add('read'); paintNotifs();
+  const nfOpen = (r) => {
+    const x = nfState.find(y => ALL_POSTS.indexOf(y.p) === +r.dataset.post); if (x) x.unread = false; paintNotifs();
     const wait = layout === 'feed' ? 0 : 700;
     if (layout !== 'feed') setLayout('feed');
     setTimeout(() => {
       const c = document.querySelector(`#feed .card[data-post="${r.dataset.post}"]`);
       if (c) c.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }, wait);
+  };
+  notifFly.addEventListener('click', (e) => {
+    const t = e.target.closest('[data-nftab]'); if (t) { nfTab = t.dataset.nftab; return paintNotifs(); }
+    if (e.target.closest('#nf-read')) { nfState.forEach(x => x.unread = false); return paintNotifs(); }
+    const x = e.target.closest('[data-nfx]');
+    if (x) {
+      e.stopPropagation();
+      const row = x.closest('.nf-row'), st = nfState.find(y => ALL_POSTS.indexOf(y.p) === +row.dataset.post);
+      row.animate([{ opacity:1, transform:'none' }, { opacity:0, transform:'translateX(16px)' }], { duration:200, easing:'ease-in', fill:'forwards' }).onfinish = () => { st.gone = true; paintNotifs(); };
+      return;
+    }
+    const r = e.target.closest('.nf-row'); if (r) nfOpen(r);
   });
+  notifFly.addEventListener('keydown', (e) => { const r = e.target.closest('.nf-row'); if (r && (e.key === 'Enter' || e.key === ' ') && !e.target.closest('[data-nfx]')) { e.preventDefault(); nfOpen(r); } });
 
 
   // ---------- connectors: one list behind the rail flyout and the page ----------
@@ -8157,8 +8215,19 @@
   const gtip = document.createElement('div'); gtip.className = 'gtip'; gtip.setAttribute('role', 'tooltip'); document.body.appendChild(gtip);
   let gtipEl = null, gtipT = 0;
   const gtipHide = () => { clearTimeout(gtipT); gtip.classList.remove('on'); gtipEl = null; };
+  // text cut off by an ellipsis or a line clamp: the tooltip says the whole thing
+  const isCut = (el) => {
+    if (!(el instanceof HTMLElement) || !el.textContent.trim() || el.closest('.gtip')) return false;
+    const cs = getComputedStyle(el);
+    if (cs.textOverflow === 'ellipsis' && el.scrollWidth > el.clientWidth + 1) return true;
+    if (cs.webkitLineClamp && cs.webkitLineClamp !== 'none' && el.scrollHeight > el.clientHeight + 1) return true;
+    return false;
+  };
+  const cutHost = (t) => { for (let el = t, n = 0; el && n < 4; el = el.parentElement, n++) if (isCut(el)) return el; return null; };
   document.addEventListener('pointerover', (e) => {
-    const el = e.target.closest('[title],[data-tip]');
+    let el = e.target.closest('[title],[data-tip]');
+    if (!el) { const c = cutHost(e.target); if (c) { c.dataset.tip = c.textContent.replace(/\s+/g, ' ').trim(); c.dataset.tipAuto = '1'; el = c; } }
+    else if (!el.hasAttribute('title') && el.dataset.tipAuto && !isCut(el)) { delete el.dataset.tip; delete el.dataset.tipAuto; return; }
     if (!el || el === gtipEl) return;
     if (el.hasAttribute('title')) { const t = el.getAttribute('title'); el.removeAttribute('title'); if (t) el.dataset.tip = t; }
     if (!el.dataset.tip) return;
@@ -8283,6 +8352,7 @@
     ['Chats are kept','Ask ShopOS opens empty: no starter prompts. New chat files the current one into History, newest first, and any old chat reopens where it left off.'],
     ['The loader is a beat, not a wait','One random pixel glyph grows in, the page swaps behind the cover, and after about 1.7s the page eases in, piece by piece. Nothing animates under the loader.'],
     ['Tooltips are white and say one thing','Every tooltip, in both themes: white, black text, one short statement. No title line, no second line, no arrow. Anything with a title attribute uses the same tooltip.'],
+    ['Nothing is cut off silently','Anything truncated by an ellipsis or a line clamp shows its full text in the tooltip on hover, automatically. Prefer wrapping to two or three lines over cutting at one.'],
     ['Lighter is louder','Emphasis comes from brightness and weight, not colour. Green is reserved for done and live.']
   ];
   const dsIcons = () => {

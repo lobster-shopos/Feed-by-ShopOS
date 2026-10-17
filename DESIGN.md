@@ -214,6 +214,8 @@ window.BRAND = {
 19. **The loader is a beat, not a wait.** One random pixel glyph (never the same twice running) grows in; the page swaps behind the cover at 360ms; after ~1.7s the cover lifts and the page eases in piece by piece (`revealIn`). Animations never run under the loader.
 20. **Chats are kept.** Ask ShopOS opens with a greeting and nothing else: no starter prompts, no icons. The pen starts a new chat and files the current one into History (the clock), newest first; any chat reopens where it left off.
 21. **Tooltips are white and say one thing.** Every tooltip, in both themes: `--tip-bg` white, `--tip-fg` black, a hairline and a soft shadow, 12.5px/500, radius 8. One short statement — no title line, no subtext, no arrow. Any element with a `title` attribute gets this tooltip (the global `.gtip`), never the browser's own. Chart hovers read as one sentence too ("Day 12: ₹4.2L with this ad, ₹3.9L at today's pace").
+22. **Nothing is cut off silently.** Any text truncated by an ellipsis or a line clamp shows its full text in the white tooltip on hover — automatic, no markup needed (`isCut` in index.html). Prefer wrapping to 2–3 lines over a one-line cut.
+23. **Notifications lead with what happened.** Agent face, then the headline wrapped up to three lines (unread is brighter and 500 weight); agent · area · time underneath. Grouped New / Earlier, with All / Unread tabs. Unread is a white dot (not blue: one accent). Dismiss appears on hover in the dot's place, so nothing shifts.
 
 ---
 
