@@ -4013,17 +4013,28 @@
   .ablob{display:block;width:26px;height:26px}
   .ablob img,.ablob .ab-svg{width:26px;height:26px;display:block;overflow:visible}
   .ab-body,.ab-face,.ab-pupil,.ab-eye{transform-box:fill-box;transform-origin:center}
-  /* working: the body squashes and bobs, the eyes look around and blink */
-  .col-ag.is-on .ab-svg{animation:abBob 1.8s cubic-bezier(.45,0,.55,1) infinite}
-  .col-ag.is-on .ab-body{animation:abSquash 1.8s cubic-bezier(.45,0,.55,1) infinite}
-  .col-ag.is-on .ab-pupil{animation:abLook 4.2s ease-in-out infinite}
-  .col-ag.is-on .ab-face{animation:abBlink 4.2s steps(1,end) infinite}
-  @keyframes abBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-2px)}}
+  /* ---------- agent blobs: one component everywhere (.ablob.is-live moves, .ablob.is-off is grey and still) ---------- */
+  .ablob{--abd:1.8s;--abl:4.2s;--abo:0s;display:inline-block;position:relative;flex:0 0 auto}
+  .ablob[data-blob="performance"]{--abd:1.6s;--abl:3.8s;--abo:-.7s}
+  .ablob[data-blob="storefront"]{--abd:2s;--abl:4.6s;--abo:-1.3s}
+  .ablob[data-blob="visibility"]{--abd:2.2s;--abl:5s;--abo:-2.1s}
+  .ablob[data-blob="crm"]{--abd:1.7s;--abl:4.4s;--abo:-2.8s}
+  .ablob[data-blob="orchestrator"]{--abd:2.4s;--abl:3.6s;--abo:-.4s}
+  /* the orchestrator is near-black: in dark mode it gets a lighter body so it does not vanish */
+  :root:not([data-theme="light"]) .ablob[data-blob="orchestrator"] .ab-body > *{fill:#3a3a3a;stroke:#3a3a3a}
+  .ablob .ab-svg{display:block;width:100%;height:100%;overflow:visible}
+  .ablob.is-live .ab-svg{animation:abBob var(--abd) cubic-bezier(.45,0,.55,1) var(--abo) infinite}
+  .ablob.is-live .ab-body{animation:abSquash var(--abd) cubic-bezier(.45,0,.55,1) var(--abo) infinite}
+  .ablob.is-live .ab-pupil{animation:abLook var(--abl) ease-in-out var(--abo) infinite}
+  .ablob.is-live .ab-face{animation:abBlink var(--abl) steps(1,end) calc(var(--abo) * 1.7) infinite}
+  .ablob.is-live:hover .ab-svg{animation:abHop .5s cubic-bezier(.34,1.5,.64,1) 1}
+  .ablob.is-off{filter:grayscale(1);opacity:.45;transition:filter .4s ease,opacity .4s ease}
+  @keyframes abBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6%)}}
   @keyframes abSquash{0%,100%{transform:scale(1,1)}45%{transform:scale(1.04,.95)}55%{transform:scale(.97,1.04)}}
   @keyframes abLook{0%,18%{transform:translate(0,0)}24%,42%{transform:translate(2.5px,-1px)}48%,64%{transform:translate(-2.5px,0)}70%,86%{transform:translate(1px,1.5px)}92%,100%{transform:translate(0,0)}}
   @keyframes abBlink{0%,61%{transform:scaleY(1)}62%{transform:scaleY(.12)}64%,100%{transform:scaleY(1)}}
-  /* stopped: grey and still */
-  .col-ag.is-off .ablob{filter:grayscale(1);opacity:.45;transition:filter .4s ease,opacity .4s ease}
+  @keyframes abHop{0%{transform:translateY(0) scale(1)}40%{transform:translateY(-16%) scale(1.04,.96)}100%{transform:translateY(0) scale(1)}}
+  @media (prefers-reduced-motion:reduce){ .ablob *{animation:none!important} }
   /* hover: what it is doing */
   .col-tip{position:absolute;left:50%;top:calc(100% + 10px);z-index:30;width:max-content;max-width:240px;padding:9px 12px;border-radius:12px;background:var(--s2);box-shadow:0 0 0 1px var(--line),0 14px 34px rgba(0,0,0,calc(.45 * var(--sh)));display:flex;flex-direction:column;gap:2px;opacity:0;visibility:hidden;transform:translate(-50%,-4px);transition:opacity .18s ease,transform .22s cubic-bezier(.22,1,.36,1),visibility .18s;pointer-events:none}
   :root[data-theme="light"] .col-tip{background:#fff}
@@ -4033,7 +4044,7 @@
   .col-tip .what{background:linear-gradient(100deg,var(--fg-3) 0%,var(--fg-3) 38%,var(--fg) 50%,var(--fg-3) 62%,var(--fg-3) 100%) 0 0/260% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:livesheen 3s linear infinite;transition:opacity .26s ease}
   .col-tip .what.swap{opacity:0}
   body.setup-run .col-ag{display:none}
-  @media (prefers-reduced-motion:reduce){ .col-ag.is-on *{animation:none!important} }
+
 
   /* ---------- tooltips: one look everywhere. White in both themes, one statement, no title line ---------- */
   :root{--tip-bg:#ffffff;--tip-fg:#0a0a0a;--tip-sh:0 0 0 1px rgba(0,0,0,.08),0 8px 24px rgba(0,0,0,.28)}
@@ -4086,6 +4097,136 @@
   .nf-empty .px{color:var(--fg-3)}
   :root[data-theme="light"] .nf-x{background:#fff}
   @media (max-width:600px){ #notif-fly{width:calc(100vw - 24px)} }
+
+  /* ================= onboarding v2 ================= */
+  .ob{position:fixed;inset:0;z-index:120;background:var(--bg);display:flex;flex-direction:column;overflow-y:auto;opacity:0;transition:opacity .35s ease}
+  .ob.on{opacity:1}
+  .ob[hidden]{display:none}
+  body.ob-on{overflow:hidden}
+  .ob-top{position:sticky;top:0;z-index:2;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:16px;height:64px;padding:0 20px;background:linear-gradient(var(--bg) 70%,transparent)}
+  .ob-brand{display:inline-flex;align-items:center;gap:9px}
+  .ob-brand img{width:24px;height:24px}
+  :root[data-theme="light"] .ob-brand img{filter:invert(1) hue-rotate(180deg)}
+  .ob-brand b{font-size:15px;font-weight:600;color:var(--fg)}
+  .ob-steps{grid-column:2;display:flex;gap:6px}
+  .ob-steps[hidden]{display:none}
+  .ob-steps i{width:40px;height:4px;border-radius:2px;background:rgba(var(--ink),.12);transition:background .4s ease}
+  .ob-steps i.on{background:var(--fg)}
+  .ob-skip{grid-column:3;justify-self:end;height:34px;padding:0 14px;border:0;border-radius:999px;background:transparent;color:var(--fg-2);font:inherit;font-size:13.5px;cursor:pointer;transition:background .15s,color .15s}
+  .ob-skip:hover{background:rgba(var(--ink),.08);color:var(--fg)}
+  .ob-read{align-self:center;display:inline-flex;align-items:center;gap:10px;height:36px;padding:0 14px 0 8px;margin-top:4px;border-radius:999px;background:var(--s1);box-shadow:inset 0 0 0 1px var(--line-soft);font-size:13px;color:var(--fg-2);max-width:calc(100vw - 32px)}
+  .ob-read[hidden]{display:none}
+  .ob-read .ablob{width:22px;height:22px}
+  .ob-read em{font-style:normal;color:var(--fg-3);font-variant-numeric:tabular-nums}
+  .ob-rt{background:linear-gradient(100deg,var(--fg-2) 0%,var(--fg-2) 38%,var(--fg) 50%,var(--fg-2) 62%,var(--fg-2) 100%) 0 0/260% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:livesheen 2.6s linear infinite;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .ob-stage{flex:1;display:grid;place-items:center;padding:24px 16px 64px}
+  .ob-pane{width:min(520px,100%);display:flex;flex-direction:column;align-items:center;text-align:center}
+  .ob-pane.is-wide{width:min(600px,100%)}
+  .ob-agents{display:flex;gap:10px;margin-bottom:28px}
+  .ob-agents .ablob{width:36px;height:36px}
+  .ob-agents.is-big{gap:14px}
+  .ob-agents.is-big .ablob{width:48px;height:48px}
+  .ob-k{margin:0 0 12px;font-size:13px;color:var(--fg-3)}
+  .ob-h{margin:0;font-size:40px;line-height:46px;font-weight:600;letter-spacing:-.025em;color:var(--fg);text-wrap:balance}
+  .ob-p{margin:14px 0 0;font-size:16px;line-height:24px;color:var(--fg-2);text-wrap:pretty;max-width:460px}
+  .ob-sub{margin:28px 0 0;font-size:14px;color:var(--fg-2)}
+  .ob-fine{margin:14px 0 0;font-size:13px;color:var(--fg-3)}
+  .ob-url{display:flex;align-items:center;gap:10px;width:100%;height:60px;margin-top:32px;padding:0 8px 0 20px;border-radius:999px;background:var(--s1);box-shadow:inset 0 0 0 1px var(--line);color:var(--fg-3);transition:box-shadow .2s}
+  .ob-url:focus-within{box-shadow:inset 0 0 0 1px var(--fg-3)}
+  .ob-url input{flex:1;min-width:0;height:100%;border:0;background:transparent;color:var(--fg);font:inherit;font-size:16px;outline:none}
+  .ob-go{height:44px;padding:0 22px;border:0;border-radius:999px;background:var(--fg);color:var(--bg);font:inherit;font-size:15px;font-weight:600;cursor:pointer;transition:transform .15s ease,opacity .2s}
+  .ob-go:hover{opacity:.9}
+  .ob-go:active{transform:scale(.97)}
+  .ob-back{height:44px;padding:0 18px;border:0;border-radius:999px;background:transparent;color:var(--fg-2);font:inherit;font-size:15px;cursor:pointer;transition:background .15s,color .15s}
+  .ob-back:hover{background:rgba(var(--ink),.08);color:var(--fg)}
+  .ob-nav{display:flex;justify-content:center;gap:8px;margin-top:32px}
+  .ob-opts{display:flex;flex-direction:column;gap:8px;width:100%;margin-top:28px}
+  .ob-opt{display:flex;align-items:center;gap:14px;width:100%;padding:14px 16px;border:0;border-radius:16px;background:var(--s1);box-shadow:inset 0 0 0 1px var(--line-soft);color:var(--fg);font:inherit;text-align:left;cursor:pointer;transition:box-shadow .2s,background .2s}
+  .ob-opt:hover{background:var(--s2)}
+  .ob-opt.on{box-shadow:inset 0 0 0 1.5px var(--fg)}
+  .ob-opt .ablob{width:32px;height:32px}
+  .ob-opt > span:not(.ablob){flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+  .ob-opt b{font-size:15px;font-weight:500}
+  .ob-opt em{font-style:normal;font-size:13.5px;color:var(--fg-3)}
+  .ob-tick{width:20px;height:20px;border-radius:50%;box-shadow:inset 0 0 0 1.5px var(--fg-4);flex:0 0 auto;transition:box-shadow .2s,background .2s}
+  .ob-opt.on .ob-tick{background:var(--fg);box-shadow:inset 0 0 0 5px var(--fg),inset 0 0 0 20px var(--bg)}
+  .ob-chips{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:20px}
+  .ob-chip{height:40px;padding:0 16px;border:0;border-radius:999px;background:var(--s1);box-shadow:inset 0 0 0 1px var(--line-soft);color:var(--fg-1);font:inherit;font-size:14px;cursor:pointer;transition:background .2s,color .2s,box-shadow .2s}
+  .ob-chip:hover{background:var(--s2)}
+  .ob-chip.on{background:var(--fg);color:var(--bg);box-shadow:none}
+  .ob-cxs{display:flex;flex-direction:column;gap:8px;width:100%;margin-top:28px}
+  .ob-cx{display:flex;align-items:center;gap:14px;padding:14px 14px 14px 16px;border-radius:16px;background:var(--s1);box-shadow:inset 0 0 0 1px var(--line-soft);text-align:left}
+  .ob-cx .lg{width:40px;height:40px;border-radius:11px}
+  .ob-cx > span:not(.ablob){flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+  .ob-cx b{font-size:15px;font-weight:500;color:var(--fg)}
+  .ob-cx em{font-style:normal;font-size:13.5px;color:var(--fg-3)}
+  .ob-cxb{min-width:100px;height:36px;padding:0 16px;border:0;border-radius:999px;background:var(--fg);color:var(--bg);font:inherit;font-size:14px;font-weight:600;cursor:pointer;display:grid;place-items:center}
+  .ob-cxb:disabled{cursor:default}
+  .ob-cxb.on{background:var(--ok-bg);color:var(--ok-fg);box-shadow:inset 0 0 0 1px var(--ok-line)}
+  .ob-list{list-style:none;margin:28px 0 0;padding:6px;width:100%;border-radius:18px;background:var(--s1);box-shadow:inset 0 0 0 1px var(--line-soft);text-align:left}
+  .ob-list li{display:flex;align-items:center;gap:12px;padding:9px 10px}
+  .ob-list li > i{width:18px;height:18px;flex:0 0 auto;border-radius:50%;box-shadow:inset 0 0 0 1.5px var(--fg-4)}
+  .ob-list li.done > i{background:var(--fg);box-shadow:none;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='12'/%3E%3C/svg%3E");position:relative}
+  .ob-list li.done > i::after{content:'';position:absolute;left:6px;top:3.5px;width:4px;height:8px;border:solid var(--bg);border-width:0 2px 2px 0;transform:rotate(45deg)}
+  .ob-list li.now > i{box-shadow:inset 0 0 0 1.5px var(--fg);animation:obnow 1.2s ease-in-out infinite}
+  @keyframes obnow{50%{box-shadow:inset 0 0 0 5px var(--fg)}}
+  .ob-list span{display:flex;flex-direction:column}
+  .ob-list b{font-size:14px;font-weight:500;color:var(--fg)}
+  .ob-list li:not(.done):not(.now) b{color:var(--fg-3)}
+  .ob-list em{font-style:normal;font-size:12.5px;color:var(--fg-3)}
+  .ob-demo{margin-top:18px;border:0;background:none;color:var(--fg-3);font:inherit;font-size:13px;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+  .ob-demo:hover{color:var(--fg-2)}
+  .ob-ready{width:72px;height:72px;margin-bottom:24px;border-radius:22px;background:var(--s1);box-shadow:inset 0 0 0 1px var(--line-soft);display:grid;place-items:center;color:var(--fg)}
+  .ob-pips{display:flex;gap:6px;margin-bottom:22px}
+  .ob-pips i{width:28px;height:4px;border-radius:2px;background:rgba(var(--ink),.12);transition:background .3s}
+  .ob-pips i.done,.ob-pips i.on{background:var(--fg)}
+  .ob-card{width:100%;padding:28px 28px 30px;border-radius:24px;background:var(--s1);box-shadow:inset 0 0 0 1px var(--line-soft);display:flex;flex-direction:column;align-items:center}
+  .ob-card header{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--fg-3)}
+  .ob-card header .ablob{width:24px;height:24px}
+  .ob-card h2{margin:16px 0 0;font-size:28px;line-height:34px;font-weight:600;letter-spacing:-.02em;color:var(--fg);text-wrap:balance}
+  .ob-viz{width:100%;margin-top:26px}
+  .obv-cap{margin:16px 0 0;font-size:14px;line-height:21px;color:var(--fg-2);text-wrap:pretty}
+  .obv-cap b{color:var(--fg);font-weight:600}
+  .obv-rivals{display:flex;flex-wrap:wrap;justify-content:center;gap:8px}
+  .obv-rivals span{height:34px;padding:0 14px;border-radius:999px;background:rgba(var(--ink),.06);color:var(--fg-1);font-size:14px;display:inline-flex;align-items:center}
+  .obv-rivals .is-you{background:var(--fg);color:var(--bg);font-weight:600}
+  .obv-bars{margin-top:24px;text-align:left;display:flex;flex-direction:column;gap:6px}
+  .obv-bars p{margin:8px 0 0;display:flex;align-items:baseline;gap:8px;font-size:13.5px;color:var(--fg-3)}
+  .obv-bars p b{font-size:20px;font-weight:600;color:var(--fg);font-variant-numeric:tabular-nums}
+  .obv-bars i{display:block;height:8px;border-radius:4px;background:rgba(var(--ink),.14);width:0;animation:obbar .9s cubic-bezier(.22,1,.36,1) .3s forwards}
+  .obv-bars i.is-you{background:var(--fg)}
+  @keyframes obbar{to{width:var(--w)}}
+  .obv-dots{display:grid;grid-template-columns:repeat(10,1fr);gap:8px;max-width:340px;margin:0 auto}
+  .obv-dots i{aspect-ratio:1;border-radius:50%;box-shadow:inset 0 0 0 1.5px var(--fg-4);animation:obdot .4s ease both}
+  .obv-dots i{animation-delay:calc(var(--n,0) * 35ms + .2s)}
+  @keyframes obdot{from{opacity:0;transform:scale(.6)}}
+  .obv-q{margin:0;padding:0;font-size:22px;line-height:31px;font-weight:500;color:var(--fg);text-wrap:balance;letter-spacing:-.01em}
+  .obv-price{display:flex;justify-content:center;gap:12px}
+  .obv-price p{margin:0;flex:1;max-width:180px;padding:16px;border-radius:16px;background:rgba(var(--ink),.05);display:flex;flex-direction:column;gap:4px}
+  .obv-price span{font-size:13px;color:var(--fg-3)}
+  .obv-price b{font-size:28px;font-weight:600;color:var(--fg);font-variant-numeric:tabular-nums}
+  .obv-price .is-you{background:var(--fg)}
+  .obv-price .is-you span{color:var(--bg);opacity:.7}
+  .obv-price .is-you b{color:var(--bg)}
+  .obv-steps{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:6px}
+  .obv-steps span{height:34px;padding:0 12px;border-radius:999px;background:rgba(var(--ink),.06);color:var(--fg-1);font-size:13.5px;display:inline-flex;align-items:center}
+  .obv-steps span.is-slow{background:var(--fg);color:var(--bg);font-weight:600}
+  .obv-steps i{width:10px;height:1.5px;background:var(--fg-4)}
+  @media (max-width:600px){
+    .ob-h{font-size:30px;line-height:36px}
+    .ob-card{padding:22px 18px 24px}
+    .ob-card h2{font-size:22px;line-height:28px}
+    .ob-steps i{width:24px}
+    .ob-brand b{display:none}
+    .ob-url{height:54px}
+  }
+  .ds-agents{display:flex;flex-wrap:wrap;gap:12px}
+  .ds-ag{width:150px;padding:20px 12px 16px;border-radius:16px;background:var(--s1);box-shadow:inset 0 0 0 1px var(--line-soft);display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center}
+  .ds-ag .ablob{width:56px;height:56px;margin-bottom:6px}
+  .ds-ag b{font-size:13.5px;font-weight:500;color:var(--fg)}
+  .ds-ag code{font-size:11.5px;color:var(--fg-3)}
+  .ds-agents.is-small .ds-ag{width:auto;padding:12px}
+  .ds-agents.is-small .ablob{width:32px;height:32px;margin:0}
   /* ---------- the draft, as a document in the chat ---------- */
   .cm-doc{border-radius:20px;background:var(--s1);border:1px solid var(--s3);overflow:hidden}
   .dc-h{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--s2)}
@@ -4520,6 +4661,16 @@
   </div>
 </aside>
 
+
+<section class="ob" id="ob" hidden aria-label="Set up your feed">
+  <header class="ob-top">
+    <span class="ob-brand"><img data-brand="product.mark" alt=""><b>ShopOS</b></span>
+    <div class="ob-steps" id="ob-steps" hidden><i></i><i></i><i></i></div>
+    <button class="ob-skip" id="ob-skip" type="button">Skip to my feed</button>
+  </header>
+  <div class="ob-read" id="ob-read" hidden></div>
+  <main class="ob-stage" id="ob-stage"></main>
+</section>
 <section class="start" id="start">
   <div class="start-in">
 
@@ -5424,13 +5575,15 @@
   };
   Promise.all(Object.entries(BRAND.agents).map(([k, url]) => fetch(url).then(r => r.text()).then(t => { BLOB_SVG[k] = blobPrep(t); }).catch(() => {})))
     .then(() => document.querySelectorAll('[data-blob]').forEach(el => { if (BLOB_SVG[el.dataset.blob]) el.innerHTML = BLOB_SVG[el.dataset.blob]; }));
-  const blob = (k) => `<span class="ablob" data-blob="${k}">${BLOB_SVG[k] || `<img src="${BRAND.agents[k] || ''}" alt="">`}</span>`;
+  // blob(agent, live): the agent's face, inlined so it can move. live = working (moves), false = stopped (grey, still)
+  const blob = (k, live = true) => `<span class="ablob ${live ? 'is-live' : 'is-off'}" data-blob="${k}">${BLOB_SVG[k] || `<img src="${BRAND.agents[k] || ''}" alt="">`}</span>`;
+  window.blob = blob;
   var streamAt = window.__streamAt = window.__streamAt || {};
   const colBlobHTML = (k) => {
     const st = SECTOR_STATE[k] || { on:false, note:'' };
     const lead = SECTOR_LEAD[k], a = AG(lead);
     const line = st.on ? `<span class="what">${esc(st.stream[streamAt[k] || 0])}</span>` : `<span>${esc(st.note || 'Not running')}</span>`;  // one statement, nothing else
-    return `<span class="col-ag ${st.on ? 'is-on' : 'is-off'}" data-sector="${k}" tabindex="0" aria-label="${esc(a.name)}: ${st.on ? 'working' : 'not working'}">${blob(lead)}<span class="col-tip">${line}</span></span>`;
+    return `<span class="col-ag ${st.on ? 'is-on' : 'is-off'}" data-sector="${k}" tabindex="0" aria-label="${esc(a.name)}: ${st.on ? 'working' : 'not working'}">${blob(lead, st.on)}<span class="col-tip">${line}</span></span>`;
   };
   const colAgentHTML = (k) => {
     const st = SECTOR_STATE[k] || { on:false, note:'' };
@@ -6641,6 +6794,7 @@
   histEl.addEventListener('click', (e) => { const r = e.target.closest('[data-chat]'); if (r) openHistChat(CHAT_HIST[+r.dataset.chat]); });
   // the composer: pick a model, send, or start from an example
   const askSend = () => {
+    { const q0 = document.getElementById('chat-q'); if (q0 && /^\/onboarding\s*$/i.test(q0.value)) { q0.value = ''; setChat(false); return window.__openOnboarding(); } }
     { const q0 = document.getElementById('chat-q'); if (q0 && /^\/design[- ]?system\s*$/i.test(q0.value)) { q0.value = ''; setChat(false); return pageLoad('design', () => setDsPage(true)); } }
     const q = document.getElementById('chat-q');
     const text = q.value.trim();
@@ -8353,6 +8507,8 @@
     ['The loader is a beat, not a wait','One random pixel glyph grows in, the page swaps behind the cover, and after about 1.7s the page eases in, piece by piece. Nothing animates under the loader.'],
     ['Tooltips are white and say one thing','Every tooltip, in both themes: white, black text, one short statement. No title line, no second line, no arrow. Anything with a title attribute uses the same tooltip.'],
     ['Nothing is cut off silently','Anything truncated by an ellipsis or a line clamp shows its full text in the tooltip on hover, automatically. Prefer wrapping to two or three lines over cutting at one.'],
+    ['Agents are alive','Every agent face is a blob(): working ones bob, squash, look around and blink, each on its own clock; stopped ones are grey and still. Never a static avatar where the agent is doing something.'],
+    ['Onboarding asks while it reads','Website first, then three quick questions while the agents read in the background. Then we say plainly it takes about an hour and let people leave. When it is ready: five findings, one card at a time, then the feed. Centred, one thing per screen.'],
     ['Lighter is louder','Emphasis comes from brightness and weight, not colour. Green is reserved for done and live.']
   ];
   const dsIcons = () => {
@@ -8373,7 +8529,7 @@
       <header class="cx-top ds-top">
         <div><p class="ds-k">Design system</p><h1 id="ds-title">${esc(BRAND.product.name)} Feed</h1>
         <p>The Feed is where a brand’s agents post drafts: creatives, pages, emails, store changes, and what competitors are doing. You act on a card in one of four ways: want more like it, shortlist it, jam with the team, or press its own button. Jam opens a chat with an orchestrator that hands work to agents, shows every version, and ends in a brief you send to the team, or a publish that connects the account first. Everything on this page is the visual language that holds it together.</p></div>
-        <nav class="ds-nav">${['colour','type','shape','motion','icons','pixels','components','assets','rules'].map(k => `<a href="#ds-${k}">${k[0].toUpperCase() + k.slice(1)}</a>`).join('')}</nav>
+        <nav class="ds-nav">${['colour','type','shape','motion','icons','pixels','agents','components','assets','rules'].map(k => `<a href="#ds-${k}">${k[0].toUpperCase() + k.slice(1)}</a>`).join('')}</nav>
       </header>
       ${dsSec('colour', 'Colour', 'Every grey is a token on <code>:root</code>; the light theme redefines them under <code>html[data-theme="light"]</code>. The swatch is live; the two hexes are what it resolves to in each theme. Light follows Apple’s system colours: a grouped background, white cells, the systemGray scale, hairline separators.', `
         <div class="ds-grid ds-tokens">${DS_TOKENS.map(([t, d, l, u]) => `<div class="ds-tok"><i style="background:var(${t})"></i><b>${t}</b><span><em>${d}</em><em>${l}</em></span><small>${u}</small></div>`).join('')}</div>
@@ -8392,6 +8548,10 @@
         <div class="ds-icons">${dsIcons().map(([k, m]) => `<button class="ds-ic" type="button" title="${k}">${m}<span>${k}</span></button>`).join('')}</div>`)}
       ${dsSec('pixels', 'Pixel set', 'The brand’s small illustrations: filled, on a 300 grid, coloured by <code>currentColor</code>. They mark empty states, the page loader and the Ask suggestions. Each has one stepped animation: plants grow, sparkles twinkle, the heart beats. Click one to replay it. Glyphs live in <code>pixels.js</code>; draw with <code>pix(name, size)</code>.', `
         <div class="ds-icons ds-pix">${Object.keys(window.PIXELS || {}).map(k => `<button class="ds-ic" type="button" data-dspix="${k}" title="${k}">${pix(k, 56)}<span>${k} · ${PIX_ANIM[k] || 'none'}</span></button>`).join('')}</div>`)}
+      ${dsSec('agents', 'Agents', 'Each agent is a blob with eyes. Working, it bobs, squashes, looks around and blinks, each on its own clock so a row never moves in step. Stopped, it is grey and still. Hover one to make it hop. Draw with <code>blob(key, live)</code>; the faces are the SVGs in <code>BRAND.agents</code>.', `
+        <div class="ds-agents">${Object.keys(BRAND.agents).map(k => `<div class="ds-ag">${blob(k, true)}<b>${esc((AGENTS[k] || { name:'Orchestrator' }).name)}</b><code>blob('${k}')</code></div>`).join('')}</div>
+        <p class="ds-k" style="margin-top:22px">Stopped</p>
+        <div class="ds-agents is-small">${Object.keys(BRAND.agents).map(k => `<div class="ds-ag">${blob(k, false)}</div>`).join('')}</div>`)}
       ${dsSec('components', 'Components', 'Live instances, built from the tokens above. Everything here is the real component, not a picture of it.', `
         <h3>Buttons and chips</h3>
         <div class="ds-row"><button class="ab-go">Primary</button><button class="ab-edit">Quiet</button><button class="st-chip is-brief">${I_NOTE}View brief<span class="qn">2</span></button><button class="st-chip is-pub">${I_PUB}Publish to Meta</button><button class="st-chip">${I_SPARK}Make it shorter</button><span class="st-chip is-sent">${I_OK} Sent to the team</span><button class="mem-btn">Back to chat</button></div>
@@ -9217,6 +9377,170 @@
     if (tb) { dwTab = tb.dataset.dwtab; paintDrawer(); }
   });
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeDrawer(); });
+
+
+  /* ================= onboarding v2: ask while we read, then wait honestly, then five things we found ================= */
+  (() => {
+    const ob = document.getElementById('ob'), stage = document.getElementById('ob-stage'), readEl = document.getElementById('ob-read'), stepsEl = document.getElementById('ob-steps');
+    const AGS = ['creative', 'performance', 'storefront', 'visibility', 'crm'];
+    const READ = [
+      ['Open the store', '179 pages, 5 key pages'], ['Read the brand', '1 logo, 3 colours, Geist'], ['Pull the catalog', '78 products, 52 collections'],
+      ['Read what customers say', '79,353 reviews and ratings'], ['Find live ads, yours and rivals', '1,585 yours, 3,332 from 5 rivals'],
+      ['Walk the path to checkout', '5 steps, timed'], ['Ask the AI tools', '20 questions, 4 AI tools']
+    ];
+    const ROLES = [
+      ['founder', 'orchestrator', 'Founder or CEO', 'The growth plan, big calls and rivals'],
+      ['growth', 'performance', 'Growth and performance', 'Ads: stop, scale, budgets and tired ads'],
+      ['brand', 'creative', 'Brand and creative', 'Hooks, ads, films, founder posts and creators'],
+      ['store', 'storefront', 'E-commerce and storefront', 'Product pages, checkout and marketplaces'],
+      ['crm', 'crm', 'Retention and CRM', 'Reorders, messages, reviews and loyalty']
+    ];
+    const FIRST = ['Ideas to make', 'Decisions to approve', 'What works and what doesn’t', 'Watch the rivals'];
+    const PUSH = ['MitoActive serum', 'Hair Growth Intensive Serum', 'Anti-Hair Fall Shampoo', 'Damage Defence Shampoo', 'The two-bottle routine'];
+    const FOUND = [
+      { ag:'creative', area:'Brand', h:'You’re Arata. These five are after the same shopper.',
+        viz:() => `<div class="obv-rivals"><span class="is-you">Arata</span><span>Minimalist</span><span>Traya</span><span>Mamaearth</span><span>Bare Anatomy</span><span>Man Matters</span></div>
+          <div class="obv-bars"><p><b>3,332</b><span>live ads from the five of them</span></p><i style="--w:100%"></i><p><b>1,585</b><span>live ads from you</span></p><i class="is-you" style="--w:48%"></i></div>` },
+      { ag:'visibility', area:'AI answers', h:'Ask an AI for the best hair fall shampoo in India. Arata doesn’t come up.',
+        viz:() => `<div class="obv-dots">${Array.from({ length:20 }, (_, i) => `<i style="--n:${i}"></i>`).join('')}</div><p class="obv-cap">Named in <b>0 of 20</b> answers when the shopper didn’t ask for you by name. <b>12 of 12</b> when they did.</p>` },
+      { ag:'creative', area:'What customers say', h:'Your customers already wrote your next ad.',
+        viz:() => `<blockquote class="obv-q">“Not an overnight miracle, but a steady drop in hair fall within a month.”</blockquote><p class="obv-cap">One of <b>51,419</b> reviews. Your live ads don’t use a single line from them.</p>` },
+      { ag:'performance', area:'Price', h:'Minimalist sells its hair serum at ₹854. Yours is ₹642, and no ad says so.',
+        viz:() => `<div class="obv-price"><p><span>Minimalist</span><b>₹854</b></p><p class="is-you"><span>Arata</span><b>₹642</b></p></div><p class="obv-cap">25% cheaper for the same promise.</p>` },
+      { ag:'storefront', area:'Checkout', h:'It takes five steps to buy on arata.in. We timed every one.',
+        viz:() => `<div class="obv-steps">${['Product', 'Cart', 'Login', 'Address', 'Pay'].map((x, i) => `<span${i === 2 ? ' class="is-slow"' : ''}>${x}</span>`).join('<i></i>')}</div><p class="obv-cap">The login step is where most people stop. Storefront manager has two ways round it.</p>` }
+    ];
+    let st = { step:0, role:'founder', first:new Set(['Ideas to make']), push:new Set(['MitoActive serum']), cx:{}, read:0, card:0 };
+    let readT = 0;
+    const NAME = 'Arata';
+
+    const swap = (html, dir = 1) => {
+      const old = stage.firstElementChild;
+      const put = () => {
+        stage.innerHTML = html;
+        const n = stage.firstElementChild; if (!n) return;
+        n.animate([{ opacity:0, transform:`translateY(${14 * dir}px)` }, { opacity:1, transform:'none' }], { duration:520, easing:'cubic-bezier(.22,1,.36,1)' });
+        [...n.querySelectorAll('.ob-in')].forEach((el, i) => el.animate([{ opacity:0, transform:'translateY(10px)' }, { opacity:1, transform:'none' }], { duration:480, delay:80 + i * 50, easing:'cubic-bezier(.22,1,.36,1)', fill:'backwards' }));
+      };
+      if (!old) return put();
+      old.animate([{ opacity:1, transform:'none' }, { opacity:0, transform:`translateY(${-10 * dir}px)` }], { duration:200, easing:'ease-in', fill:'forwards' }).onfinish = put;
+    };
+    const paintRead = () => {
+      const done = Math.min(st.read, READ.length), cur = READ[Math.min(st.read, READ.length - 1)];
+      readEl.innerHTML = done >= READ.length
+        ? `${blob('orchestrator', false)}<span>Read ${esc(NAME)}: ${READ.length} of ${READ.length} done</span>`
+        : `${blob(AGS[st.read % AGS.length])}<span class="ob-rt">${esc(cur[0])} on arata.in</span><em>${done} of ${READ.length}</em>`;
+    };
+    const tickRead = () => { st.read++; paintRead(); if (st.read < READ.length) readT = setTimeout(tickRead, 5200); };
+    const progress = (n) => { stepsEl.hidden = n < 1 || n > 3; stepsEl.querySelectorAll('i').forEach((x, i) => x.classList.toggle('on', i < n)); };
+
+    const sUrl = () => `<div class="ob-pane">
+        <div class="ob-agents ob-in">${AGS.map(k => blob(k)).join('')}</div>
+        <h1 class="ob-h ob-in">Your store’s marketing team, in one feed.</h1>
+        <p class="ob-p ob-in">Add your website. Five agents read your store, reviews, rivals and AI answers, and come back with ideas.</p>
+        <form class="ob-url ob-in" id="ob-urlf"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+          <input id="ob-urli" value="arata.in" autocomplete="off" spellcheck="false" aria-label="Your website"><button class="ob-go" type="submit">Start</button></form>
+        <p class="ob-fine ob-in">Takes about a minute of your time. The reading happens after.</p>
+      </div>`;
+    const sRole = () => `<div class="ob-pane">
+        <p class="ob-k ob-in">1 of 3 · While we read arata.in</p>
+        <h1 class="ob-h ob-in">Who’s this feed for?</h1>
+        <p class="ob-p ob-in">Every card is ranked and worded for this seat. You can switch any time.</p>
+        <div class="ob-opts ob-in" role="radiogroup">${ROLES.map(([k, ag, t, d]) => `<button type="button" class="ob-opt${st.role === k ? ' on' : ''}" role="radio" aria-checked="${st.role === k}" data-role="${k}">${blob(ag, st.role === k)}<span><b>${t}</b><em>${d}</em></span><i class="ob-tick"></i></button>`).join('')}</div>
+        <div class="ob-nav ob-in"><button class="ob-go" data-obnext>Next</button></div>
+      </div>`;
+    const sFirst = () => `<div class="ob-pane">
+        <p class="ob-k ob-in">2 of 3 · While we read arata.in</p>
+        <h1 class="ob-h ob-in">What should come first?</h1>
+        <p class="ob-p ob-in">Pick up to two.</p>
+        <div class="ob-chips ob-in">${FIRST.map(x => `<button type="button" class="ob-chip${st.first.has(x) ? ' on' : ''}" data-first="${esc(x)}">${esc(x)}</button>`).join('')}</div>
+        <p class="ob-sub ob-in">We found 78 products. Which are you pushing?</p>
+        <div class="ob-chips ob-in">${PUSH.map(x => `<button type="button" class="ob-chip${st.push.has(x) ? ' on' : ''}" data-push="${esc(x)}">${esc(x)}</button>`).join('')}</div>
+        <div class="ob-nav ob-in"><button class="ob-back" data-obback>Back</button><button class="ob-go" data-obnext>Next</button></div>
+      </div>`;
+    const cxRowOb = (id) => { const c = CONNECTORS.find(x => x.id === id), on = st.cx[id] === 'on', busy = st.cx[id] === 'busy';
+      return `<div class="ob-cx">${lg(c, true)}<span><b>${esc(c.name)}</b><em>${esc(c.short)}</em></span><button type="button" class="ob-cxb${on ? ' on' : ''}" data-obcx="${id}"${on || busy ? ' disabled' : ''}>${on ? 'Connected' : busy ? '<i class="src-spin"></i>' : 'Connect'}</button></div>`; };
+    const sTools = () => `<div class="ob-pane">
+        <p class="ob-k ob-in">3 of 3 · While we read arata.in</p>
+        <h1 class="ob-h ob-in">Connect your tools</h1>
+        <p class="ob-p ob-in">Cards swap our estimates for your real numbers. Optional, and you can do it later from any card.</p>
+        <div class="ob-cxs ob-in">${['shopify', 'meta'].map(cxRowOb).join('')}</div>
+        <div class="ob-nav ob-in"><button class="ob-back" data-obback>Back</button><button class="ob-go" data-obnext>Done</button></div>
+      </div>`;
+    const sWait = () => `<div class="ob-pane">
+        <div class="ob-agents is-big ob-in">${AGS.map(k => blob(k)).join('')}</div>
+        <h1 class="ob-h ob-in">Your agents are on it.</h1>
+        <p class="ob-p ob-in">Reading a whole store properly takes about an hour. You don’t need to stay. We’ll email you and ping you here the moment your feed is ready.</p>
+        <ul class="ob-list ob-in">${READ.map(([t, d], i) => `<li class="${i < st.read ? 'done' : i === st.read ? 'now' : ''}"><i></i><span><b>${t}</b><em>${i < st.read ? d : i === st.read ? 'Reading now' : 'Next'}</em></span></li>`).join('')}</ul>
+        <div class="ob-nav is-center ob-in"><button class="ob-go" data-obleave>Got it</button></div>
+        <button class="ob-demo ob-in" data-obready>Demo: jump to when it’s ready</button>
+      </div>`;
+    const sLeft = () => `<div class="ob-pane">
+        <div class="ob-agents ob-in">${AGS.map(k => blob(k)).join('')}</div>
+        <h1 class="ob-h ob-in">We’ll let you know.</h1>
+        <p class="ob-p ob-in">Your agents keep reading in the background. Nothing for you to do until then.</p>
+        <button class="ob-demo ob-in" data-obready>Demo: jump to when it’s ready</button>
+      </div>`;
+    const sReady = () => `<div class="ob-pane">
+        <div class="ob-ready ob-in">${pix('sparkle', 40, 'twinkle')}</div>
+        <h1 class="ob-h ob-in">Your feed is ready.</h1>
+        <p class="ob-p ob-in">Before you open it: while reading ${esc(NAME)}, your agents found five things worth knowing.</p>
+        <div class="ob-nav is-center ob-in"><button class="ob-go" data-obcards>Show me</button></div>
+      </div>`;
+    const sCard = () => { const f = FOUND[st.card], last = st.card === FOUND.length - 1;
+      return `<div class="ob-pane is-wide">
+        <div class="ob-pips ob-in">${FOUND.map((_, i) => `<i class="${i < st.card ? 'done' : i === st.card ? 'on' : ''}"></i>`).join('')}</div>
+        <article class="ob-card ob-in">
+          <header>${blob(f.ag)}<span>${esc(AG(f.ag).name)} · ${esc(f.area)}</span></header>
+          <h2>${esc(f.h)}</h2>
+          <div class="ob-viz">${f.viz()}</div>
+        </article>
+        <div class="ob-nav is-center ob-in">${st.card ? '<button class="ob-back" data-obprev>Back</button>' : ''}${last ? '<button class="ob-go" data-obfeed>Open my feed</button>' : '<button class="ob-go" data-obcard>Next</button>'}</div>
+      </div>`; };
+    const SCREENS = [sUrl, sRole, sFirst, sTools, sWait];
+    const go = (n, dir = 1) => { st.step = n; progress(n); readEl.hidden = !(n >= 1 && n <= 3); swap(SCREENS[n](), dir); };
+
+    const open = () => {
+      st = { step:0, role:'founder', first:new Set(['Ideas to make']), push:new Set(['MitoActive serum']), cx:{}, read:0, card:0 };
+      clearTimeout(readT); ob.hidden = false; document.body.classList.add('ob-on'); stage.innerHTML = ''; go(0);
+      requestAnimationFrame(() => ob.classList.add('on'));
+      if (location.hash !== '#onboarding') history.replaceState(null, '', '#onboarding');
+    };
+    const close = () => {
+      clearTimeout(readT);
+      pageLoad('feed', () => { ob.hidden = true; ob.classList.remove('on'); document.body.classList.remove('ob-on'); if (location.hash === '#onboarding') history.replaceState(null, '', location.pathname); });
+    };
+    window.__openOnboarding = open;
+
+    ob.addEventListener('submit', (e) => { if (e.target.id !== 'ob-urlf') return; e.preventDefault(); st.read = 0; paintRead(); readT = setTimeout(tickRead, 2400); go(1); });
+    ob.addEventListener('click', (e) => {
+      const t = e.target;
+      if (t.closest('#ob-skip')) return close();
+      const r = t.closest('[data-role]');
+      if (r) { st.role = r.dataset.role; ob.querySelectorAll('[data-role]').forEach(b => { const on = b === r; b.classList.toggle('on', on); b.setAttribute('aria-checked', on); const bl = b.querySelector('.ablob'); bl.classList.toggle('is-live', on); bl.classList.toggle('is-off', !on); }); return; }
+      const fc = t.closest('[data-first]');
+      if (fc) { const v = fc.dataset.first; if (st.first.has(v)) st.first.delete(v); else { if (st.first.size >= 2) st.first.delete([...st.first][0]); st.first.add(v); } ob.querySelectorAll('[data-first]').forEach(b => b.classList.toggle('on', st.first.has(b.dataset.first))); return; }
+      const pc = t.closest('[data-push]');
+      if (pc) { const v = pc.dataset.push; st.push.has(v) ? st.push.delete(v) : st.push.add(v); pc.classList.toggle('on', st.push.has(v)); return; }
+      const cb = t.closest('[data-obcx]');
+      if (cb) { const id = cb.dataset.obcx; st.cx[id] = 'busy'; cb.outerHTML; ob.querySelector('.ob-cxs').innerHTML = ['shopify', 'meta'].map(cxRowOb).join(''); setTimeout(() => { st.cx[id] = 'on'; if (typeof cxState !== 'undefined') cxState[id] = 'on'; const box = ob.querySelector('.ob-cxs'); if (box) box.innerHTML = ['shopify', 'meta'].map(cxRowOb).join(''); }, 1100); return; }
+      if (t.closest('[data-obnext]')) return go(st.step + 1);
+      if (t.closest('[data-obback]')) return go(st.step - 1, -1);
+      if (t.closest('[data-obleave]')) return swap(sLeft());
+      if (t.closest('[data-obready]')) { clearTimeout(readT); st.read = READ.length; return swap(sReady()); }
+      if (t.closest('[data-obcards]')) { st.card = 0; return swap(sCard()); }
+      if (t.closest('[data-obcard]')) { st.card++; return swap(sCard()); }
+      if (t.closest('[data-obprev]')) { st.card--; return swap(sCard(), -1); }
+      if (t.closest('[data-obfeed]')) return close();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (ob.hidden || e.target.matches('input')) return;
+      if (e.key === 'ArrowRight') ob.querySelector('[data-obcard],[data-obnext]')?.click();
+      if (e.key === 'ArrowLeft') ob.querySelector('[data-obprev],[data-obback]')?.click();
+    });
+    if (location.hash === '#onboarding') setTimeout(open, 60);
+    window.addEventListener('hashchange', () => { if (location.hash === '#onboarding' && ob.hidden) open(); });
+  })();
 
   /* ================= onboarding: the feed builds itself ================= */
   (() => {

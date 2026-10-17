@@ -216,6 +216,8 @@ window.BRAND = {
 21. **Tooltips are white and say one thing.** Every tooltip, in both themes: `--tip-bg` white, `--tip-fg` black, a hairline and a soft shadow, 12.5px/500, radius 8. One short statement — no title line, no subtext, no arrow. Any element with a `title` attribute gets this tooltip (the global `.gtip`), never the browser's own. Chart hovers read as one sentence too ("Day 12: ₹4.2L with this ad, ₹3.9L at today's pace").
 22. **Nothing is cut off silently.** Any text truncated by an ellipsis or a line clamp shows its full text in the white tooltip on hover — automatic, no markup needed (`isCut` in index.html). Prefer wrapping to 2–3 lines over a one-line cut.
 23. **Notifications lead with what happened.** Agent face, then the headline wrapped up to three lines (unread is brighter and 500 weight); agent · area · time underneath. Grouped New / Earlier, with All / Unread tabs. Unread is a white dot (not blue: one accent). Dismiss appears on hover in the dot's place, so nothing shifts.
+24. **Agents are alive.** Every agent face is `blob(key, live)`: the SVG is inlined so the body can bob and squash, the pupils look around and the eyes blink. Each agent runs on its own clock (`--abd`, `--abl`, `--abo` per `data-blob`), so a row never moves in step. Hover a live one and it hops. `live=false` is greyscale at 45%, still. The near-black orchestrator gets a #3a3a3a body in dark mode.
+25. **Onboarding asks while it reads.** Website → three questions (role, what comes first + what you're pushing, connect tools) while a pill at the top shows the reading → an honest wait screen (about an hour; you can leave; we'll email and ping) → "Your feed is ready" → five findings, one card at a time → the feed. Centred, one thing per screen, 520–600px column.
 
 ---
 
@@ -227,6 +229,18 @@ window.BRAND = {
 - **A new component**: build from `--s1…--s4`, `--fg…--fg-4`, `rgba(var(--ink),…)`, the radius scale and the five curves. If it needs a new hex, add it to section 3 first.
 - **A new rule**: add it to section 9 and to `DS_RULES` in `index.html` so the live page shows it.
 
+## 10b. Onboarding
+
+Open it at `index.html#onboarding`, or type `/onboarding` in Ask ShopOS. Code: the `onboarding v2` block in index.html (`#ob`, `sUrl`, `sRole`, `sFirst`, `sTools`, `sWait`, `sReady`, `sCard`, `FOUND`). The old URL-and-setup-run flow is still in the file behind `SKIP_ONBOARDING = true`.
+
+| Screen | What it does |
+|---|---|
+| Website | Five live agent blobs, the promise, one URL field. "Takes about a minute of your time. The reading happens after." |
+| 1–3 of 3 | Questions asked *while* reading. A pill at the top shows the current read step and a count. Step bars in the header. |
+| On it | Honest about time (about an hour), lists the seven read steps, "Got it" lets you leave. |
+| Ready | "Your feed is ready" — the moment we'd notify by email/push. |
+| Five findings | One card per screen: rivals, AI answers, customer words, price, checkout. Agent + area kicker, one-line headline, a small visual. Arrow keys work. Last card opens the feed through the loader. |
+
 ## 11. Known fakes
 
-The prototype is a prototype. These are invented and should not be mistaken for data: every number on cards and in projections; the drafts (prices, reviewer names, discount codes, "7.4x less hair fall"); the team (Riya, Kabir, Meera, Dev); brief numbers; the signature ("Vedant"); the model selector (Auto/Claude/GPT/Gemini does nothing); Ask ShopOS answers (every new question gets the same canned reply; the four history chats are written);  voice input (the mic shows a waveform for two seconds, then types one of four canned sentences); the stop button while a run is going; typed requests the draft engine has no recipe for (they get the next pre-written rewrite, labelled with your words).
+The prototype is a prototype. These are invented and should not be mistaken for data: every number on cards and in projections; the drafts (prices, reviewer names, discount codes, "7.4x less hair fall"); the team (Riya, Kabir, Meera, Dev); brief numbers; the signature ("Vedant"); the model selector (Auto/Claude/GPT/Gemini does nothing); everything in onboarding (the read steps and counts, the rivals, ₹854 vs ₹642, the 0 of 20 AI answers, the review quote, the five-step checkout — taken from the Brew × Arata demo or invented, and not checked against the live store; the wait is a timer and the demo link skips it); Ask ShopOS answers (every new question gets the same canned reply; the four history chats are written);  voice input (the mic shows a waveform for two seconds, then types one of four canned sentences); the stop button while a run is going; typed requests the draft engine has no recipe for (they get the next pre-written rewrite, labelled with your words).
