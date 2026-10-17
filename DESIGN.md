@@ -8,13 +8,13 @@ Two themes. Dark is the default; the sun/moon in the top bar switches, and the c
 
 | Token | Dark | Light | Use |
 |---|---|---|---|
-| `--bg` | `#0a0a0a` | `#f4f4f2` | The page |
+| `--bg` | `#0a0a0a` | `#e9e9e6` | The page |
 | `--s1` | `#151515` | `#ffffff` | A card on the page |
-| `--s2` | `#1a1a1a` | `#f1f1ee` | A block inside a card, a hover on a card |
-| `--s3` | `#262626` | `#e7e7e3` | A chip, a pressed state, your own chat bubble |
-| `--s4` | `#2e2e2e` | `#d9d9d4` | A line that must be seen |
-| `--line` | `#262626` | `#e3e3df` | Card borders |
-| `--line-soft` | `#1f1f1f` | `#ebebe7` | Dividers inside cards |
+| `--s2` | `#1a1a1a` | `#f3f3f0` | A block inside a card, a hover on a card |
+| `--s3` | `#262626` | `#e4e4df` | A chip, a pressed state, your own chat bubble |
+| `--s4` | `#2e2e2e` | `#d2d2cc` | A line that must be seen |
+| `--line` | `#262626` | `#d6d6d0` | Card borders |
+| `--line-soft` | `#1f1f1f` | `#e6e6e1` | Dividers inside cards |
 | `--fg` | `#fafafa` | `#0f0f0f` | Headlines, primary text, the primary button |
 | `--fg-1` | `#d4d4d4` | `#333331` | Body text in documents and drafts |
 | `--fg-2` | `#a3a3a3` | `#5f5f5b` | Secondary text, labels |

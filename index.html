@@ -39,8 +39,8 @@
   }
   :root[data-theme="light"]{
     color-scheme:light;
-    --bg:#f4f4f2;--s1:#ffffff;--s2:#f1f1ee;--s3:#e7e7e3;--s4:#d9d9d4;
-    --line:#e3e3df;--line-soft:#ebebe7;
+    --bg:#e9e9e6;--s1:#ffffff;--s2:#f3f3f0;--s3:#e4e4df;--s4:#d2d2cc;
+    --line:#d6d6d0;--line-soft:#e6e6e1;
     --fg:#0f0f0f;--fg-1:#333331;--fg-2:#5f5f5b;--fg-3:#8a8a85;--fg-4:#b4b4ae;
     --ink:15,15,15;
     --ok-bg:#e6f6ea;--ok-line:#bfe6ca;--ok-fg:#15803d;
@@ -3759,6 +3759,9 @@
   :root[data-theme="light"] .st-chip.is-brief:hover{background:#2a2a2a;border-color:#2a2a2a}
   :root[data-theme="light"] .st-chip.is-brief .qn{background:var(--bg);color:var(--fg)}
   :root[data-theme="light"] .st-chip.is-brief img{filter:none}
+  :root[data-theme="light"] .card,:root[data-theme="light"] .kb-card,:root[data-theme="light"] .cm-card,:root[data-theme="light"] .cm-doc,:root[data-theme="light"] .pj2{box-shadow:0 1px 2px rgba(0,0,0,.05),0 10px 30px rgba(20,20,10,.08);border:1px solid var(--line)}
+  :root[data-theme="light"] .card .card-head{border-bottom:1px solid var(--line-soft)}
+  :root[data-theme="light"] .st-rows,:root[data-theme="light"] .rows{background:var(--s2)}
   :root[data-theme="light"] .rail-logo .mark{filter:invert(1) hue-rotate(180deg)}
   html.theming,html.theming *,html.theming *::before,html.theming *::after{transition:background-color .35s ease,color .35s ease,border-color .35s ease,box-shadow .35s ease!important}
   #theme-btn svg{transition:transform .35s cubic-bezier(.34,1.4,.64,1)}
