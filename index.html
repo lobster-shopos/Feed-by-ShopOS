@@ -4034,6 +4034,21 @@
   .col-tip .what.swap{opacity:0}
   body.setup-run .col-ag{display:none}
   @media (prefers-reduced-motion:reduce){ .col-ag.is-on *{animation:none!important} }
+
+  /* ---------- tooltips: one look everywhere. White in both themes, one statement, no title line ---------- */
+  :root{--tip-bg:#ffffff;--tip-fg:#0a0a0a;--tip-sh:0 0 0 1px rgba(0,0,0,.08),0 8px 24px rgba(0,0,0,.28)}
+  :root[data-theme="light"]{--tip-sh:0 0 0 1px rgba(0,0,0,.08),0 8px 24px rgba(0,0,0,.12)}
+  .tip,.rail-tip,.jtip,.pj-tip,.col-tip,.gtip{background:var(--tip-bg)!important;color:var(--tip-fg)!important;box-shadow:var(--tip-sh)!important;font-size:12.5px!important;font-weight:500!important;line-height:17px!important;border-radius:8px!important;padding:6px 10px!important;white-space:nowrap}
+  .tip::after,.tip-below::after{display:none}
+  .col .act .tip::after{display:none}
+  .rail-tip{height:auto!important;margin-top:-14.5px!important}
+  .rail-tip kbd{background:rgba(0,0,0,.08);color:#6e6e73}
+  .pj-tip{min-width:0;display:block}
+  .col-tip{display:block}
+  .col-tip > span,.col-tip .what{color:var(--tip-fg)!important;font-size:12.5px}
+  .col-tip .what{background:none!important;-webkit-text-fill-color:currentColor;animation:none!important}
+  .gtip{position:fixed;z-index:400;left:0;top:0;pointer-events:none;opacity:0;transform:translateY(3px);transition:opacity .14s ease,transform .18s cubic-bezier(.22,1,.36,1)}
+  .gtip.on{opacity:1;transform:none}
   /* ---------- the draft, as a document in the chat ---------- */
   .cm-doc{border-radius:20px;background:var(--s1);border:1px solid var(--s3);overflow:hidden}
   .dc-h{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--s2)}
@@ -5377,8 +5392,8 @@
   const colBlobHTML = (k) => {
     const st = SECTOR_STATE[k] || { on:false, note:'' };
     const lead = SECTOR_LEAD[k], a = AG(lead);
-    const line = st.on ? `<span class="what">${esc(st.stream[streamAt[k] || 0])}</span>` : `<span>${esc(st.note || 'Not running')}</span>`;
-    return `<span class="col-ag ${st.on ? 'is-on' : 'is-off'}" data-sector="${k}" tabindex="0" aria-label="${esc(a.name)}: ${st.on ? 'working' : 'not working'}">${blob(lead)}<span class="col-tip"><b>${esc(a.name)} · ${st.on ? 'Working' : st.soon ? 'Queued' : 'Idle'}</b>${line}</span></span>`;
+    const line = st.on ? `<span class="what">${esc(st.stream[streamAt[k] || 0])}</span>` : `<span>${esc(st.note || 'Not running')}</span>`;  // one statement, nothing else
+    return `<span class="col-ag ${st.on ? 'is-on' : 'is-off'}" data-sector="${k}" tabindex="0" aria-label="${esc(a.name)}: ${st.on ? 'working' : 'not working'}">${blob(lead)}<span class="col-tip">${line}</span></span>`;
   };
   const colAgentHTML = (k) => {
     const st = SECTOR_STATE[k] || { on:false, note:'' };
@@ -5540,7 +5555,7 @@
     <p class="side-h">Areas</p>
     ${COL_ORDER.map(k => `
       <button data-col="${k}" class="${colState[k].hidden ? 'muted' : ''}"
-              aria-current="false" title="${colState[k].hidden ? 'Hidden. Click to bring it back.' : SECTORS[k].name}">
+              aria-current="false" ${colState[k].hidden ? 'title="Hidden. Click to bring it back."' : ''}>
         <i class="col-dot${SECTOR_STATE[k] && SECTOR_STATE[k].on ? ' is-live' : ''}" style="background:${SECTORS[k].dot}"></i>
         ${SECTORS[k].name}
         <span class="n">${k === 'signals'
@@ -7788,8 +7803,8 @@
     const gx = L + n * (vb - L - R) / (d.p.length - 1);
     const xl = box.querySelector('.pj-x'); xl.setAttribute('x1', gx); xl.setAttribute('x2', gx);
     const tip = box.querySelector('.pj-tip'); tip.hidden = false;
-    tip.innerHTML = `<b>Day ${n + 1}</b><span><i class="ad"></i>With this ad <em>${d.w[n]}</em></span><span><i class="pace"></i>Today’s pace <em>${d.p[n]}</em></span>`;
-    const left = gx * r.width / vb; tip.style.left = Math.min(r.width - 170, Math.max(0, left + 12)) + 'px';
+    tip.textContent = `Day ${n + 1}: ${d.w[n]} with this ad, ${d.p[n]} at today’s pace`;
+    const left = gx * r.width / vb; tip.style.left = Math.min(r.width - 280, Math.max(0, left + 12)) + 'px';
   });
   studio.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -8138,6 +8153,30 @@
 
   // the stories row only fades on the left once it has been scrolled
   { const sr = document.getElementById('stories'); if (sr) { const f = () => sr.classList.toggle('at-start', sr.scrollLeft < 4); f(); sr.addEventListener('scroll', f, { passive:true }); } }
+  // ---------- tooltips: always white, always one statement. Anything with a title gets this one, not the browser's ----------
+  const gtip = document.createElement('div'); gtip.className = 'gtip'; gtip.setAttribute('role', 'tooltip'); document.body.appendChild(gtip);
+  let gtipEl = null, gtipT = 0;
+  const gtipHide = () => { clearTimeout(gtipT); gtip.classList.remove('on'); gtipEl = null; };
+  document.addEventListener('pointerover', (e) => {
+    const el = e.target.closest('[title],[data-tip]');
+    if (!el || el === gtipEl) return;
+    if (el.hasAttribute('title')) { const t = el.getAttribute('title'); el.removeAttribute('title'); if (t) el.dataset.tip = t; }
+    if (!el.dataset.tip) return;
+    gtipEl = el; clearTimeout(gtipT);
+    gtipT = setTimeout(() => {
+      if (gtipEl !== el || !el.isConnected) return;
+      gtip.textContent = el.dataset.tip;
+      const r = el.getBoundingClientRect(), w = gtip.offsetWidth, h = gtip.offsetHeight;
+      let x = r.left + r.width / 2 - w / 2, y = r.top - h - 8;
+      if (y < 8) y = r.bottom + 8;
+      gtip.style.left = Math.max(8, Math.min(innerWidth - w - 8, x)) + 'px'; gtip.style.top = y + 'px';
+      gtip.classList.add('on');
+    }, 350);
+  });
+  document.addEventListener('pointerout', (e) => { if (gtipEl && !gtipEl.contains(e.relatedTarget)) gtipHide(); });
+  document.addEventListener('pointerdown', gtipHide, true);
+  document.addEventListener('scroll', gtipHide, true);
+
   // ---------- page loader: a beat between pages, the mark and one line of what is being read ----------
   const pload = document.getElementById('pload');
   let plTimer = 0;
@@ -8243,6 +8282,7 @@
     ['The agent sits by its column','Next to each Deck title is the agent itself. Working: it bobs, looks around and blinks. Stopped: grey and still. Hover it to read what it is doing.'],
     ['Chats are kept','Ask ShopOS opens empty: no starter prompts. New chat files the current one into History, newest first, and any old chat reopens where it left off.'],
     ['The loader is a beat, not a wait','One random pixel glyph grows in, the page swaps behind the cover, and after about 1.7s the page eases in, piece by piece. Nothing animates under the loader.'],
+    ['Tooltips are white and say one thing','Every tooltip, in both themes: white, black text, one short statement. No title line, no second line, no arrow. Anything with a title attribute uses the same tooltip.'],
     ['Lighter is louder','Emphasis comes from brightness and weight, not colour. Green is reserved for done and live.']
   ];
   const dsIcons = () => {
