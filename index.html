@@ -3762,6 +3762,9 @@
   :root[data-theme="light"] .card,:root[data-theme="light"] .kb-card,:root[data-theme="light"] .cm-card,:root[data-theme="light"] .cm-doc,:root[data-theme="light"] .pj2{box-shadow:0 1px 2px rgba(0,0,0,.05),0 10px 30px rgba(20,20,10,.08);border:1px solid var(--line)}
   :root[data-theme="light"] .card .card-head{border-bottom:1px solid var(--line-soft)}
   :root[data-theme="light"] .st-rows,:root[data-theme="light"] .rows{background:var(--s2)}
+  /* the stories row fades at both ends instead of clipping a circle in half */
+  .stories{width:calc(var(--feed-w) + 80px);padding-left:42px;padding-right:42px;scroll-padding:0 42px;
+    -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 42px,#000 calc(100% - 42px),transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 42px,#000 calc(100% - 42px),transparent 100%)}
   :root[data-theme="light"] .rail-logo .mark{filter:invert(1) hue-rotate(180deg)}
   html.theming,html.theming *,html.theming *::before,html.theming *::after{transition:background-color .35s ease,color .35s ease,border-color .35s ease,box-shadow .35s ease!important}
   #theme-btn svg{transition:transform .35s cubic-bezier(.34,1.4,.64,1)}
