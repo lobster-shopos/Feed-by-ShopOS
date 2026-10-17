@@ -3764,7 +3764,7 @@
   :root[data-theme="light"] .kbt{box-shadow:0 14px 40px rgba(0,0,0,calc(.18 * var(--sh)))}
   :root[data-theme="light"] .rail{background:var(--bg)}
   :root[data-theme="light"] .mem-drop{border-color:var(--s4)}
-  :root[data-theme="light"] img[src$="shopos-mark.svg"]:not(.stk img):not(.story img):not(.bn-memo img):not(.sv img):not(.dc-ic img){filter:invert(1) hue-rotate(180deg)}
+  :root[data-theme="light"] img[src$="brand/mark.svg"]:not(.stk img):not(.story img):not(.bn-memo img):not(.sv img):not(.dc-ic img){filter:invert(1) hue-rotate(180deg)}
   :root[data-theme="light"] .st-chip.is-brief{background:var(--fg);color:var(--bg);border-color:var(--fg)}
   :root[data-theme="light"] .st-chip.is-brief:hover{background:#2a2a2a;border-color:#2a2a2a}
   :root[data-theme="light"] .st-chip.is-brief .qn{background:var(--bg);color:var(--fg)}
@@ -3773,7 +3773,12 @@
   :root[data-theme="light"] .card{box-shadow:0 1px 1px rgba(0,0,0,calc(.03 * var(--sh)))}
   :root[data-theme="light"] .stk,:root[data-theme="light"] .mnote{filter:none}
   :root[data-theme="light"] .card .card-head{border-bottom:1px solid var(--line-soft)}
-  :root[data-theme="light"] .st-rows,:root[data-theme="light"] .rows{background:var(--s2)}
+  /* number rows: one surface, the padding belongs to the panel, the rows are transparent */
+  :root[data-theme="light"] .panel{background:var(--s2);border:0;box-shadow:none}
+  :root[data-theme="light"] .rows{background:transparent}
+  :root[data-theme="light"] .rows > div{border-top-color:var(--s3)}
+  :root[data-theme="light"] .st-rows{background:var(--s2);border-color:transparent}
+  :root[data-theme="light"] .st-rows div + div{border-top-color:var(--s3)}
   /* the stories row fades at both ends instead of clipping a circle in half */
   .stories{width:calc(var(--feed-w) + 80px);padding-left:42px;padding-right:42px;scroll-padding:0 42px;
     -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 42px,#000 calc(100% - 42px),transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 42px,#000 calc(100% - 42px),transparent 100%)}
