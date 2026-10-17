@@ -3718,10 +3718,10 @@
   .st-top{border-bottom:0}
   .st-main .st-chat{-webkit-mask-image:linear-gradient(transparent 0,#000 32px,#000 calc(100% - 40px),transparent 100%);mask-image:linear-gradient(transparent 0,#000 32px,#000 calc(100% - 40px),transparent 100%)}
   body.is-deck .topbar,body.deck-on .topbar{box-shadow:none;border-bottom:0}
-  body.is-deck .topbar::after{content:'';position:absolute;left:0;right:0;top:100%;height:22px;background:linear-gradient(var(--bg),rgba(10,10,10,0));pointer-events:none}
+
   .col-head{position:relative;z-index:2}
   .col-head hr{border-top-color:transparent}
-  .col-head::after{content:'';position:absolute;left:0;right:0;top:100%;height:20px;background:linear-gradient(var(--col-bg,var(--bg)),transparent);pointer-events:none}
+
   /* the team's progress: plain steps, no moving light */
   .tpp-bar i.now{background:rgba(74,222,128,.45);animation:none}
 
@@ -3749,7 +3749,7 @@
   :root[data-theme="light"] .media .cta:not(.is-sent):hover > svg{color:#000}
   :root[data-theme="light"] .cta:not(.is-sent){background:var(--s2);border-color:var(--line)}
   :root[data-theme="light"] .cta:not(.is-sent):hover{background:var(--s3);border-color:var(--s4)}
-  :root[data-theme="light"] body.is-deck .seg,:root[data-theme="light"] body.is-deck .topbar-right{background:var(--s1);box-shadow:inset 0 0 0 1px var(--line)}
+  :root[data-theme="light"] body.is-deck .seg{background:var(--s1);box-shadow:inset 0 0 0 1px var(--line)}
   :root[data-theme="light"] body::before{opacity:.5}
   :root[data-theme="light"] .act-box,:root[data-theme="light"] .team-pop{background:rgba(255,255,255,.82);border-color:rgba(0,0,0,.08);box-shadow:0 30px 80px rgba(0,0,0,calc(.18 * var(--sh))),inset 0 1px 0 rgba(255,255,255,.9)}
   :root[data-theme="light"] .act-scrim.on{background:rgba(0,0,0,.18)}
@@ -3780,8 +3780,9 @@
   :root[data-theme="light"] .st-rows{background:var(--s2);border-color:transparent}
   :root[data-theme="light"] .st-rows div + div{border-top-color:var(--s3)}
   /* the stories row fades at both ends instead of clipping a circle in half */
-  .stories{width:calc(var(--feed-w) + 80px);padding-left:42px;padding-right:42px;scroll-padding:0 42px;
-    -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 42px,#000 calc(100% - 42px),transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 42px,#000 calc(100% - 42px),transparent 100%)}
+  .stories{width:var(--feed-w);padding-left:2px;padding-right:2px;
+    -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 28px,#000 calc(100% - 56px),transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 28px,#000 calc(100% - 56px),transparent 100%)}
+  .stories.at-start{-webkit-mask-image:linear-gradient(90deg,#000 0,#000 calc(100% - 56px),transparent 100%);mask-image:linear-gradient(90deg,#000 0,#000 calc(100% - 56px),transparent 100%)}
   :root[data-theme="light"] .rail-logo .mark{filter:invert(1) hue-rotate(180deg)}
   .rail-logo .mark{display:block;width:30px;height:30px}
   html.theming,html.theming *,html.theming *::before,html.theming *::after{transition:background-color .35s ease,color .35s ease,border-color .35s ease,box-shadow .35s ease!important}
@@ -3871,6 +3872,79 @@
   .ds-rules b{display:block;font-weight:600;color:var(--fg)}
   .ds-foot{margin:48px 0 0;padding-top:20px;border-top:1px solid var(--line-soft);font-size:13.5px;color:var(--fg-3)}
   @media (max-width:700px){ .ds-t{grid-template-columns:1fr;gap:6px} .ds-m{grid-template-columns:1fr} .ds-mstage{display:none} }
+
+  /* ---------- pixel glyphs ---------- */
+  .px{display:inline-block;flex:0 0 auto;shape-rendering:crispEdges}
+  .px-grow{animation:pxgrow .7s steps(7,end) both}
+  @keyframes pxgrow{from{clip-path:inset(100% 0 0 0)}to{clip-path:inset(0 0 0 0)}}
+  .px-twinkle{animation:pxtw 1.4s steps(4,end) infinite}
+  @keyframes pxtw{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.82)}}
+  .px-beat{animation:pxbeat 1.1s steps(3,end) infinite}
+  @keyframes pxbeat{0%,60%,100%{transform:scale(1)}20%{transform:scale(1.14)}40%{transform:scale(.96)}}
+  .px-stamp{animation:pxstamp .5s steps(4,end) both}
+  @keyframes pxstamp{from{transform:scale(1.4);opacity:0}to{transform:none;opacity:1}}
+  .pl-glyph{display:grid;place-items:center;width:56px;height:56px;color:var(--fg)}
+  .tpp-empty .px,.mine-empty .px{display:block;margin:0 auto 10px;color:var(--fg-3)}
+  .mine-empty{text-align:center}
+  .sugg .sg-ic{width:28px;height:28px;flex:0 0 auto;border-radius:9px;background:rgba(var(--ink),.07);color:var(--fg);display:grid;place-items:center}
+  .sugg:hover .sg-ic .px{animation:pxstamp .45s steps(4,end) both}
+  @media (prefers-reduced-motion:reduce){ .px{animation:none!important} }
+
+  /* ---------- top bar: three separate glass pills ---------- */
+  .topbar-right{gap:8px;padding:0;border:0;background:none;-webkit-backdrop-filter:none;backdrop-filter:none;box-shadow:none}
+  .topbar-right > .team-pill,.topbar-right > .ask,.topbar-right > .chip{height:42px;border:1px solid var(--glass-line);background:var(--glass);-webkit-backdrop-filter:var(--glass-fx);backdrop-filter:var(--glass-fx);box-shadow:var(--glass-sh)}
+  .topbar-right > .team-pill{padding:0 14px 0 8px}
+  .topbar-right > .team-pill:not(.is-live){padding:0 14px}
+  .topbar-right > .ask{padding:0 16px 0 14px;font-size:13px;gap:8px}
+  .topbar-right > .chip{width:42px;border-radius:50%}
+  .topbar-right > :is(.team-pill,.ask,.chip):hover,.topbar-right > .team-pill[aria-expanded="true"]{background:var(--glass-hover);box-shadow:var(--glass-sh),inset 0 0 0 1px var(--glass-line-hi)}
+  body.is-deck .topbar-right > :is(.team-pill,.ask,.chip){background:var(--s1);-webkit-backdrop-filter:none;backdrop-filter:none;box-shadow:inset 0 0 0 1px var(--line);border-color:transparent}
+  :root[data-theme="light"] body.is-deck .topbar-right{background:none;box-shadow:none}
+  .ask .ask-ic{color:var(--fg);flex:0 0 auto}
+  .tav,.tp-av .tav,:root[data-theme="light"] .tav{box-shadow:none}
+  .tp-av .tav + .tav{margin-left:-6px}
+  @media (max-width:600px){ .topbar-right > .chip{display:none} .topbar-right > .ask{padding:0 12px} .topbar-right > .ask .ask-ic + *{display:none} .topbar-right{gap:6px} }
+
+  /* ---------- team panel: a plain list ---------- */
+  .team-pop{width:min(380px,calc(100vw - 32px));border-radius:18px;background:var(--s1);-webkit-backdrop-filter:none;backdrop-filter:none;border:1px solid var(--line);box-shadow:0 18px 50px rgba(0,0,0,calc(.5 * var(--sh)))}
+  :root[data-theme="light"] .team-pop{background:#fff;border-color:var(--line);box-shadow:0 12px 40px rgba(0,0,0,.1)}
+  .tpp-h{display:flex;align-items:center;gap:8px;padding:14px 12px 10px 16px}
+  .tpp-h b{font-size:15px;font-weight:600}
+  .tpp-n{flex:1;font-size:13px;color:var(--fg-3)}
+  .tpp-list{padding:0 6px 6px;gap:0}
+  .tpp-row{align-items:center;gap:12px;padding:8px 10px;border-radius:12px}
+  .tpp-row:hover{background:rgba(var(--ink),.06)}
+  .tpp-th{width:40px;height:40px;border-radius:10px}
+  .tpp-main{gap:1px}
+  .tpp-main > b{-webkit-line-clamp:1;font-size:14px;line-height:19px;font-weight:500}
+  .tpp-main small{font-size:12.5px;color:var(--fg-3)}
+  .tpp-when{flex:0 0 auto;font-style:normal;font-size:12.5px;color:var(--fg-3)}
+  .tpp-when.is-done{color:var(--ok-fg)}
+  .tpp-empty{padding:18px 16px 22px;margin:0;text-align:center}
+
+  /* ---------- model picker and voice ---------- */
+  .mi{display:inline-grid;place-items:center;width:18px;height:18px;flex:0 0 auto;border-radius:5px;background:var(--c);color:#fff;font-style:normal;font-size:9.5px;font-weight:700;letter-spacing:-.02em}
+  img.mi-auto{background:none;border-radius:0;object-fit:contain}
+  :root[data-theme="light"] img.mi-auto{filter:invert(1) hue-rotate(180deg)}
+  #model-ic,.st-mic{display:inline-flex}
+  .model-pop button{flex-direction:row!important;align-items:center!important;gap:10px}
+  .model-pop .mi{width:24px;height:24px;font-size:11px;border-radius:7px}
+  .model-pop img.mi-auto{width:22px;height:22px}
+  .mp-t{display:flex;flex-direction:column;gap:1px;min-width:0}
+  #model-btn:hover svg:first-child{transform:none}
+  .st-mic-btn{width:32px;height:32px;border:0;border-radius:50%;background:transparent;color:var(--fg-2);display:grid;place-items:center;cursor:pointer;transition:background .2s,color .2s}
+  .st-mic-btn:hover{background:rgba(var(--ink),.08);color:var(--fg)}
+  .st-compose .st-mic-btn{width:32px;height:32px;background:transparent;color:var(--fg-2);border-radius:50%}
+  .is-rec{color:#ff453a!important;background:rgba(255,69,58,.12)!important}
+  .chatbox,.st-compose{position:relative}
+  .vw{position:absolute;left:12px;right:96px;bottom:10px;height:30px;display:flex;align-items:center;gap:3px;padding:0 10px;border-radius:999px;background:var(--s1);z-index:3;animation:stfade .2s ease both}
+  .vw i{flex:1;max-width:4px;height:6px;border-radius:2px;background:var(--fg-2);animation:vwb .9s ease-in-out infinite}
+  .vw i:nth-child(3n){animation-delay:-.3s}.vw i:nth-child(3n+1){animation-delay:-.6s}.vw i:nth-child(4n){animation-duration:.7s}.vw i:nth-child(5n){animation-duration:1.1s}
+  @keyframes vwb{0%,100%{height:5px}50%{height:22px}}
+  .vw em{margin-left:auto;font-style:normal;font-size:12.5px;color:var(--fg-3)}
+
+  /* the chat panel greeting sits closer to its suggestions now the hint is gone */
+  .chat-panel .greeting{margin-bottom:22px}
   /* ---------- the draft, as a document in the chat ---------- */
   .cm-doc{border-radius:20px;background:var(--s1);border:1px solid var(--s3);overflow:hidden}
   .dc-h{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--s2)}
@@ -4036,16 +4110,11 @@
   .topbar{background:transparent;pointer-events:none;padding:0 16px 0 12px;height:64px;align-items:center}
   /* the deck is a fixed board, so its bar is solid: columns start below it, nothing runs underneath */
   body.is-deck .topbar{background:var(--bg);pointer-events:auto;box-shadow:0 1px 0 var(--line-soft)}
-  body.is-deck .seg,body.is-deck .topbar-right{background:var(--s1);-webkit-backdrop-filter:none;backdrop-filter:none;box-shadow:inset 0 1px 0 rgba(var(--ink),.05)}
+  body.is-deck .seg{background:var(--s1);-webkit-backdrop-filter:none;backdrop-filter:none;box-shadow:inset 0 1px 0 rgba(var(--ink),.05)}
   .topbar > *{pointer-events:auto}
-  .seg,.topbar-right{border:1px solid var(--glass-line);background:var(--glass);-webkit-backdrop-filter:var(--glass-fx);backdrop-filter:var(--glass-fx);box-shadow:var(--glass-sh)}
+  .seg{border:1px solid var(--glass-line);background:var(--glass);-webkit-backdrop-filter:var(--glass-fx);backdrop-filter:var(--glass-fx);box-shadow:var(--glass-sh)}
   .seg{padding:3px;border-radius:999px}
   .seg-pill{background:rgba(var(--ink),.12);top:3px;left:0}
-  .topbar-right{gap:4px;padding:4px;border-radius:999px}
-  .topbar-right .ask{background:transparent;border-radius:999px;height:34px}
-  .topbar-right .ask:hover{background:rgba(var(--ink),.1)}
-  .topbar-right .chip{background:transparent;border:0;border-radius:50%;width:34px;height:34px}
-  .topbar-right .chip:hover{background:rgba(var(--ink),.1)}
   .stk-layer,.notes-layer{z-index:2}
 
   /* ---------- deck: your columns, then the areas ---------- */
@@ -4373,9 +4442,7 @@
 
   <div class="topbar-right">
     <button class="team-pill" id="team-pill" aria-expanded="false" aria-controls="team-pop"><span class="tp-av" id="tp-av"></span><span class="tp-t" id="tp-t">Team</span><i class="tp-dot" aria-hidden="true"></i></button>
-    <button class="ask" id="ask-btn" aria-expanded="false" aria-controls="chat-panel">
-      Ask ShopOS
-    </button>
+    <button class="ask" id="ask-btn" aria-expanded="false" aria-controls="chat-panel"><svg class="ask-ic" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/><path d="M8 12h.01"/><path d="M12 12h.01"/><path d="M16 12h.01"/></svg>Ask ShopOS</button>
     <button class="chip" id="theme-btn" aria-label="Light mode" aria-pressed="false">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <circle cx="12" cy="12" r="4"/>
@@ -4476,16 +4543,15 @@
   <section class="chat-work" id="chat-work" hidden></section>
   <section class="chat" id="chat-idle">
     <h1 class="greeting">Hi Vedant, what should we work on?</h1>
-    <p class="chat-hint">Ask about anything in Arata&rsquo;s feed, or start from one of these.</p>
     <div class="suggestions">
       <button class="sugg" data-prompt="What should I fix first this week, and why?">
-        <span class="tx">What should I fix first this week, and why?</span>
+        <span class="sg-ic" data-px="sparkle"></span><span class="tx">What should I fix first this week, and why?</span>
       </button>
       <button class="sugg" data-prompt="Draft three reel hooks for MitoActive that do not lean on unproven claims.">
-        <span class="tx">Draft three reel hooks for MitoActive</span>
+        <span class="sg-ic" data-px="tulip"></span><span class="tx">Draft three reel hooks for MitoActive</span>
       </button>
       <button class="sugg" data-prompt="Why are 66,160 checkouts being left, and what would bring them back?">
-        <span class="tx">Why are so many checkouts being left?</span>
+        <span class="sg-ic" data-px="chart"></span><span class="tx">Why are so many checkouts being left?</span>
       </button>
     </div>
   </section>
@@ -4737,10 +4803,11 @@
 
 
 <script src="brand.js"></script>
+<script src="pixels.js"></script>
 <script src="arata-feed.js"></script>
-<script>document.querySelectorAll('[data-brand]').forEach(el => { const v = el.dataset.brand.split('.').reduce((o, k) => o && o[k], window.BRAND); if (v) el.src = v; });</script>
+<script>document.querySelectorAll('[data-px]').forEach(el => { el.innerHTML = `<svg class="px px-none" width="18" height="18" viewBox="50 50 200 200" fill="currentColor" aria-hidden="true">${(window.PIXELS || {})[el.dataset.px] || ''}</svg>`; });document.querySelectorAll('[data-brand]').forEach(el => { const v = el.dataset.brand.split('.').reduce((o, k) => o && o[k], window.BRAND); if (v) el.src = v; });</script>
 <div class="team-pop" id="team-pop" hidden role="dialog" aria-label="With the team"></div>
-<div class="pload" id="pload" hidden aria-live="polite"><div class="pl-in"><img class="pl-mark" data-brand="product.mark" alt=""><span class="pl-t"></span></div></div>
+<div class="pload" id="pload" hidden aria-live="polite"><div class="pl-in"><span class="pl-glyph" id="pl-glyph"></span><span class="pl-t"></span></div></div>
 <script>
   /* ---------------- data ---------------- */
   const AGENTS = {
@@ -6129,17 +6196,19 @@
     ['Gemini', 'Images, video and search']
   ];
   let model = 'Auto';
+  const MODEL_IC = { Claude:['C', '#d97757'], GPT:['G', '#10a37f'], Gemini:['Ge', '#4f7cf0'] };
+  const modelIc = (n) => n === 'Auto' ? `<img class="mi mi-auto" src="${BRAND.product.mark}" alt="">` : `<i class="mi" style="--c:${(MODEL_IC[n] || ['?', '#555'])[1]}">${(MODEL_IC[n] || ['?'])[0]}</i>`;
   const composer = (placeholder) => `
         <div class="chatbox">
           <textarea class="chat-input" id="chat-q" rows="1" placeholder="${placeholder}"></textarea>
           <div class="chat-row">
             <span class="model-pick">
               <button class="chat-chip" id="model-btn" aria-haspopup="listbox" aria-expanded="false">
-                ${svg(I.sparkle, 16, '#c4a8ff', true)}<span id="model-name">${model}</span>
+                <span id="model-ic">${modelIc(model)}</span><span id="model-name">${model}</span>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
               </button>
               <div class="model-pop" role="listbox" aria-label="Model">
-                ${MODELS.map(([n, d]) => `<button role="option" aria-selected="${n === model}" data-model="${n}"><b>${n}</b><span>${d}</span></button>`).join('')}
+                ${MODELS.map(([n, d]) => `<button role="option" aria-selected="${n === model}" data-model="${n}">${modelIc(n)}<span class="mp-t"><b>${n}</b><span>${d}</span></span></button>`).join('')}
               </div>
             </span>
             <span class="grow"></span>
@@ -6396,13 +6465,14 @@
     if (opt) {
       model = opt.dataset.model;
       document.getElementById('model-name').textContent = model;
+      document.getElementById('model-ic').innerHTML = modelIc(model);
       chatPanel.querySelectorAll('[data-model]').forEach(o => o.setAttribute('aria-selected', String(o === opt)));
       opt.closest('.model-pick').classList.remove('open');
       return;
     }
     if (!e.target.closest('.model-pick')) chatPanel.querySelector('.model-pick')?.classList.remove('open');
     if (e.target.closest('[data-send]')) return askSend();
-    if (e.target.closest('[data-voice]')) return toast('Voice input is not built in this prototype yet');
+    if (e.target.closest('[data-voice]')) return mockVoice(e.target.closest('[data-voice]'), document.getElementById('chat-q'));
     const ex = e.target.closest('#chat-idle .sugg[data-prompt]');
     if (ex) { const q = document.getElementById('chat-q'); q.value = ex.dataset.prompt; q.focus(); }
   });
@@ -7416,10 +7486,11 @@
           <form class="st-compose" id="st-form"><textarea id="st-q" rows="1" placeholder="${decide ? 'Ask about this…' : 'Ask for a change…'}"></textarea>
             <div class="st-crow">
               <span class="model-pick st-model">
-                <button type="button" class="chat-chip" data-stmodel aria-haspopup="listbox" aria-expanded="false"><img src="${SHOPOS.avatar}" alt=""><span class="st-mname">${esc(model)}</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></button>
-                <div class="model-pop" role="listbox" aria-label="Model">${MODELS.map(([n, d]) => `<button type="button" role="option" aria-selected="${n === model}" data-stmod="${n}"><b>${n}</b><span>${d}</span></button>`).join('')}</div>
+                <button type="button" class="chat-chip" data-stmodel aria-haspopup="listbox" aria-expanded="false"><span class="st-mic">${modelIc(model)}</span><span class="st-mname">${esc(model)}</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></button>
+                <div class="model-pop" role="listbox" aria-label="Model">${MODELS.map(([n, d]) => `<button type="button" role="option" aria-selected="${n === model}" data-stmod="${n}">${modelIc(n)}<span class="mp-t"><b>${n}</b><span>${d}</span></span></button>`).join('')}</div>
               </span>
               <span class="grow"></span>
+              <button type="button" class="st-mic-btn" data-stvoice aria-label="Voice input">${svg(I.mic, 16)}</button>
               <button type="submit" class="st-go" aria-label="Send">${I_UP}<i class="st-stop"></i></button>
             </div></form>
         </div>
@@ -7581,12 +7652,15 @@
       : imgs.length ? { t:'Done. Here’s the updated version.', img:S.img, tag:trim(v, 40) } : { t:'Done, here’s what changed.', diff:trim(v, 80) }, () => { S.fresh = true; afterChange(S); });
   });
   studio.addEventListener('click', (e) => {
+    const vb = e.target.closest('[data-stvoice]');
+    if (vb) return mockVoice(vb, studio.querySelector('#st-q'));
     const mb = e.target.closest('[data-stmodel]');
     if (mb) { const pk = mb.parentElement, open = !pk.classList.contains('open'); pk.classList.toggle('open', open); mb.setAttribute('aria-expanded', String(open)); return; }
     const mo = e.target.closest('[data-stmod]');
     if (mo) {
       model = mo.dataset.stmod;
       studio.querySelector('.st-mname').textContent = model;
+      studio.querySelector('.st-mic').innerHTML = modelIc(model);
       studio.querySelectorAll('[data-stmod]').forEach(o => o.setAttribute('aria-selected', String(o === mo)));
       return mo.closest('.model-pick').classList.remove('open');
     }
@@ -7883,6 +7957,33 @@
   prepIcons(document);
   new MutationObserver(ms => ms.forEach(m => m.addedNodes.forEach(nd => { if (nd.nodeType === 1) { if (nd.matches && nd.matches(ICO_HOST)) nd.querySelectorAll('svg').forEach(prepIcon); prepIcons(nd); } }))).observe(document.body, { childList:true, subtree:true });
 
+
+  // ---------- pixel glyphs: the brand's small illustrations, filled, with a stepped animation ----------
+  // anim: grow (plants rise in steps), twinkle (sparkles blink), beat (heart), stamp (paw), none
+  const PIX_ANIM = { lupin:'grow', tulip:'grow', bud:'grow', rose:'grow', clover:'grow', blossom:'grow', sparkle:'twinkle', twinkle:'twinkle', star:'twinkle', heart:'beat', paw:'stamp', bolt:'stamp', chat:'stamp', chart:'grow' };
+  const pix = (name, size = 20, anim) => `<svg class="px px-${anim || PIX_ANIM[name] || 'none'}" width="${size}" height="${size}" viewBox="50 50 200 200" fill="currentColor" aria-hidden="true">${(window.PIXELS || {})[name] || ''}</svg>`;
+  window.pix = pix;
+
+  // ---------- voice: a mock. The mic listens for a moment, a waveform moves, a sentence types itself in ----------
+  const VOICE_LINES = ['Make it shorter and lead with the reviews', 'What should I fix first this week?', 'Add a line about free shipping over 499', 'Try a warmer opening'];
+  let voiceOn = null;
+  const mockVoice = (btn, field) => {
+    if (!field) return;
+    if (voiceOn) { clearTimeout(voiceOn.t); voiceOn.wave.remove(); voiceOn.btn.classList.remove('is-rec'); const same = voiceOn.btn === btn; voiceOn = null; if (same) return; }
+    const box = btn.closest('.chatbox, .st-compose');
+    const wave = document.createElement('span'); wave.className = 'vw'; wave.innerHTML = '<i></i>'.repeat(18) + '<em>Listening</em>';
+    box.appendChild(wave); btn.classList.add('is-rec');
+    const line = VOICE_LINES[Math.floor(Math.random() * VOICE_LINES.length)];
+    voiceOn = { btn, wave, t:setTimeout(() => {
+      wave.remove(); btn.classList.remove('is-rec'); voiceOn = null;
+      field.value = ''; field.focus();
+      let k = 0; const type = () => { field.value = line.slice(0, ++k); field.dispatchEvent(new Event('input')); if (k < line.length) setTimeout(type, 22); };
+      type();
+    }, 2200) };
+  };
+
+  // the stories row only fades on the left once it has been scrolled
+  { const sr = document.getElementById('stories'); if (sr) { const f = () => sr.classList.toggle('at-start', sr.scrollLeft < 4); f(); sr.addEventListener('scroll', f, { passive:true }); } }
   // ---------- page loader: a beat between pages, the mark and one line of what is being read ----------
   const pload = document.getElementById('pload');
   let plTimer = 0;
@@ -7892,6 +7993,11 @@
     if (still) { fn(); return; }
     clearTimeout(plTimer);
     pload.querySelector('.pl-t').textContent = PL_TEXT[what] || what;
+    const PL_SEQ = ['sprout' in (window.PIXELS || {}) ? 'sprout' : 'tulip', 'sparkle', 'blossom', 'twinkle', 'lupin', 'star'];
+    const g = document.getElementById('pl-glyph'); let gi = Math.floor(Math.random() * PL_SEQ.length);
+    const showG = () => { g.innerHTML = pix(PL_SEQ[gi++ % PL_SEQ.length], 56, 'grow'); };
+    showG(); clearInterval(pageLoad.t); pageLoad.t = setInterval(showG, 420);
+    setTimeout(() => clearInterval(pageLoad.t), (hold || 820) + 400);
     pload.hidden = false; void pload.offsetWidth; pload.classList.add('on');
     setTimeout(fn, 180);
     plTimer = setTimeout(() => { pload.classList.remove('on'); setTimeout(() => { if (!pload.classList.contains('on')) pload.hidden = true; }, 420); }, hold || 820);
@@ -7945,7 +8051,7 @@
   ];
   const DS_RULES = [
     ['One radius scale','Containers 20, inner blocks 14, controls are pills or 12, small controls 8. A nested radius is the outer radius minus the padding.'],
-    ['No hard cuts','Where content meets a bar or an edge it fades to the background. Lines separate columns; they never end a scroll area.'],
+    ['No half cuts','Scroll areas in the Feed and chat fade to the background where they meet a bar. The Deck is the exception: a fixed board with clean lines.'],
     ['Hover is a tint, never a fill','rgba(var(--ink), .07–.13) plus a hairline inset. Glass stays glass on hover: it brightens, it never goes solid. The only solid primary is the --fg button.'],
     ['Icons draw, they don’t spin','Line icons, 1.8–2px stroke, 16–18px. On hover each line is traced in. No rotation, no sliding, no waving.'],
     ['No shimmer loaders','Progress is a plain bar. The one shimmer is text while an agent is thinking, and the line under the page loader.'],
@@ -7956,6 +8062,10 @@
     ['Copy is plain','Sentence case. No exclamation marks. Buttons say what happens. Status is past tense once done.'],
     ['The brief is a note','Memo header, stamp, numbered parts, taped-on draft, polaroid assets, a signature. The one paper surface, the same in both themes.'],
     ['Shadows belong to things that float','Cards sit flat on a hairline. Popovers, dialogs and the brief cast a shadow, scaled by --sh (1 in dark, .16 in light).'],
+    ['Edges: fade or cut, never half','The Deck is a fixed board, so its bar and column heads end in a clean line. The stories row stays inside the feed column and fades fully to the background at its edges; nothing shows past the column.'],
+    ['Pixel glyphs are illustrations, not icons','Filled pixel art for empty states, the loader and suggestions. Line icons stay for controls. A glyph animates in steps, once, or loops only while something is waiting.'],
+    ['Model icons are ours','Auto shows the ShopOS mark. Other models get a lettered tile in a flat colour, never the vendor’s logo.'],
+    ['Top bar controls are separate pills','Team, Ask and the theme switch each sit in their own glass pill. Avatars are plain circles, no ring.'],
     ['Lighter is louder','Emphasis comes from brightness and weight, not colour. Green is reserved for done and live.']
   ];
   const dsIcons = () => {
@@ -7976,7 +8086,7 @@
       <header class="cx-top ds-top">
         <div><p class="ds-k">Design system</p><h1 id="ds-title">${esc(BRAND.product.name)} Feed</h1>
         <p>The Feed is where a brand’s agents post drafts: creatives, pages, emails, store changes, and what competitors are doing. You act on a card in one of four ways: want more like it, shortlist it, jam with the team, or press its own button. Jam opens a chat with an orchestrator that hands work to agents, shows every version, and ends in a brief you send to the team, or a publish that connects the account first. Everything on this page is the visual language that holds it together.</p></div>
-        <nav class="ds-nav">${['colour','type','shape','motion','icons','components','assets','rules'].map(k => `<a href="#ds-${k}">${k[0].toUpperCase() + k.slice(1)}</a>`).join('')}</nav>
+        <nav class="ds-nav">${['colour','type','shape','motion','icons','pixels','components','assets','rules'].map(k => `<a href="#ds-${k}">${k[0].toUpperCase() + k.slice(1)}</a>`).join('')}</nav>
       </header>
       ${dsSec('colour', 'Colour', 'Every grey is a token on <code>:root</code>; the light theme redefines them under <code>html[data-theme="light"]</code>. The swatch is live; the two hexes are what it resolves to in each theme. Light follows Apple’s system colours: a grouped background, white cells, the systemGray scale, hairline separators.', `
         <div class="ds-grid ds-tokens">${DS_TOKENS.map(([t, d, l, u]) => `<div class="ds-tok"><i style="background:var(${t})"></i><b>${t}</b><span><em>${d}</em><em>${l}</em></span><small>${u}</small></div>`).join('')}</div>
@@ -7993,6 +8103,8 @@
         <div class="ds-motion">${DS_MOTION.map(([n, c, d, u], k) => `<button class="ds-m" data-dsm="${k}" style="--c:${c}"><span class="ds-mn"><b>${n}</b><em>${c} · ${d}</em><small>${u}</small></span><span class="ds-mstage"><i></i></span></button>`).join('')}</div>`)}
       ${dsSec('icons', 'Icons', 'Line icons, 1.8–2px stroke, on a 24 grid, drawn at 16–20px. Hover any of them: the lines trace in. Add new ones to <code>I</code> in index.html.', `
         <div class="ds-icons">${dsIcons().map(([k, m]) => `<button class="ds-ic" type="button" title="${k}">${m}<span>${k}</span></button>`).join('')}</div>`)}
+      ${dsSec('pixels', 'Pixel set', 'The brand’s small illustrations: filled, on a 300 grid, coloured by <code>currentColor</code>. They mark empty states, the page loader and the Ask suggestions. Each has one stepped animation: plants grow, sparkles twinkle, the heart beats. Click one to replay it. Glyphs live in <code>pixels.js</code>; draw with <code>pix(name, size)</code>.', `
+        <div class="ds-icons ds-pix">${Object.keys(window.PIXELS || {}).map(k => `<button class="ds-ic" type="button" data-dspix="${k}" title="${k}">${pix(k, 56)}<span>${k} · ${PIX_ANIM[k] || 'none'}</span></button>`).join('')}</div>`)}
       ${dsSec('components', 'Components', 'Live instances, built from the tokens above. Everything here is the real component, not a picture of it.', `
         <h3>Buttons and chips</h3>
         <div class="ds-row"><button class="ab-go">Primary</button><button class="ab-edit">Quiet</button><button class="st-chip is-brief">${I_NOTE}View brief<span class="qn">2</span></button><button class="st-chip is-pub">${I_PUB}Publish to Meta</button><button class="st-chip">${I_SPARK}Make it shorter</button><span class="st-chip is-sent">${I_OK} Sent to the team</span><button class="mem-btn">Back to chat</button></div>
@@ -8028,6 +8140,7 @@
     else { dsPage.hidden = true; if (location.hash === '#design-system') history.replaceState(null, '', location.pathname); }
   };
   window.__setDsPage = setDsPage;
+  dsPage.addEventListener('click', (e) => { const px = e.target.closest('[data-dspix]'); if (px) { px.querySelector('svg').outerHTML = pix(px.dataset.dspix, 56); } });
   dsPage.addEventListener('click', (e) => {
     const m = e.target.closest('[data-dsm]');
     if (m) { const st = m.querySelector('.ds-mstage i'); st.style.animation = 'none'; void st.offsetWidth; st.style.animation = `dsplay 1s ${m.style.getPropertyValue('--c')} both`; return; }
@@ -8068,20 +8181,20 @@
     pill.classList.toggle('is-live', active.length > 0);
     if (pop.hidden) return;
     pop.innerHTML = `
-      <div class="tpp-h"><span class="tpp-ht"><b>With the team</b><span>Briefs you sent. The ShopOS team is making them.</span></span><button class="tpp-deck" data-tpdeck>Open in Deck ${I_ARR}</button></div>
+      <div class="tpp-h"><b>With the team</b><span class="tpp-n">${list.length}</span><button class="tpp-deck" data-tpdeck>Open in Deck ${I_ARR}</button></div>
       ${list.length ? `<div class="tpp-list">${list.map(it => {
         const p = ALL_POSTS[it.p], kind = kindOf(p), sg = it.by === 'agent' ? 4 : (it.stage ?? 0), m = TEAM[it.who] || null;
         const thumb = (p.images || [])[0];
-        const by = it.by === 'agent' ? `<span class="tpp-by"><img src="${AG(p.agent).avatar}" alt="">Done by ${esc(AG(p.agent).name)}</span>` : m ? `<span class="tpp-by">${avHTML(it.who)}${m.name}<i class="tpp-sep"></i><em>${STAGES[sg]}</em></span>` : '';
+        const when = it.by === 'agent' ? 'Done' : sg >= 4 ? 'Live' : (it.t || 'Sent');
         return `<button class="tpp-row" data-tpopen="${it.p}">
           <span class="tpp-th">${thumb ? `<img src="${thumb}" alt="">` : `<img class="ag" src="${AG(p.agent).avatar}" alt="">`}</span>
           <span class="tpp-main">
             <b>${esc(p.title)}</b>
-            ${by}
-            <span class="tpp-bar" style="--n:${sg}">${STAGES.map((x, n) => `<i class="${n < sg ? 'done' : n === sg ? 'now' : ''}"></i>`).join('')}</span>
+            <small>${esc(AG(p.agent).name)}</small>
           </span>
+          <em class="tpp-when${sg >= 4 || it.by === 'agent' ? ' is-done' : ''}">${esc(when)}</em>
         </button>`;
-      }).join('')}</div>` : `<p class="tpp-empty">Nothing yet. Send a brief from any card and it shows up here.</p>`}`;
+      }).join('')}</div>` : `<p class="tpp-empty">${pix('tulip', 28)}Nothing yet. Send a brief from any card and it shows up here.</p>`}`;
   };
   window.__paintTeam = paintTeam;
   const setTeam = (open) => {
@@ -8140,11 +8253,11 @@
       const st = it.by === 'agent' ? `Done by ${AG(ALL_POSTS[it.p].agent).name}` : STAGES[sg];
       return `<div class="mine-item"><p class="mine-st"><i class="is-${it.col}"></i>${esc(st)}<span>${m && it.by !== 'agent' ? `${avHTML(it.who)}${esc(m.name)}` : esc(it.t || '')}</span></p>
         <span class="tpp-bar mine-bar">${STAGES.map((x, n) => `<i class="${n < sg ? 'done' : n === sg ? 'now' : ''}"></i>`).join('')}</span>${card(ALL_POSTS[it.p])}</div>`;
-    }).join('') : '<p class="mine-empty">Briefs you send to the team show up here, with where each one is.</p>';
+    }).join('') : `<p class="mine-empty">${pix('bud', 32)}Briefs you send to the team show up here.</p>`;
     setN('progress', moving.length);
     // shortlisted
     const sv = [...saved].reverse();
-    if (body('saved')) body('saved').innerHTML = sv.length ? sv.map(i => card(ALL_POSTS[i])).join('') : '<p class="mine-empty">Tap the bookmark on any card to keep it here.</p>';
+    if (body('saved')) body('saved').innerHTML = sv.length ? sv.map(i => card(ALL_POSTS[i])).join('') : `<p class="mine-empty">${pix('clover', 32)}Tap the bookmark on any card to keep it here.</p>`;
     setN('saved', sv.length);
     // dashboard: how the work is going, in three numbers and what moved
     const sent = kbItems.filter(x => ['sent','progress','live'].includes(x.col)).length + 3;

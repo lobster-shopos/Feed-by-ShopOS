@@ -31,6 +31,8 @@ A brand's AI agents post **drafts** into a feed: ad creatives, pages, emails, st
 | `index.html` | The whole prototype: CSS, markup, JS. No build step. |
 | `brand.js` | Every logo, avatar and team member, in one object (`window.BRAND`). **Change logos here.** |
 | `arata-feed.js` | The 157 cards (`window.ARATA.cards`). The ten in the feed are `FEED_IDS` in index.html. |
+| `pixels.js` | The pixel glyph set (`window.PIXELS`): filled 300-grid path data. Draw with `pix(name, size, anim?)`. |
+| `assets/pixels/` | The same glyphs as standalone white SVG files. |
 | `assets/brand/` | The product mark, the six agent avatars, the connector logos. |
 | `assets/arata/` | The client's product photos, ads, mark and wordmark. |
 | `DESIGN.md` | This file. |
@@ -129,6 +131,18 @@ Line icons on a 24 grid, 1.8–2px stroke, drawn at 16–20px. They live in thre
 
 Add an icon: a new key in `I` with the path data. Use `svg(I.name, size)` to render.
 
+### Pixel glyphs
+
+A second, separate set: filled pixel illustrations (lupin, tulip, sparkle, paw, bud, heart, rose, clover, blossom, twinkle, bolt, chat, chart, star). They are illustrations, not controls: the page loader cycles them, empty states (team panel, In progress, Shortlisted) carry one, and the three Ask suggestions use them as filled icons. They take `currentColor`.
+
+Each glyph has one stepped animation, set in `PIX_ANIM`: **grow** (plants rise from the ground in 7 steps, once), **twinkle** (sparkles blink, loops), **beat** (heart, loops), **stamp** (paw, bolt, chat drop in, once). Steps, not easing: they are pixel art. Loops only where something is waiting. All are off under `prefers-reduced-motion`.
+
+Add one: draw on a 300×300 frame inside 50–250, white fill, export, paste the paths into `pixels.js` without the `fill` attribute, and give it an animation in `PIX_ANIM`.
+
+### Model icons
+
+Auto shows the ShopOS mark. Claude, GPT and Gemini get a lettered tile in a flat colour (`MODEL_IC`). We never draw a vendor's logo.
+
 ---
 
 ## 7. Components (where they live)
@@ -180,7 +194,7 @@ window.BRAND = {
 ## 9. Rules
 
 1. **One radius scale.** Containers 20, inner blocks 14, controls pills or 12, small controls 8.
-2. **No hard cuts.** Where content meets a bar or an edge it fades to `--bg`. Lines separate columns; they never end a scroll area.
+2. **Fade or cut, never half.** Feed and chat scroll areas fade to `--bg` where they meet a bar. The Deck is a fixed board: its bar and column heads end in a clean line. The stories row stays inside the feed column and fades fully to the background at its edges — nothing shows past the column.
 3. **Hover is a tint, never a fill.** `rgba(var(--ink), .07–.13)` plus a hairline inset. Glass stays glass on hover: it brightens, it never goes solid. The only solid primary is the `--fg` button.
 4. **Icons draw, they don't spin.** No rotation, sliding or waving on hover.
 5. **No shimmer loaders.** Progress is a plain bar. Shimmer is for text that is still being written (the agent thinking, the page loader line).
@@ -193,6 +207,9 @@ window.BRAND = {
 12. **Shadows belong to things that float.** Cards sit flat on a hairline. Popovers, dialogs and the brief cast a shadow, scaled by `--sh`.
 13. **Lighter is louder.** Emphasis comes from brightness and weight, not colour. Green is reserved for done and live.
 14. **One accent.** If something needs a second colour, it is probably a status, and status is green or nothing.
+15. **Pixel glyphs are illustrations.** Filled pixel art for loader, empty states and suggestions; line icons stay for controls.
+16. **Model icons are ours.** Auto is the ShopOS mark; other models are lettered tiles, never vendor logos.
+17. **Top bar controls are separate pills.** Team, Ask and theme each in their own glass pill. Avatars are plain circles, no ring.
 
 ---
 
@@ -206,4 +223,4 @@ window.BRAND = {
 
 ## 11. Known fakes
 
-The prototype is a prototype. These are invented and should not be mistaken for data: every number on cards and in projections; the drafts (prices, reviewer names, discount codes, "7.4x less hair fall"); the team (Riya, Kabir, Meera, Dev); brief numbers; the signature ("Vedant"); the model selector (Auto/Claude/GPT/Gemini does nothing); the stop button while a run is going; typed requests the draft engine has no recipe for (they get the next pre-written rewrite, labelled with your words).
+The prototype is a prototype. These are invented and should not be mistaken for data: every number on cards and in projections; the drafts (prices, reviewer names, discount codes, "7.4x less hair fall"); the team (Riya, Kabir, Meera, Dev); brief numbers; the signature ("Vedant"); the model selector (Auto/Claude/GPT/Gemini does nothing); voice input (the mic shows a waveform for two seconds, then types one of four canned sentences); the stop button while a run is going; typed requests the draft engine has no recipe for (they get the next pre-written rewrite, labelled with your words).
