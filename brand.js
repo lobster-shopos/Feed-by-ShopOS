@@ -15,7 +15,18 @@ window.BRAND = {
   connectors: {
     shopify:  'assets/brand/logo-shopify.png',
     klaviyo:  'assets/brand/logo-klaviyo.png',
-    whatsapp: 'assets/brand/logo-whatsapp.png'
+    whatsapp: 'assets/brand/logo-whatsapp.png',
+    meta:     'assets/logos/meta.svg',
+    gads:     'assets/logos/google-ads.svg',
+    ga4:      'assets/logos/google-analytics.svg',
+    slack:    'assets/logos/slack.svg'
+  },
+  // the model picker in Ask ShopOS. Auto is always the product mark.
+  // Logos are the vendors' own marks (via the iconify "logos" set); check each vendor's brand rules before shipping.
+  models: {
+    Claude: 'assets/logos/claude.svg',
+    GPT:    'assets/logos/openai.svg',
+    Gemini: 'assets/logos/gemini.svg'
   },
   team: {
     riya:  { name: 'Riya',  role: 'Design',       c: '#f0a6c8' },

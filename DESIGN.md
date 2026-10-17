@@ -141,7 +141,7 @@ Add one: draw on a 300×300 frame inside 50–250, white fill, export, paste the
 
 ### Model icons
 
-Auto shows the ShopOS mark. Claude, GPT and Gemini get a lettered tile in a flat colour (`MODEL_IC`). We never draw a vendor's logo.
+Auto shows the ShopOS mark. Claude, GPT and Gemini show their own logos from `BRAND.models` (GPT's mark is black and inverts in dark mode).
 
 ---
 
@@ -208,10 +208,11 @@ window.BRAND = {
 13. **Lighter is louder.** Emphasis comes from brightness and weight, not colour. Green is reserved for done and live.
 14. **One accent.** If something needs a second colour, it is probably a status, and status is green or nothing.
 15. **Pixel glyphs are illustrations.** Filled pixel art for loader, empty states and suggestions; line icons stay for controls.
-16. **Model icons are ours.** Auto is the ShopOS mark; other models are lettered tiles, never vendor logos.
+16. **Real logos, from one place.** Auto is the ShopOS mark; Claude, GPT and Gemini show their own marks (`BRAND.models`). Connectors use real logos where we have them (`BRAND.connectors`, files in `assets/logos/` from the iconify "logos" set) and a lettered tile where we don't (Amazon, Merchant Center, Judge.me). These are third-party trademarks: check each vendor's brand rules before this ships.
 17. **Top bar is one glass group.** Team, Ask and theme share one glass pill; every control inside is a full pill. Avatars are plain circles, no ring.
-18. **Every Deck column says who is working.** Agent avatar and name, what it is doing now, and a Working / Queued / Idle pill. Working is green with a moving level and a soft ring on the avatar; idle agents are greyed. The side nav is 220px and marks working areas with a ring on their dot.
+18. **The agent sits by its column.** Next to each Deck title is the agent's face, inlined from its SVG so it can move. Working: the body bobs and squashes, the pupils look around, the eyes blink. Stopped: greyscale at 45%, still. Hover or focus it for a tooltip: name, state, and what it is doing now. The side nav is 288px.
 19. **The loader is a beat, not a wait.** One random pixel glyph (never the same twice running) grows in; the page swaps behind the cover at 360ms; after ~1.7s the cover lifts and the page eases in piece by piece (`revealIn`). Animations never run under the loader.
+20. **Chats are kept.** Ask ShopOS opens with a greeting and nothing else: no starter prompts, no icons. The pen starts a new chat and files the current one into History (the clock), newest first; any chat reopens where it left off.
 
 ---
 
@@ -225,4 +226,4 @@ window.BRAND = {
 
 ## 11. Known fakes
 
-The prototype is a prototype. These are invented and should not be mistaken for data: every number on cards and in projections; the drafts (prices, reviewer names, discount codes, "7.4x less hair fall"); the team (Riya, Kabir, Meera, Dev); brief numbers; the signature ("Vedant"); the model selector (Auto/Claude/GPT/Gemini does nothing); voice input (the mic shows a waveform for two seconds, then types one of four canned sentences); the stop button while a run is going; typed requests the draft engine has no recipe for (they get the next pre-written rewrite, labelled with your words).
+The prototype is a prototype. These are invented and should not be mistaken for data: every number on cards and in projections; the drafts (prices, reviewer names, discount codes, "7.4x less hair fall"); the team (Riya, Kabir, Meera, Dev); brief numbers; the signature ("Vedant"); the model selector (Auto/Claude/GPT/Gemini does nothing); Ask ShopOS answers (every new question gets the same canned reply; the four history chats are written);  voice input (the mic shows a waveform for two seconds, then types one of four canned sentences); the stop button while a run is going; typed requests the draft engine has no recipe for (they get the next pre-written rewrite, labelled with your words).
