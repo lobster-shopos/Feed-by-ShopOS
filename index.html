@@ -30,6 +30,7 @@
     --fg-3:#737373;
     --fg-4:#4a4a4a;
     --ink:255,255,255;             /* tints: rgba(var(--ink),.08) */
+    --sh:1;                        /* shadow strength: every shadow alpha is multiplied by this */
     --ok-bg:#16261b;--ok-line:#1f3a27;--ok-fg:#86efac;
     --feed-w:500px;
     --r-card:20px;
@@ -39,11 +40,13 @@
   }
   :root[data-theme="light"]{
     color-scheme:light;
-    --bg:#e9e9e6;--s1:#ffffff;--s2:#f3f3f0;--s3:#e4e4df;--s4:#d2d2cc;
-    --line:#d6d6d0;--line-soft:#e6e6e1;
-    --fg:#0f0f0f;--fg-1:#333331;--fg-2:#5f5f5b;--fg-3:#8a8a85;--fg-4:#b4b4ae;
-    --ink:15,15,15;
-    --ok-bg:#e6f6ea;--ok-line:#bfe6ca;--ok-fg:#15803d;
+    /* Apple's system colours: grouped background, white cells, the systemGray scale, hairline separators */
+    --bg:#f2f2f7;--s1:#ffffff;--s2:#f2f2f7;--s3:#e5e5ea;--s4:#d1d1d6;
+    --line:#d9d9de;--line-soft:#e5e5ea;
+    --fg:#000000;--fg-1:#1c1c1e;--fg-2:#6e6e73;--fg-3:#8e8e93;--fg-4:#c7c7cc;
+    --ink:0,0,0;
+    --sh:.16;
+    --ok-bg:#e9f8ee;--ok-line:#bfe7cb;--ok-fg:#248a3d;
   }
   *{box-sizing:border-box}
   body{
@@ -67,7 +70,7 @@
   .rail.open{
     width:236px;
     background:#0f0f0f;
-    box-shadow:26px 0 60px rgba(0,0,0,.55);
+    box-shadow:26px 0 60px rgba(0,0,0,calc(.55 * var(--sh)));
   }
 
   .rail-logo{
@@ -168,7 +171,7 @@
     top:50%;margin-left:12px;
     width:308px;padding:8px;border-radius:20px;
     background:var(--s2);border:1px solid var(--s3);
-    box-shadow:0 24px 60px rgba(0,0,0,.6);
+    box-shadow:0 24px 60px rgba(0,0,0,calc(.6 * var(--sh)));
     transform:translate(-8px,-50%);
   }
   .rail-item.has-menu:hover .rail-fly,
@@ -218,7 +221,7 @@
     display:flex;flex-direction:column;gap:10px;
     opacity:0;visibility:hidden;transform:translateX(-14px) scale(.985);
     transition:opacity .26s ease,transform .34s cubic-bezier(.32,.72,0,1),visibility .26s;
-    box-shadow:0 30px 70px rgba(0,0,0,.6);
+    box-shadow:0 30px 70px rgba(0,0,0,calc(.6 * var(--sh)));
   }
   .hist.on{opacity:1;visibility:visible;transform:none}
   .hist-top{display:flex;align-items:center;gap:8px;padding:0 4px}
@@ -270,7 +273,7 @@
     transform:translate(-50%,10px) scale(.985);
     opacity:0;visibility:hidden;
     background:var(--s1);border:1px solid #282828;border-radius:18px;
-    box-shadow:0 40px 90px rgba(0,0,0,.66);
+    box-shadow:0 40px 90px rgba(0,0,0,calc(.66 * var(--sh)));
     overflow:hidden;
     transition:opacity .2s ease,transform .34s cubic-bezier(.32,.72,0,1),visibility .2s;
   }
@@ -466,7 +469,7 @@
     aspect-ratio:9/16;max-height:calc(100vh - 48px);
     border-radius:20px;overflow:hidden;background:#111;
     transform-origin:50% 50%;backface-visibility:hidden;
-    box-shadow:0 40px 100px rgba(0,0,0,.7);
+    box-shadow:0 40px 100px rgba(0,0,0,calc(.7 * var(--sh)));
     transition:opacity .22s ease;
   }
   /* one story hands over to the next with a plain cross fade, nothing turns */
@@ -489,7 +492,7 @@
   }
   .sv-who{display:flex;align-items:center;gap:9px;flex:1;min-width:0}
   .sv-who img{width:28px;height:28px;flex:0 0 auto}
-  .sv-who b{font-size:13.5px;font-weight:500;color:#fff;text-shadow:0 1px 6px rgba(0,0,0,.6)}
+  .sv-who b{font-size:13.5px;font-weight:500;color:#fff;text-shadow:0 1px 6px rgba(0,0,0,calc(.6 * var(--sh)))}
   .sv-x{
     width:30px;height:30px;border:0;border-radius:50%;background:transparent;
     color:#fff;display:grid;place-items:center;cursor:pointer;flex:0 0 auto;
@@ -607,7 +610,7 @@
     position:absolute;left:0;top:calc(100% + 8px);z-index:40;
     width:252px;padding:6px;border-radius:14px;
     background:var(--s2);border:1px solid var(--s3);
-    box-shadow:0 22px 50px rgba(0,0,0,.62);
+    box-shadow:0 22px 50px rgba(0,0,0,calc(.62 * var(--sh)));
     opacity:0;visibility:hidden;transform:translateY(-6px);
     transition:opacity .15s,transform .2s,visibility .15s;
   }
@@ -667,7 +670,7 @@
     position:absolute;right:-4px;top:-3px;width:17px;height:17px;border-radius:50%;
     background:linear-gradient(180deg,var(--fg),#d9d9d9);color:var(--bg);
     display:grid;place-items:center;
-    border:2px solid var(--s2);box-shadow:0 2px 6px rgba(0,0,0,.55);
+    border:2px solid var(--s2);box-shadow:0 2px 6px rgba(0,0,0,calc(.55 * var(--sh)));
     animation:lockpop 3.6s ease-in-out infinite;
   }
   .ls-btn .lock svg{width:9px;height:9px}
@@ -710,7 +713,7 @@
     transition:background .15s,color .15s;
   }
   .side-nav button:hover{background:rgba(var(--ink),0.082);color:var(--fg)}
-  .side-nav button[aria-current="true"]{background:#212121;color:var(--fg)}
+  .side-nav button[aria-current="true"]{background:var(--s3);color:var(--fg)}
   .side-nav button.muted{opacity:.45}
   .side-nav .col-dot{width:8px;height:8px;border-radius:50%;flex:0 0 auto}
   .side-nav .n{margin-left:auto;font-size:11.5px;color:var(--fg-3);font-variant-numeric:tabular-nums}
@@ -824,7 +827,7 @@
   .col-pop{
     position:absolute;right:0;top:calc(100% + 6px);z-index:20;width:212px;padding:6px;
     border-radius:12px;background:var(--s2);border:1px solid var(--s3);
-    box-shadow:0 20px 46px rgba(0,0,0,.6);
+    box-shadow:0 20px 46px rgba(0,0,0,calc(.6 * var(--sh)));
     opacity:0;visibility:hidden;transform:translateY(-4px);
     transition:opacity .15s,transform .2s,visibility .15s;
   }
@@ -1050,7 +1053,7 @@
     padding:9px 14px;border-radius:10px;
     background:var(--fg);color:var(--s1);
     font-size:13px;font-weight:500;line-height:1.2;white-space:nowrap;
-    box-shadow:0 6px 24px rgba(0,0,0,.45);
+    box-shadow:0 6px 24px rgba(0,0,0,calc(.45 * var(--sh)));
     left:50%;
     opacity:0;visibility:hidden;transform:translate(-50%,4px);
     transition:opacity .14s,transform .14s,visibility .14s;
@@ -1093,7 +1096,7 @@
     position:absolute;top:calc(100% + 6px);right:0;
     width:262px;padding:6px;
     background:var(--s2);border-radius:14px;
-    box-shadow:0 18px 50px rgba(0,0,0,.6);
+    box-shadow:0 18px 50px rgba(0,0,0,calc(.6 * var(--sh)));
     z-index:30;
     opacity:0;visibility:hidden;transform:translateY(-6px) scale(.98);
     transform-origin:top right;
@@ -1191,7 +1194,7 @@
     padding:14px 22px;border-radius:12px;
     background:var(--fg);color:var(--s1);
     font-size:15px;font-weight:500;
-    box-shadow:0 10px 40px rgba(0,0,0,.55);
+    box-shadow:0 10px 40px rgba(0,0,0,calc(.55 * var(--sh)));
     animation:toast-in .26s cubic-bezier(.2,.9,.3,1);
   }
   .toast.out{animation:toast-out .22s ease forwards}
@@ -1282,7 +1285,7 @@
     height:44px;padding:0 18px;border:0;border-radius:999px;
     background:var(--s2);color:var(--fg);
     font:inherit;font-size:14px;font-weight:500;line-height:1;white-space:nowrap;
-    cursor:pointer;box-shadow:0 8px 30px rgba(0,0,0,.5);
+    cursor:pointer;box-shadow:0 8px 30px rgba(0,0,0,calc(.5 * var(--sh)));
     transition:background .15s ease,transform .12s ease;
   }
   .pill svg{transition:transform .22s cubic-bezier(.34,1.4,.64,1)}
@@ -1379,7 +1382,7 @@
     position:absolute;inset:0;overflow:hidden;
     background:var(--bg);border:1px solid rgba(var(--ink),.09);
     border-radius:22px;
-    box-shadow:0 26px 70px rgba(0,0,0,.62);
+    box-shadow:0 26px 70px rgba(0,0,0,calc(.62 * var(--sh)));
   }
 
   /* ---- step 1: a feed that scrolls itself ---- */
@@ -1415,7 +1418,7 @@
   /* a cursor that swipes the feed up, over and over */
   .swipe{
     position:absolute;right:116px;bottom:58px;z-index:3;
-    filter:drop-shadow(0 3px 8px rgba(0,0,0,.75));
+    filter:drop-shadow(0 3px 8px rgba(0,0,0,calc(.75 * var(--sh))));
     animation:swipe 3s cubic-bezier(.36,0,.2,1) infinite;
   }
   @keyframes swipe{
@@ -1484,7 +1487,7 @@
   /* cursor and ripple sit in the box, so the card's zoom never drags them off target */
   .jcursor{
     position:absolute;left:0;top:0;z-index:6;
-    filter:drop-shadow(0 2px 5px rgba(0,0,0,.75));
+    filter:drop-shadow(0 2px 5px rgba(0,0,0,calc(.75 * var(--sh))));
     opacity:0;
   }
   .stage.on .jcursor{animation:jcursor 6s cubic-bezier(.35,0,.2,1) infinite}
@@ -1512,7 +1515,7 @@
     padding:5px 10px;border-radius:8px;
     background:var(--fg);color:var(--bg);
     font-size:11.5px;font-weight:500;line-height:1;white-space:nowrap;
-    box-shadow:0 8px 20px rgba(0,0,0,.5);
+    box-shadow:0 8px 20px rgba(0,0,0,calc(.5 * var(--sh)));
     opacity:0;
   }
   .stage.on .jtip{animation:jtip 6s cubic-bezier(.3,1.4,.5,1) infinite}
@@ -1532,7 +1535,7 @@
     width:56px;height:56px;border-radius:50%;
     display:grid;place-items:center;font-size:30px;line-height:1;
     background:var(--s2);border:1px solid var(--s4);
-    box-shadow:0 12px 30px rgba(0,0,0,.6);
+    box-shadow:0 12px 30px rgba(0,0,0,calc(.6 * var(--sh)));
     opacity:0;transform:translateY(16px) scale(.6);
   }
   .stage.on .joiner{animation:joinin 6s cubic-bezier(.3,1.5,.5,1) infinite}
@@ -1556,7 +1559,7 @@
   /* ---- floating agent blobs: two now, two more on the next step ---- */
   .blob{
     position:absolute;width:46px;height:46px;z-index:3;pointer-events:none;
-    filter:drop-shadow(0 6px 16px rgba(0,0,0,.5));
+    filter:drop-shadow(0 6px 16px rgba(0,0,0,calc(.5 * var(--sh))));
     opacity:0;transform:scale(.4);
   }
   .blob.in{opacity:1;transform:none;animation:blobin .72s cubic-bezier(.3,1.5,.5,1) forwards}
@@ -1589,7 +1592,7 @@
   .fte-copy{
     max-width:560px;text-align:center;margin:0;
     font-size:18px;line-height:30px;font-weight:400;color:var(--fg);
-    letter-spacing:-.01em;text-shadow:0 2px 18px rgba(0,0,0,.5);
+    letter-spacing:-.01em;text-shadow:0 2px 18px rgba(0,0,0,calc(.5 * var(--sh)));
     min-height:60px;
   }
   .fte-copy span{
@@ -1904,7 +1907,7 @@
   }
   .composer-dock.arrive{animation:dockin .55s cubic-bezier(.32,.72,0,1) .1s both}
   @keyframes dockin{from{opacity:0;transform:translate(-50%,26px)}}
-  .composer-dock .chatbox{width:100%;box-shadow:0 18px 50px rgba(0,0,0,.6)}
+  .composer-dock .chatbox{width:100%;box-shadow:0 18px 50px rgba(0,0,0,calc(.6 * var(--sh)))}
 
   @media (prefers-reduced-motion:reduce){
     .typing i,.composer-dock{animation:none}
@@ -1942,7 +1945,7 @@
   .modal{
     width:min(460px,100%);
     background:var(--s3);border-radius:24px;overflow:hidden;
-    box-shadow:0 30px 90px rgba(0,0,0,.7);
+    box-shadow:0 30px 90px rgba(0,0,0,calc(.7 * var(--sh)));
     transform:translateY(10px) scale(.97);
     transition:transform .24s cubic-bezier(.2,.9,.3,1);
   }
@@ -2082,10 +2085,10 @@
     border:0;border-radius:14px;color:var(--bg);
     background:linear-gradient(180deg,var(--fg) 0%,var(--fg-1) 100%);
     font:inherit;font-size:16px;font-weight:550;cursor:pointer;
-    box-shadow:0 1px 0 rgba(var(--ink),.7) inset,0 10px 30px rgba(0,0,0,.45);
+    box-shadow:0 1px 0 rgba(var(--ink),.7) inset,0 10px 30px rgba(0,0,0,calc(.45 * var(--sh)));
     transition:transform .14s cubic-bezier(.34,1.4,.64,1),box-shadow .2s;
   }
-  .cta-go:hover{transform:translateY(-1px);box-shadow:0 1px 0 rgba(var(--ink),.8) inset,0 16px 40px rgba(0,0,0,.55)}
+  .cta-go:hover{transform:translateY(-1px);box-shadow:0 1px 0 rgba(var(--ink),.8) inset,0 16px 40px rgba(0,0,0,calc(.55 * var(--sh)))}
   .cta-go:active{transform:translateY(0) scale(.985)}
   .cta-go .spk{color:var(--bg)}
 
@@ -2315,7 +2318,7 @@
   .lm-rim{
     position:relative;display:grid;place-items:center;overflow:hidden;
     height:52px;padding:2px;border-radius:999px;background:var(--s1);
-    box-shadow:0 10px 26px rgba(0,0,0,.6);
+    box-shadow:0 10px 26px rgba(0,0,0,calc(.6 * var(--sh)));
     transition:box-shadow .2s,transform .14s cubic-bezier(.34,1.4,.64,1);
   }
   /* the metal turns inside the pill, so nothing sweeps the layout */
@@ -2331,7 +2334,7 @@
     background:linear-gradient(180deg,var(--fg) 0%,#ededed 100%);
     color:var(--bg);font-size:15px;font-weight:550;white-space:nowrap;letter-spacing:-.01em;
   }
-  .lm:hover .lm-rim{transform:scale(1.02);box-shadow:0 14px 34px rgba(0,0,0,.7)}
+  .lm:hover .lm-rim{transform:scale(1.02);box-shadow:0 14px 34px rgba(0,0,0,calc(.7 * var(--sh)))}
   .lm:active .lm-rim{transform:scale(.985)}
   @media (prefers-reduced-motion:reduce){ .lm-rim,.lm-in{animation:none} }
 
@@ -2414,7 +2417,7 @@
     transition:transform .14s cubic-bezier(.34,1.4,.64,1),box-shadow .2s;
   }
   .sig-unlock svg{transition:transform .2s cubic-bezier(.34,1.4,.64,1)}
-  .sig-unlock:hover{transform:translateY(-1px);box-shadow:0 12px 30px rgba(0,0,0,.5)}
+  .sig-unlock:hover{transform:translateY(-1px);box-shadow:0 12px 30px rgba(0,0,0,calc(.5 * var(--sh)))}
   .sig-unlock:hover svg{transform:translateX(3px)}
   .sig-foot{margin:10px 0 0!important;font-size:12px!important;line-height:18px!important;color:var(--fg-3)!important;text-align:center}
 
@@ -2870,7 +2873,7 @@
   .model-pick.open .chat-chip > svg:last-child{transform:rotate(180deg)}
   .model-pop{
     position:absolute;left:0;bottom:calc(100% + 8px);z-index:5;width:260px;padding:6px;
-    border-radius:14px;background:var(--s2);border:1px solid var(--s4);box-shadow:0 20px 50px rgba(0,0,0,.6);
+    border-radius:14px;background:var(--s2);border:1px solid var(--s4);box-shadow:0 20px 50px rgba(0,0,0,calc(.6 * var(--sh)));
     opacity:0;visibility:hidden;transform:translateY(6px);
     transition:opacity .15s,transform .2s cubic-bezier(.32,.72,0,1),visibility .15s;
   }
@@ -2908,7 +2911,7 @@
     position:absolute;left:0;right:0;bottom:0;z-index:3;
     background:rgba(28,28,28,.38);border-color:rgba(var(--ink),.16);
     -webkit-backdrop-filter:blur(18px) saturate(1.5);backdrop-filter:blur(18px) saturate(1.5);
-    box-shadow:0 8px 24px rgba(0,0,0,.25);
+    box-shadow:0 8px 24px rgba(0,0,0,calc(.25 * var(--sh)));
   }
   .media .cta:hover{background:rgba(40,40,40,.5)}
   .cta:not(.is-sent):hover,.media .cta:not(.is-sent):hover{background:var(--fg);border-color:var(--fg);color:var(--bg);-webkit-backdrop-filter:none;backdrop-filter:none}
@@ -3104,7 +3107,7 @@
   .studio{
     position:fixed;z-index:98;top:20px;bottom:20px;left:80px;right:20px;margin:0 auto;max-width:1400px;
     display:grid;grid-template-columns:minmax(0,1fr) 360px 380px;
-    border-radius:24px;background:#0f0f0f;border:1px solid var(--s3);box-shadow:0 40px 120px rgba(0,0,0,.6);overflow:hidden;
+    border-radius:24px;background:#0f0f0f;border:1px solid var(--s3);box-shadow:0 40px 120px rgba(0,0,0,calc(.6 * var(--sh)));overflow:hidden;
     transform-origin:top left;
   }
   .studio[hidden]{display:none}
@@ -3167,7 +3170,7 @@
   .st-briefcol > p{margin:0 0 10px 4px;font-size:13px;color:var(--fg-3)}
   .note{
     flex:1;min-height:0;overflow:auto;border-radius:18px;background:#fbfaf6;color:#151515;padding:22px 22px 18px;
-    box-shadow:0 18px 50px rgba(0,0,0,.45);font-size:14px;line-height:21px;
+    box-shadow:0 18px 50px rgba(0,0,0,calc(.45 * var(--sh)));font-size:14px;line-height:21px;
   }
   .note .to{display:flex;align-items:center;gap:8px;font-size:12.5px;color:#6b6b6b}
   .note .to i{width:20px;height:20px;border-radius:6px;background:var(--s1);display:grid;place-items:center}
@@ -3203,7 +3206,7 @@
   .st-decide .q b{display:block;margin-bottom:6px;color:var(--s1);font-size:16px;font-weight:600}
   .st-decide .btns{display:flex;gap:8px}
   .st-decide .btns button{flex:1;height:46px;border-radius:14px}
-  .note-fly{position:fixed;z-index:120;pointer-events:none;border-radius:18px;background:#fbfaf6;box-shadow:0 18px 50px rgba(0,0,0,.45)}
+  .note-fly{position:fixed;z-index:120;pointer-events:none;border-radius:18px;background:#fbfaf6;box-shadow:0 18px 50px rgba(0,0,0,calc(.45 * var(--sh)))}
   .cta.is-sent{background:var(--ok-bg);border-color:var(--ok-line);color:var(--ok-fg)}
   .media .cta.is-sent{background:rgba(22,38,27,.78)}
   @media (max-width:1180px){ .studio{grid-template-columns:minmax(0,1fr) 380px} .st-col.chatcol{display:none} }
@@ -3304,7 +3307,7 @@
   .st-peek{
     position:absolute;top:16px;right:16px;z-index:2;display:flex;align-items:center;gap:12px;width:max-content;
     padding:10px 14px 10px 10px;border:0;border-radius:16px;background:#fbfaf6;color:#151515;cursor:pointer;text-align:left;font:inherit;
-    box-shadow:0 12px 36px rgba(0,0,0,.45);transition:opacity .25s,transform .35s cubic-bezier(.32,.72,0,1);
+    box-shadow:0 12px 36px rgba(0,0,0,calc(.45 * var(--sh)));transition:opacity .25s,transform .35s cubic-bezier(.32,.72,0,1);
   }
   .st-peek:hover{transform:translateX(-3px)}
   .st-peek .pk-ic{width:34px;height:34px;border-radius:10px;background:#151515;color:#fff;display:grid;place-items:center}
@@ -3354,7 +3357,7 @@
   .st-bscrim{position:absolute;inset:0;background:rgba(0,0,0,.55);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);opacity:0;transition:opacity .35s ease}
   .st-bpanel{
     position:absolute;left:50%;bottom:0;top:28px;width:min(920px,calc(100% - 48px));display:flex;flex-direction:column;
-    border-radius:26px 26px 0 0;background:#fbfaf6;color:#151515;box-shadow:0 -20px 80px rgba(0,0,0,.5);
+    border-radius:26px 26px 0 0;background:#fbfaf6;color:#151515;box-shadow:0 -20px 80px rgba(0,0,0,calc(.5 * var(--sh)));
     transform:translate(-50%,104%);transition:transform .55s cubic-bezier(.32,.72,0,1);
   }
   .st-bsheet[data-open="1"]{pointer-events:auto}
@@ -3402,7 +3405,7 @@
   .st-main[data-brief="1"] .st-quick{display:none}
   .st-stage .st-bpanel{
     position:absolute;top:20px;bottom:12px;left:50%;right:auto;width:min(920px,calc(100% - 48px));
-    border-radius:26px;box-shadow:0 30px 90px rgba(0,0,0,.5);
+    border-radius:26px;box-shadow:0 30px 90px rgba(0,0,0,calc(.5 * var(--sh)));
     transform:translateX(calc(50vw + 10%));opacity:0;transition:transform .6s cubic-bezier(.32,.72,0,1),opacity .3s ease;
   }
   .st-main[data-brief="1"] .st-bpanel{transform:translateX(-50%);opacity:1}
@@ -3455,7 +3458,7 @@
   @keyframes tpdot{0%{box-shadow:0 0 0 0 rgba(74,222,128,.55)}70%,100%{box-shadow:0 0 0 7px rgba(74,222,128,0)}}
   .team-pop{position:fixed;top:64px;right:16px;z-index:120;width:min(420px,calc(100vw - 32px));max-height:min(640px,calc(100vh - 88px));display:flex;flex-direction:column;
     border-radius:22px;background:rgba(26,26,28,.8);-webkit-backdrop-filter:blur(28px) saturate(160%);backdrop-filter:blur(28px) saturate(160%);border:1px solid rgba(var(--ink),.09);
-    box-shadow:0 30px 80px rgba(0,0,0,.55),inset 0 1px 0 rgba(var(--ink),.06);
+    box-shadow:0 30px 80px rgba(0,0,0,calc(.55 * var(--sh))),inset 0 1px 0 rgba(var(--ink),.06);
     opacity:0;transform:translateY(-8px) scale(.98);transform-origin:top right;transition:opacity .2s ease,transform .35s cubic-bezier(.32,.72,0,1)}
   .team-pop.on{opacity:1;transform:none}
   .team-pop[hidden]{display:none}
@@ -3506,7 +3509,7 @@
   .act-scrim[hidden]{display:none}
   .act-scrim.on{background:rgba(0,0,0,.45);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
   .act-box{width:min(460px,100%);padding:20px;border-radius:24px;background:rgba(28,28,28,.78);-webkit-backdrop-filter:blur(28px) saturate(150%);backdrop-filter:blur(28px) saturate(150%);
-    border:1px solid rgba(var(--ink),.09);box-shadow:0 30px 80px rgba(0,0,0,.55),inset 0 1px 0 rgba(var(--ink),.06);
+    border:1px solid rgba(var(--ink),.09);box-shadow:0 30px 80px rgba(0,0,0,calc(.55 * var(--sh))),inset 0 1px 0 rgba(var(--ink),.06);
     opacity:0;transform:translateY(10px) scale(.97);transition:opacity .22s ease,transform .38s cubic-bezier(.32,.72,0,1)}
   .act-scrim.on .act-box{opacity:1;transform:none}
   .ab-h{display:flex;align-items:flex-start;gap:12px}
@@ -3739,9 +3742,16 @@
   .team-pill:hover,.team-pill[aria-expanded="true"],.topbar-right .ask:hover,.topbar-right .chip:hover,.seg .tab:hover:not([aria-selected="true"]){background:var(--glass-hover);box-shadow:inset 0 0 0 1px var(--glass-line-hi)}
 
   /* ---------- light mode: what the tokens cannot reach ---------- */
-  :root[data-theme="light"]{--glass:rgba(250,250,248,.62);--glass-hi:rgba(255,255,255,.8);--glass-line:rgba(0,0,0,.08);--glass-sh:0 12px 34px rgba(0,0,0,.1),inset 0 1px 0 var(--glass-hi)}
+  :root[data-theme="light"]{--glass:rgba(255,255,255,.72);--glass-hi:rgba(255,255,255,.9);--glass-line:rgba(0,0,0,.07);--glass-sh:0 2px 12px rgba(0,0,0,calc(.06 * var(--sh))),inset 0 1px 0 var(--glass-hi)}
+  :root[data-theme="light"] .media .cta:not(.is-sent){background:rgba(255,255,255,.55);border-color:rgba(255,255,255,.6);color:#000}
+  :root[data-theme="light"] .media .cta:not(.is-sent) > svg{color:#000}
+  :root[data-theme="light"] .media .cta:not(.is-sent):hover{background:rgba(255,255,255,.75);border-color:rgba(255,255,255,.9);color:#000}
+  :root[data-theme="light"] .media .cta:not(.is-sent):hover > svg{color:#000}
+  :root[data-theme="light"] .cta:not(.is-sent){background:var(--s2);border-color:var(--line)}
+  :root[data-theme="light"] .cta:not(.is-sent):hover{background:var(--s3);border-color:var(--s4)}
+  :root[data-theme="light"] body.is-deck .seg,:root[data-theme="light"] body.is-deck .topbar-right{background:var(--s1);box-shadow:inset 0 0 0 1px var(--line)}
   :root[data-theme="light"] body::before{opacity:.5}
-  :root[data-theme="light"] .act-box,:root[data-theme="light"] .team-pop{background:rgba(255,255,255,.82);border-color:rgba(0,0,0,.08);box-shadow:0 30px 80px rgba(0,0,0,.18),inset 0 1px 0 rgba(255,255,255,.9)}
+  :root[data-theme="light"] .act-box,:root[data-theme="light"] .team-pop{background:rgba(255,255,255,.82);border-color:rgba(0,0,0,.08);box-shadow:0 30px 80px rgba(0,0,0,calc(.18 * var(--sh))),inset 0 1px 0 rgba(255,255,255,.9)}
   :root[data-theme="light"] .act-scrim.on{background:rgba(0,0,0,.18)}
   :root[data-theme="light"] .st-scrim{background:rgba(0,0,0,.25)}
   :root[data-theme="light"] .cm-doc,:root[data-theme="light"] .pj2{background:var(--s1);border-color:var(--line)}
@@ -3751,7 +3761,7 @@
   :root[data-theme="light"] .tav{box-shadow:0 0 0 2px var(--s1)}
   :root[data-theme="light"] .tr-s.is-live > span,:root[data-theme="light"] .tr-pill em.is-live,:root[data-theme="light"] .tr-tool.is-live span{background-image:linear-gradient(90deg,#8a8a85 0%,#8a8a85 35%,#1a1a1a 50%,#8a8a85 65%,#8a8a85 100%)}
   :root[data-theme="light"] .st-top,:root[data-theme="light"] .studio{background:var(--bg)}
-  :root[data-theme="light"] .kbt{box-shadow:0 14px 40px rgba(0,0,0,.18)}
+  :root[data-theme="light"] .kbt{box-shadow:0 14px 40px rgba(0,0,0,calc(.18 * var(--sh)))}
   :root[data-theme="light"] .rail{background:var(--bg)}
   :root[data-theme="light"] .mem-drop{border-color:var(--s4)}
   :root[data-theme="light"] img[src$="shopos-mark.svg"]:not(.stk img):not(.story img):not(.bn-memo img):not(.sv img):not(.dc-ic img){filter:invert(1) hue-rotate(180deg)}
@@ -3759,15 +3769,103 @@
   :root[data-theme="light"] .st-chip.is-brief:hover{background:#2a2a2a;border-color:#2a2a2a}
   :root[data-theme="light"] .st-chip.is-brief .qn{background:var(--bg);color:var(--fg)}
   :root[data-theme="light"] .st-chip.is-brief img{filter:none}
-  :root[data-theme="light"] .card,:root[data-theme="light"] .kb-card,:root[data-theme="light"] .cm-card,:root[data-theme="light"] .cm-doc,:root[data-theme="light"] .pj2{box-shadow:0 1px 2px rgba(0,0,0,.05),0 10px 30px rgba(20,20,10,.08);border:1px solid var(--line)}
+  :root[data-theme="light"] .card,:root[data-theme="light"] .kb-card,:root[data-theme="light"] .cm-card,:root[data-theme="light"] .cm-doc,:root[data-theme="light"] .pj2,:root[data-theme="light"] .mem-drop,:root[data-theme="light"] .cx-row-l{box-shadow:none;border:1px solid var(--line)}
+  :root[data-theme="light"] .card{box-shadow:0 1px 1px rgba(0,0,0,calc(.03 * var(--sh)))}
+  :root[data-theme="light"] .stk,:root[data-theme="light"] .mnote{filter:none}
   :root[data-theme="light"] .card .card-head{border-bottom:1px solid var(--line-soft)}
   :root[data-theme="light"] .st-rows,:root[data-theme="light"] .rows{background:var(--s2)}
   /* the stories row fades at both ends instead of clipping a circle in half */
   .stories{width:calc(var(--feed-w) + 80px);padding-left:42px;padding-right:42px;scroll-padding:0 42px;
     -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 42px,#000 calc(100% - 42px),transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 42px,#000 calc(100% - 42px),transparent 100%)}
   :root[data-theme="light"] .rail-logo .mark{filter:invert(1) hue-rotate(180deg)}
+  .rail-logo .mark{display:block;width:30px;height:30px}
   html.theming,html.theming *,html.theming *::before,html.theming *::after{transition:background-color .35s ease,color .35s ease,border-color .35s ease,box-shadow .35s ease!important}
   #theme-btn svg{transition:transform .35s cubic-bezier(.34,1.4,.64,1)}
+
+  /* ---------- page loader ---------- */
+  .pload{position:fixed;inset:0;left:60px;z-index:125;display:grid;place-items:center;background:var(--bg);opacity:0;transition:opacity .32s ease;pointer-events:none}
+  .pload.on{opacity:1;pointer-events:auto}
+  .pload[hidden]{display:none}
+  .pl-in{display:flex;flex-direction:column;align-items:center;gap:18px;transform:translateY(6px);opacity:0;transition:transform .5s cubic-bezier(.22,1,.36,1),opacity .35s ease}
+  .pload.on .pl-in{transform:none;opacity:1}
+  .pl-mark{width:40px;height:40px;animation:plmark 1.6s ease-in-out infinite}
+  @keyframes plmark{0%,100%{transform:scale(1);opacity:.85}50%{transform:scale(1.08);opacity:1}}
+  :root[data-theme="light"] .pl-mark{filter:invert(1) hue-rotate(180deg)}
+  .pl-t{font-size:15px;line-height:20px;background:linear-gradient(90deg,var(--fg-3) 0%,var(--fg-3) 35%,var(--fg) 50%,var(--fg-3) 65%,var(--fg-3) 100%) 0 0/250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:trshim 1.6s linear infinite}
+  @media (max-width:600px){ .pload{left:52px} }
+
+  /* ---------- the design system page ---------- */
+  .ds-page .cx-in{width:min(1040px,100%)}
+  .ds-k{margin:0 0 6px;font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--fg-3)}
+  .ds-top{flex-direction:column;gap:18px}
+  .ds-top h1{font-size:40px;line-height:46px;font-weight:600;letter-spacing:-.02em}
+  .ds-nav{display:flex;flex-wrap:wrap;gap:6px;position:sticky;top:0;z-index:3;padding:10px 0;background:linear-gradient(var(--bg) 70%,transparent)}
+  .ds-nav a{height:32px;padding:0 12px;border-radius:999px;background:rgba(var(--ink),.06);color:var(--fg-1);font-size:13.5px;text-decoration:none;display:inline-flex;align-items:center;transition:background .2s}
+  .ds-nav a:hover{background:rgba(var(--ink),.12);color:var(--fg)}
+  .ds-sec{margin-top:48px;padding-top:32px;border-top:1px solid var(--line-soft)}
+  .ds-sec > header h2{margin:0;font-size:26px;line-height:32px;font-weight:600;letter-spacing:-.015em}
+  .ds-sec > header p{margin:8px 0 22px;max-width:70ch;font-size:15px;line-height:23px;color:var(--fg-2)}
+  .ds-sec h3{margin:30px 0 6px;font-size:17px;line-height:24px;font-weight:600}
+  .ds-sub{margin:0 0 14px;font-size:14px;line-height:21px;color:var(--fg-2);max-width:70ch}
+  .ds-sec code{font-family:var(--font-mono);font-size:12.5px;padding:1px 6px;border-radius:6px;background:rgba(var(--ink),.07);color:var(--fg)}
+  .ds-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px}
+  .ds-tok{display:grid;grid-template-columns:44px 1fr;grid-template-rows:auto auto auto;gap:2px 12px;padding:10px;border-radius:14px;background:var(--s1);border:1px solid var(--line)}
+  .ds-tok i{grid-row:1 / -1;width:44px;height:44px;border-radius:12px;border:1px solid rgba(var(--ink),.08)}
+  .ds-tok b{font-family:var(--font-mono);font-size:12.5px;font-weight:500}
+  .ds-tok span{display:flex;gap:10px}
+  .ds-tok em{font-style:normal;font-family:var(--font-mono);font-size:11.5px;color:var(--fg-3)}
+  .ds-tok small{font-size:12.5px;line-height:17px;color:var(--fg-2)}
+  .ds-row{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+  .ds-tint{display:inline-grid;place-items:center;width:72px;height:48px;border-radius:12px;font-family:var(--font-mono);font-size:12px;color:var(--fg)}
+  .ds-shadow{display:inline-grid;place-items:center;width:96px;height:48px;border-radius:12px;background:var(--s1);box-shadow:0 12px 34px rgba(0,0,0,calc(.45 * var(--sh)));font-size:12.5px;color:var(--fg-2)}
+  .ds-type{display:flex;flex-direction:column}
+  .ds-t{display:grid;grid-template-columns:220px 1fr;gap:20px;align-items:baseline;padding:14px 0;border-bottom:1px solid var(--line-soft)}
+  .ds-tn{display:flex;flex-direction:column;gap:2px}
+  .ds-tn b{font-size:13.5px;font-weight:500}
+  .ds-tn em{font-style:normal;font-size:12px;color:var(--fg-3);font-family:var(--font-mono)}
+  .ds-ts{min-width:0;overflow-wrap:anywhere}
+  .ds-shapes span{display:inline-grid;place-items:center;width:150px;height:64px;background:var(--s1);border:1px solid var(--line);font-size:12.5px;color:var(--fg-2)}
+  .ds-space span{display:inline-flex;flex-direction:column;align-items:center;gap:6px;font-size:12px;color:var(--fg-3);font-family:var(--font-mono)}
+  .ds-space i{display:block;background:var(--fg);border-radius:2px}
+  .ds-motion{display:flex;flex-direction:column;gap:8px}
+  .ds-m{display:grid;grid-template-columns:1fr 220px;gap:16px;align-items:center;padding:12px 14px;border:1px solid var(--line);border-radius:14px;background:var(--s1);color:inherit;font:inherit;text-align:left;cursor:pointer;transition:background .2s}
+  .ds-m:hover{background:var(--s2)}
+  .ds-mn{display:flex;flex-direction:column;gap:2px}
+  .ds-mn b{font-size:14.5px;font-weight:500}
+  .ds-mn em{font-style:normal;font-family:var(--font-mono);font-size:11.5px;color:var(--fg-3)}
+  .ds-mn small{font-size:12.5px;color:var(--fg-2)}
+  .ds-mstage{position:relative;height:36px;border-radius:10px;background:rgba(var(--ink),.05);overflow:hidden}
+  .ds-mstage i{position:absolute;left:6px;top:6px;width:24px;height:24px;border-radius:8px;background:var(--fg)}
+  @keyframes dsplay{from{transform:translateX(0)}to{transform:translateX(184px)}}
+  .ds-icons{display:grid;grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:8px}
+  .ds-ic{display:flex;flex-direction:column;align-items:center;gap:8px;padding:14px 6px 10px;border:1px solid var(--line);border-radius:14px;background:var(--s1);color:var(--fg);font:inherit;cursor:default;transition:background .2s}
+  .ds-ic:hover{background:var(--s2)}
+  .ds-ic svg{width:20px;height:20px}
+  .ds-ic span{font-family:var(--font-mono);font-size:11px;color:var(--fg-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+  .ds-glass{position:relative;padding:28px;border-radius:20px;background:url('assets/arata/two-bottles-one-routine-1.webp') center/cover;overflow:hidden}
+  .ds-seg,.ds-tbr{position:static;transform:none;margin:0}
+  .ds-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:20px;align-items:start}
+  .ds-cards .card{width:auto;max-width:none;margin:0}
+  .ds-chat{padding:24px;border-radius:20px;background:var(--s1);border:1px solid var(--line)}
+  .ds-chat .cm-body{font-size:16px;line-height:24px;color:var(--fg);display:flex;flex-direction:column;gap:12px}
+  .ds-paper{padding:28px 32px;border-radius:20px;background:#fbfaf6;color:#1c1c1c}
+  .ds-paper .bn{max-width:none}
+  .ds-paper .bn h3{margin:0 0 10px;font-size:26px;line-height:32px;font-weight:600;color:#111}
+  .ds-assets{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px}
+  .ds-as{display:flex;flex-direction:column;align-items:flex-start;gap:4px;padding:14px;border-radius:14px;background:var(--s1);border:1px solid var(--line);min-width:0}
+  .ds-as img{width:40px;height:40px;object-fit:contain;margin-bottom:6px}
+  .ds-as img.is-logo{border-radius:10px}
+  .ds-as b{font-size:13.5px;font-weight:500}
+  .ds-as code{font-size:11.5px}
+  .ds-as small{font-size:11.5px;color:var(--fg-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+  .ds-av{display:inline-flex;margin-bottom:6px}
+  .ds-av .tav{width:40px;height:40px;font-size:16px}
+  :root[data-theme="light"] .ds-as img[src$="mark.svg"]:not([src*="arata"]){filter:invert(1) hue-rotate(180deg)}
+  .ds-rules{margin:0;padding:0 0 0 22px;display:flex;flex-direction:column;gap:12px}
+  .ds-rules li{font-size:15px;line-height:23px;color:var(--fg-2)}
+  .ds-rules b{display:block;font-weight:600;color:var(--fg)}
+  .ds-foot{margin:48px 0 0;padding-top:20px;border-top:1px solid var(--line-soft);font-size:13.5px;color:var(--fg-3)}
+  @media (max-width:700px){ .ds-t{grid-template-columns:1fr;gap:6px} .ds-m{grid-template-columns:1fr} .ds-mstage{display:none} }
   /* ---------- the draft, as a document in the chat ---------- */
   .cm-doc{border-radius:20px;background:var(--s1);border:1px solid var(--s3);overflow:hidden}
   .dc-h{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--s2)}
@@ -3896,7 +3994,7 @@
   .story-cover.is-brand img{width:62%;height:62%}
   /* stories: big numbers and a kicker over rich gradients and real photos */
   .sv-big{position:absolute;left:24px;right:24px;top:84px;z-index:2;font-size:96px;line-height:1;font-weight:700;letter-spacing:-.05em;color:#fff;
-    text-shadow:0 10px 40px rgba(0,0,0,.25);animation:svbig .7s cubic-bezier(.2,.8,.2,1) both}
+    text-shadow:0 10px 40px rgba(0,0,0,calc(.25 * var(--sh)));animation:svbig .7s cubic-bezier(.2,.8,.2,1) both}
   @keyframes svbig{from{opacity:0;transform:translateY(18px) scale(.96)}}
   .sv-k{display:inline-block;margin-bottom:10px;padding:5px 10px;border-radius:999px;background:rgba(255,255,255,.16);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
     font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:#fff}
@@ -3904,7 +4002,7 @@
 
 
   /* ---------- stickers (left gutter, logos only, peel from the nearest corner) and margin notes (right gutter) ---------- */
-  :root{--stk-paper:#fff;--stk-curl-a:#fff;--stk-curl-b:#cfcfcf;--stk-sh:rgba(0,0,0,.45);--note-ink:#f2f2ee;--note-k:#8a8a86;
+  :root{--stk-paper:#fff;--stk-curl-a:#fff;--stk-curl-b:#cfcfcf;--stk-sh:rgba(0,0,0,calc(.45 * var(--sh)));--note-ink:#f2f2ee;--note-k:#8a8a86;
     --font-hand:"Caveat","Bradley Hand","Segoe Print",cursive;--font-mono:"SF Mono","JetBrains Mono",ui-monospace,Menlo,monospace}
 
   /* kanban, plain: no pictures, no loaders, one card shape for every column */
@@ -3928,7 +4026,7 @@
 
   /* ---------- floating glass: the rail and the top bar float over the content ---------- */
   :root{--glass:rgba(24,24,26,.52);--glass-hi:rgba(255,255,255,.09);--glass-line:rgba(255,255,255,.08);
-    --glass-fx:blur(22px) saturate(1.7);--glass-sh:0 12px 34px rgba(0,0,0,.38),inset 0 1px 0 var(--glass-hi)}
+    --glass-fx:blur(22px) saturate(1.7);--glass-sh:0 12px 34px rgba(0,0,0,calc(.38 * var(--sh))),inset 0 1px 0 var(--glass-hi)}
   .rail-item[data-item="kanban"],.rail-item[data-item="shortlist"]{display:none}
   .topbar{background:transparent;pointer-events:none;padding:0 16px 0 12px;height:64px;align-items:center}
   /* the deck is a fixed board, so its bar is solid: columns start below it, nothing runs underneath */
@@ -4006,7 +4104,7 @@
   .stk[data-corner="bl"] .stk-art{clip-path:polygon(0 0,100% 0,100% 100%,var(--peel) 100%,0 calc(100% - var(--peel)))}
   .stk[data-corner="tr"] .stk-art{clip-path:polygon(0 0,calc(100% - var(--peel)) 0,100% var(--peel),100% 100%,0 100%)}
   .stk[data-corner="tl"] .stk-art{clip-path:polygon(var(--peel) 0,100% 0,100% 100%,0 100%,0 var(--peel))}
-  .stk-curl{position:absolute;width:var(--peel);height:var(--peel);filter:drop-shadow(0 0 2px rgba(0,0,0,.25))}
+  .stk-curl{position:absolute;width:var(--peel);height:var(--peel);filter:drop-shadow(0 0 2px rgba(0,0,0,calc(.25 * var(--sh))))}
   .stk-curl::before{content:'';position:absolute;inset:0}
   .stk[data-corner="br"] .stk-curl{right:0;bottom:0}.stk[data-corner="br"] .stk-curl::before{clip-path:polygon(0 0,100% 0,0 100%);background:linear-gradient(315deg,var(--stk-curl-a),#eee 35%,var(--stk-curl-b))}
   .stk[data-corner="bl"] .stk-curl{left:0;bottom:0}.stk[data-corner="bl"] .stk-curl::before{clip-path:polygon(0 0,100% 0,100% 100%);background:linear-gradient(45deg,var(--stk-curl-a),#eee 35%,var(--stk-curl-b))}
@@ -4048,7 +4146,7 @@
   .pj-lbl.is-muted{fill:#9a9a9a}
   .pj-x{stroke:var(--fg-4);stroke-width:1}
   .pj-hit{fill:transparent;cursor:crosshair}
-  .pj-tip{position:absolute;top:0;min-width:150px;padding:8px 10px;border-radius:10px;background:var(--fg);color:var(--s1);font-size:12.5px;display:flex;flex-direction:column;gap:2px;pointer-events:none;box-shadow:0 8px 24px rgba(0,0,0,.4)}
+  .pj-tip{position:absolute;top:0;min-width:150px;padding:8px 10px;border-radius:10px;background:var(--fg);color:var(--s1);font-size:12.5px;display:flex;flex-direction:column;gap:2px;pointer-events:none;box-shadow:0 8px 24px rgba(0,0,0,calc(.4 * var(--sh)))}
   .pj-tip span{display:flex;align-items:center;gap:6px}
   .pj-tip b{color:var(--s1);font-weight:600;margin-bottom:2px}
   .pj-tip em{margin-left:auto;font-style:normal;font-weight:600;font-variant-numeric:tabular-nums}
@@ -4092,7 +4190,7 @@
     width:min(var(--chat-w),calc(100vw - 84px));
     display:flex;flex-direction:column;overflow:hidden;
     background:var(--s1);border:1px solid var(--s3);border-radius:22px;
-    box-shadow:0 30px 80px rgba(0,0,0,.65),0 0 0 1px rgba(var(--ink),.02) inset;
+    box-shadow:0 30px 80px rgba(0,0,0,calc(.65 * var(--sh))),0 0 0 1px rgba(var(--ink),.02) inset;
     transform-origin:calc(100% - 60px) 24px;
     opacity:0;visibility:hidden;transform:translateY(-8px) scale(.97);
     transition:opacity .2s ease,transform .32s cubic-bezier(.32,.72,0,1),visibility .2s;
@@ -4142,39 +4240,7 @@
 </style>
 
 <aside class="rail" id="rail">
-  <button class="rail-logo" id="rail-logo" aria-expanded="false" aria-controls="rail" aria-label="Open navigation">
-    <svg class="mark" width="35" height="35" viewBox="0 0 234 234" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="ShopOS">
-      <g clip-path="url(#rail-clip)">
-        <path d="M188.023 124.642H148.738L176.498 152.402C174.067 155.973 171.306 159.335 168.245 162.396C168.065 162.606 167.855 162.816 167.645 163.026C164.584 166.057 161.223 168.818 157.651 171.279C155.731 172.6 153.72 173.83 151.679 174.971L142.016 155.643L135.203 142.018L132.832 137.216L131.302 134.215L129.891 131.364L128.541 128.663C127.73 127.103 126.71 125.752 125.449 124.642C124.849 124.102 124.219 123.621 123.529 123.201C123.229 122.991 122.928 122.841 122.598 122.661C120.678 121.701 118.607 121.221 116.536 121.221C113.985 121.221 111.614 121.911 109.543 123.171C108.853 123.591 108.193 124.072 107.593 124.642C106.362 125.722 105.312 127.073 104.532 128.633L103.211 131.274L101.711 134.245L100.24 137.247L97.8692 141.928L90.9666 155.763L86.1648 165.397L81.393 174.941C79.3523 173.83 77.3715 172.6 75.4508 171.279C71.7594 168.758 68.3082 165.877 65.157 162.726C62.0058 159.575 59.1247 156.124 56.5738 152.402L84.3341 124.642H45.0795C44.2692 120.32 43.8491 115.879 43.8491 111.317C43.8491 106.755 44.2692 102.284 45.0795 97.9619H84.3341L56.6038 70.2316C59.1247 66.5102 62.0058 63.0589 65.157 59.9078C68.3082 56.7566 71.7594 53.8755 75.4508 51.3546L103.211 79.1149V39.8603C107.533 39.05 111.974 38.6299 116.536 38.6299C121.098 38.6299 125.569 39.05 129.891 39.8603V79.1149L157.651 51.3546C161.343 53.8755 164.794 56.7566 167.945 59.9078C171.096 63.0589 173.977 66.5102 176.498 70.2016L148.738 97.9619H188.023C188.833 102.284 189.253 106.755 189.253 111.317C189.253 115.879 188.833 120.32 188.023 124.642Z" fill="white"/>
-        <path d="M150.089 198.049C149.009 199.07 147.628 199.58 146.218 199.58C145.317 199.58 144.417 199.37 143.607 198.95L130.522 191.897L128.181 190.637L120.498 186.495C119.268 185.835 117.887 185.505 116.567 185.505C115.246 185.505 113.866 185.835 112.635 186.495L104.892 190.667L102.581 191.897L89.5266 198.95C88.7163 199.37 87.786 199.58 86.8857 199.58C85.5051 199.58 84.0946 199.07 83.0442 198.049C81.2736 196.399 80.7934 193.788 81.8438 191.597L85.025 185.205L88.4462 178.392L93.188 168.909L103.212 148.831L104.892 145.47L107.293 140.728L108.584 138.147L108.764 137.757L111.555 132.145C112.365 130.524 113.896 129.474 115.576 129.204C115.876 129.114 116.207 129.084 116.537 129.084C116.867 129.084 117.197 129.114 117.527 129.174C118.037 129.264 118.517 129.414 118.998 129.654C120.078 130.224 120.948 131.094 121.489 132.145L124.28 137.787L124.4 138.027L125.78 140.728L128.181 145.53L129.892 148.951L144.597 178.392L148.018 185.205L151.2 191.597C152.28 193.788 151.8 196.369 150.089 198.049Z" fill="url(#rail-grad)"/>
-      </g>
-      <defs>
-        <linearGradient id="rail-grad" x1="84.0874" y1="202.598" x2="143.367" y2="165.662" gradientUnits="userSpaceOnUse">
-          <stop stop-color="#5735FC"/><stop offset="0.385" stop-color="#FE49FE"/>
-          <stop offset="0.69" stop-color="#F2A4F2"/><stop offset="1" stop-color="#F9C391"/>
-        </linearGradient>
-        <clipPath id="rail-clip"><rect width="145.404" height="160.95" fill="white" transform="translate(43.8496 38.6299)"/></clipPath>
-      </defs>
-    </svg>
-    <span class="swap">
-      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-        <rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 3v18"/>
-      </svg>
-    </span>
-    <span class="rail-word"><svg class="wmark" width="30" height="30" viewBox="0 0 234 234" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="ShopOS">
-      <g clip-path="url(#railx-clip)">
-        <path d="M188.023 124.642H148.738L176.498 152.402C174.067 155.973 171.306 159.335 168.245 162.396C168.065 162.606 167.855 162.816 167.645 163.026C164.584 166.057 161.223 168.818 157.651 171.279C155.731 172.6 153.72 173.83 151.679 174.971L142.016 155.643L135.203 142.018L132.832 137.216L131.302 134.215L129.891 131.364L128.541 128.663C127.73 127.103 126.71 125.752 125.449 124.642C124.849 124.102 124.219 123.621 123.529 123.201C123.229 122.991 122.928 122.841 122.598 122.661C120.678 121.701 118.607 121.221 116.536 121.221C113.985 121.221 111.614 121.911 109.543 123.171C108.853 123.591 108.193 124.072 107.593 124.642C106.362 125.722 105.312 127.073 104.532 128.633L103.211 131.274L101.711 134.245L100.24 137.247L97.8692 141.928L90.9666 155.763L86.1648 165.397L81.393 174.941C79.3523 173.83 77.3715 172.6 75.4508 171.279C71.7594 168.758 68.3082 165.877 65.157 162.726C62.0058 159.575 59.1247 156.124 56.5738 152.402L84.3341 124.642H45.0795C44.2692 120.32 43.8491 115.879 43.8491 111.317C43.8491 106.755 44.2692 102.284 45.0795 97.9619H84.3341L56.6038 70.2316C59.1247 66.5102 62.0058 63.0589 65.157 59.9078C68.3082 56.7566 71.7594 53.8755 75.4508 51.3546L103.211 79.1149V39.8603C107.533 39.05 111.974 38.6299 116.536 38.6299C121.098 38.6299 125.569 39.05 129.891 39.8603V79.1149L157.651 51.3546C161.343 53.8755 164.794 56.7566 167.945 59.9078C171.096 63.0589 173.977 66.5102 176.498 70.2016L148.738 97.9619H188.023C188.833 102.284 189.253 106.755 189.253 111.317C189.253 115.879 188.833 120.32 188.023 124.642Z" fill="white"/>
-        <path d="M150.089 198.049C149.009 199.07 147.628 199.58 146.218 199.58C145.317 199.58 144.417 199.37 143.607 198.95L130.522 191.897L128.181 190.637L120.498 186.495C119.268 185.835 117.887 185.505 116.567 185.505C115.246 185.505 113.866 185.835 112.635 186.495L104.892 190.667L102.581 191.897L89.5266 198.95C88.7163 199.37 87.786 199.58 86.8857 199.58C85.5051 199.58 84.0946 199.07 83.0442 198.049C81.2736 196.399 80.7934 193.788 81.8438 191.597L85.025 185.205L88.4462 178.392L93.188 168.909L103.212 148.831L104.892 145.47L107.293 140.728L108.584 138.147L108.764 137.757L111.555 132.145C112.365 130.524 113.896 129.474 115.576 129.204C115.876 129.114 116.207 129.084 116.537 129.084C116.867 129.084 117.197 129.114 117.527 129.174C118.037 129.264 118.517 129.414 118.998 129.654C120.078 130.224 120.948 131.094 121.489 132.145L124.28 137.787L124.4 138.027L125.78 140.728L128.181 145.53L129.892 148.951L144.597 178.392L148.018 185.205L151.2 191.597C152.28 193.788 151.8 196.369 150.089 198.049Z" fill="url(#railx-grad)"/>
-      </g>
-      <defs>
-        <linearGradient id="railx-grad" x1="84.0874" y1="202.598" x2="143.367" y2="165.662" gradientUnits="userSpaceOnUse">
-          <stop stop-color="#5735FC"/><stop offset="0.385" stop-color="#FE49FE"/>
-          <stop offset="0.69" stop-color="#F2A4F2"/><stop offset="1" stop-color="#F9C391"/>
-        </linearGradient>
-        <clipPath id="railx-clip"><rect width="145.404" height="160.95" fill="white" transform="translate(43.8496 38.6299)"/></clipPath>
-      </defs>
-    </svg><b>ShopOS</b></span>
-  </button>
+  <button class="rail-logo" id="rail-logo" aria-expanded="false" aria-controls="rail" aria-label="Open navigation"><img class="mark" data-brand="product.mark" alt="ShopOS" width="30" height="30"></button>
 
   <nav class="rail-nav" aria-label="Sections">
     <div class="rail-item" data-item="home">
@@ -4270,10 +4336,10 @@
     <span class="cta-wrap">
       <button class="cta-go" id="start-go" type="button">Build My Team
         <span class="cta-ags" aria-hidden="true">
-          <img src="assets/agent-creative.svg" alt="">
-          <img src="assets/agent-performance.svg" alt="">
-          <img src="assets/agent-visibility.svg" alt="">
-          <img src="assets/agent-storefront.svg" alt="">
+          <img data-brand="agents.creative" alt="">
+          <img data-brand="agents.performance" alt="">
+          <img data-brand="agents.visibility" alt="">
+          <img data-brand="agents.storefront" alt="">
         </span>
       </button>
     </span>
@@ -4324,11 +4390,11 @@
 </section>
 <div class="stories" id="stories">
     <button class="story" data-story="today" style="--i:0">
-      <span class="story-ring"><span class="story-cover is-brand"><img src="assets/arata/mark.svg" alt=""></span></span>
+      <span class="story-ring"><span class="story-cover is-brand"><img data-brand="client.mark" alt=""></span></span>
       <span class="story-label">Arata today</span>
     </button>
     <button class="story" data-story="recap" style="--i:1">
-      <span class="story-ring"><span class="story-cover is-dark"><img src="assets/shopos-mark.svg" alt=""></span></span>
+      <span class="story-ring"><span class="story-cover is-dark"><img data-brand="product.mark" alt=""></span></span>
       <span class="story-label">Recap</span>
     </button>
     <button class="story" data-story="trends" style="--i:1">
@@ -4355,7 +4421,7 @@
 <p class="feed-empty" id="feed-empty" hidden>Nothing shortlisted yet. Tap the bookmark on any card to keep it here.</p>
 <div class="stk-layer" id="stk" aria-hidden="true"></div><div class="notes-layer" id="notes" aria-hidden="true"></div>
 <main class="feed" id="feed"></main>
-<div class="team-pop" id="team-pop" hidden role="dialog" aria-label="With the team"></div>
+
 
 <div class="feed" style="padding-top:24px">
   <section class="feed-end">
@@ -4466,7 +4532,7 @@
 <aside class="dw" id="dw" role="dialog" aria-modal="true" aria-labelledby="dw-title">
   <div class="dw-head">
     <div class="dw-eyebrow">
-      <img src="assets/agent-crm.svg" alt="">
+      <img data-brand="agents.crm" alt="">
       CRM specialist
       <button class="dw-x" id="dw-x" aria-label="Close">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
@@ -4559,6 +4625,9 @@
 </section>
 
 
+<section class="cx-page ds-page" id="ds-page" hidden aria-labelledby="ds-title">
+  <div class="cx-in ds-in" id="ds-in"></div>
+</section>
 <section class="cx-page" id="cx-page" hidden aria-labelledby="cx-title">
   <div class="cx-in">
     <header class="cx-top">
@@ -4662,18 +4731,22 @@
 
 
 
+<script src="brand.js"></script>
 <script src="arata-feed.js"></script>
+<script>document.querySelectorAll('[data-brand]').forEach(el => { const v = el.dataset.brand.split('.').reduce((o, k) => o && o[k], window.BRAND); if (v) el.src = v; });</script>
+<div class="team-pop" id="team-pop" hidden role="dialog" aria-label="With the team"></div>
+<div class="pload" id="pload" hidden aria-live="polite"><div class="pl-in"><img class="pl-mark" data-brand="product.mark" alt=""><span class="pl-t"></span></div></div>
 <script>
   /* ---------------- data ---------------- */
   const AGENTS = {
-    performance: { name: 'Performance marketer', avatar: 'assets/agent-performance.svg' },
-    storefront:  { name: 'Storefront manager',   avatar: 'assets/agent-storefront.svg'  },
-    creative:    { name: 'Creative director',    avatar: 'assets/agent-creative.svg'    },
-    visibility:  { name: 'AI visibility',        avatar: 'assets/agent-visibility.svg'  },
-    crm:         { name: 'CRM specialist',       avatar: 'assets/agent-crm.svg'         }
+    performance: { name: 'Performance marketer', avatar: BRAND.agents.performance },
+    storefront:  { name: 'Storefront manager',   avatar: BRAND.agents.storefront  },
+    creative:    { name: 'Creative director',    avatar: BRAND.agents.creative    },
+    visibility:  { name: 'AI visibility',        avatar: BRAND.agents.visibility  },
+    crm:         { name: 'CRM specialist',       avatar: BRAND.agents.crm         }
   };
 
-  const SHOPOS = { name: 'ShopOS', avatar: 'assets/shopos-mark.svg' };
+  const SHOPOS = { name: BRAND.product.name, avatar: BRAND.product.mark };
   const AG = (k) => AGENTS[k] || SHOPOS;
 
   const POSTS = [
@@ -6032,7 +6105,7 @@
     ['📈', 'Match a trend',        'restyle it to what is working this week']
   ];
 
-  const ORCH_AVATAR = '<img class="orb" src="assets/agent-orchestrator.svg" alt="">';
+  const ORCH_AVATAR = '<img class="orb" src="${BRAND.agents.orchestrator}" alt="">';
   const ORCH_NAME = 'Orchestrator';
   const msg = (d, html, from = false) => `
       <div class="msg wk" style="--d:${d}">
@@ -6216,12 +6289,12 @@
   // ---------- the agents page ----------
   const AP_ORDER = ['creative', 'catalog', 'performance', 'visibility', 'storefront', 'crm'];
   const AP_META = {
-    creative:    { name:'Creative director',    avatar:'assets/agent-creative.svg' },
-    catalog:     { name:'Catalog manager',      avatar:'assets/agent-orchestrator.svg' },
-    performance: { name:'Performance marketer', avatar:'assets/agent-performance.svg' },
-    visibility:  { name:'AI visibility',        avatar:'assets/agent-visibility.svg' },
-    storefront:  { name:'Storefront manager',   avatar:'assets/agent-storefront.svg' },
-    crm:         { name:'CRM specialist',       avatar:'assets/agent-crm.svg' }
+    creative:    { name:'Creative director',    avatar:BRAND.agents.creative },
+    catalog:     { name:'Catalog manager',      avatar:BRAND.agents.orchestrator },
+    performance: { name:'Performance marketer', avatar:BRAND.agents.performance },
+    visibility:  { name:'AI visibility',        avatar:BRAND.agents.visibility },
+    storefront:  { name:'Storefront manager',   avatar:BRAND.agents.storefront },
+    crm:         { name:'CRM specialist',       avatar:BRAND.agents.crm }
   };
   const apEl = document.getElementById('agents-page');
 
@@ -6267,7 +6340,9 @@
   document.querySelectorAll('.seg .tab').forEach(b => b.addEventListener('click', () => {
     const want = b.dataset.layoutTab;
     if (want === layout) return;
-    setLayout(want);
+    if (!memPage.hidden) setMemPage(false);
+    if (!cxPage.hidden) setCxPage(false);
+    pageLoad(want, () => setLayout(want));
   }));
 
   // place the pill without animating on first paint
@@ -6292,6 +6367,7 @@
 
   // the composer: pick a model, send, or start from an example
   const askSend = () => {
+    { const q0 = document.getElementById('chat-q'); if (q0 && /^\/design[- ]?system\s*$/i.test(q0.value)) { q0.value = ''; setChat(false); return pageLoad('design', () => setDsPage(true)); } }
     const q = document.getElementById('chat-q');
     const text = q.value.trim();
     if (!text) { q.focus(); return; }
@@ -6429,7 +6505,7 @@
   // ---------- connectors: one list behind the rail flyout and the page ----------
   // logo files that exist are used; the rest show a lettered tile until one is added
   const CONNECTORS = [
-    { id:'shopify',  name:'Shopify',                cat:'Store',     logo:'assets/logo-shopify.png', agent:'storefront',
+    { id:'shopify',  name:'Shopify',                cat:'Store',     logo:BRAND.connectors.shopify, agent:'storefront',
       short:'Products, orders and pages', what:'Publish rewritten descriptions, update product pages, read live stock and orders.' },
     { id:'meta',     name:'Meta Ads',               cat:'Ads',       mono:'M',  color:'#0866FF', agent:'performance',
       short:'Budgets, ad sets and creative', what:'Shift budget between sets, pause on frequency, rotate creative on live campaigns.' },
@@ -6439,9 +6515,9 @@
       short:'Sessions, conversion and revenue', what:'Tie every move in the feed back to sessions, conversion and revenue.' },
     { id:'gmc',      name:'Google Merchant Center', cat:'Catalog',   mono:'MC', color:'#34a853', agent:'storefront',
       short:'Shopping feed and approvals', what:'Fix disapproved products and keep the shopping feed in sync with the store.' },
-    { id:'klaviyo',  name:'Klaviyo',                cat:'Messaging', logo:'assets/logo-klaviyo.png', color:'#000', wide:true, agent:'crm',
+    { id:'klaviyo',  name:'Klaviyo',                cat:'Messaging', logo:BRAND.connectors.klaviyo, color:'#000', wide:true, agent:'crm',
       short:'Email flows and consent', what:'Email reachability, consent and journeys, so Signals can send the right message.' },
-    { id:'whatsapp', name:'WhatsApp Business',      cat:'Messaging', logo:'assets/logo-whatsapp.png', agent:'crm',
+    { id:'whatsapp', name:'WhatsApp Business',      cat:'Messaging', logo:BRAND.connectors.whatsapp, agent:'crm',
       short:'Opt-ins and replies', what:'Opt-in lists and replies, for the customers who answer on WhatsApp instead.' },
     { id:'judgeme',  name:'Judge.me',               cat:'Reviews',   mono:'J',  color:'#2c7a7b', agent:'creative',
       short:'Reviews and replies', what:'Read every review, so creative and copy quote what customers actually say.' },
@@ -7644,9 +7720,9 @@
   const stkLayer = document.getElementById('stk'), notesLayer = document.getElementById('notes');
   const skLayer = { set hidden(v) { stkLayer.hidden = v; notesLayer.hidden = v; document.querySelectorAll('.mnote.is-inline').forEach(n => n.hidden = v); } };
   const STK = { brand:{ w:68, h:68, art:'<img src="assets/arata/mark.svg" alt="">', cls:'is-word' },
-                shop:{ w:66, h:66, art:'<img src="assets/shopos-mark.svg" alt="">', cls:'is-mark' },
+                shop:{ w:66, h:66, art:`<img src="${BRAND.product.mark}" alt="">`, cls:'is-mark' },
                 word:{ w:108, h:70, art:'<img src="assets/arata/logo.svg" alt="">', cls:'is-word' },
-                shopInv:{ w:60, h:60, art:'<img src="assets/shopos-mark.svg" alt="">', cls:'is-mark-inv' } };
+                shopInv:{ w:60, h:60, art:`<img src="${BRAND.product.mark}" alt="">`, cls:'is-mark-inv' } };
   const STK_ORDER = ['brand','shop','word','shopInv','brand','shop','word','shopInv','brand'];
   const STK_ROT = [-7, 6, -4, 8, -6, 4, -5, 7, -3];
   const SP = new Map(), ptr = { x:-9999, y:-9999 };
@@ -7801,13 +7877,170 @@
   const prepIcons = (root) => (root.querySelectorAll ? root : document).querySelectorAll(ICO_HOST).forEach(h => { if (h.querySelector('.pj-svg')) return; h.querySelectorAll('svg').forEach(prepIcon); });
   prepIcons(document);
   new MutationObserver(ms => ms.forEach(m => m.addedNodes.forEach(nd => { if (nd.nodeType === 1) { if (nd.matches && nd.matches(ICO_HOST)) nd.querySelectorAll('svg').forEach(prepIcon); prepIcons(nd); } }))).observe(document.body, { childList:true, subtree:true });
-  // ---------- with the team: who has each brief, and what they last did ----------
-  const TEAM = {
-    riya:  { name:'Riya',  role:'Design',            c:'#f0a6c8' },
-    kabir: { name:'Kabir', role:'Performance',       c:'#ef8b33' },
-    meera: { name:'Meera', role:'Copy and CRM',      c:'#5eead4' },
-    dev:   { name:'Dev',   role:'Storefront',        c:'#e8c34a' }
+
+  // ---------- page loader: a beat between pages, the mark and one line of what is being read ----------
+  const pload = document.getElementById('pload');
+  let plTimer = 0;
+  const PL_TEXT = { feed:'Back to your feed', deck:'Opening your deck', memory:'Reading memory', connectors:'Checking connectors', design:'Opening the design system' };
+  const pageLoad = (what, fn, hold) => {
+    const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (still) { fn(); return; }
+    clearTimeout(plTimer);
+    pload.querySelector('.pl-t').textContent = PL_TEXT[what] || what;
+    pload.hidden = false; void pload.offsetWidth; pload.classList.add('on');
+    setTimeout(fn, 180);
+    plTimer = setTimeout(() => { pload.classList.remove('on'); setTimeout(() => { if (!pload.classList.contains('on')) pload.hidden = true; }, 420); }, hold || 820);
   };
+
+  // ================= the design system page: /design-system =================
+  const dsPage = document.getElementById('ds-page');
+  const DS_TOKENS = [
+    ['--bg','#0a0a0a','#f2f2f7','The page'],
+    ['--s1','#151515','#ffffff','A card on the page'],
+    ['--s2','#1a1a1a','#f2f2f7','A block inside a card, a hover on a card'],
+    ['--s3','#262626','#e5e5ea','A chip, a pressed state, your own chat bubble'],
+    ['--s4','#2e2e2e','#d1d1d6','A line that must be seen'],
+    ['--line','#262626','#d9d9de','Card borders'],
+    ['--line-soft','#1f1f1f','#e5e5ea','Dividers inside cards'],
+    ['--fg','#fafafa','#000000','Headlines, primary text, the primary button'],
+    ['--fg-1','#d4d4d4','#1c1c1e','Body text in drafts and documents'],
+    ['--fg-2','#a3a3a3','#6e6e73','Secondary text, labels'],
+    ['--fg-3','#737373','#8e8e93','Timestamps, placeholders'],
+    ['--fg-4','#4a4a4a','#c7c7cc','Disabled text, dotted guides'],
+    ['--ok-bg','#16261b','#e9f8ee','Done, sent, live: the fill'],
+    ['--ok-line','#1f3a27','#bfe7cb','Done, sent, live: the edge'],
+    ['--ok-fg','#86efac','#248a3d','Done, sent, live: the text']
+  ];
+  const DS_FIXED = [
+    ['Accent green','#4ade80','Ticks, the live dot, what changed'],
+    ['Paper','#fbfaf6','The brief'],
+    ['Paper tile','#f1eee5','Tiles on the brief'],
+    ['Ink','#1c1c1e','Text on paper'],
+    ['Highlighter','#fde68a','The ask, your latest edit'],
+    ['Handwriting','#2563eb','Notes in Caveat'],
+    ['Stamp','#c2410c','Ready to send'],
+    ['Brand area','#f0a6c8','Area dot'],['Performance area','#ef8b33','Area dot'],['Storefront area','#e8c34a','Area dot'],['AEO · GEO · SEO','#7aa8ff','Area dot'],['CRM agent','#5eead4','Area dot']
+  ];
+  const DS_TYPE = [
+    ['Page title','32px / 38px · 600 · −0.015em','font-size:32px;line-height:38px;font-weight:600;letter-spacing:-.015em','Send a day-14 email to serum buyers'],
+    ['Card title','22px / 30px · 500','font-size:22px;line-height:30px;font-weight:500','8 ads from your ad plan, ready to review'],
+    ['Section heading','17px / 24px · 600','font-size:17px;line-height:24px;font-weight:600','What we know'],
+    ['Body','16px / 24px · 400','font-size:16px;line-height:24px','Use a caffeine and rosemary shampoo three times a week for eight weeks.'],
+    ['Secondary','14px / 20px · 400 · --fg-2','font-size:14px;line-height:20px;color:var(--fg-2)','Creative director · 5 min'],
+    ['Meta','12.5px / 18px · 400 · --fg-3','font-size:12.5px;line-height:18px;color:var(--fg-3)','v2 · Shorter · 37 words'],
+    ['Micro label','11px · 500 · mono · .12em · uppercase','font-family:var(--font-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--fg-3)','What happens'],
+    ['Handwriting','22px · Caveat · handwriting blue','font-family:var(--font-hand);font-size:22px;color:#2563eb','v2, with your edits']
+  ];
+  const DS_MOTION = [
+    ['Enter','cubic-bezier(.22,1,.36,1)','480ms','Panels, the chat page, the brief: a short travel and a fade'],
+    ['Exit','cubic-bezier(.4,0,.2,1)','320ms','Closing anything: quicker than it opened'],
+    ['Spring','cubic-bezier(.34,1.4,.64,1)','420ms','Chips popping, the stamp, a count changing'],
+    ['Settle','cubic-bezier(.32,.72,0,1)','500ms','The feed morphing into the deck, the segmented pill'],
+    ['Draw','cubic-bezier(.4,0,.2,1)','500ms + 70ms per line','Icon lines tracing in on hover']
+  ];
+  const DS_RULES = [
+    ['One radius scale','Containers 20, inner blocks 14, controls are pills or 12, small controls 8. A nested radius is the outer radius minus the padding.'],
+    ['No hard cuts','Where content meets a bar or an edge it fades to the background. Lines separate columns; they never end a scroll area.'],
+    ['Hover is a tint, never a fill','rgba(var(--ink), .07–.13) plus a hairline inset. Glass stays glass on hover: it brightens, it never goes solid. The only solid primary is the --fg button.'],
+    ['Icons draw, they don’t spin','Line icons, 1.8–2px stroke, 16–18px. On hover each line is traced in. No rotation, no sliding, no waving.'],
+    ['No shimmer loaders','Progress is a plain bar. The one shimmer is text while an agent is thinking, and the line under the page loader.'],
+    ['Motion is one family','The five curves above. Nothing else. Everything respects prefers-reduced-motion.'],
+    ['Content runs edge to edge','In the chat every block spans the 800px column. Memory and Connectors are 800px. Only your own bubbles and small tags keep their natural width.'],
+    ['One publish button at a time','The newest version carries its next steps; older versions let go of theirs, and the options row drops its copy.'],
+    ['Connecting is our window','A ShopOS dialog with the service’s name and logo, what will happen, one button. Never a copy of a third-party login.'],
+    ['Copy is plain','Sentence case. No exclamation marks. Buttons say what happens. Status is past tense once done.'],
+    ['The brief is a note','Memo header, stamp, numbered parts, taped-on draft, polaroid assets, a signature. The one paper surface, the same in both themes.'],
+    ['Shadows belong to things that float','Cards sit flat on a hairline. Popovers, dialogs and the brief cast a shadow, scaled by --sh (1 in dark, .16 in light).'],
+    ['Lighter is louder','Emphasis comes from brightness and weight, not colour. Green is reserved for done and live.']
+  ];
+  const dsIcons = () => {
+    const out = [];
+    Object.entries(I).forEach(([k, d]) => out.push([k, svg(d, 20)]));
+    [['arrow', I_ARR], ['back', I_BACK], ['chevron', I_CHEV], ['columns', I_COLS], ['jam', I_JAM], ['min', I_MIN], ['moon', I_MOON], ['note', I_NOTE], ['close', I_NX], ['tick', I_OK], ['plus', I_PLUS], ['publish', I_PUB], ['rows', I_ROWS], ['send', I_SEND], ['spark', I_SPARK], ['sun', I_SUN], ['trend', I_TREND], ['up', I_UP]].forEach(([k, m]) => out.push([k, m]));
+    out.push(['hand', svg(I_HAND, 20)], ['action', svg(I_LOOP, 20)]);
+    Object.entries(NF_I).forEach(([k, d]) => out.push(['notif-' + k, svg(d, 20)]));
+    document.querySelectorAll('.rail-btn').forEach(b => { const sv = b.querySelector('svg'); if (sv) out.push(['rail-' + b.dataset.nav, sv.outerHTML]); });
+    return out;
+  };
+  const dsSec = (id, title, sub, body) => `<section class="ds-sec" id="ds-${id}"><header><h2>${title}</h2>${sub ? `<p>${sub}</p>` : ''}</header>${body}</section>`;
+  const paintDS = () => {
+    const host = document.getElementById('ds-in');
+    const p48 = ALL_POSTS[48], p0 = ALL_POSTS[0];
+    const sample = [{ think:true, done:'Read the draft', say:'Keeping the facts, changing the way in.' }, { done:'Assigned the rewrite to Creative director', agent:'creative', task:'Rewriting the draft', tools:[['brain','Read brand memory'],['zap','Rewrote it with your change']] }];
+    host.innerHTML = `
+      <header class="cx-top ds-top">
+        <div><p class="ds-k">Design system</p><h1 id="ds-title">${esc(BRAND.product.name)} Feed</h1>
+        <p>The Feed is where a brand’s agents post drafts: creatives, pages, emails, store changes, and what competitors are doing. You act on a card in one of four ways: want more like it, shortlist it, jam with the team, or press its own button. Jam opens a chat with an orchestrator that hands work to agents, shows every version, and ends in a brief you send to the team, or a publish that connects the account first. Everything on this page is the visual language that holds it together.</p></div>
+        <nav class="ds-nav">${['colour','type','shape','motion','icons','components','assets','rules'].map(k => `<a href="#ds-${k}">${k[0].toUpperCase() + k.slice(1)}</a>`).join('')}</nav>
+      </header>
+      ${dsSec('colour', 'Colour', 'Every grey is a token on <code>:root</code>; the light theme redefines them under <code>html[data-theme="light"]</code>. The swatch is live; the two hexes are what it resolves to in each theme. Light follows Apple’s system colours: a grouped background, white cells, the systemGray scale, hairline separators.', `
+        <div class="ds-grid ds-tokens">${DS_TOKENS.map(([t, d, l, u]) => `<div class="ds-tok"><i style="background:var(${t})"></i><b>${t}</b><span><em>${d}</em><em>${l}</em></span><small>${u}</small></div>`).join('')}</div>
+        <h3>Fixed colours</h3><p class="ds-sub">These do not change with the theme.</p>
+        <div class="ds-grid ds-tokens">${DS_FIXED.map(([n, h, u]) => `<div class="ds-tok"><i style="background:${h}"></i><b>${n}</b><span><em>${h}</em></span><small>${u}</small></div>`).join('')}</div>
+        <h3>Tints and shadows</h3><p class="ds-sub"><code>rgba(var(--ink), a)</code> is the only way to tint: white in dark, black in light. Every shadow alpha is multiplied by <code>--sh</code>, so light mode is a whisper of dark.</p>
+        <div class="ds-row">${[.05,.08,.13,.2].map(a => `<span class="ds-tint" style="background:rgba(var(--ink),${a})">.${String(a).slice(2)}</span>`).join('')}<span class="ds-shadow">floating</span></div>`)}
+      ${dsSec('type', 'Type', `The system font, as Instagram uses it: <code>${esc('-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial')}</code>. Caveat for handwriting. A mono stack for micro labels. Weights 400, 500, 600; never 700 in UI.`, `
+        <div class="ds-type">${DS_TYPE.map(([n, spec, st, t]) => `<div class="ds-t"><span class="ds-tn"><b>${n}</b><em>${spec}</em></span><span class="ds-ts" style="${st}">${t}</span></div>`).join('')}</div>`)}
+      ${dsSec('shape', 'Shape and space', 'One radius scale. Spacing is on a 4px grid; the common steps are 8, 12, 16, 20, 24, 32.', `
+        <div class="ds-row ds-shapes"><span style="border-radius:20px">20 · container</span><span style="border-radius:14px">14 · inner block</span><span style="border-radius:12px">12 · control</span><span style="border-radius:8px">8 · small control</span><span style="border-radius:999px;width:auto;padding:0 20px">pill · chip</span></div>
+        <div class="ds-row ds-space">${[4,8,12,16,20,24,32].map(n => `<span><i style="width:${n}px;height:${n}px"></i>${n}</span>`).join('')}</div>`)}
+      ${dsSec('motion', 'Motion', 'Five curves. Click a row to play it.', `
+        <div class="ds-motion">${DS_MOTION.map(([n, c, d, u], k) => `<button class="ds-m" data-dsm="${k}" style="--c:${c}"><span class="ds-mn"><b>${n}</b><em>${c} · ${d}</em><small>${u}</small></span><span class="ds-mstage"><i></i></span></button>`).join('')}</div>`)}
+      ${dsSec('icons', 'Icons', 'Line icons, 1.8–2px stroke, on a 24 grid, drawn at 16–20px. Hover any of them: the lines trace in. Add new ones to <code>I</code> in index.html.', `
+        <div class="ds-icons">${dsIcons().map(([k, m]) => `<button class="ds-ic" type="button" title="${k}">${m}<span>${k}</span></button>`).join('')}</div>`)}
+      ${dsSec('components', 'Components', 'Live instances, built from the tokens above. Everything here is the real component, not a picture of it.', `
+        <h3>Buttons and chips</h3>
+        <div class="ds-row"><button class="ab-go">Primary</button><button class="ab-edit">Quiet</button><button class="st-chip is-brief">${I_NOTE}View brief<span class="qn">2</span></button><button class="st-chip is-pub">${I_PUB}Publish to Meta</button><button class="st-chip">${I_SPARK}Make it shorter</button><span class="st-chip is-sent">${I_OK} Sent to the team</span><button class="mem-btn">Back to chat</button></div>
+        <h3>Glass</h3><p class="ds-sub">Floating bars, the card’s own button over an image, popovers. Glass brightens on hover; it never goes solid.</p>
+        <div class="ds-row ds-glass"><nav class="seg ds-seg"><button class="tab" aria-selected="true">Feed</button><button class="tab" aria-selected="false">Deck</button></nav><span class="topbar-right ds-tbr"><button class="team-pill is-live"><span class="tp-av">${avHTML('meera')}${avHTML('riya')}</span><span class="tp-t">2 with the team</span><i class="tp-dot"></i></button><button class="ask">Ask ShopOS</button></span></div>
+        <h3>Cards</h3><p class="ds-sub">A visual card and a data card. The button at the bottom is the card’s own action.</p>
+        <div class="ds-cards">${card(p48)}${card(p0)}</div>
+        <h3>Streaming</h3><p class="ds-sub">What the orchestrator shows while it works: a status line, an agent pill, the tool calls hanging off a thread. Grey text with a light passing over it means “still going”.</p>
+        <div class="ds-chat"><div class="cm cm-ai"><div class="cm-body">${runHTML(sample)}<span class="cm-t">Here’s v2, <b>shorter</b>. The changed parts are marked.</span>${docHTML(Object.assign(firstDoc(0), { v:2, label:'Shorter', n:[1] }))}<div class="cm-next"><button class="st-chip">${I_SPARK}Make a second version</button><button class="st-chip is-pub">${I_PUB}Publish to arata.in</button></div></div></div><div class="tr-s is-live" style="margin-top:14px">${GRID}<span>Thinking</span></div></div>
+        <h3>Progress</h3><p class="ds-sub">Five stages, no shimmer.</p>
+        <div class="ds-row"><span class="tpp-bar" style="width:260px"><i class="done"></i><i class="done"></i><i class="now"></i><i></i><i></i></span><span class="tpp-st"><em>Making it</em></span></div>
+        <h3>Overlays</h3><p class="ds-sub">Each opens the real thing.</p>
+        <div class="ds-row"><button class="mem-btn" data-dsdemo="toast">Toast</button><button class="mem-btn" data-dsdemo="act">Connect and publish dialog</button><button class="mem-btn" data-dsdemo="team">Team panel</button><button class="mem-btn" data-dsdemo="load">Page loader</button><button class="mem-btn" data-dsdemo="theme">Switch theme</button></div>
+        <h3>The brief</h3><p class="ds-sub">The memo header and the stamp, as they sit on the note.</p>
+        <div class="ds-paper"><div class="bn"><span class="bn-stamp" aria-hidden="true">Ready to send</span><dl class="bn-memo"><div><dt>To</dt><dd><i><img src="${BRAND.product.mark}" alt=""></i>${esc(BRAND.product.name)} team</dd></div><div><dt>From</dt><dd>Vedant, Arata</dd></div><div><dt>Due</dt><dd>${due()}</dd></div><div><dt>Brief</dt><dd>#0400</dd></div></dl><h3>Send a day-14 email to serum buyers</h3><p class="bn-ask"><mark>Make our version.</mark> Two weeks in is when people start wondering if it works.</p></div></div>`)}
+      ${dsSec('assets', 'Brand assets', 'Every logo and avatar lives in <code>brand.js</code> and under <code>assets/brand/</code>. To change one, change the path there or replace the file. The product name is in copy too; <code>DESIGN.md</code> has the one-line swap.', `
+        <div class="ds-assets">
+          <div class="ds-as"><img src="${BRAND.product.mark}" alt=""><b>Product mark</b><code>BRAND.product.mark</code><small>${BRAND.product.mark}</small></div>
+          <div class="ds-as"><img src="${BRAND.client.mark}" alt=""><b>Client mark</b><code>BRAND.client.mark</code><small>${BRAND.client.mark}</small></div>
+          <div class="ds-as"><img src="${BRAND.client.logo}" alt="" style="width:80px"><b>Client wordmark</b><code>BRAND.client.logo</code><small>${BRAND.client.logo}</small></div>
+          ${Object.entries(BRAND.agents).map(([k, v]) => `<div class="ds-as"><img src="${v}" alt=""><b>${esc((AGENTS[k] || { name:k }).name)}</b><code>BRAND.agents.${k}</code><small>${v}</small></div>`).join('')}
+          ${Object.entries(BRAND.connectors).map(([k, v]) => `<div class="ds-as"><img src="${v}" alt="" class="is-logo"><b>${k}</b><code>BRAND.connectors.${k}</code><small>${v}</small></div>`).join('')}
+          ${Object.entries(BRAND.team).map(([k, m]) => `<div class="ds-as"><span class="ds-av">${avHTML(k)}</span><b>${m.name}</b><code>BRAND.team.${k}</code><small>${m.role} · ${m.c}</small></div>`).join('')}
+        </div>`)}
+      ${dsSec('rules', 'Rules', 'What we have agreed so far. Add to the list in DESIGN.md as decisions are made.', `
+        <ol class="ds-rules">${DS_RULES.map(([t, d]) => `<li><b>${t}</b><span>${d}</span></li>`).join('')}</ol>`)}
+      <p class="ds-foot">Source: <code>index.html</code>, <code>brand.js</code>, <code>DESIGN.md</code>. Open this page any time at <code>#design-system</code>, or type <code>/design-system</code> into Ask ${esc(BRAND.product.name)}.</p>`;
+    prepIcons(host);
+    host.querySelectorAll('.card').forEach(c => c.classList.add('in'));
+  };
+  const setDsPage = (open) => {
+    if (open) { if (!memPage.hidden) setMemPage(false); if (!cxPage.hidden) setCxPage(false); paintDS(); dsPage.hidden = false; dsPage.scrollTop = 0; if (location.hash !== '#design-system') history.replaceState(null, '', '#design-system'); }
+    else { dsPage.hidden = true; if (location.hash === '#design-system') history.replaceState(null, '', location.pathname); }
+  };
+  window.__setDsPage = setDsPage;
+  dsPage.addEventListener('click', (e) => {
+    const m = e.target.closest('[data-dsm]');
+    if (m) { const st = m.querySelector('.ds-mstage i'); st.style.animation = 'none'; void st.offsetWidth; st.style.animation = `dsplay 1s ${m.style.getPropertyValue('--c')} both`; return; }
+    const d = e.target.closest('[data-dsdemo]'); if (!d) return;
+    const k = d.dataset.dsdemo;
+    if (k === 'toast') return toast('Brief sent to the team');
+    if (k === 'act') return openAct(25, cardCfg(25));
+    if (k === 'team') return setTeam(true);
+    if (k === 'load') return pageLoad('design', () => {}, 1200);
+    if (k === 'theme') return themeBtn.click();
+    const a = e.target.closest('a[href^="#ds-"]'); if (a) { e.preventDefault(); document.getElementById(a.getAttribute('href').slice(1))?.scrollIntoView({ behavior:'smooth', block:'start' }); }
+  });
+  dsPage.addEventListener('click', (e) => { const a = e.target.closest('.ds-nav a'); if (a) { e.preventDefault(); dsPage.querySelector(a.getAttribute('href'))?.scrollIntoView({ behavior:'smooth' }); } });
+  if (location.hash === '#design-system' || /\/design-system\/?$/.test(location.pathname)) setTimeout(() => setDsPage(true), 50);
+  window.addEventListener('hashchange', () => { if (location.hash === '#design-system') setDsPage(true); else if (!dsPage.hidden) setDsPage(false); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !dsPage.hidden) setDsPage(false); });
+  // ---------- with the team: who has each brief, and what they last did ----------
+  const TEAM = BRAND.team;
   const WHO_BY_KIND = { creative:'riya', launch:'kabir', write:'meera', message:'meera', store:'dev' };
   const STAGES = ['Brief in', 'Picked up', 'Making it', 'Your review', 'Live'];
   // what each person says as the work moves, by kind
@@ -8026,8 +8259,9 @@
     const key = b.dataset.nav;
     setRail(false);
     if (!studio.hidden && key !== 'notifications') closeStudio();
-    if (key === 'connectors') { if (!memPage.hidden) setMemPage(false); if (!kbPage.hidden) setKbPage(false); if (!slPage.hidden) setSlPage(false); return setCxPage(cxPage.hidden); }
+    if (key === 'connectors') { if (!memPage.hidden) setMemPage(false); if (!kbPage.hidden) setKbPage(false); if (!slPage.hidden) setSlPage(false); return cxPage.hidden ? pageLoad('connectors', () => setCxPage(true)) : setCxPage(false); }
     if (!cxPage.hidden && key !== 'notifications') setCxPage(false);
+    if (!dsPage.hidden && key !== 'notifications') setDsPage(false);
     if (!memPage.hidden && !['memory','tune','notifications'].includes(key)) setMemPage(false);
     if (!kbPage.hidden && !['kanban','notifications','chat','jam'].includes(key)) setKbPage(false);
     if (!slPage.hidden && !['shortlist','notifications','chat','jam'].includes(key)) setSlPage(false);
@@ -8036,16 +8270,16 @@
     if (key === 'tune')      return setMemPage(true, 'feed');
     if (key === 'home') {
       if (chip === 'wishlist') setShortlist(false);
-      if (layout !== 'feed') return setLayout('feed');
+      if (layout !== 'feed') return pageLoad('feed', () => setLayout('feed'));
       return window.scrollTo({ top: 0, behavior: 'smooth' });
     }
     if (key === 'deck') {
       if (chip === 'wishlist') setShortlist(false);
-      return setLayout('deck');
+      return pageLoad('deck', () => setLayout('deck'));
     }
     if (key === 'shortlist') return setSlPage(slPage.hidden);
     if (key === 'kanban')    return setKbPage(kbPage.hidden);
-    if (key === 'memory')    return setMemPage(memPage.hidden || !memBtn.classList.contains('is-on'), 'learned');
+    if (key === 'memory')    return (memPage.hidden || !memBtn.classList.contains('is-on')) ? pageLoad('memory', () => setMemPage(true, 'learned')) : setMemPage(false);
     if (key === 'account')   return toast('Account is not built in this prototype yet');
   }));
 
@@ -8059,33 +8293,33 @@
 
   // ---------- stories ----------
   const STORIES = {
-    recap: { title:'Recap', avatar:'assets/shopos-mark.svg', slides:[
+    recap: { title:'Recap', avatar:BRAND.product.mark, slides:[
       { k:'This month', nf:() => kbItems.filter(x => ['sent','progress','live'].includes(x.col)).length + 3, h:'Briefs you’ve sent', p:'Three are live, the rest are with the team. Here’s what the live ones did.', g:'radial-gradient(120% 90% at 0% 0%,#3987e5 0%,#173a6b 45%,#0a0d14 100%)' },
       { img:'assets/arata/two-bottles-one-routine-1.webp', k:'Live · Meta ads', h:'Two bottles. One routine.', p:'2.4% click rate against 1.6% before, and 41 extra add to carts in the first week. (Sample numbers.)' },
       { k:'Live · Email', n:'+18%', h:'Second orders from the day-7 email', p:'Telling serum buyers what to expect cut “is it working?” tickets by a third. (Sample numbers.)', g:'radial-gradient(120% 90% at 100% 0%,#199e70 0%,#0d4a36 45%,#06100c 100%)' },
       { k:'Live · Store', n:'₹863', h:'Every price now matches', p:'Pack 2’s new price is on arata.in, the cards and the ads. Nothing quotes ₹898 any more.', g:'radial-gradient(120% 90% at 50% 100%,#d95926 0%,#5a2410 45%,#120805 100%)' }
     ]},
-    today: { title:'Arata today', avatar:'assets/arata/mark.svg', slides:[
+    today: { title:'Arata today', avatar:BRAND.client.mark, slides:[
       { k:'Today', nf:() => FEED_IDS.filter(i => ALL_POSTS[i].cta && !st(i).sent && !st(i).decided).length, h:'Things waiting on you', p:'A claim to sign off, prices to fix and the ad plan. Each one takes a minute or two.', g:'radial-gradient(120% 90% at 0% 0%,#4f7cff 0%,#1b2b6b 45%,#0b0d18 100%)' },
       { img:'assets/arata/474-reviews-serum-2.webp', k:'Your strongest proof', h:'474 reviews. 4.57★.', p:'The Intensive serum’s reviews are the line to lead every ad with this week.' },
       { k:'Store', n:'₹863', h:'Pack 2 got cheaper', p:'Damage Defence Pack 2 dropped from ₹898. Cards and ads still quote the old price.', g:'radial-gradient(110% 90% at 100% 0%,#ff9b5c 0%,#7a2a12 50%,#140906 100%)' }
     ]},
-    trends: { title:'Trends', avatar:'assets/agent-visibility.svg', slides:[
+    trends: { title:'Trends', avatar:BRAND.agents.visibility, slides:[
       { k:'Search', n:'+190%', h:'“Serum for hair growth and thickness”', p:'Searches are up 190%, and the India version is up 90%. Your Intensive serum fits it.', g:'radial-gradient(120% 90% at 0% 100%,#2fd2a4 0%,#0b5a4a 45%,#06110e 100%)' },
       { k:'People', n:'196', h:'Mentions of “recommendation”', p:'58% positive. People ask friends before they buy, so reviews do the selling.', g:'radial-gradient(120% 90% at 100% 100%,#b18cff 0%,#40207a 45%,#0d0816 100%)' },
       { img:'assets/arata/013cebb255ef9f20.webp', k:'Diwali in 24 days', h:'Gift the routine', p:'Serum + derma roller at ₹975. A gift angle is the fastest win before the festive rush.' }
     ]},
-    ads: { title:'Popular ads', avatar:'assets/agent-creative.svg', slides:[
+    ads: { title:'Popular ads', avatar:BRAND.agents.creative, slides:[
       { img:'assets/arata/two-bottles-one-routine-1.webp', k:'Most saved', h:'Two bottles. One routine.', p:'Shampoo + serum for ₹1,010. The routine framing beats single-product ads.' },
       { img:'assets/arata/474-reviews-serum-2.webp', k:'Holds attention', h:'Proof in the headline', p:'Putting the review count up top keeps people watching twice as long.' },
       { img:'assets/arata/mitoactive-combo-saving-4.webp', k:'Best value', h:'MitoActive™ + shampoo', p:'₹95 less than buying both. Savings you can see work better than percentages.' }
     ]},
-    news: { title:'Industry news', avatar:'assets/agent-performance.svg', slides:[
+    news: { title:'Industry news', avatar:BRAND.agents.performance, slides:[
       { img:'assets/arata/74ae882a71170b9c5ed9.webp', k:'Traya', h:'Live 193 days, 13 versions', p:'A stage-based fear hook plus a doctor plan. Long-running ads are the ones that pay.' },
       { img:'assets/arata/da6539ae7b2176001771.webp', k:'Traya', h:'A free test as the first step', p:'Lowering the first step and a numbered proof headline kept this one live for 203 days.' },
       { k:'AI answers', n:'12/32', h:'Where Arata gets named', p:'ChatGPT, Gemini, Perplexity and Claude name Arata in 12 of 32 answers, and 0 of 20 unbranded ones.', g:'radial-gradient(120% 90% at 50% 0%,#8f6bff 0%,#2c1b66 45%,#0b0816 100%)' }
     ]},
-    howto: { title:'How to', avatar:'assets/shopos-mark.svg', slides:[
+    howto: { title:'How to', avatar:BRAND.product.mark, slides:[
       { k:'Step 1', n:'01', h:'Open any card', p:'It opens as a chat with the work right there. Ask for changes like you would a colleague.', g:'radial-gradient(120% 90% at 0% 0%,#ffffff 0%,#9aa6c7 30%,#20253a 70%,#0a0b10 100%)' },
       { k:'Step 2', n:'02', h:'Make it yours', p:'Pick a quick change or type your own. Everything lands in the brief.', g:'radial-gradient(120% 90% at 100% 0%,#ffd6a8 0%,#a35a2c 40%,#1a0e08 100%)' },
       { k:'Step 3', n:'03', h:'Send it to the team', p:'The ShopOS team picks it up and you follow it on the Kanban board.', g:'radial-gradient(120% 90% at 50% 100%,#7cf0c9 0%,#1d6b55 40%,#07120e 100%)' }
@@ -8196,17 +8430,17 @@
       unlocks:'Purchase history and lifecycle. Every signal needs this one.',
       records:'2,400 customer records · 4,118 orders · 212 products',
       steps:['Importing purchase history','Matching customer records','Preparing signals'],
-      icon:'<img src="assets/logo-shopify.png" alt="">' },
+      icon:'<img src="${BRAND.connectors.shopify}" alt="">' },
     { id:'klaviyo',  name:'Klaviyo',           kind:'Email reachability, consent, journeys',
       unlocks:'Email as a channel, contact-frequency rules and journey conflict checks.',
       records:'2,057 subscribed profiles · 38 segments',
       steps:['Importing subscriber profiles','Checking channel eligibility','Preparing signals'],
-      icon:'<img src="assets/logo-klaviyo.png" class="wide" alt="">' },
+      icon:'<img src="${BRAND.connectors.klaviyo}" class="wide" alt="">' },
     { id:'whatsapp', name:'WhatsApp Business', kind:'Opt-in, reachability, replies',
       unlocks:'WhatsApp as an alternative channel, with its own consent.',
       records:'1,229 opted-in numbers',
       steps:['Importing the opt-in list','Checking channel eligibility','Preparing signals'],
-      icon:'<img src="assets/logo-whatsapp.png" alt="">' },
+      icon:'<img src="${BRAND.connectors.whatsapp}" alt="">' },
     { id:'support',  name:'Customer support',  kind:'Open issues, returns, service context', optional:true,
       unlocks:'Support exclusions, so nobody with an open complaint gets a marketing message.',
       records:'318 tickets · 41 open',
