@@ -809,7 +809,7 @@
     background-size:260% 100%;
     -webkit-background-clip:text;background-clip:text;
     color:transparent;
-    animation:livesheen var(--sh,3s) linear infinite;
+    animation:livesheen var(--shim,3s) linear infinite;
     transition:opacity .26s ease;
   }
   @keyframes livesheen{from{background-position:130% 0}to{background-position:-130% 0}}
@@ -3883,27 +3883,27 @@
   @keyframes pxbeat{0%,60%,100%{transform:scale(1)}20%{transform:scale(1.14)}40%{transform:scale(.96)}}
   .px-stamp{animation:pxstamp .5s steps(4,end) both}
   @keyframes pxstamp{from{transform:scale(1.4);opacity:0}to{transform:none;opacity:1}}
-  .pl-glyph{display:grid;place-items:center;width:56px;height:56px;color:var(--fg)}
+  .pl-glyph{display:grid;place-items:center;width:64px;height:64px;color:var(--fg)}
+  /* the loader glyph grows up in steps, then breathes until the page is ready */
+  .px-load{animation:pxgrow .8s steps(8,end) both,pxbreathe 1.4s ease-in-out .9s infinite}
+  @keyframes pxbreathe{0%,100%{opacity:1}50%{opacity:.45}}
   .tpp-empty .px,.mine-empty .px{display:block;margin:0 auto 10px;color:var(--fg-3)}
   .mine-empty{text-align:center}
   .sugg .sg-ic{width:28px;height:28px;flex:0 0 auto;border-radius:9px;background:rgba(var(--ink),.07);color:var(--fg);display:grid;place-items:center}
   .sugg:hover .sg-ic .px{animation:pxstamp .45s steps(4,end) both}
   @media (prefers-reduced-motion:reduce){ .px{animation:none!important} }
 
-  /* ---------- top bar: three separate glass pills ---------- */
-  .topbar-right{gap:8px;padding:0;border:0;background:none;-webkit-backdrop-filter:none;backdrop-filter:none;box-shadow:none}
-  .topbar-right > .team-pill,.topbar-right > .ask,.topbar-right > .chip{height:42px;border:1px solid var(--glass-line);background:var(--glass);-webkit-backdrop-filter:var(--glass-fx);backdrop-filter:var(--glass-fx);box-shadow:var(--glass-sh)}
-  .topbar-right > .team-pill{padding:0 14px 0 8px}
-  .topbar-right > .team-pill:not(.is-live){padding:0 14px}
-  .topbar-right > .ask{padding:0 16px 0 14px;font-size:13px;gap:8px}
-  .topbar-right > .chip{width:42px;border-radius:50%}
-  .topbar-right > :is(.team-pill,.ask,.chip):hover,.topbar-right > .team-pill[aria-expanded="true"]{background:var(--glass-hover);box-shadow:var(--glass-sh),inset 0 0 0 1px var(--glass-line-hi)}
-  body.is-deck .topbar-right > :is(.team-pill,.ask,.chip){background:var(--s1);-webkit-backdrop-filter:none;backdrop-filter:none;box-shadow:inset 0 0 0 1px var(--line);border-color:transparent}
-  :root[data-theme="light"] body.is-deck .topbar-right{background:none;box-shadow:none}
+  /* ---------- top bar: one glass group, everything inside is a full pill ---------- */
+  .topbar-right{gap:4px;padding:4px;border-radius:999px;border:1px solid var(--glass-line);background:var(--glass);-webkit-backdrop-filter:var(--glass-fx);backdrop-filter:var(--glass-fx);box-shadow:var(--glass-sh)}
+  .topbar-right > .team-pill,.topbar-right > .ask,.topbar-right > .chip{height:34px;border:0;border-radius:999px;background:transparent;box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none}
+  .topbar-right > .ask{padding:0 14px 0 12px;font-size:13px;gap:7px}
+  .topbar-right > .chip{width:34px;padding:0}
+  .topbar-right > :is(.team-pill,.ask,.chip):hover,.topbar-right > .team-pill[aria-expanded="true"]{background:rgba(var(--ink),.1);box-shadow:none}
+  body.is-deck .topbar-right{background:var(--s1);-webkit-backdrop-filter:none;backdrop-filter:none;box-shadow:inset 0 1px 0 rgba(var(--ink),.05)}
+  :root[data-theme="light"] body.is-deck .topbar-right{box-shadow:inset 0 0 0 1px var(--line);border-color:transparent}
   .ask .ask-ic{color:var(--fg);flex:0 0 auto}
   .tav,.tp-av .tav,:root[data-theme="light"] .tav{box-shadow:none}
-  .tp-av .tav + .tav{margin-left:-6px}
-  @media (max-width:600px){ .topbar-right > .chip{display:none} .topbar-right > .ask{padding:0 12px} .topbar-right > .ask .ask-ic + *{display:none} .topbar-right{gap:6px} }
+  @media (max-width:600px){ .topbar-right > .chip{display:none} .topbar-right > .ask{padding:0 12px} }
 
   /* ---------- team panel: a plain list ---------- */
   .team-pop{width:min(380px,calc(100vw - 32px));border-radius:18px;background:var(--s1);-webkit-backdrop-filter:none;backdrop-filter:none;border:1px solid var(--line);box-shadow:0 18px 50px rgba(0,0,0,calc(.5 * var(--sh)))}
@@ -3945,6 +3945,46 @@
 
   /* the chat panel greeting sits closer to its suggestions now the hint is gone */
   .chat-panel .greeting{margin-bottom:22px}
+
+  /* ---------- deck v2: a narrow side, and every column says who is working ---------- */
+  .deck-side{flex:0 0 220px;padding:18px 12px 16px;gap:12px}
+  .side-brand{gap:9px;padding:0 6px}
+  .side-brand .bmark{width:26px;height:26px;border-radius:7px}
+  .side-brand b{font-size:15px;line-height:20px}
+  .side-rule{margin:0 6px}
+  .side-h{margin:12px 8px 4px;font-size:11px}
+  .side-nav button{height:32px;padding:0 8px;gap:9px;font-size:13px;border-radius:8px}
+  .side-nav .col-dot{width:7px;height:7px;position:relative}
+  .side-nav .col-dot.is-live::after{content:'';position:absolute;inset:-3px;border-radius:50%;border:1.5px solid currentColor;color:inherit;opacity:0;animation:dotring 2.4s cubic-bezier(.22,1,.36,1) infinite}
+  .side-nav .col-dot.is-live{color:var(--fg-3)}
+  @keyframes dotring{0%{opacity:.6;transform:scale(.6)}80%,100%{opacity:0;transform:scale(1.7)}}
+
+  .col-head{padding:22px 20px 0}
+  .col-head h2{font-size:20px;line-height:28px}
+  .col-head hr{margin:16px -20px 0}
+  .col-agent{display:flex;align-items:center;gap:10px;margin-top:12px;padding:8px 10px 8px 8px;border-radius:14px;background:rgba(var(--ink),.04);box-shadow:inset 0 0 0 1px rgba(var(--ink),.06);transition:background .4s ease}
+  .ca-av{position:relative;width:30px;height:30px;flex:0 0 auto;border-radius:50%;display:grid;place-items:center}
+  .ca-av img{width:30px;height:30px;display:block;transition:filter .4s ease,opacity .4s ease}
+  .col-agent.is-on .ca-av::after{content:'';position:absolute;inset:-3px;border-radius:50%;border:1.5px solid var(--ok-fg);opacity:0;animation:avring 2.6s cubic-bezier(.22,1,.36,1) infinite}
+  @keyframes avring{0%{opacity:.55;transform:scale(.92)}70%,100%{opacity:0;transform:scale(1.18)}}
+  .col-agent:not(.is-on) .ca-av img{filter:grayscale(1);opacity:.55}
+  .ca-t{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}
+  .ca-t b{font-size:13px;line-height:17px;font-weight:500;color:var(--fg);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .col-agent:not(.is-on) .ca-t b{color:var(--fg-2)}
+  .ca-what{font-size:12.5px;line-height:17px;color:var(--fg-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
+  .col-agent .ca-what.what{background:linear-gradient(100deg,var(--fg-3) 0%,var(--fg-3) 38%,var(--fg) 50%,var(--fg-3) 62%,var(--fg-3) 100%) 0 0/260% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:livesheen var(--shim,3s) linear infinite;transition:opacity .3s ease,transform .3s cubic-bezier(.22,1,.36,1)}
+  .col-agent .ca-what.what.swap{opacity:0;transform:translateY(4px)}
+  .ca-st{flex:0 0 auto;display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 9px;border-radius:999px;font-size:11.5px;font-weight:500;color:var(--fg-3);background:rgba(var(--ink),.06)}
+  .ca-st svg{width:12px;height:12px}
+  .ca-st.is-on{color:var(--ok-fg);background:var(--ok-bg);box-shadow:inset 0 0 0 1px var(--ok-line)}
+  .eq{display:inline-flex;align-items:flex-end;gap:2px;height:10px}
+  .eq i{width:2px;height:10px;border-radius:1px;background:currentColor;transform-origin:bottom;animation:eqb 1s ease-in-out infinite}
+  .eq i:nth-child(2){animation-delay:-.35s;animation-duration:.8s}
+  .eq i:nth-child(3){animation-delay:-.6s;animation-duration:1.15s}
+  @keyframes eqb{0%,100%{transform:scaleY(.3)}50%{transform:scaleY(1)}}
+  .mx i{background:var(--fg)}
+  body.setup-run .col-agent{display:none}
+  @media (prefers-reduced-motion:reduce){ .eq i,.col-agent.is-on .ca-av::after,.side-nav .col-dot.is-live::after,.col-agent .ca-what.what{animation:none} .col-agent .ca-what.what{color:var(--fg-3);background:none} }
   /* ---------- the draft, as a document in the chat ---------- */
   .cm-doc{border-radius:20px;background:var(--s1);border:1px solid var(--s3);overflow:hidden}
   .dc-h{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--s2)}
@@ -5274,10 +5314,22 @@
   const mxDots = () => Array.from({ length: 16 }, (_, i) =>
     `<i style="--s:${(i % 4) + ((i / 4) | 0)}"></i>`).join('');
   const MATRIX = `<i class="mx" aria-hidden="true">${mxDots()}</i>`;
+  // the agent line under a column title: who runs it, what it is doing, whether it is on
+  var streamAt = window.__streamAt = window.__streamAt || {};
+  const colAgentHTML = (k) => {
+    const st = SECTOR_STATE[k] || { on:false, note:'' };
+    const a = AG(SECTOR_LEAD[k]);
+    const state = st.on ? 'on' : st.soon ? 'soon' : 'off';
+    const pill = st.on ? `<span class="ca-st is-on"><i class="eq"><i></i><i></i><i></i></i>Working</span>`
+      : st.soon ? `<span class="ca-st">${svg(I.clock || I.refresh, 12)}Queued</span>`
+      : `<span class="ca-st">Idle</span>`;
+    const line = st.on ? `<span class="ca-what what" style="--shim:${st.shimmer}">${esc(st.stream[streamAt[k] || 0])}</span>` : `<span class="ca-what">${esc(st.note || 'Not running')}</span>`;
+    return `<div class="col-agent is-${state}" data-sector="${k}"><span class="ca-av"><img src="${a.avatar}" alt=""></span><span class="ca-t"><b>${esc(a.name)}</b>${line}</span>${pill}</div>`;
+  };
   const sectorLive = (k) => {
     const st = SECTOR_STATE[k];
     if (!st.on) return `<i class="dot${st.soon ? ' soon' : ''}"></i>${st.note}`;
-    return `${MATRIX}<span class="what" style="--sh:${st.shimmer}">${st.stream[0]}</span>`;
+    return `${MATRIX}<span class="what" style="--shim:${st.shimmer}">${st.stream[0]}</span>`;
   };
 
   // whatever the brand turned out to be during setup
@@ -5371,11 +5423,7 @@
             <h2>${SECTORS[k].name}</h2>
             <span class="col-dp" aria-hidden="true">${MATRIX}</span>
             <span class="col-fill"></span>
-            <span class="col-now">
-              ${k === 'signals' ? (typeof sigLive !== 'undefined' && sigLive ? `<span class="col-live" data-sector="signals">${MATRIX}Reading your customers</span>` : '') : SECTOR_STATE[k].on
-                ? `<span class="col-live" data-sector="${k}">${sectorLive(k)}</span>`
-                : `<span class="col-off">Agent not working</span>`}
-            </span>
+
             <span class="col-menu"${k === 'signals' && !(typeof sigLive !== 'undefined' && sigLive) ? ' hidden' : ''}>
               <button class="col-dots" aria-label="Column options">${svg(I.more, 18)}</button>
               <div class="col-pop">
@@ -5384,6 +5432,7 @@
               </div>
             </span>
           </div>
+          ${colAgentHTML(k)}
           <hr>
         </div>
         <div class="col-body">
@@ -5399,7 +5448,7 @@
   const storiesEl = document.getElementById('stories');
 
   // each running agent moves on its own clock, so the two lines never change together
-  const streamAt = {};
+  var streamAt = window.__streamAt = window.__streamAt || {};
   const advance = (k) => {
     const st = SECTOR_STATE[k];
     streamAt[k] = ((streamAt[k] || 0) + 1) % st.stream.length;
@@ -5428,7 +5477,7 @@
     ${COL_ORDER.map(k => `
       <button data-col="${k}" class="${colState[k].hidden ? 'muted' : ''}"
               aria-current="false" title="${colState[k].hidden ? 'Hidden. Click to bring it back.' : SECTORS[k].name}">
-        <i class="col-dot" style="background:${SECTORS[k].dot}"></i>
+        <i class="col-dot${SECTOR_STATE[k] && SECTOR_STATE[k].on ? ' is-live' : ''}" style="background:${SECTORS[k].dot}"></i>
         ${SECTORS[k].name}
         <span class="n">${k === 'signals'
           ? ((typeof signalsLive === 'function' && signalsLive() ? SIGNALS.length : 0) + byAgent(k).length || '')
@@ -5442,9 +5491,6 @@
       <span><b>${BRAND_NAME}</b></span>
     </div>
 
-    <p class="side-note">
-      <b>Every area your agents work in.</b> Open what you sent or saved from Yours.
-    </p>
 
 
     <div class="side-rule"></div>
@@ -5717,7 +5763,7 @@
     if (!to || next === view || swapping) return;
     swapping = true;
 
-    const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const still = matchMedia('(prefers-reduced-motion: reduce)').matches || (window.__plCovered && window.__plCovered());
     const first = new Map(), firstBar = new Map();
     if (!still) {
       from.querySelectorAll('.card').forEach(c => {
@@ -7988,19 +8034,39 @@
   const pload = document.getElementById('pload');
   let plTimer = 0;
   const PL_TEXT = { feed:'Back to your feed', deck:'Opening your deck', memory:'Reading memory', connectors:'Checking connectors', design:'Opening the design system' };
+  // one glyph per load, chosen at random, never the same twice in a row
+  const PL_GLYPHS = ['lupin', 'tulip', 'sparkle', 'bud', 'heart', 'rose', 'clover', 'blossom', 'twinkle', 'star', 'paw'];
+  let plLast = '', plCovered = false;
+  window.__plCovered = () => plCovered;
+  // what eases in once the loader lifts, in reading order
+  const revealTargets = (what) => {
+    if (what === 'deck') return [...document.querySelectorAll('#deck-side > :not([hidden])'), ...document.querySelectorAll('#deck .col:not([hidden])')];
+    if (what === 'feed') return [document.getElementById('stories'), ...[...document.querySelectorAll('#feed .card')].filter(c => c.offsetParent && c.getBoundingClientRect().top < innerHeight).slice(0, 3)];
+    const page = { memory:'mem-page', connectors:'cx-page', design:'ds-page' }[what];
+    const inner = page && document.querySelector(`#${page} .cx-in`);
+    return inner ? [...inner.children].slice(0, 8) : [];
+  };
+  const revealIn = (els) => els.filter(Boolean).forEach((el, i) => el.animate(
+    [{ opacity:0, transform:'translateY(14px)' }, { opacity:1, transform:'none' }],
+    { duration:560, delay:i * 55, easing:'cubic-bezier(.22,1,.36,1)', fill:'backwards' }));
   const pageLoad = (what, fn, hold) => {
     const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (still) { fn(); return; }
-    clearTimeout(plTimer);
+    clearTimeout(plTimer); clearTimeout(pageLoad.go);
     pload.querySelector('.pl-t').textContent = PL_TEXT[what] || what;
-    const PL_SEQ = ['sprout' in (window.PIXELS || {}) ? 'sprout' : 'tulip', 'sparkle', 'blossom', 'twinkle', 'lupin', 'star'];
-    const g = document.getElementById('pl-glyph'); let gi = Math.floor(Math.random() * PL_SEQ.length);
-    const showG = () => { g.innerHTML = pix(PL_SEQ[gi++ % PL_SEQ.length], 56, 'grow'); };
-    showG(); clearInterval(pageLoad.t); pageLoad.t = setInterval(showG, 420);
-    setTimeout(() => clearInterval(pageLoad.t), (hold || 820) + 400);
+    const pool = PL_GLYPHS.filter(k => k !== plLast && (window.PIXELS || {})[k]);
+    plLast = pool[Math.floor(Math.random() * pool.length)];
+    document.getElementById('pl-glyph').innerHTML = pix(plLast, 64, 'load');
     pload.hidden = false; void pload.offsetWidth; pload.classList.add('on');
-    setTimeout(fn, 180);
-    plTimer = setTimeout(() => { pload.classList.remove('on'); setTimeout(() => { if (!pload.classList.contains('on')) pload.hidden = true; }, 420); }, hold || 820);
+    plCovered = true;
+    // swap the page only once the cover is fully up, so nothing moves underneath it
+    pageLoad.go = setTimeout(() => { fn(); }, 360);
+    plTimer = setTimeout(() => {
+      pload.classList.remove('on');
+      plCovered = false;
+      revealIn(revealTargets(what));
+      setTimeout(() => { if (!pload.classList.contains('on')) pload.hidden = true; }, 420);
+    }, Math.max(hold || 0, 1700));
   };
 
   // ================= the design system page: /design-system =================
@@ -8065,7 +8131,9 @@
     ['Edges: fade or cut, never half','The Deck is a fixed board, so its bar and column heads end in a clean line. The stories row stays inside the feed column and fades fully to the background at its edges; nothing shows past the column.'],
     ['Pixel glyphs are illustrations, not icons','Filled pixel art for empty states, the loader and suggestions. Line icons stay for controls. A glyph animates in steps, once, or loops only while something is waiting.'],
     ['Model icons are ours','Auto shows the ShopOS mark. Other models get a lettered tile in a flat colour, never the vendor’s logo.'],
-    ['Top bar controls are separate pills','Team, Ask and the theme switch each sit in their own glass pill. Avatars are plain circles, no ring.'],
+    ['Top bar is one glass group','Team, Ask and the theme switch share one glass pill; each control inside is a full pill. Avatars are plain circles, no ring.'],
+    ['Every column says who is working','Under each Deck column title: the agent, what it is doing now, and a Working, Queued or Idle pill. Working is green with a moving level; idle agents are greyed.'],
+    ['The loader is a beat, not a wait','One random pixel glyph grows in, the page swaps behind the cover, and after about 1.7s the page eases in, piece by piece. Nothing animates under the loader.'],
     ['Lighter is louder','Emphasis comes from brightness and weight, not colour. Green is reserved for done and live.']
   ];
   const dsIcons = () => {
@@ -8821,8 +8889,6 @@
         : { on:false, note:'Waiting on your customer data' };
       if (sigLive && !wasLive) {
         const col = deckEl.querySelector('.col[data-col="signals"]');
-        const now = col && col.querySelector('.col-now');
-        if (now) now.innerHTML = `<span class="col-live" data-sector="signals">${MATRIX}Reading your customers</span>`;
         const menu = col && col.querySelector('.col-menu');
         if (menu) menu.hidden = false;
         buildDeck();

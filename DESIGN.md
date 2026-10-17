@@ -209,7 +209,9 @@ window.BRAND = {
 14. **One accent.** If something needs a second colour, it is probably a status, and status is green or nothing.
 15. **Pixel glyphs are illustrations.** Filled pixel art for loader, empty states and suggestions; line icons stay for controls.
 16. **Model icons are ours.** Auto is the ShopOS mark; other models are lettered tiles, never vendor logos.
-17. **Top bar controls are separate pills.** Team, Ask and theme each in their own glass pill. Avatars are plain circles, no ring.
+17. **Top bar is one glass group.** Team, Ask and theme share one glass pill; every control inside is a full pill. Avatars are plain circles, no ring.
+18. **Every Deck column says who is working.** Agent avatar and name, what it is doing now, and a Working / Queued / Idle pill. Working is green with a moving level and a soft ring on the avatar; idle agents are greyed. The side nav is 220px and marks working areas with a ring on their dot.
+19. **The loader is a beat, not a wait.** One random pixel glyph (never the same twice running) grows in; the page swaps behind the cover at 360ms; after ~1.7s the cover lifts and the page eases in piece by piece (`revealIn`). Animations never run under the loader.
 
 ---
 
