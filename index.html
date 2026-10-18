@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..600,50;1,9..144,300..600,50&display=swap" rel="stylesheet">
 <title>ShopOS Feed</title>
 <style>
   html{color-scheme:dark}
@@ -4104,7 +4104,7 @@
   @media (max-width:600px){ #notif-fly{width:calc(100vw - 24px)} }
 
   /* ================= onboarding v2 ================= */
-  .ob{position:fixed;inset:0;z-index:120;background:var(--bg);display:flex;flex-direction:column;overflow-y:auto;opacity:0;transition:opacity .35s ease}
+  .ob{position:fixed;inset:0;z-index:120;background:var(--bg);display:flex;flex-direction:column;overflow-y:auto;overflow-x:hidden;opacity:0;transition:opacity .35s ease}
   .ob.on{opacity:1}
   .ob[hidden]{display:none}
   body.ob-on{overflow:hidden}
@@ -4264,10 +4264,10 @@
   .ca-st.is-on,.ob-cxb.on{box-shadow:none}
 
   /* ---------- onboarding v2.1: a serif voice, fewer things on screen ---------- */
-  :root{--font-display:"Instrument Serif",ui-serif,Georgia,serif}
-  .ob-h{font-family:var(--font-display);font-weight:400;font-size:56px;line-height:1.02;letter-spacing:-.015em}
+  :root{--font-display:"Fraunces",ui-serif,Georgia,serif}
+  .ob-h{font-family:var(--font-display);font-weight:400;font-size:52px;line-height:1.06;letter-spacing:-.03em;font-variation-settings:"opsz" 144,"SOFT" 50}
   .ob-h em{font-style:italic}
-  .ob-card h2{font-family:var(--font-display);font-weight:400;font-size:36px;line-height:1.08;letter-spacing:-.01em}
+  .ob-card h2{font-family:var(--font-display);font-weight:400;font-size:34px;line-height:1.1;letter-spacing:-.02em}
   .ob-p{margin-top:16px;font-size:16.5px}
   .ob-lab{margin-top:36px;font-size:13.5px;color:var(--fg-3)}
   .ob-lab + .ob-url{margin-top:10px}
@@ -4291,6 +4291,77 @@
   .ob-live li:not(:first-child) .ablob{filter:grayscale(1);opacity:.5}
   .ob-live li:not(:first-child) .ablob *{animation:none!important}
   @media (max-width:600px){ .ob-h{font-size:40px} .ob-card h2{font-size:28px} .ob-cnts{grid-template-columns:repeat(2,1fr)} }
+
+  /* ---------- onboarding v2.2 ---------- */
+  .ob-p.is-2{max-width:420px}
+  .ob-fine{margin-top:14px;font-size:13.5px;color:var(--fg-3)}
+  .ob-ag{display:inline-flex}
+  .ob-h em{font-style:italic;font-variation-settings:"opsz" 144,"SOFT" 100}
+  .ob-h.is-sm{font-size:36px}
+  .ob-chips{margin-top:32px}
+  /* the founder is the orchestrator, given its own colour here so it isn't the one grey option */
+  .ob-opt[data-role="founder"] .ab-body > *{fill:#f2b84b!important;stroke:#f2b84b!important}
+  .ob-cxs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:28px}
+  .ob-cx{padding:12px 12px 12px 14px;gap:12px}
+  .ob-cx .lg{width:34px;height:34px;border-radius:10px}
+  .ob-cx b{font-size:14px}
+  .ob-cxb{min-width:0;height:32px;padding:0 12px;font-size:13px}
+  @media (max-width:600px){ .ob-cxs{grid-template-columns:1fr} }
+  .ob-live li{flex:0 0 44px;overflow:hidden}
+  .ob-live{height:300px}
+  /* ready */
+  .is-ready{gap:0}
+  .ob-mark{width:56px;height:56px;margin-bottom:28px}
+  :root[data-theme="light"] .ob-mark{filter:invert(1) hue-rotate(180deg)}
+  /* ---------- findings: a 3D stack of five cards ---------- */
+  .ob-pane.is-found{width:min(720px,100%)}
+  .f3d{position:relative;width:100%;height:500px;overflow:visible;margin-top:8px;perspective:1600px;perspective-origin:50% 40%;touch-action:pan-y;outline:none}
+  .f3d-stack{position:absolute;inset:0;transform-style:preserve-3d}
+  .fc{position:absolute;left:50%;top:50%;width:340px;height:430px;margin:-215px 0 0 -170px;padding:20px;border-radius:26px;
+    display:flex;flex-direction:column;text-align:left;color:#fff;cursor:pointer;transform-origin:50% 60%;
+    background:radial-gradient(120% 80% at 20% 0%,color-mix(in srgb,var(--hue) 62%,transparent),transparent 62%),linear-gradient(160deg,color-mix(in srgb,var(--hue) 34%,#121212) 0%,#121212 70%);
+    box-shadow:inset 0 0 0 1px rgba(255,255,255,.08),0 30px 60px rgba(0,0,0,.35);
+    transition:transform .9s cubic-bezier(.22,1,.36,1),opacity .7s ease,filter .7s ease;will-change:transform}
+  :root[data-theme="light"] .fc{box-shadow:inset 0 0 0 1px rgba(255,255,255,.1),0 24px 50px rgba(0,0,0,.16)}
+  .fc.is-on{cursor:default}
+  .fc:not(.is-on):hover{filter:brightness(1.05)!important}
+  .fc header{display:flex;align-items:center;gap:10px}
+  .fc header .ablob{width:30px;height:30px}
+  .fc header span:not(.ablob){flex:1;min-width:0;display:flex;flex-direction:column}
+  .fc header b{font-size:13.5px;font-weight:600}
+  .fc header em{font-style:normal;font-size:12.5px;color:rgba(255,255,255,.62)}
+  .fc-n{font-style:normal;font-size:12px;color:rgba(255,255,255,.55);font-variant-numeric:tabular-nums}
+  .fc-body{flex:1;display:flex;flex-direction:column;justify-content:center}
+  .fc-big{margin:0;font-family:var(--font-display);font-size:68px;line-height:1;letter-spacing:-.03em;font-variation-settings:"opsz" 144,"SOFT" 50}
+  .fc-q{margin:0;font-family:var(--font-display);font-style:italic;font-size:32px;line-height:1.12;letter-spacing:-.02em;font-variation-settings:"opsz" 144,"SOFT" 100}
+  .fc-line{margin:14px 0 0;font-size:16px;line-height:22px;color:rgba(255,255,255,.82);text-wrap:pretty}
+  .fc footer{margin-top:14px}
+  .fc-chips,.fc-steps{display:flex;flex-wrap:wrap;gap:6px}
+  .fc-chips span,.fc-steps span{height:28px;padding:0 11px;border-radius:999px;background:rgba(255,255,255,.12);font-size:12.5px;display:inline-flex;align-items:center}
+  .fc-steps span.is-hot{background:#fff;color:#111;font-weight:600}
+  .fc-dots{display:grid;grid-template-columns:repeat(10,1fr);gap:6px}
+  .fc-dots i{aspect-ratio:1;border-radius:50%;box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.35)}
+  .fc-vs{display:flex;gap:8px}
+  .fc-vs span{flex:1;padding:10px 12px;border-radius:14px;background:rgba(255,255,255,.1);font-size:20px;font-weight:600;display:flex;flex-direction:column}
+  .fc-vs em{font-style:normal;font-size:12px;font-weight:400;color:rgba(255,255,255,.6)}
+  .fc-vs .is-you{background:#fff;color:#111}
+  .fc-vs .is-you em{color:rgba(0,0,0,.5)}
+  /* content only reads on the card in front */
+  .fc:not(.is-on) .fc-body,.fc:not(.is-on) footer{opacity:.0;transition:opacity .4s ease}
+  .fc.is-on .fc-body,.fc.is-on footer{opacity:1;transition:opacity .5s ease .25s}
+  .f3d-bar{display:flex;align-items:center;justify-content:center;gap:20px;margin-top:4px}
+  .f3d-bar .ob-pips{margin:0}
+  .f3d-bar .ob-pips i{cursor:pointer}
+  .f3d-bar .ob-go.is-quiet{background:rgba(var(--ink),.1);color:var(--fg)}
+  @media (max-width:600px){
+    .f3d{height:440px}
+    .fc{width:280px;height:380px;margin:-190px 0 0 -140px}
+    .fc-big{font-size:54px}
+    .fc-q{font-size:26px}
+    .ob-h{font-size:40px}
+    .ob-h.is-sm{font-size:30px}
+  }
+  @media (prefers-reduced-motion:reduce){ .fc{transition:opacity .2s} }
   /* ---------- the draft, as a document in the chat ---------- */
   .cm-doc{border-radius:20px;background:var(--s1);border:1px solid var(--s3);overflow:hidden}
   .dc-h{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--s2)}
@@ -8585,7 +8656,8 @@
     ['Agents are alive','Every agent face is a blob(): working ones bob, squash, look around and blink, each on its own clock; stopped ones are grey and still. Never a static avatar where the agent is doing something.'],
     ['Onboarding asks while it reads','Website first, then three quick questions while the agents read in the background. Then we say plainly it takes about an hour and let people leave. When it is ready: five findings, one card at a time, then the feed. Centred, one thing per screen.'],
     ['Status pills are Apple tints','A capsule with the colour as the label and the same colour at about 16% as the fill. No border, no outline, no glow. Green done or live, orange needs attention, red losing, blue information, grey neutral. Light mode uses Apple’s darker accessible variants for the label.'],
-    ['One display serif, for big moments only','Instrument Serif (Google Fonts) carries onboarding headlines, with one italic word for voice. Everything else stays in the system font.'],
+    ['One display serif, for big moments only','Fraunces (Google Fonts, optical size 144, soft) carries onboarding headlines and finding cards, with one italic word for voice. Everything else stays in the system font.'],
+    ['Say it in two lines','Subtext under a headline is two lines at most. If it needs a third, cut words, not font size.'],
     ['Lighter is louder','Emphasis comes from brightness and weight, not colour. Green is reserved for done and live.']
   ];
   const dsIcons = () => {
@@ -9512,31 +9584,30 @@
     const progress = (n) => { stepsEl.hidden = n < 1 || n > 3; stepsEl.querySelectorAll('i').forEach((x, i) => x.classList.toggle('on', i < n)); };
 
     const sUrl = () => `<div class="ob-pane">
-        <div class="ob-agents ob-in">${AGS.map(k => blob(k)).join('')}</div>
+        <div class="ob-agents ob-in">${AGS.map(k => `<span class="ob-ag" data-tip="${esc(AG(k).name)}">${blob(k)}</span>`).join('')}</div>
         <h1 class="ob-h ob-in">Your brand, run by <em>agents</em>.</h1>
-        <p class="ob-p ob-in">Five agents look after your ads, store, content, customers and how AI talks about you. They work every day and bring you what’s worth doing.</p>
-        <label class="ob-lab ob-in" for="ob-urli">Add your link to get going</label>
+        <p class="ob-p is-2 ob-in">Five agents run your ads, store, content and customers. Every day.</p>
         <form class="ob-url ob-in" id="ob-urlf"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
-          <input id="ob-urli" value="arata.in" autocomplete="off" spellcheck="false" aria-label="Your website"><button class="ob-go" type="submit">Get started</button></form>
+          <input id="ob-urli" value="arata.in" placeholder="yourbrand.com" autocomplete="off" spellcheck="false" aria-label="Your website"><button class="ob-go" type="submit">Start</button></form>
+        <p class="ob-fine ob-in">Your site is how they learn your brand.</p>
       </div>`;
     const sRole = () => `<div class="ob-pane">
         <h1 class="ob-h ob-in">Who’s this <em>for</em>?</h1>
-        <p class="ob-p ob-in">We’ll shape what you see around it. You can switch any time.</p>
         <div class="ob-opts ob-in" role="radiogroup">${ROLES.map(([k, ag, t, d]) => `<button type="button" class="ob-opt${st.role === k ? ' on' : ''}" role="radio" aria-checked="${st.role === k}" data-role="${k}">${blob(ag, st.role === k)}<span><b>${t}</b><em>${d}</em></span><i class="ob-tick"></i></button>`).join('')}</div>
         <div class="ob-nav ob-in"><button class="ob-go" data-obnext>Next</button></div>
       </div>`;
     const sFirst = () => `<div class="ob-pane">
-        <h1 class="ob-h ob-in">What matters <em>most</em> right now?</h1>
-        <p class="ob-p ob-in">Pick up to two.</p>
+        <h1 class="ob-h ob-in">What matters <em>most</em>?</h1>
         <div class="ob-chips ob-in">${FIRST.map(x => `<button type="button" class="ob-chip${st.first.has(x) ? ' on' : ''}" data-first="${esc(x)}">${esc(x)}</button>`).join('')}</div>
         <div class="ob-nav ob-in"><button class="ob-back" data-obback>Back</button><button class="ob-go" data-obnext>Next</button></div>
       </div>`;
     const cxRowOb = (id) => { const c = CONNECTORS.find(x => x.id === id), on = st.cx[id] === 'on', busy = st.cx[id] === 'busy';
-      return `<div class="ob-cx">${lg(c, true)}<span><b>${esc(c.name)}</b><em>${esc(c.short)}</em></span><button type="button" class="ob-cxb${on ? ' on' : ''}" data-obcx="${id}"${on || busy ? ' disabled' : ''}>${on ? 'Connected' : busy ? '<i class="src-spin"></i>' : 'Connect'}</button></div>`; };
+      return `<div class="ob-cx">${lg(c, true)}<span><b>${esc(c.name)}</b></span><button type="button" class="ob-cxb${on ? ' on' : ''}" data-obcx="${id}"${on || busy ? ' disabled' : ''}>${on ? 'Connected' : busy ? '<i class="src-spin"></i>' : 'Connect'}</button></div>`; };
+    const OB_CX = ['shopify', 'meta', 'gads', 'ga4', 'klaviyo', 'whatsapp'];
     const sTools = () => `<div class="ob-pane">
         <h1 class="ob-h ob-in">Connect your <em>tools</em></h1>
-        <p class="ob-p ob-in">Optional, but it helps a lot. With your real numbers your agents stop estimating and start knowing.</p>
-        <div class="ob-cxs ob-in">${['shopify', 'meta'].map(cxRowOb).join('')}</div>
+        <p class="ob-p is-2 ob-in">Optional. Real numbers make your agents sharper.</p>
+        <div class="ob-cxs ob-in">${OB_CX.map(cxRowOb).join('')}</div>
         <div class="ob-nav ob-in"><button class="ob-back" data-obback>Back</button><button class="ob-go" data-obnext>Continue</button></div>
       </div>`;
     const LIVE = [
@@ -9557,20 +9628,21 @@
         if (!document.getElementById('ob-live')) return clearInterval(liveT);
         list.insertAdjacentHTML('afterbegin', liveRow(LIVE[liveN++ % LIVE.length]));
         const li = list.firstElementChild;
-        li.animate([{ opacity:0, transform:'translateY(-10px)' }, { opacity:1, transform:'none' }], { duration:500, easing:'cubic-bezier(.22,1,.36,1)' });
+        // the new row opens its own space, so the rows below glide down instead of jumping
+        li.animate([{ height:'0px', marginBottom:'-8px', opacity:0, filter:'blur(4px)' }, { height:'44px', marginBottom:'0px', opacity:1, filter:'blur(0)' }], { duration:1100, easing:'cubic-bezier(.22,1,.36,1)' });
         while (list.children.length > 6) list.lastElementChild.remove();
       };
-      push(); push(); push(); liveT = setInterval(push, 1700);
+      push(); setTimeout(push, 700); setTimeout(push, 1400); liveT = setInterval(push, 3600);
       // three counters keep climbing while they read
       const C = [...document.querySelectorAll('[data-cnt]')].map(el => ({ el, to:+el.dataset.cnt, from:0 })), t0 = performance.now();
-      const tick = (now) => { const k = Math.min(1, (now - t0) / 9000), e = 1 - Math.pow(1 - k, 3);
+      const tick = (now) => { const k = Math.min(1, (now - t0) / 40000), e = 1 - Math.pow(1 - k, 3);
         C.forEach(c => c.el.textContent = Math.round(c.to * e).toLocaleString('en-IN'));
         if (k < 1 && document.getElementById('ob-live')) cntRaf = requestAnimationFrame(tick); };
       cntRaf = requestAnimationFrame(tick);
     };
     const sWait = () => `<div class="ob-pane">
         <h1 class="ob-h ob-in">Your agents are <em>reading</em> ${esc(NAME)}.</h1>
-        <p class="ob-p ob-in">We’ll let you know once it’s done.</p>
+        <p class="ob-p is-2 ob-in">This takes a little while. We’ll notify you when it’s done.</p>
         <div class="ob-cnts ob-in"><p><b data-cnt="179">0</b><span>pages</span></p><p><b data-cnt="51419">0</b><span>reviews</span></p><p><b data-cnt="4917">0</b><span>ads</span></p><p><b data-cnt="20">0</b><span>AI answers</span></p></div>
         <ul class="ob-live ob-in" id="ob-live" aria-live="polite"></ul>
         <button class="ob-demo ob-in" data-obready>Demo: jump to when it’s ready</button>
@@ -9581,22 +9653,72 @@
         <p class="ob-p ob-in">Your agents keep reading in the background. Nothing for you to do until then.</p>
         <button class="ob-demo ob-in" data-obready>Demo: jump to when it’s ready</button>
       </div>`;
-    const sReady = () => `<div class="ob-pane">
-        <div class="ob-ready ob-in">${pix('sparkle', 40, 'twinkle')}</div>
-        <h1 class="ob-h ob-in">Your feed is ready.</h1>
-        <p class="ob-p ob-in">Before you open it: while reading ${esc(NAME)}, your agents found five things worth knowing.</p>
-        <div class="ob-nav is-center ob-in"><button class="ob-go" data-obcards>Show me</button></div>
+    const sReady = () => `<div class="ob-pane is-ready">
+        <img class="ob-mark" data-brand="product.mark" src="${BRAND.product.mark}" alt="${esc(BRAND.product.name)}">
+        <h1 class="ob-h">Your feed is <em>ready</em>.</h1>
+        <div class="ob-nav is-center"><button class="ob-go" data-obcards>Take a look</button></div>
       </div>`;
-    const sCard = () => { const f = FOUND[st.card], last = st.card === FOUND.length - 1;
-      return `<div class="ob-pane is-wide">
-        <div class="ob-pips ob-in">${FOUND.map((_, i) => `<i class="${i < st.card ? 'done' : i === st.card ? 'on' : ''}"></i>`).join('')}</div>
-        <article class="ob-card ob-in">
-          <header>${blob(f.ag)}<span>${esc(AG(f.ag).name)} · ${esc(f.area)}</span></header>
-          <h2>${esc(f.h)}</h2>
-          <div class="ob-viz">${f.viz()}</div>
-        </article>
-        <div class="ob-nav is-center ob-in">${st.card ? '<button class="ob-back" data-obprev>Back</button>' : ''}${last ? '<button class="ob-go" data-obfeed>Open my feed</button>' : '<button class="ob-go" data-obcard>Next</button>'}</div>
-      </div>`; };
+    const readyIn = () => {
+      const p = stage.querySelector('.is-ready'); if (!p) return;
+      const [m, h, n] = [p.querySelector('.ob-mark'), p.querySelector('.ob-h'), p.querySelector('.ob-nav')];
+      const E = 'cubic-bezier(.22,1,.36,1)';
+      m.animate([{ opacity:0, transform:'scale(.85)', filter:'blur(8px)' }, { opacity:1, transform:'none', filter:'blur(0)' }], { duration:1400, easing:E, fill:'backwards' });
+      h.animate([{ opacity:0, transform:'translateY(10px)', filter:'blur(6px)' }, { opacity:1, transform:'none', filter:'blur(0)' }], { duration:1200, delay:700, easing:E, fill:'backwards' });
+      n.animate([{ opacity:0 }, { opacity:1 }], { duration:900, delay:1500, easing:'ease', fill:'backwards' });
+    };
+    const FINDS = [
+      { ag:'performance', area:'Rivals', big:'5 rivals', line:'3,332 live ads between them. You run 1,585.',
+        viz:() => `<div class="fc-chips">${['Minimalist', 'Traya', 'Mamaearth', 'Bare Anatomy', 'Man Matters'].map(x => `<span>${x}</span>`).join('')}</div>` },
+      { ag:'visibility', area:'AI answers', big:'0 of 20', line:'AI tools don’t name Arata unless asked.',
+        viz:() => `<div class="fc-dots">${Array.from({ length:20 }, () => '<i></i>').join('')}</div>` },
+      { ag:'creative', area:'Reviews', quote:'“A steady drop in hair fall within a month.”', line:'51,419 reviews. None of them in your ads.', viz:() => '' },
+      { ag:'crm', area:'Price', big:'₹642', line:'Cheaper than Minimalist, and no ad says so.',
+        viz:() => `<div class="fc-vs"><span><em>Minimalist</em>₹854</span><span class="is-you"><em>Arata</em>₹642</span></div>` },
+      { ag:'storefront', area:'Checkout', big:'5 steps', line:'Login is where people drop off.',
+        viz:() => `<div class="fc-steps">${['Product', 'Cart', 'Login', 'Address', 'Pay'].map((x, i) => `<span${i === 2 ? ' class="is-hot"' : ''}>${x}</span>`).join('')}</div>` }
+    ];
+    const AG_HUE = { creative:'#16897a', performance:'#3fa9f0', storefront:'#ef8b33', visibility:'#8b4fa8', crm:'#1f9e8f' };
+    const fcHTML = (f, i) => `<article class="fc" data-fc="${i}" style="--hue:${AG_HUE[f.ag]}" tabindex="-1">
+        <header>${blob(f.ag)}<span><b>${esc(AG(f.ag).name)}</b><em>${esc(f.area)}</em></span><i class="fc-n">${i + 1}/${FINDS.length}</i></header>
+        <div class="fc-body">${f.quote ? `<p class="fc-q">${esc(f.quote)}</p>` : `<p class="fc-big">${esc(f.big)}</p>`}<p class="fc-line">${esc(f.line)}</p></div>
+        ${f.viz() ? `<footer>${f.viz()}</footer>` : ''}
+      </article>`;
+    const sFound = () => `<div class="ob-pane is-found">
+        <h1 class="ob-h is-sm ob-in">Five things we <em>found</em></h1>
+        <div class="f3d" id="f3d"><div class="f3d-stack">${FINDS.map(fcHTML).join('')}</div></div>
+        <div class="f3d-bar"><div class="ob-pips" id="f3d-pips">${FINDS.map((_, i) => `<i data-fgo="${i}"></i>`).join('')}</div><button class="ob-go" data-obfeed>Open my feed</button></div>
+        <p class="ob-fine">Scroll, swipe or use the arrow keys.</p>
+      </div>`;
+    let fAt = 0, fLock = 0, fWheel = 0;
+    // where card i sits relative to the one in front
+    const fPos = (i) => {
+      const r = i - fAt, a = Math.abs(r), k = innerWidth < 600 ? .45 : 1;   // a tighter fan on phones
+      if (r === 0) return { t:'translate3d(0,0,0) rotateX(0deg) rotateY(0deg) rotateZ(0deg) scale(1)', o:1, f:'none', z:50 };
+      if (r > 0) return { t:`translate3d(${r * 64 * k}px,${-r * 34 * k}px,${-r * 150}px) rotateX(10deg) rotateY(-26deg) rotateZ(-4deg)`, o:Math.max(0, 1 - r * .2), f:`brightness(${1 - r * .14})`, z:50 - a };
+      return { t:`translate3d(${(-250 - a * 30) * k}px,${-20 - a * 10}px,${-160 - a * 40}px) rotateX(4deg) rotateY(30deg) rotateZ(-3deg) scale(.86)`, o:a > 1 ? 0 : .18, f:'brightness(.75)', z:50 - a };
+    };
+    const fApply = (c, i) => { const p = fPos(i); c.style.transform = p.t; c.style.opacity = p.o; c.style.filter = p.f; c.style.zIndex = p.z; c.classList.toggle('is-on', i === fAt); c.setAttribute('aria-hidden', String(i !== fAt)); };
+    const fPlace = () => {
+      ob.querySelectorAll('.fc').forEach((c, i) => fApply(c, i));
+      ob.querySelectorAll('#f3d-pips i').forEach((p, i) => p.className = i < fAt ? 'done' : i === fAt ? 'on' : '');
+      const go = ob.querySelector('.f3d-bar .ob-go'); if (go) go.classList.toggle('is-quiet', fAt < FINDS.length - 1);
+    };
+    const fGo = (n) => { const to = Math.max(0, Math.min(FINDS.length - 1, n)); if (to === fAt) return; fAt = to; fPlace(); };
+    const fInit = () => {
+      fAt = 0;
+      const cards = [...ob.querySelectorAll('.fc')];
+      // they come in one by one from below, back of the stack first, then the front one pops
+      cards.forEach((c) => { c.style.transition = 'none'; c.style.opacity = 0; c.style.transform = 'translate3d(0,60vh,0) rotateX(40deg) rotateZ(-8deg)'; });
+      ob.querySelectorAll('#f3d-pips i').forEach((p, i) => p.className = i === 0 ? 'on' : '');
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        cards.slice().reverse().forEach((c, k) => setTimeout(() => { c.style.transition = ''; fApply(c, cards.length - 1 - k); }, 200 + k * 160));
+        setTimeout(fPlace, 200 + cards.length * 160 + 300);
+      }));
+      const box = document.getElementById('f3d');
+      box.addEventListener('wheel', (e) => { e.preventDefault(); fWheel += e.deltaY + e.deltaX; const now = performance.now(); if (now < fLock) return; if (Math.abs(fWheel) > 40) { fGo(fAt + Math.sign(fWheel)); fWheel = 0; fLock = now + 560; } }, { passive:false });
+      let sx = null; box.addEventListener('touchstart', (e) => { sx = e.touches[0].clientX; }, { passive:true });
+      box.addEventListener('touchend', (e) => { if (sx == null) return; const dx = e.changedTouches[0].clientX - sx; if (Math.abs(dx) > 40) fGo(fAt + (dx < 0 ? 1 : -1)); sx = null; });
+    };
     const SCREENS = [sUrl, sRole, sFirst, sTools, sWait];
     const go = (n, dir = 1) => { st.step = n; progress(n); readEl.hidden = true; clearInterval(liveT); swap(SCREENS[n](), dir); if (SCREENS[n] === sWait) setTimeout(startLive, 260); };
 
@@ -9619,24 +9741,25 @@
       const r = t.closest('[data-role]');
       if (r) { st.role = r.dataset.role; ob.querySelectorAll('[data-role]').forEach(b => { const on = b === r; b.classList.toggle('on', on); b.setAttribute('aria-checked', on); const bl = b.querySelector('.ablob'); bl.classList.toggle('is-live', on); bl.classList.toggle('is-off', !on); }); return; }
       const fc = t.closest('[data-first]');
-      if (fc) { const v = fc.dataset.first; if (st.first.has(v)) st.first.delete(v); else { if (st.first.size >= 2) st.first.delete([...st.first][0]); st.first.add(v); } ob.querySelectorAll('[data-first]').forEach(b => b.classList.toggle('on', st.first.has(b.dataset.first))); return; }
+      if (fc) { const v = fc.dataset.first; st.first.has(v) ? st.first.delete(v) : st.first.add(v); ob.querySelectorAll('[data-first]').forEach(b => b.classList.toggle('on', st.first.has(b.dataset.first))); return; }
       const pc = t.closest('[data-push]');
       if (pc) { const v = pc.dataset.push; st.push.has(v) ? st.push.delete(v) : st.push.add(v); pc.classList.toggle('on', st.push.has(v)); return; }
       const cb = t.closest('[data-obcx]');
-      if (cb) { const id = cb.dataset.obcx; st.cx[id] = 'busy'; cb.outerHTML; ob.querySelector('.ob-cxs').innerHTML = ['shopify', 'meta'].map(cxRowOb).join(''); setTimeout(() => { st.cx[id] = 'on'; if (typeof cxState !== 'undefined') cxState[id] = 'on'; const box = ob.querySelector('.ob-cxs'); if (box) box.innerHTML = ['shopify', 'meta'].map(cxRowOb).join(''); }, 1100); return; }
+      if (cb) { const id = cb.dataset.obcx; st.cx[id] = 'busy'; cb.outerHTML; ob.querySelector('.ob-cxs').innerHTML = OB_CX.map(cxRowOb).join(''); setTimeout(() => { st.cx[id] = 'on'; if (typeof cxState !== 'undefined') cxState[id] = 'on'; const box = ob.querySelector('.ob-cxs'); if (box) box.innerHTML = OB_CX.map(cxRowOb).join(''); }, 1100); return; }
       if (t.closest('[data-obnext]')) return go(st.step + 1);
       if (t.closest('[data-obback]')) return go(st.step - 1, -1);
       if (t.closest('[data-obleave]')) return swap(sLeft());
-      if (t.closest('[data-obready]')) { clearTimeout(readT); clearInterval(liveT); st.read = READ.length; return swap(sReady()); }
-      if (t.closest('[data-obcards]')) { st.card = 0; return swap(sCard()); }
-      if (t.closest('[data-obcard]')) { st.card++; return swap(sCard()); }
-      if (t.closest('[data-obprev]')) { st.card--; return swap(sCard(), -1); }
+      if (t.closest('[data-obready]')) { clearTimeout(readT); clearInterval(liveT); st.read = READ.length; swap(sReady()); return setTimeout(readyIn, 210); }
+      if (t.closest('[data-obcards]')) { swap(sFound()); return setTimeout(fInit, 240); }
+      const fg = t.closest('[data-fgo]'); if (fg) return fGo(+fg.dataset.fgo);
+      const fcard = t.closest('.fc:not(.is-on)'); if (fcard) return fGo(+fcard.dataset.fc);
       if (t.closest('[data-obfeed]')) return close();
     });
     document.addEventListener('keydown', (e) => {
       if (ob.hidden || e.target.matches('input')) return;
-      if (e.key === 'ArrowRight') ob.querySelector('[data-obcard],[data-obnext]')?.click();
-      if (e.key === 'ArrowLeft') ob.querySelector('[data-obprev],[data-obback]')?.click();
+      if (ob.querySelector('#f3d')) { if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); fGo(fAt + 1); } if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); fGo(fAt - 1); } return; }
+      if (e.key === 'ArrowRight') ob.querySelector('[data-obnext]')?.click();
+      if (e.key === 'ArrowLeft') ob.querySelector('[data-obback]')?.click();
     });
     if (location.hash === '#onboarding') setTimeout(open, 60);
     window.addEventListener('hashchange', () => { if (location.hash === '#onboarding' && ob.hidden) open(); });

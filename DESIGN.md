@@ -219,7 +219,8 @@ window.BRAND = {
 24. **Agents are alive.** Every agent face is `blob(key, live)`: the SVG is inlined so the body can bob and squash, the pupils look around and the eyes blink. Each agent runs on its own clock (`--abd`, `--abl`, `--abo` per `data-blob`), so a row never moves in step. Hover a live one and it hops. `live=false` is greyscale at 45%, still. The near-black orchestrator gets a #3a3a3a body in dark mode.
 25. **Onboarding asks while it reads.** Website → three questions (role, what comes first + what you're pushing, connect tools) while a pill at the top shows the reading → an honest wait screen (about an hour; you can leave; we'll email and ping) → "Your feed is ready" → five findings, one card at a time → the feed. Centred, one thing per screen, 520–600px column.
 26. **Status pills are Apple tints.** Capsule, 22px, 12px/600. Label = the colour, fill = the same colour at ~16%, **no border**. Tokens `--t-{green,orange,red,blue,gray}` and `--t-*-bg`, defined per theme (dark: #30D158 / #FF9F0A / #FF6961 / #409CFF; light uses Apple's accessible variants #248A3D / #C93400 / #D70015 / #0062CC). `--ok-*` follow the same rule and `--ok-line` is transparent, so no green outlines anywhere.
-27. **One display serif, for big moments only.** `--font-display` = Instrument Serif (Google Fonts, 400 + italic). Used for onboarding headlines (56px, 40px on phones) and finding cards, with one italic word for voice ("Your brand, run by *agents*."). Never in product UI, buttons or body text — the system font stays the voice of the product.
+27. **One display serif, for big moments only.** `--font-display` = Fraunces (Google Fonts; optical size 144, SOFT 50, italic at SOFT 100). Used for onboarding headlines (52px, -0.03em; 40px on phones) and the big number on finding cards, with one italic word for voice ("Your brand, run by *agents*.").
+28. **Say it in two lines.** Subtext under a headline is two lines at most; cut words, never the font size. Most screens don't need subtext at all. Never in product UI, buttons or body text — the system font stays the voice of the product.
 
 ---
 
@@ -240,8 +241,8 @@ Open it at `index.html#onboarding`, or type `/onboarding` in Ask ShopOS. Code: t
 | Website | Five live agent blobs, "Your brand, run by *agents*.", one line on what they do, "Add your link to get going", the URL field. |
 | Three questions | Who it's for (agent icons grey, coloured on hover, alive when picked) → what matters most (generic goals, pick two) → connect tools (optional, explains why). Only the step bars in the header; no kickers, no reading pill. |
 | Reading | "Your agents are reading Arata." + "We'll let you know once it's done." Four counters climb (pages, reviews, ads, AI answers) and a live stream of what each agent is doing slides in at the top every 1.7s. |
-| Ready | "Your feed is ready" — the moment we'd notify by email/push. |
-| Five findings | One card per screen: rivals, AI answers, customer words, price, checkout. Agent + area kicker, one-line headline, a small visual. Arrow keys work. Last card opens the feed through the loader. |
+| Ready | The ShopOS mark fades in from a blur, then "Your feed is *ready*.", then the button — staggered over ~1.5s, no subtext. |
+| Five findings | A 3D stack (perspective, cards tilted back and to the right). The card in front pops forward and straightens; only it shows its content. Scroll, swipe, arrow keys, the pips, or click a card behind to bring it forward. Cards fly in from below one by one on entry. Each card: agent + area, one big number (or a quote) in the serif, one line, one small visual. "Open my feed" is quiet until the last card. |
 
 ## 11. Known fakes
 
