@@ -8597,7 +8597,7 @@
   // ---------- page loader: a beat between pages, the mark and one line of what is being read ----------
   const pload = document.getElementById('pload');
   let plTimer = 0;
-  const PL_TEXT = { feed:'Back to your feed', deck:'Opening your deck', memory:'Reading memory', connectors:'Checking connectors', design:'Opening the design system' };
+  const PL_TEXT = { welcome:'Opening your feed', feed:'Back to your feed', deck:'Opening your deck', memory:'Reading memory', connectors:'Checking connectors', design:'Opening the design system' };
   // one glyph per load, chosen at random, never the same twice in a row
   const PL_GLYPHS = ['lupin', 'tulip', 'sparkle', 'bud', 'heart', 'rose', 'clover', 'blossom', 'twinkle', 'star', 'paw'];
   let plLast = '', plCovered = false;
@@ -8605,14 +8605,16 @@
   // what eases in once the loader lifts, in reading order
   const revealTargets = (what) => {
     if (what === 'deck') return [...document.querySelectorAll('#deck-side > :not([hidden])'), ...document.querySelectorAll('#deck .col:not([hidden])')];
+    // first arrival from onboarding: the whole app comes in, rail and top bar first, then the feed
+    if (what === 'welcome') return [document.getElementById('rail-logo'), ...[...document.querySelectorAll('#rail .rail-item')].filter(x => x.offsetParent), document.querySelector('.topbar .seg'), document.querySelector('.topbar-right'), document.getElementById('demo'), ...revealTargets('feed'), ...document.querySelectorAll('.stk-layer > *, .notes-layer > *')];
     if (what === 'feed') return [document.getElementById('stories'), ...[...document.querySelectorAll('#feed .card')].filter(c => c.offsetParent && c.getBoundingClientRect().top < innerHeight).slice(0, 3)];
     const page = { memory:'mem-page', connectors:'cx-page', design:'ds-page' }[what];
     const inner = page && document.querySelector(`#${page} .cx-in`);
     return inner ? [...inner.children].slice(0, 8) : [];
   };
   const revealIn = (els) => els.filter(Boolean).forEach((el, i) => el.animate(
-    [{ opacity:0, transform:'translateY(14px)' }, { opacity:1, transform:'none' }],
-    { duration:560, delay:i * 55, easing:'cubic-bezier(.22,1,.36,1)', fill:'backwards' }));
+    [{ opacity:0, transform:'translateY(10px)' }, { opacity:1, transform:'none' }],
+    { duration:520, delay:i * 45, easing:'cubic-bezier(.22,1,.36,1)', fill:'backwards' }));
   const pageLoad = (what, fn, hold) => {
     const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (still) { fn(); return; }
@@ -9691,8 +9693,9 @@
         li.style.opacity = 0;
         // first the rows below make room, then the new one pops in
         // the list opens a slot and the new row rises into it in the same movement: no drop from the top, no scale
-        li.animate([{ height:'0px', marginBottom:'-8px' }, { height:'44px', marginBottom:'0px' }], { duration:900, easing:'cubic-bezier(.33,0,.15,1)' });
-        li.animate([{ opacity:0, transform:'translateY(10px)' }, { opacity:1, transform:'none' }], { duration:900, delay:150, easing:'cubic-bezier(.33,0,.15,1)', fill:'forwards' });
+        // simple: the rows below move down to make room, the new row fades in where it lands
+        li.animate([{ height:'0px', marginBottom:'-8px' }, { height:'44px', marginBottom:'0px' }], { duration:600, easing:'cubic-bezier(.22,1,.36,1)' });
+        li.animate([{ opacity:0 }, { opacity:1 }], { duration:600, delay:200, easing:'ease', fill:'forwards' });
         while (list.children.length > 6) list.lastElementChild.remove();
       };
       push(); setTimeout(push, 1300); setTimeout(push, 2600); liveT = setInterval(push, 4200);
@@ -9833,7 +9836,7 @@
     };
     const close = () => {
       clearTimeout(readT); clearInterval(liveT); clearInterval(cntT);
-      pageLoad('feed', () => { ob.hidden = true; ob.classList.remove('on'); document.body.classList.remove('ob-on'); if (location.hash === '#onboarding') history.replaceState(null, '', location.pathname); });
+      pageLoad('welcome', () => { ob.hidden = true; ob.classList.remove('on'); document.body.classList.remove('ob-on'); if (location.hash === '#onboarding') history.replaceState(null, '', location.pathname); });
     };
     window.__openOnboarding = open;
 
