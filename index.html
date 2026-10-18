@@ -8502,11 +8502,11 @@
       const ty = t.top - oy + Math.min(t.height / 2, 60);
       const top = Math.max(r.top - oy + 20, ty - 120);
       if (top < lastBottom + 30) return; lastBottom = top + 110;
-      const edge = Math.min(r.right, t.right) - ox, left = edge + 84;
+      const edge = Math.min(r.right, t.right) - ox, left = edge + 96;
       const n = document.createElement('div'); n.className = 'mnote'; n.innerHTML = html;
       n.style.left = left + 'px'; n.style.top = top + 'px'; notesLayer.appendChild(n);
       // the arrow starts under the note's first words and lands just outside the card, level with what it is about
-      const tmp = document.createElement('div'); tmp.innerHTML = noteArrow(left + 30, top + n.offsetHeight + 6, edge + 12, ty);
+      const tmp = document.createElement('div'); tmp.innerHTML = noteArrow(left + 30, top + n.offsetHeight + 6, edge + 28, ty);   // the tip stops 28px short of the card
       const arrow = tmp.firstElementChild; n.after(arrow); n._arrow = arrow;
     });
     noteIO && noteIO.disconnect();

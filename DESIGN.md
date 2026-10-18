@@ -224,7 +224,7 @@ window.BRAND = {
 29. **Light is the accent.** The five light-streak images in `assets/onboarding/` (generated as one family by `tools/light.py`: same palette, glow and grain, five compositions — fan, horizon, burst, sweep, curtains) are the finding-card backgrounds (with a dark scrim at the bottom for text). The same palette is `--ob-light` for accent words and `#ob-grad` for the scribbled underline. Onboarding and big moments only.
 30. **One heart, one Jam.** Under every card: the heart on the left (saves to **Liked** *and* teaches the feed; filled red when on) and a solid Jam pill on the right (the `--fg` primary, the most visible action on the card). The card's own CTA stays on the card. In the … menu: **Keep without liking** (into Liked, feed learns nothing) and **Show less like this** (the negative signal). The old bookmark and "Shortlisted" are gone; the list is called Liked.
 31. **Buttons are never gradients.** A CTA is a solid `--fg` fill (primary) or a quiet `rgba(var(--ink),.1)` tint (secondary). The light gradient is for onboarding headlines, cards and the underline only.
-32. **Notes point at their card.** Each margin note is written for the card beside it (`CARD_NOTES`, keyed by post) and names its target: `cta`, `media` or `panel`. A hand-drawn arrow is drawn from under the note to just outside the card, level with that target, after the note fades in. No borrowed notes from other cards.
+32. **Notes point at their card.** Each margin note is written for the card beside it (`CARD_NOTES`, keyed by post) and names its target: `cta`, `media` or `panel`. A hand-drawn arrow is drawn from under the note to 28px short of the card, level with that target, after the note fades in. No borrowed notes from other cards.
 
 ---
 
