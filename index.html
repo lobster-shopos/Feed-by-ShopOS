@@ -4419,14 +4419,20 @@
   .card-actions .act.is-heart:hover .tip{transform:none}
   .card-actions .act.is-heart[aria-pressed="true"]{color:#ff375f}
   .card-actions .dots{margin:0 auto}
+  /* Jam is the card's primary pill: solid, the same treatment as every primary button. No gradient. */
   .jam-btn{flex:0 0 auto;display:inline-flex;align-items:center;gap:7px;height:36px;padding:0 16px 0 13px;border:0;border-radius:999px;cursor:pointer;
-    font:inherit;font-size:14px;font-weight:600;color:#fff;
-    background:linear-gradient(100deg,#2f6bff 0%,#7b5cff 45%,#ff7a2e 100%);
-    box-shadow:0 6px 18px rgba(79,108,255,calc(.35 * var(--sh)));transition:filter .2s ease,transform .15s ease}
-  .jam-btn:hover{filter:brightness(1.08)}
+    font:inherit;font-size:14px;font-weight:600;color:var(--bg);background:var(--fg);transition:opacity .2s ease,transform .15s ease}
+  .jam-btn:hover{opacity:.88}
   .jam-btn:active{transform:scale(.97)}
-  .jam-btn svg{color:#fff}
-  :root[data-theme="light"] .jam-btn{box-shadow:0 4px 12px rgba(79,108,255,.25)}
+  .jam-btn svg{color:var(--bg)}
+
+  /* margin notes point at their card */
+  .mnote svg{display:none}
+  .mn-arrow{position:absolute;overflow:visible;pointer-events:none}
+  .mn-arrow path{fill:none;stroke:var(--note-ink);stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset .9s cubic-bezier(.65,0,.35,1) .35s}
+  .mn-arrow path.hd{transition-delay:1.15s;transition-duration:.25s}
+  .mn-arrow.on path{stroke-dashoffset:0}
+  @media (prefers-reduced-motion:reduce){ .mn-arrow path{transition:none;stroke-dashoffset:0} }
   /* ---------- the draft, as a document in the chat ---------- */
   .cm-doc{border-radius:20px;background:var(--s1);border:1px solid var(--s3);overflow:hidden}
   .dc-h{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--s2)}
@@ -8457,30 +8463,54 @@
   const NOTE_SEED = (() => { try { const k = 'shopos-note-seed', v = +sessionStorage.getItem(k); if (v) return v; const n = 1 + Math.floor(Math.random() * 1e9); sessionStorage.setItem(k, String(n)); return n; } catch (_) { return 1 + Math.floor(Math.random() * 1e9); } })();
   const noteGap = (k) => { let x = (NOTE_SEED ^ Math.imul(k + 1, 0x9e3779b1)) >>> 0; x = Math.imul(x ^ (x >>> 15), 0x85ebca6b) >>> 0; x = (x ^ (x >>> 13)) >>> 0; return 2 + (x % 2); };
   const NOTE_POOL = (() => { const seen = new Set(); return ALL_POSTS.map(p => p && p.note).filter(n => n && n.h && !seen.has(n.h) && seen.add(n.h)); })();
+  // every note belongs to its card and points at the part it is about: the button, the picture or the numbers
+  const CARD_NOTES = {
+    48:{ k:'move 21', h:'queue them as one test, not eight.', at:'cta' },
+    0: { k:'ai answers', h:'they quote a hospital blog. we can beat that.', at:'panel' },
+    6: { k:'move 21', h:'this one sells the combo. watch the ₹1,010 orders.', at:'media' },
+    3: { k:'price', h:'₹863 now. two ads still say ₹898.', at:'panel' },
+    19:{ k:'proof gate', h:'0 of 4 claims backed. hold until r&d signs.', at:'cta' },
+    22:{ k:'day 14', h:'this is when doubt sets in.', at:'media' },
+    14:{ k:'this week', h:'12 of 32. up from 9.', at:'panel' },
+    1: { k:'rival', h:'193 days live means it’s working for them.', at:'media' },
+    25:{ k:'move 31', h:'buying more costs more. fix it first.', at:'cta' }
+  };
+  const noteTarget = (card, at) => (at === 'cta' && card.querySelector('.cta, .cta-wrap')) || (at === 'panel' && card.querySelector('.panel, .rows')) || card.querySelector('.media, .panel') || card;
+  // a hand-drawn arrow from the note to a point: a loose curve with a small wobble and an open arrowhead
+  const noteArrow = (x1, y1, x2, y2) => {
+    const pad = 20, L = Math.min(x1, x2) - pad, T = Math.min(y1, y2) - pad, W = Math.abs(x1 - x2) + pad * 2, H = Math.abs(y1 - y2) + pad * 2;
+    const a = [x1 - L, y1 - T], b = [x2 - L, y2 - T];
+    const c1 = [a[0] - (a[0] - b[0]) * .25, a[1] + (b[1] - a[1]) * .9 + 18], c2 = [b[0] + (a[0] - b[0]) * .35, b[1] - 6];
+    const ang = Math.atan2(b[1] - c2[1], b[0] - c2[0]), h = 9;
+    const l = [b[0] - h * Math.cos(ang - .5), b[1] - h * Math.sin(ang - .5)], r = [b[0] - h * Math.cos(ang + .5), b[1] - h * Math.sin(ang + .5)];
+    const f = (p) => p.map(v => v.toFixed(1)).join(' ');
+    return `<svg class="mn-arrow" style="left:${L}px;top:${T}px;width:${W}px;height:${H}px" viewBox="0 0 ${W} ${H}" aria-hidden="true"><path pathLength="1" d="M${f(a)} C${f(c1)} ${f(c2)} ${f(b)}"/><path pathLength="1" class="hd" d="M${f(l)} L${f(b)} L${f(r)}"/></svg>`;
+  };
   let noteIO = null;
   const placeNotes = () => {
     notesLayer.innerHTML = ''; document.querySelectorAll('.mnote.is-inline').forEach(n => n.remove());
-    if (layout !== 'feed' || !NOTE_POOL.length) return;
+    if (layout !== 'feed') return;
     const wide = innerWidth >= 1060, cards = [...feedCol.querySelectorAll('.card[data-post]')];
-    let lastBottom = -1e9, since = 0, slot = 0, gap = noteGap(0), last = '', pp = NOTE_SEED % NOTE_POOL.length;
-    const near = (i) => new Set(cards.slice(i + 1, i + 4).map(c => (ALL_POSTS[+c.dataset.post] || {}).note?.h).filter(Boolean));
-    const fromPool = (avoid) => { for (const ok of [(n) => n.h !== last && !avoid.has(n.h), (n) => n.h !== last || NOTE_POOL.length === 1]) for (let k = 0; k < NOTE_POOL.length; k++) { const n = NOTE_POOL[(pp + k) % NOTE_POOL.length]; if (ok(n)) { pp = (pp + k + 1) % NOTE_POOL.length; return n; } } return null; };
-    cards.forEach((card, i) => {
-      if (since < gap) { since++; return; }
-      const p = ALL_POSTS[+card.dataset.post] || {}, own = p.note && p.note.h && p.note.h !== last ? p.note : null, note = own || fromPool(near(i));
-      if (!note) { since++; return; }
+    let lastBottom = -1e9;
+    const LR = notesLayer.getBoundingClientRect(), ox = LR.left, oy = LR.top;   // measure from the layer itself, wherever it sits
+    cards.forEach((card) => {
+      const note = CARD_NOTES[+card.dataset.post] || (ALL_POSTS[+card.dataset.post] || {}).note;
+      if (!note || !note.h) return;
       const html = `<span class="k">${esc(note.k || '')}</span><span class="h">${esc(note.h)}</span>`;
-      if (!wide) { const n = document.createElement('div'); n.className = 'mnote is-inline'; n.innerHTML = html; card.before(n); }
-      else {
-        const r = card.getBoundingClientRect(), a = (card.querySelector('.media, .panel') || card).getBoundingClientRect();
-        const top = a.top + scrollY + Math.min(90, a.height * .3); if (top < lastBottom + 24) { since++; return; } lastBottom = top + 110;
-        const n = document.createElement('div'); n.className = `mnote${own ? '' : ' is-loose'}`; n.innerHTML = (own ? ARROW : '') + html;
-        n.style.left = (r.right + 44) + 'px'; n.style.top = top + 'px'; notesLayer.appendChild(n);
-      }
-      last = note.h; since = 1; gap = noteGap(++slot);
+      if (!wide) { const n = document.createElement('div'); n.className = 'mnote is-inline'; n.innerHTML = html; card.before(n); return; }
+      const r = card.getBoundingClientRect(), t = noteTarget(card, note.at || 'media').getBoundingClientRect();
+      const ty = t.top - oy + Math.min(t.height / 2, 60);
+      const top = Math.max(r.top - oy + 20, ty - 120);
+      if (top < lastBottom + 30) return; lastBottom = top + 110;
+      const edge = Math.min(r.right, t.right) - ox, left = edge + 84;
+      const n = document.createElement('div'); n.className = 'mnote'; n.innerHTML = html;
+      n.style.left = left + 'px'; n.style.top = top + 'px'; notesLayer.appendChild(n);
+      // the arrow starts under the note's first words and lands just outside the card, level with what it is about
+      const tmp = document.createElement('div'); tmp.innerHTML = noteArrow(left + 30, top + n.offsetHeight + 6, edge + 12, ty);
+      const arrow = tmp.firstElementChild; n.after(arrow); n._arrow = arrow;
     });
     noteIO && noteIO.disconnect();
-    noteIO = new IntersectionObserver((es) => es.forEach(en => en.isIntersecting && en.target.classList.add('on')), { threshold:.4 });
+    noteIO = new IntersectionObserver((es) => es.forEach(en => { if (en.isIntersecting) { en.target.classList.add('on'); en.target._arrow && en.target._arrow.classList.add('on'); } }), { threshold:.4 });
     notesLayer.querySelectorAll('.mnote').forEach(n => noteIO.observe(n));
   };
   const placeAll = () => { placeStickers(); placeNotes(); };
@@ -8488,6 +8518,9 @@
   addEventListener('resize', placeSoon);
   addEventListener('load', placeAll);
   new ResizeObserver(placeSoon).observe(feedCol);
+  // images arriving late move cards; keep notes pointing at the right spot
+  feedCol.addEventListener('load', (e) => { if (e.target.tagName === 'IMG') placeSoon(); }, true);
+  if (document.fonts) document.fonts.ready.then(placeSoon);
   requestAnimationFrame(placeAll);
   // ---------- hello: the greeting and the three numbers that matter today ----------
   const paintHello = () => {
@@ -8726,7 +8759,9 @@
     ['One display serif, for big moments only','Fraunces (Google Fonts, optical size 144, soft) carries onboarding headlines and finding cards. No italics: the headline lights up under the pointer. Everything else stays in the system font.'],
     ['Light is the accent','The streaks of blue, white and orange light from the onboarding imagery: on the finding cards, under the pointer on a headline (a pool of light follows the cursor), and on the scribbled underline. Not in product UI.'],
     ['Say it in two lines','Subtext under a headline is two lines at most. If it needs a third, cut words, not font size.'],
-    ['One heart, one Jam','Two actions under every card: a heart on the left (it saves the card to Liked and teaches the feed) and a bright Jam pill on the right. The card’s own button stays on the card. Keep without liking and Show less like this live in the … menu.'],
+    ['One heart, one Jam','Two actions under every card: a heart on the left (it saves the card to Liked and teaches the feed) and a solid Jam pill on the right. The card’s own button stays on the card. Keep without liking and Show less like this live in the … menu.'],
+    ['Buttons are never gradients','A call to action is a solid fill (the --fg primary) or a quiet tint. Gradients belong to the onboarding light only, never to a button.'],
+    ['Notes point at their card','A margin note is always about the card beside it, and a hand-drawn arrow lands level with the part it means: the button, the picture or the numbers.'],
     ['Lighter is louder','Emphasis comes from brightness and weight, not colour. Green is reserved for done and live.']
   ];
   const dsIcons = () => {
