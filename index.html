@@ -4275,7 +4275,7 @@
   /* role icons: grey at rest, their colour on hover, alive when picked */
   .ob-opt:hover .ablob.is-off{filter:none;opacity:1}
   .ob-opt .ablob.is-off{transition:filter .25s ease,opacity .25s ease}
-  .ob-chips{max-width:460px;margin-top:28px}
+  .ob-chips{max-width:620px;margin-top:28px}
   .ob-cnts{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;width:100%;margin-top:36px}
   .ob-cnts p{margin:0;padding:14px 8px;border-radius:16px;background:var(--s1);box-shadow:inset 0 0 0 1px var(--line-soft);display:flex;flex-direction:column;gap:2px}
   .ob-cnts b{font-size:22px;font-weight:600;color:var(--fg);font-variant-numeric:tabular-nums;letter-spacing:-.01em}
@@ -4366,14 +4366,18 @@
   /* ---------- onboarding v2.3: light, not italics ---------- */
   :root{--ob-light:linear-gradient(90deg,#2f6bff 0%,#8fb8ff 28%,#fff0d2 50%,#ffb347 70%,#ff5a1f 100%)}
   :root[data-theme="light"]{--ob-light:linear-gradient(90deg,#1d4ed8 0%,#4f7cff 30%,#c86bfa 52%,#ff8a2b 72%,#ff4d1f 100%)}
-  .ob-h em,.ob-h em:is(*){font-style:normal;font-variation-settings:"opsz" 144,"SOFT" 50;background:var(--ob-light);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;animation:obLight 9s ease-in-out infinite alternate;padding-right:.04em}
+  .ob-h em,.ob-h em:is(*){font-style:normal;font-variation-settings:"opsz" 144,"SOFT" 50;padding-right:.04em;
+    background-image:var(--ob-light),linear-gradient(var(--fg),var(--fg));background-repeat:no-repeat;background-size:0% 100%,100% 100%;background-position:0 0,0 0;
+    -webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;transition:background-size .9s cubic-bezier(.22,1,.36,1)}
+  .ob-h:hover em{background-size:100% 100%,100% 100%}
+  @media (hover:none){ .ob-h em{background-size:100% 100%,100% 100%} }
   @keyframes obLight{from{background-position:0% 0}to{background-position:100% 0}}
   .ob-pane.is-tools{width:min(680px,100%)}
   .ob-p.is-2{max-width:460px}
   /* scribbled underline under the promise */
   .ob-scrib{position:relative;display:inline-block;color:var(--fg)}
-  .ob-scrib svg{position:absolute;left:-2%;bottom:-9px;width:104%;height:12px;overflow:visible}
-  .ob-scrib path{fill:none;stroke:url(#ob-grad);stroke-width:2.4;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;animation:obScrib 1.3s cubic-bezier(.65,0,.35,1) 1.1s forwards}
+  .ob-scrib svg{position:absolute;left:-1%;bottom:-10px;width:102%;height:10px;overflow:visible}
+  .ob-scrib path{fill:none;stroke:url(#ob-grad);stroke-width:2;stroke-linejoin:round;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;animation:obScrib 1.3s cubic-bezier(.65,0,.35,1) 1.1s forwards}
   @keyframes obScrib{to{stroke-dashoffset:0}}
   /* odometer */
   .odo{display:inline-flex;justify-content:center;line-height:1;height:1em;overflow:hidden}
@@ -9629,7 +9633,6 @@
         <p class="ob-p is-2 ob-in">Five agents run your ads, store and customers. You and your team jam on what they bring.</p>
         <form class="ob-url ob-in" id="ob-urlf"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
           <input id="ob-urli" value="arata.in" placeholder="yourbrand.com" autocomplete="off" spellcheck="false" aria-label="Your website"><button class="ob-go" type="submit">Start</button></form>
-        <p class="ob-fine ob-in">Your site is how they learn your brand.</p>
       </div>`;
     const sRole = () => `<div class="ob-pane">
         <h1 class="ob-h ob-in">Who’s this <em>for</em>?</h1>
@@ -9681,8 +9684,8 @@
         const li = list.firstElementChild;
         li.style.opacity = 0;
         // first the rows below make room, then the new one pops in
-        li.animate([{ height:'0px', marginBottom:'-8px' }, { height:'44px', marginBottom:'0px' }], { duration:800, easing:'cubic-bezier(.65,0,.35,1)' });
-        li.animate([{ opacity:0, transform:'scale(.92)', filter:'blur(6px)' }, { opacity:1, transform:'none', filter:'blur(0)' }], { duration:620, delay:620, easing:'cubic-bezier(.34,1.35,.64,1)', fill:'forwards' });
+        li.animate([{ height:'0px', marginBottom:'-8px' }, { height:'44px', marginBottom:'0px' }], { duration:700, easing:'cubic-bezier(.22,1,.36,1)' });
+        li.animate([{ opacity:0, transform:'translateY(-14px) scale(.96)', filter:'blur(4px)' }, { opacity:1, transform:'none', filter:'blur(0)' }], { duration:700, delay:60, easing:'cubic-bezier(.22,1,.36,1)', fill:'forwards' });
         while (list.children.length > 6) list.lastElementChild.remove();
       };
       push(); setTimeout(push, 1300); setTimeout(push, 2600); liveT = setInterval(push, 4200);
@@ -9698,7 +9701,7 @@
     };
     const sWait = () => `<div class="ob-pane">
         <h1 class="ob-h ob-in">Your agents are <em>reading</em> ${esc(NAME)}.</h1>
-        <p class="ob-p is-2 ob-in">This takes a little while. <span class="ob-scrib">We’ll notify you when it’s done.<svg viewBox="0 0 300 16" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M3 10 C 38 4, 74 13, 112 8 S 186 3, 226 9 S 280 6, 297 8"/></svg></span></p>
+        <p class="ob-p is-2 ob-in">This takes a little while. <span class="ob-scrib">We’ll notify you when it’s done.<svg viewBox="0 0 300 16" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M2 9 Q 11 2 20 9 T 38 9 T 56 9 T 74 9 T 92 9 T 110 9 T 128 9 T 146 9 T 164 9 T 182 9 T 200 9 T 218 9 T 236 9 T 254 9 T 272 9 T 290 9 L 298 7"/></svg></span></p>
         <div class="ob-cnts ob-in"><p><b class="odo" data-cnt="179"></b><span>pages</span></p><p><b class="odo" data-cnt="51419"></b><span>reviews</span></p><p><b class="odo" data-cnt="4917"></b><span>ads</span></p><p><b class="odo" data-cnt="20"></b><span>AI answers</span></p></div>
         <ul class="ob-live ob-in" id="ob-live" aria-live="polite"></ul>
         <button class="ob-demo ob-in" data-obready>Demo: jump to when it’s ready</button>
@@ -9771,18 +9774,35 @@
         setTimeout(fPlace, 1100 + cards.length * 170 + 300);
       }));
       const box = document.getElementById('f3d');
-      // one gesture, one card: the scroll locks onto the next card and ignores the rest of the swipe
-      box.addEventListener('wheel', (e) => {
-        e.preventDefault();
-        const now = performance.now();
-        if (now < fLock) { fWheel = 0; fLock = now + 260; return; }
-        fWheel += Math.abs(e.deltaY) > Math.abs(e.deltaX) ? e.deltaY : e.deltaX;
-        if (Math.abs(fWheel) > 30) { fGo(fAt + Math.sign(fWheel)); fWheel = 0; fLock = now + 900; }
-      }, { passive:false });
       let sx = null, sy = null;
       box.addEventListener('touchstart', (e) => { sx = e.touches[0].clientX; sy = e.touches[0].clientY; }, { passive:true });
       box.addEventListener('touchend', (e) => { if (sx == null) return; const dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy; const d = Math.abs(dx) > Math.abs(dy) ? -dx : -dy; if (Math.abs(d) > 40) fGo(fAt + Math.sign(d)); sx = sy = null; });
     };
+    // Scroll snapping that works with trackpads and mice.
+    // A trackpad keeps firing wheel events for a second or more after the fingers lift (inertia),
+    // with deltas that fade out. So: a card moves on the START of a gesture (first event after a
+    // quiet gap) or when the deltas suddenly grow again (a fresh flick inside the tail). The fading
+    // tail is ignored, and nothing ever extends a lock, so the next flick always lands.
+    const W = { last:0, fired:0, hist:[], sign:0 };
+    ob.addEventListener('wheel', (e) => {
+      if (!document.getElementById('f3d')) return;
+      e.preventDefault();
+      const now = performance.now();
+      const d = Math.abs(e.deltaY) >= Math.abs(e.deltaX) ? e.deltaY : e.deltaX;
+      const a = Math.abs(d) * (e.deltaMode === 1 ? 16 : 1);
+      const gap = now - W.last; W.last = now;
+      const prev = W.hist.slice(-4), avg = prev.length ? prev.reduce((x, y) => x + y, 0) / prev.length : 0;
+      W.hist.push(a); if (W.hist.length > 12) W.hist.shift();
+      if (a < 2) return;
+      const turn = W.sign && Math.sign(d) !== W.sign; W.sign = Math.sign(d) || W.sign;
+      if (turn) W.hist = [a];
+      const fresh = gap > 160 || turn;                                 // a new gesture: after a pause, or a change of direction
+      const decaying = prev.length >= 3 && prev[prev.length - 1] < prev[prev.length - 2] && prev[prev.length - 2] < prev[prev.length - 3];
+      const flick = decaying && a > avg * 1.8 && a > 14;                 // a new flick inside a fading inertia tail
+      const steady = !decaying && prev.length >= 3 && a >= 20 && a >= avg * .7 && now - W.fired > 650;   // a wheel kept spinning: one card every 0.65s
+      if (turn || ((fresh && now - W.fired > 220) || ((flick || steady) && now - W.fired > 300))) { W.fired = now; fGo(fAt + Math.sign(d)); }
+    }, { passive:false });
+
     const SCREENS = [sUrl, sRole, sFirst, sTools, sWait];
     const go = (n, dir = 1) => { st.step = n; progress(n); readEl.hidden = true; clearInterval(liveT); swap(SCREENS[n](), dir, SCREENS[n] === sWait ? startLive : null); };
 
