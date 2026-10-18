@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 <title>ShopOS Feed</title>
 <style>
   html{color-scheme:dark}
@@ -4262,6 +4262,35 @@
   .badge.bad{color:var(--t-red);background:var(--t-red-bg)}
   .badge.muted{color:var(--t-gray);background:var(--t-gray-bg)}
   .ca-st.is-on,.ob-cxb.on{box-shadow:none}
+
+  /* ---------- onboarding v2.1: a serif voice, fewer things on screen ---------- */
+  :root{--font-display:"Instrument Serif",ui-serif,Georgia,serif}
+  .ob-h{font-family:var(--font-display);font-weight:400;font-size:56px;line-height:1.02;letter-spacing:-.015em}
+  .ob-h em{font-style:italic}
+  .ob-card h2{font-family:var(--font-display);font-weight:400;font-size:36px;line-height:1.08;letter-spacing:-.01em}
+  .ob-p{margin-top:16px;font-size:16.5px}
+  .ob-lab{margin-top:36px;font-size:13.5px;color:var(--fg-3)}
+  .ob-lab + .ob-url{margin-top:10px}
+  .ob-url .ob-go{padding:0 20px}
+  /* role icons: grey at rest, their colour on hover, alive when picked */
+  .ob-opt:hover .ablob.is-off{filter:none;opacity:1}
+  .ob-opt .ablob.is-off{transition:filter .25s ease,opacity .25s ease}
+  .ob-chips{max-width:460px;margin-top:28px}
+  .ob-cnts{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;width:100%;margin-top:36px}
+  .ob-cnts p{margin:0;padding:14px 8px;border-radius:16px;background:var(--s1);box-shadow:inset 0 0 0 1px var(--line-soft);display:flex;flex-direction:column;gap:2px}
+  .ob-cnts b{font-size:22px;font-weight:600;color:var(--fg);font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+  .ob-cnts span{font-size:12.5px;color:var(--fg-3)}
+  .ob-live{list-style:none;margin:20px 0 0;padding:0;width:100%;height:276px;overflow:hidden;display:flex;flex-direction:column;gap:6px;-webkit-mask-image:linear-gradient(#000 55%,transparent);mask-image:linear-gradient(#000 55%,transparent)}
+  .ob-live li{display:flex;align-items:center;gap:12px;flex:0 0 40px;padding:0 14px 0 10px;border-radius:14px;background:var(--s1);box-shadow:inset 0 0 0 1px var(--line-soft);text-align:left}
+  .ob-live .ablob{width:24px;height:24px}
+  /* one primary per screen: Connect is secondary, Continue is the primary */
+  .ob-cxb:not(.on){background:rgba(var(--ink),.1);color:var(--fg)}
+  .ob-cxb:not(.on):not(:disabled):hover{background:rgba(var(--ink),.16)}
+  .ob-lt{font-size:14px;color:var(--fg-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .ob-live li:first-child .ob-lt{background:linear-gradient(100deg,var(--fg-2) 0%,var(--fg-2) 38%,var(--fg) 50%,var(--fg-2) 62%,var(--fg-2) 100%) 0 0/260% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:livesheen 2.4s linear infinite}
+  .ob-live li:not(:first-child) .ablob{filter:grayscale(1);opacity:.5}
+  .ob-live li:not(:first-child) .ablob *{animation:none!important}
+  @media (max-width:600px){ .ob-h{font-size:40px} .ob-card h2{font-size:28px} .ob-cnts{grid-template-columns:repeat(2,1fr)} }
   /* ---------- the draft, as a document in the chat ---------- */
   .cm-doc{border-radius:20px;background:var(--s1);border:1px solid var(--s3);overflow:hidden}
   .dc-h{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--s2)}
@@ -8556,6 +8585,7 @@
     ['Agents are alive','Every agent face is a blob(): working ones bob, squash, look around and blink, each on its own clock; stopped ones are grey and still. Never a static avatar where the agent is doing something.'],
     ['Onboarding asks while it reads','Website first, then three quick questions while the agents read in the background. Then we say plainly it takes about an hour and let people leave. When it is ready: five findings, one card at a time, then the feed. Centred, one thing per screen.'],
     ['Status pills are Apple tints','A capsule with the colour as the label and the same colour at about 16% as the fill. No border, no outline, no glow. Green done or live, orange needs attention, red losing, blue information, grey neutral. Light mode uses Apple’s darker accessible variants for the label.'],
+    ['One display serif, for big moments only','Instrument Serif (Google Fonts) carries onboarding headlines, with one italic word for voice. Everything else stays in the system font.'],
     ['Lighter is louder','Emphasis comes from brightness and weight, not colour. Green is reserved for done and live.']
   ];
   const dsIcons = () => {
@@ -9442,7 +9472,7 @@
       ['store', 'storefront', 'E-commerce and storefront', 'Product pages, checkout and marketplaces'],
       ['crm', 'crm', 'Retention and CRM', 'Reorders, messages, reviews and loyalty']
     ];
-    const FIRST = ['Ideas to make', 'Decisions to approve', 'What works and what doesn’t', 'Watch the rivals'];
+    const FIRST = ['Grow sales', 'Launch something new', 'Spend less on ads', 'Bring customers back', 'Get found on AI search', 'Build the brand'];
     const PUSH = ['MitoActive serum', 'Hair Growth Intensive Serum', 'Anti-Hair Fall Shampoo', 'Damage Defence Shampoo', 'The two-bottle routine'];
     const FOUND = [
       { ag:'creative', area:'Brand', h:'You’re Arata. These five are after the same shopper.',
@@ -9457,7 +9487,7 @@
       { ag:'storefront', area:'Checkout', h:'It takes five steps to buy on arata.in. We timed every one.',
         viz:() => `<div class="obv-steps">${['Product', 'Cart', 'Login', 'Address', 'Pay'].map((x, i) => `<span${i === 2 ? ' class="is-slow"' : ''}>${x}</span>`).join('<i></i>')}</div><p class="obv-cap">The login step is where most people stop. Storefront manager has two ways round it.</p>` }
     ];
-    let st = { step:0, role:'founder', first:new Set(['Ideas to make']), push:new Set(['MitoActive serum']), cx:{}, read:0, card:0 };
+    let st = { step:0, role:'founder', first:new Set(['Grow sales']), push:new Set(['MitoActive serum']), cx:{}, read:0, card:0 };
     let readT = 0;
     const NAME = 'Arata';
 
@@ -9483,43 +9513,66 @@
 
     const sUrl = () => `<div class="ob-pane">
         <div class="ob-agents ob-in">${AGS.map(k => blob(k)).join('')}</div>
-        <h1 class="ob-h ob-in">Your store’s marketing team, in one feed.</h1>
-        <p class="ob-p ob-in">Add your website. Five agents read your store, reviews, rivals and AI answers, and come back with ideas.</p>
+        <h1 class="ob-h ob-in">Your brand, run by <em>agents</em>.</h1>
+        <p class="ob-p ob-in">Five agents look after your ads, store, content, customers and how AI talks about you. They work every day and bring you what’s worth doing.</p>
+        <label class="ob-lab ob-in" for="ob-urli">Add your link to get going</label>
         <form class="ob-url ob-in" id="ob-urlf"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
-          <input id="ob-urli" value="arata.in" autocomplete="off" spellcheck="false" aria-label="Your website"><button class="ob-go" type="submit">Start</button></form>
-        <p class="ob-fine ob-in">Takes about a minute of your time. The reading happens after.</p>
+          <input id="ob-urli" value="arata.in" autocomplete="off" spellcheck="false" aria-label="Your website"><button class="ob-go" type="submit">Get started</button></form>
       </div>`;
     const sRole = () => `<div class="ob-pane">
-        <p class="ob-k ob-in">1 of 3 · While we read arata.in</p>
-        <h1 class="ob-h ob-in">Who’s this feed for?</h1>
-        <p class="ob-p ob-in">Every card is ranked and worded for this seat. You can switch any time.</p>
+        <h1 class="ob-h ob-in">Who’s this <em>for</em>?</h1>
+        <p class="ob-p ob-in">We’ll shape what you see around it. You can switch any time.</p>
         <div class="ob-opts ob-in" role="radiogroup">${ROLES.map(([k, ag, t, d]) => `<button type="button" class="ob-opt${st.role === k ? ' on' : ''}" role="radio" aria-checked="${st.role === k}" data-role="${k}">${blob(ag, st.role === k)}<span><b>${t}</b><em>${d}</em></span><i class="ob-tick"></i></button>`).join('')}</div>
         <div class="ob-nav ob-in"><button class="ob-go" data-obnext>Next</button></div>
       </div>`;
     const sFirst = () => `<div class="ob-pane">
-        <p class="ob-k ob-in">2 of 3 · While we read arata.in</p>
-        <h1 class="ob-h ob-in">What should come first?</h1>
+        <h1 class="ob-h ob-in">What matters <em>most</em> right now?</h1>
         <p class="ob-p ob-in">Pick up to two.</p>
         <div class="ob-chips ob-in">${FIRST.map(x => `<button type="button" class="ob-chip${st.first.has(x) ? ' on' : ''}" data-first="${esc(x)}">${esc(x)}</button>`).join('')}</div>
-        <p class="ob-sub ob-in">We found 78 products. Which are you pushing?</p>
-        <div class="ob-chips ob-in">${PUSH.map(x => `<button type="button" class="ob-chip${st.push.has(x) ? ' on' : ''}" data-push="${esc(x)}">${esc(x)}</button>`).join('')}</div>
         <div class="ob-nav ob-in"><button class="ob-back" data-obback>Back</button><button class="ob-go" data-obnext>Next</button></div>
       </div>`;
     const cxRowOb = (id) => { const c = CONNECTORS.find(x => x.id === id), on = st.cx[id] === 'on', busy = st.cx[id] === 'busy';
       return `<div class="ob-cx">${lg(c, true)}<span><b>${esc(c.name)}</b><em>${esc(c.short)}</em></span><button type="button" class="ob-cxb${on ? ' on' : ''}" data-obcx="${id}"${on || busy ? ' disabled' : ''}>${on ? 'Connected' : busy ? '<i class="src-spin"></i>' : 'Connect'}</button></div>`; };
     const sTools = () => `<div class="ob-pane">
-        <p class="ob-k ob-in">3 of 3 · While we read arata.in</p>
-        <h1 class="ob-h ob-in">Connect your tools</h1>
-        <p class="ob-p ob-in">Cards swap our estimates for your real numbers. Optional, and you can do it later from any card.</p>
+        <h1 class="ob-h ob-in">Connect your <em>tools</em></h1>
+        <p class="ob-p ob-in">Optional, but it helps a lot. With your real numbers your agents stop estimating and start knowing.</p>
         <div class="ob-cxs ob-in">${['shopify', 'meta'].map(cxRowOb).join('')}</div>
-        <div class="ob-nav ob-in"><button class="ob-back" data-obback>Back</button><button class="ob-go" data-obnext>Done</button></div>
+        <div class="ob-nav ob-in"><button class="ob-back" data-obback>Back</button><button class="ob-go" data-obnext>Continue</button></div>
       </div>`;
+    const LIVE = [
+      ['storefront', 'Reading 179 pages on arata.in'], ['creative', 'Picking up your logo, colours and type'], ['storefront', 'Pulling 78 products and their photos'],
+      ['crm', 'Reading 51,419 reviews'], ['creative', 'Noting what customers say about hair fall'], ['performance', 'Finding your live ads on Meta'],
+      ['performance', 'Finding five rivals and their ads'], ['visibility', 'Asking ChatGPT about hair fall shampoo in India'], ['visibility', 'Asking Gemini the same question'],
+      ['storefront', 'Walking the path to checkout'], ['storefront', 'Timing each step of checkout'], ['crm', 'Working out who buys again'],
+      ['performance', 'Comparing your prices with rivals'], ['creative', 'Matching reviews to what your ads say'], ['visibility', 'Checking which pages AI tools quote'],
+      ['orchestrator', 'Joining it all up into your first ideas']
+    ];
+    let liveT = 0, liveN = 0, cntRaf = 0;
+    const liveRow = ([ag, t]) => `<li>${blob(ag)}<span class="ob-lt">${esc(t)}</span></li>`;
+    const startLive = () => {
+      clearInterval(liveT); cancelAnimationFrame(cntRaf);
+      const list = document.getElementById('ob-live'); if (!list) return;
+      liveN = 0;
+      const push = () => {
+        if (!document.getElementById('ob-live')) return clearInterval(liveT);
+        list.insertAdjacentHTML('afterbegin', liveRow(LIVE[liveN++ % LIVE.length]));
+        const li = list.firstElementChild;
+        li.animate([{ opacity:0, transform:'translateY(-10px)' }, { opacity:1, transform:'none' }], { duration:500, easing:'cubic-bezier(.22,1,.36,1)' });
+        while (list.children.length > 6) list.lastElementChild.remove();
+      };
+      push(); push(); push(); liveT = setInterval(push, 1700);
+      // three counters keep climbing while they read
+      const C = [...document.querySelectorAll('[data-cnt]')].map(el => ({ el, to:+el.dataset.cnt, from:0 })), t0 = performance.now();
+      const tick = (now) => { const k = Math.min(1, (now - t0) / 9000), e = 1 - Math.pow(1 - k, 3);
+        C.forEach(c => c.el.textContent = Math.round(c.to * e).toLocaleString('en-IN'));
+        if (k < 1 && document.getElementById('ob-live')) cntRaf = requestAnimationFrame(tick); };
+      cntRaf = requestAnimationFrame(tick);
+    };
     const sWait = () => `<div class="ob-pane">
-        <div class="ob-agents is-big ob-in">${AGS.map(k => blob(k)).join('')}</div>
-        <h1 class="ob-h ob-in">Your agents are on it.</h1>
-        <p class="ob-p ob-in">Reading a whole store properly takes about an hour. You don’t need to stay. We’ll email you and ping you here the moment your feed is ready.</p>
-        <ul class="ob-list ob-in">${READ.map(([t, d], i) => `<li class="${i < st.read ? 'done' : i === st.read ? 'now' : ''}"><i></i><span><b>${t}</b><em>${i < st.read ? d : i === st.read ? 'Reading now' : 'Next'}</em></span></li>`).join('')}</ul>
-        <div class="ob-nav is-center ob-in"><button class="ob-go" data-obleave>Got it</button></div>
+        <h1 class="ob-h ob-in">Your agents are <em>reading</em> ${esc(NAME)}.</h1>
+        <p class="ob-p ob-in">We’ll let you know once it’s done.</p>
+        <div class="ob-cnts ob-in"><p><b data-cnt="179">0</b><span>pages</span></p><p><b data-cnt="51419">0</b><span>reviews</span></p><p><b data-cnt="4917">0</b><span>ads</span></p><p><b data-cnt="20">0</b><span>AI answers</span></p></div>
+        <ul class="ob-live ob-in" id="ob-live" aria-live="polite"></ul>
         <button class="ob-demo ob-in" data-obready>Demo: jump to when it’s ready</button>
       </div>`;
     const sLeft = () => `<div class="ob-pane">
@@ -9545,16 +9598,16 @@
         <div class="ob-nav is-center ob-in">${st.card ? '<button class="ob-back" data-obprev>Back</button>' : ''}${last ? '<button class="ob-go" data-obfeed>Open my feed</button>' : '<button class="ob-go" data-obcard>Next</button>'}</div>
       </div>`; };
     const SCREENS = [sUrl, sRole, sFirst, sTools, sWait];
-    const go = (n, dir = 1) => { st.step = n; progress(n); readEl.hidden = !(n >= 1 && n <= 3); swap(SCREENS[n](), dir); };
+    const go = (n, dir = 1) => { st.step = n; progress(n); readEl.hidden = true; clearInterval(liveT); swap(SCREENS[n](), dir); if (SCREENS[n] === sWait) setTimeout(startLive, 260); };
 
     const open = () => {
-      st = { step:0, role:'founder', first:new Set(['Ideas to make']), push:new Set(['MitoActive serum']), cx:{}, read:0, card:0 };
+      st = { step:0, role:'founder', first:new Set(['Grow sales']), push:new Set(['MitoActive serum']), cx:{}, read:0, card:0 };
       clearTimeout(readT); ob.hidden = false; document.body.classList.add('ob-on'); stage.innerHTML = ''; go(0);
       requestAnimationFrame(() => ob.classList.add('on'));
       if (location.hash !== '#onboarding') history.replaceState(null, '', '#onboarding');
     };
     const close = () => {
-      clearTimeout(readT);
+      clearTimeout(readT); clearInterval(liveT);
       pageLoad('feed', () => { ob.hidden = true; ob.classList.remove('on'); document.body.classList.remove('ob-on'); if (location.hash === '#onboarding') history.replaceState(null, '', location.pathname); });
     };
     window.__openOnboarding = open;
@@ -9574,7 +9627,7 @@
       if (t.closest('[data-obnext]')) return go(st.step + 1);
       if (t.closest('[data-obback]')) return go(st.step - 1, -1);
       if (t.closest('[data-obleave]')) return swap(sLeft());
-      if (t.closest('[data-obready]')) { clearTimeout(readT); st.read = READ.length; return swap(sReady()); }
+      if (t.closest('[data-obready]')) { clearTimeout(readT); clearInterval(liveT); st.read = READ.length; return swap(sReady()); }
       if (t.closest('[data-obcards]')) { st.card = 0; return swap(sCard()); }
       if (t.closest('[data-obcard]')) { st.card++; return swap(sCard()); }
       if (t.closest('[data-obprev]')) { st.card--; return swap(sCard(), -1); }
