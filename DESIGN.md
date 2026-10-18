@@ -235,7 +235,7 @@ window.BRAND = {
 
 ## 10b. Onboarding
 
-Open it at `index.html#onboarding`, or type `/onboarding` in Ask ShopOS. Code: the `onboarding v2` block in index.html (`#ob`, `sUrl`, `sRole`, `sFirst`, `sTools`, `sWait`, `sReady`, `sCard`, `FOUND`). The old URL-and-setup-run flow is still in the file behind `SKIP_ONBOARDING = true`.
+The prototype opens on onboarding by default (turn it off per browser in the Demo menu: "Start with onboarding on every load"). Replay any time with the Demo button, the O key, the account icon, `index.html#onboarding` or `/onboarding` in Ask ShopOS. Code: the `onboarding v2` block in index.html (`#ob`, `sUrl`, `sRole`, `sFirst`, `sTools`, `sWait`, `sReady`, `sCard`, `FOUND`). The old URL-and-setup-run flow is still in the file behind `SKIP_ONBOARDING = true`.
 
 | Screen | What it does |
 |---|---|

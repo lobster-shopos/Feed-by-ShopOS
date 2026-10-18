@@ -9874,7 +9874,8 @@
   // ---------- the Demo pill: replay onboarding, open the design system, switch theme ----------
   {
     const btn = document.getElementById('demo-btn'), pop = document.getElementById('demo-pop'), always = document.getElementById('demo-always');
-    let pref = false; try { pref = localStorage.getItem('shopos-ob-always') === '1'; } catch (_) {}
+    // onboarding opens by default; the Demo menu can turn that off for this browser
+    let pref = true; try { pref = localStorage.getItem('shopos-ob-always') !== '0'; } catch (_) {}
     always.checked = pref;
     const setPop = (on) => { pop.hidden = !on; btn.setAttribute('aria-expanded', String(on)); if (on) pop.animate([{ opacity:0, transform:'translateY(6px) scale(.98)' }, { opacity:1, transform:'none' }], { duration:220, easing:'cubic-bezier(.22,1,.36,1)' }); };
     btn.addEventListener('click', (e) => { e.stopPropagation(); setPop(pop.hidden); });
@@ -9888,7 +9889,7 @@
     });
     always.addEventListener('change', () => { try { localStorage.setItem('shopos-ob-always', always.checked ? '1' : '0'); } catch (_) {} toast(always.checked ? 'Onboarding will open every time the prototype loads' : 'The prototype opens on the feed again'); });
     document.addEventListener('keydown', (e) => { if ((e.key === 'o' || e.key === 'O') && !e.metaKey && !e.ctrlKey && !e.altKey && !e.target.matches('input,textarea,[contenteditable]') && document.getElementById('ob').hidden) window.__openOnboarding(); });
-    if (pref && location.hash !== '#onboarding') setTimeout(() => window.__openOnboarding(), 80);
+    if (pref && location.hash !== '#onboarding' && location.hash !== '#design-system') setTimeout(() => window.__openOnboarding(), 80);
   }
 
   /* ================= onboarding: the feed builds itself ================= */
