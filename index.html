@@ -4411,6 +4411,22 @@
   .f3d.is-end .f-end{opacity:1;transform:none;filter:none;pointer-events:auto;transition-delay:.35s}
   .f-end .ob-h{font-size:48px}
   @media (max-width:600px){ .f3d{height:460px} .f-end .ob-h{font-size:36px} }
+
+  /* ---------- card footer: heart, and a Jam you can't miss ---------- */
+  .card-actions{display:flex;align-items:center;gap:12px}
+  .card-actions .act.is-heart{flex:0 0 auto}
+  .card-actions .act.is-heart .tip{left:0;transform:translate(0,4px)}
+  .card-actions .act.is-heart:hover .tip{transform:none}
+  .card-actions .act.is-heart[aria-pressed="true"]{color:#ff375f}
+  .card-actions .dots{margin:0 auto}
+  .jam-btn{flex:0 0 auto;display:inline-flex;align-items:center;gap:7px;height:36px;padding:0 16px 0 13px;border:0;border-radius:999px;cursor:pointer;
+    font:inherit;font-size:14px;font-weight:600;color:#fff;
+    background:linear-gradient(100deg,#2f6bff 0%,#7b5cff 45%,#ff7a2e 100%);
+    box-shadow:0 6px 18px rgba(79,108,255,calc(.35 * var(--sh)));transition:filter .2s ease,transform .15s ease}
+  .jam-btn:hover{filter:brightness(1.08)}
+  .jam-btn:active{transform:scale(.97)}
+  .jam-btn svg{color:#fff}
+  :root[data-theme="light"] .jam-btn{box-shadow:0 4px 12px rgba(79,108,255,.25)}
   /* ---------- the draft, as a document in the chat ---------- */
   .cm-doc{border-radius:20px;background:var(--s1);border:1px solid var(--s3);overflow:hidden}
   .dc-h{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--s2)}
@@ -4791,11 +4807,11 @@
       <span class="rail-tip">Home</span>
     </div>
     <div class="rail-item" data-item="shortlist">
-      <button class="rail-btn" data-nav="shortlist" aria-label="Shortlisted">
-        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/></svg><span class="rail-count" id="shortlist-n" hidden></span>
-        <span class="rail-label">Shortlisted</span>
+      <button class="rail-btn" data-nav="shortlist" aria-label="Liked">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg><span class="rail-count" id="shortlist-n" hidden></span>
+        <span class="rail-label">Liked</span>
       </button>
-      <span class="rail-tip">Shortlisted</span>
+      <span class="rail-tip">Liked</span>
     </div>
     <div class="rail-item" data-item="kanban">
       <button class="rail-btn" data-nav="kanban" aria-label="Kanban">
@@ -4978,7 +4994,7 @@
 <div class="views">
 <div id="view-feed" class="view">
   <div class="subbar" id="subbar-feed"></div>
-<p class="feed-empty" id="feed-empty" hidden>Nothing shortlisted yet. Tap the bookmark on any card to keep it here.</p>
+<p class="feed-empty" id="feed-empty" hidden>Nothing liked yet. Tap the heart on any card and it lands here.</p>
 <div class="stk-layer" id="stk" aria-hidden="true"></div><div class="notes-layer" id="notes" aria-hidden="true"></div>
 <main class="feed" id="feed"></main>
 
@@ -5202,8 +5218,8 @@
 <section class="studio" id="studio" hidden role="dialog" aria-modal="true" aria-label="Card"></section>
 <section class="cx-page mem-page sl-page" id="sl-page" hidden aria-labelledby="sl-title">
   <div class="cx-in">
-    <header class="cx-top"><div><h1 id="sl-title">Shortlisted</h1><p>Cards you saved to come back to.</p></div></header>
-    <nav class="mem-tabs" id="sl-tabs" role="tablist" aria-label="Shortlisted"></nav>
+    <header class="cx-top"><div><h1 id="sl-title">Liked</h1><p>Everything you hearted, to come back to.</p></div></header>
+    <nav class="mem-tabs" id="sl-tabs" role="tablist" aria-label="Liked"></nav>
     <div class="sl-grid" id="sl-grid"></div>
   </div>
 </section>
@@ -5545,7 +5561,8 @@
           <div class="menu" role="menu">
             <button role="menuitem" data-act="copy">${svg(I.link, 17)} Copy link</button>
             <hr>
-            <button role="menuitem" data-act="not-interested">${svg(I.circleMinus, 17)} Not interested in this</button>
+            <button role="menuitem" data-act="keep">${svg(I.bookmark, 17)} Keep without liking</button>
+            <button role="menuitem" data-act="not-interested">${svg(I.circleMinus, 17)} Show less like this</button>
             <button role="menuitem" data-act="fewer">${svg(I.bellOff, 17)} Show fewer from this agent</button>
             <button role="menuitem" data-act="snooze">${svg(I.clock, 17)} Snooze this agent for 7 days</button>
             <hr>
@@ -5563,18 +5580,11 @@
       ${isText ? cta : ''}
 
       <div class="card-actions">
-        <div class="act-group">
-          <button class="act" data-toast="like" aria-pressed="false" aria-label="Like">
-            ${svg(I.heart)}<span class="tip">More like this</span>
-          </button>
-          <button class="act act-jam" aria-label="Jam with the team">
-            ${svg(I_HAND, 20)}<span class="tip">Jam with the team</span>
-          </button>
-        </div>
-        ${dots(imgs.length)}
-        <button class="act bookmark" data-toast="save" aria-pressed="${saved_}" aria-label="Shortlist">
-          ${svg(I.bookmark, 20, 'currentColor', saved_)}<span class="tip">Shortlist</span>
+        <button class="act bookmark is-heart" data-toast="like" aria-pressed="${saved_}" aria-label="Like">
+          ${svg(I.heart, 22, 'currentColor', saved_)}<span class="tip">Like: saves it and teaches your feed</span>
         </button>
+        ${dots(imgs.length)}
+        <button class="act-jam jam-btn" aria-label="Jam with the team">${svg(I_HAND, 18)}<span>Jam</span></button>
       </div>
 
       ${isText ? '' : `<div class="card-body">
@@ -5815,7 +5825,7 @@
   let mineOpen = null;
   const MINE = {
     progress:{ name:'In progress', icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-6.2-8.6"/><path d="M21 4v5h-5"/></svg>' },
-    saved:{ name:'Shortlisted', icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/></svg>' },
+    saved:{ name:'Liked', icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>' },
     dash:{ name:'Dashboard', icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 5-6"/></svg>' }
   };
   MINE_ORDER.forEach(k => colState[k] = { hidden:false });
@@ -6375,9 +6385,10 @@
   paintSubbars();
 
   /* ---------------- interactions ---------------- */
+  const keepOnly = new Set();
   const TOASTS = {
-    like:  'We\u2019ll create more posts like this!',
-    save:  'Shortlisted',
+    like:  'Liked. Saved, and your feed will learn from it.',
+    save:  'Liked',
     copy:  'Post link copied for sharing'
   };
   const CHECK = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" ' +
@@ -6444,6 +6455,8 @@
     if (item) {
       const act = item.dataset.act;
       closeMenus();
+      // keep: into Liked, but the feed learns nothing from it
+      if (act === 'keep') { const i = +item.closest('.card').dataset.post; saved.add(i); keepOnly.add(i); window.__paintLiked && window.__paintLiked(); return toast('Kept in Liked. Your feed won\u2019t learn from it.'); }
       if (MENU_TOASTS[act]) toast(MENU_TOASTS[act]);
       if (act === 'not-interested') {
         const card = item.closest('.card');
@@ -7073,7 +7086,8 @@
     if (on) window.scrollTo({ top: 0, behavior: 'smooth' });
     syncTabs();
   };
-  // keep the count on the rail in step with every bookmark tap
+  // keep the count on the rail in step with every heart
+  window.__paintLiked = () => { const n = document.getElementById('shortlist-n'); n.textContent = saved.size; n.hidden = saved.size === 0; window.__paintMine && window.__paintMine(); };
   document.addEventListener('click', (e) => {
     if (!e.target.closest('.act.bookmark')) return;
     requestAnimationFrame(() => {
@@ -7285,7 +7299,7 @@
   const learned = [
     { t:'MitoActive claims stay on hold until R&D sends a basis', s:'Agreed', a:'brew' },
     { t:'Every pack should save the buyer money, not cost more', s:'Agreed', a:'storefront' },
-    { t:'Lead ads with the Intensive serum’s 474 reviews', s:'Shortlisted', a:'performance' },
+    { t:'Lead ads with the Intensive serum’s 474 reviews', s:'Liked', a:'performance' },
     { t:'Hair fall and product efficacy are what people talk about most', s:'From reviews', a:'crm' }
   ];
   const topics = ['Hair fall', 'Product efficacy', 'Shampoo reviews', 'Hair growth serum', 'AI answers'];
@@ -7368,6 +7382,7 @@
     if (!b || b.getAttribute('aria-pressed') !== 'true') return;
     const p = ALL_POSTS[+b.closest('.card').dataset.post];
     if (!p) return;
+    keepOnly.delete(+b.closest('.card').dataset.post);
     learned.unshift({ t:p.title, s:'Liked', a:p.agent });
     if (!memPage.hidden) paintLearned();
   });
@@ -8711,6 +8726,7 @@
     ['One display serif, for big moments only','Fraunces (Google Fonts, optical size 144, soft) carries onboarding headlines and finding cards. No italics: the headline lights up under the pointer. Everything else stays in the system font.'],
     ['Light is the accent','The streaks of blue, white and orange light from the onboarding imagery: on the finding cards, under the pointer on a headline (a pool of light follows the cursor), and on the scribbled underline. Not in product UI.'],
     ['Say it in two lines','Subtext under a headline is two lines at most. If it needs a third, cut words, not font size.'],
+    ['One heart, one Jam','Two actions under every card: a heart on the left (it saves the card to Liked and teaches the feed) and a bright Jam pill on the right. The card’s own button stays on the card. Keep without liking and Show less like this live in the … menu.'],
     ['Lighter is louder','Emphasis comes from brightness and weight, not colour. Green is reserved for done and live.']
   ];
   const dsIcons = () => {
@@ -8906,7 +8922,7 @@
     setN('progress', moving.length);
     // shortlisted
     const sv = [...saved].reverse();
-    if (body('saved')) body('saved').innerHTML = sv.length ? sv.map(i => card(ALL_POSTS[i])).join('') : `<p class="mine-empty">${pix('clover', 32)}Tap the bookmark on any card to keep it here.</p>`;
+    if (body('saved')) body('saved').innerHTML = sv.length ? sv.map(i => card(ALL_POSTS[i])).join('') : `<p class="mine-empty">${pix('clover', 32)}Tap the heart on any card and it lands here.</p>`;
     setN('saved', sv.length);
     // dashboard: how the work is going, in three numbers and what moved
     const sent = kbItems.filter(x => ['sent','progress','live'].includes(x.col)).length + 3;
@@ -8986,7 +9002,7 @@
       </article>`;
     }).join('') : '';
     document.getElementById('sl-tabs').hidden = !all.length;
-    if (!list.length) document.getElementById('sl-grid').innerHTML = '<p class="sl-empty">Nothing shortlisted yet. Tap the bookmark on any card to keep it here.</p>';
+    if (!list.length) document.getElementById('sl-grid').innerHTML = '<p class="sl-empty">Nothing liked yet. Tap the heart on any card and it lands here.</p>';
   };
   const setSlPage = (open) => {
     if (open) {
