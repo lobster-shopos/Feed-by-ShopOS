@@ -4287,9 +4287,12 @@
   .ob-cxb:not(.on){background:rgba(var(--ink),.1);color:var(--fg)}
   .ob-cxb:not(.on):not(:disabled):hover{background:rgba(var(--ink),.16)}
   .ob-lt{font-size:14px;color:var(--fg-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .ob-live li:first-child .ob-lt{background:linear-gradient(100deg,var(--fg-2) 0%,var(--fg-2) 38%,var(--fg) 50%,var(--fg-2) 62%,var(--fg-2) 100%) 0 0/260% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:livesheen 2.4s linear infinite}
+  /* the newest row is lit; older rows dim gently, nothing switches off abruptly */
+  .ob-live .ob-lt{color:var(--fg-2);transition:color .9s ease}
+  .ob-live li:first-child .ob-lt{color:var(--fg)}
+  .ob-live .ablob{transition:filter .9s ease,opacity .9s ease}
   .ob-live li:not(:first-child) .ablob{filter:grayscale(1);opacity:.5}
-  .ob-live li:not(:first-child) .ablob *{animation:none!important}
+  .ob-live li:not(:first-child) .ablob *{animation-play-state:paused!important}
   @media (max-width:600px){ .ob-h{font-size:40px} .ob-card h2{font-size:28px} .ob-cnts{grid-template-columns:repeat(2,1fr)} }
 
   /* ---------- onboarding v2.2 ---------- */
@@ -4366,11 +4369,14 @@
   /* ---------- onboarding v2.3: light, not italics ---------- */
   :root{--ob-light:linear-gradient(90deg,#2f6bff 0%,#8fb8ff 28%,#fff0d2 50%,#ffb347 70%,#ff5a1f 100%)}
   :root[data-theme="light"]{--ob-light:linear-gradient(90deg,#1d4ed8 0%,#4f7cff 30%,#c86bfa 52%,#ff8a2b 72%,#ff4d1f 100%)}
-  .ob-h em,.ob-h em:is(*){font-style:normal;font-variation-settings:"opsz" 144,"SOFT" 50;padding-right:.04em;
-    background-image:var(--ob-light),linear-gradient(var(--fg),var(--fg));background-repeat:no-repeat;background-size:0% 100%,100% 100%;background-position:0 0,0 0;
-    -webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;transition:background-size .9s cubic-bezier(.22,1,.36,1)}
-  .ob-h:hover em{background-size:100% 100%,100% 100%}
-  @media (hover:none){ .ob-h em{background-size:100% 100%,100% 100%} }
+  /* the headline lights up where the pointer is: a pool of the light gradient follows the cursor across the whole line */
+  @property --obr{syntax:'<length>';inherits:true;initial-value:0px}
+  .ob-h{--mx:50%;--my:50%;--obr:0px;
+    background-image:radial-gradient(circle var(--obr) at var(--mx) var(--my),#fff3da 0%,#ffc36b 22%,#ff7a2e 42%,#a98bff 62%,#4f86ff 80%,rgba(47,107,255,0) 100%),linear-gradient(var(--fg),var(--fg));
+    -webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;transition:--obr .6s cubic-bezier(.22,1,.36,1)}
+  :root[data-theme="light"] .ob-h{background-image:radial-gradient(circle var(--obr) at var(--mx) var(--my),#ff8a2b 0%,#ff4d1f 26%,#c86bfa 50%,#4f7cff 72%,#1d4ed8 88%,rgba(29,78,216,0) 100%),linear-gradient(var(--fg),var(--fg))}
+  .ob-h.is-lit{--obr:200px}
+  .ob-h em{font-style:normal;background:none;-webkit-text-fill-color:inherit}
   @keyframes obLight{from{background-position:0% 0}to{background-position:100% 0}}
   .ob-pane.is-tools{width:min(680px,100%)}
   .ob-p.is-2{max-width:460px}
@@ -8698,8 +8704,8 @@
     ['Agents are alive','Every agent face is a blob(): working ones bob, squash, look around and blink, each on its own clock; stopped ones are grey and still. Never a static avatar where the agent is doing something.'],
     ['Onboarding asks while it reads','Website first, then three quick questions while the agents read in the background. Then we say plainly it takes about an hour and let people leave. When it is ready: five findings, one card at a time, then the feed. Centred, one thing per screen.'],
     ['Status pills are Apple tints','A capsule with the colour as the label and the same colour at about 16% as the fill. No border, no outline, no glow. Green done or live, orange needs attention, red losing, blue information, grey neutral. Light mode uses Apple’s darker accessible variants for the label.'],
-    ['One display serif, for big moments only','Fraunces (Google Fonts, optical size 144, soft) carries onboarding headlines and finding cards. No italics: the one accent word is painted with the light gradient. Everything else stays in the system font.'],
-    ['Light is the accent','The streaks of blue, white and orange light from the onboarding imagery: on the finding cards, on the accent word of a headline (slowly drifting), and on the scribbled underline. Not in product UI.'],
+    ['One display serif, for big moments only','Fraunces (Google Fonts, optical size 144, soft) carries onboarding headlines and finding cards. No italics: the headline lights up under the pointer. Everything else stays in the system font.'],
+    ['Light is the accent','The streaks of blue, white and orange light from the onboarding imagery: on the finding cards, under the pointer on a headline (a pool of light follows the cursor), and on the scribbled underline. Not in product UI.'],
     ['Say it in two lines','Subtext under a headline is two lines at most. If it needs a third, cut words, not font size.'],
     ['Lighter is louder','Emphasis comes from brightness and weight, not colour. Green is reserved for done and live.']
   ];
@@ -9684,8 +9690,9 @@
         const li = list.firstElementChild;
         li.style.opacity = 0;
         // first the rows below make room, then the new one pops in
-        li.animate([{ height:'0px', marginBottom:'-8px' }, { height:'44px', marginBottom:'0px' }], { duration:700, easing:'cubic-bezier(.22,1,.36,1)' });
-        li.animate([{ opacity:0, transform:'translateY(-14px) scale(.96)', filter:'blur(4px)' }, { opacity:1, transform:'none', filter:'blur(0)' }], { duration:700, delay:60, easing:'cubic-bezier(.22,1,.36,1)', fill:'forwards' });
+        // the list opens a slot and the new row rises into it in the same movement: no drop from the top, no scale
+        li.animate([{ height:'0px', marginBottom:'-8px' }, { height:'44px', marginBottom:'0px' }], { duration:900, easing:'cubic-bezier(.33,0,.15,1)' });
+        li.animate([{ opacity:0, transform:'translateY(10px)' }, { opacity:1, transform:'none' }], { duration:900, delay:150, easing:'cubic-bezier(.33,0,.15,1)', fill:'forwards' });
         while (list.children.length > 6) list.lastElementChild.remove();
       };
       push(); setTimeout(push, 1300); setTimeout(push, 2600); liveT = setInterval(push, 4200);
@@ -9802,6 +9809,18 @@
       const steady = !decaying && prev.length >= 3 && a >= 20 && a >= avg * .7 && now - W.fired > 650;   // a wheel kept spinning: one card every 0.65s
       if (turn || ((fresh && now - W.fired > 220) || ((flick || steady) && now - W.fired > 300))) { W.fired = now; fGo(fAt + Math.sign(d)); }
     }, { passive:false });
+
+    let litH = null;
+    ob.addEventListener('pointermove', (e) => {
+      if (e.pointerType === 'touch') return;
+      const h = e.target.closest && e.target.closest('.ob-h');
+      if (litH && litH !== h) litH.classList.remove('is-lit');
+      litH = h; if (!h) return;
+      const r = h.getBoundingClientRect();
+      h.style.setProperty('--mx', (e.clientX - r.left) + 'px'); h.style.setProperty('--my', (e.clientY - r.top) + 'px');
+      h.classList.add('is-lit');
+    });
+    ob.addEventListener('pointerleave', () => { if (litH) litH.classList.remove('is-lit'); litH = null; });
 
     const SCREENS = [sUrl, sRole, sFirst, sTools, sWait];
     const go = (n, dir = 1) => { st.step = n; progress(n); readEl.hidden = true; clearInterval(liveT); swap(SCREENS[n](), dir, SCREENS[n] === sWait ? startLive : null); };

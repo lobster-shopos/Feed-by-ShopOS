@@ -2,7 +2,7 @@ import numpy as np
 from PIL import Image, ImageDraw, ImageFilter
 import math, random
 W,H=900,1140
-PAL=[(0.0,(20,60,255)),(0.25,(70,140,255)),(0.45,(190,215,255)),(0.55,(255,244,220)),(0.7,(255,170,70)),(0.85,(255,90,30)),(1.0,(200,30,40))]
+PAL=[(0.0,(10,50,255)),(0.22,(40,120,255)),(0.42,(120,170,255)),(0.52,(255,236,200)),(0.66,(255,150,20)),(0.82,(255,70,10)),(1.0,(230,20,60))]
 def pal(t):
     t=max(0,min(1,t))
     for (a,ca),(b,cb) in zip(PAL,PAL[1:]):
@@ -59,11 +59,15 @@ def streaks(seed, kind):
         inten=rnd.uniform(.25,.8)*({'horizon':.5,'wave':.75}.get(kind,1))
         m=(a*0.7+g1*1.2+g2*2.0+g3*5.0)*inten
         acc+=m[...,None]*np.array(col)[None,None,:]
-    out=img+acc*0.42
+    out=img+acc*0.5
     out=255*(1-np.exp(-out/255*1.15))   # soft tone map so whites bloom instead of clipping
     noise=np.random.default_rng(seed).normal(0,2.2,(H,W,1))
     out=np.clip(out+noise,0,255).astype(np.uint8)
-    return Image.fromarray(out)
+    from PIL import ImageEnhance
+    im=Image.fromarray(out)
+    im=ImageEnhance.Color(im).enhance(1.55)
+    im=ImageEnhance.Contrast(im).enhance(1.08)
+    return im
 kinds=['fan','horizon','burst','sweep','wave']
 for i,k in enumerate(kinds,1):
     streaks(7+i,k).save(f'light-{i}.jpg',quality=86,optimize=True); print(k)
