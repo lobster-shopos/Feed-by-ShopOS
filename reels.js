@@ -124,7 +124,7 @@
   const tile = (c) => `
     <button class="rm-tile${c.fresh ? ' is-fresh' : ''}" data-rmclip="${c.id}" aria-label="${esc(c.t)}, score ${c.s}">
       <span class="rm-frame"><img src="${c.img}" alt="" loading="lazy">
-        <i class="rm-score${tone(c.s)}">${c.s}</i><i class="rm-dur">${c.d}</i>
+        <i class="rm-score${tone(c.s)}" data-tip="Score out of 100: how likely it is to beat your usual reel">${c.s}</i><i class="rm-dur">${c.d}</i>
         <span class="rm-cap">${capHTML(c, 3, 1)}</span>${stateTag(c)}
       </span>
       <span class="rm-t">${esc(c.t)}</span>
@@ -248,7 +248,7 @@
   };
 
   /* ---------- the editor: play, swap the opening, fix a word, plan or post ---------- */
-  let ed = null, edT = 0, edW = 0, playing = true, edPop = false, edFix = false, edBusy = false;
+  let ed = null, edT = 0, edW = 0, playing = true, edPop = false, edFix = false, edBusy = false, edWhy = false;
   const STYLES = [['bold', 'Bold'], ['clean', 'Clean'], ['karaoke', 'Karaoke']];
   const edHTML = (c) => {
     const list = sorted(listOf(c) || [c]), i = list.indexOf(c), live = c.state === 'posted';
@@ -263,8 +263,9 @@
         </div>
       </div>
       <div class="rm-side">
-        <header><span class="rm-score-big${tone(c.s)}">${c.s}</span><span><b>${esc(c.t)}</b><em>${c.d} · ${esc(c.reason || c.from)}</em></span>
+        <header><button class="rm-score-big${tone(c.s)}" data-rmscore data-tip="Score out of 100: how likely it is to beat your usual reel" aria-label="Score ${c.s} out of 100" aria-expanded="${edWhy}">${c.s}</button><span><b>${esc(c.t)}</b><em>${c.d} · ${esc(c.reason || c.from)}</em></span>
           <span class="rm-nav"><button class="rm-x" data-rmstep="-1" aria-label="Previous clip" ${i <= 0 ? 'disabled' : ''}>${svgI(I.back, 17)}</button><button class="rm-x" data-rmstep="1" aria-label="Next clip" ${i >= list.length - 1 ? 'disabled' : ''}>${svgI(I.chev, 17)}</button><button class="rm-x" data-edx aria-label="Close">${svgI(I.x, 18)}</button></span></header>
+        ${edWhy ? '<p class="rm-explain">The score is out of 100 and says how likely this reel is to beat your usual one. It comes from the four parts below: how strong the first second is, how well it flows, what people take away, and how close it is to what’s trending.</p>' : ''}
         <p class="rm-why">${esc(c.why)}</p>
         <div class="rm-subs">${Object.entries(c.sub).map(([k, v]) => `<p><span>${k}</span><i><i style="--v:${v * 10}%"></i></i><b>${v.toFixed(1)}</b></p>`).join('')}</div>
         ${live ? `<p class="rm-note is-ok">${svgI(I.ok, 14)}It’s live on @arata.in, so changes here won’t reach Instagram.</p>` : ''}
@@ -276,15 +277,17 @@
           ${edFix ? `<textarea class="rm-capedit" id="rm-capedit" rows="2" aria-label="Caption words">${esc(c.cap.join(' '))}</textarea><p class="rm-hint" id="rm-capmsg">Captions come from the transcript. Fix names and numbers here.</p>` : ''}
         </fieldset>
         <div class="rm-acts">
-          ${live ? `<button class="rm-go" data-rmview-ig>View on Instagram</button>`
-                 : `<button class="rm-go" data-rmpost ${edBusy ? 'disabled' : ''}>${edBusy ? 'Posting…' : 'Post now'}</button>
-                    <span class="rm-popw"><button class="rm-sec" data-rmsched aria-expanded="${edPop}">${svgI(I.cal, 16)}${c.state === 'scheduled' ? esc(slot(c.when).s) : 'Schedule'}</button>
-                    ${edPop ? `<div class="rm-pop" role="menu">${SLOTS.map(sl => { const by = allClips().find(x => x !== c && x.state === 'scheduled' && x.when === sl.k); return `<button role="menuitem" data-rmslot="${sl.k}" ${by ? 'disabled' : ''} aria-checked="${c.when === sl.k}"><span>${sl.l}</span><em>${by ? 'Taken by “' + esc(by.t) + '”' : sl.n || ''}</em>${c.when === sl.k ? svgI(I.ok, 15) : ''}</button>`; }).join('')}${c.state === 'scheduled' ? '<button role="menuitem" data-rmunsched class="is-quiet"><span>Don’t schedule</span></button>' : ''}</div>` : ''}</span>`}
-          <button class="rm-sec rm-ic" data-rmdl aria-label="Download" data-tip="Download 1080×1920">${svgI(I.down, 16)}</button>
-        </div>
-        <div class="rm-subacts">
-          <button class="rm-more" data-rmmore ${credits >= COST ? '' : 'disabled'} ${credits >= COST ? `data-tip="Uses ${COST} of your ${credits} Sloosh reels"` : 'data-tip="No Sloosh reels left this month"'}>${svgI(I.spark, 15)}Make 3 more like this</button>
-          ${live ? '' : '<button class="rm-more" data-rmskip>Not this one</button>'}
+          <div class="rm-acts-l">
+            ${live ? '' : '<button class="rm-ghost-b" data-rmskip>Not this one</button>'}
+          </div>
+          <div class="rm-acts-r">
+            <button class="rm-sec rm-ic" data-rmmore aria-label="Make 3 more like this" ${credits >= COST ? 'data-tip="Make 3 more like this"' : 'disabled data-tip="No Sloosh reels left this month"'}>${svgI(I.spark, 16)}</button>
+            <button class="rm-sec rm-ic" data-rmdl aria-label="Download" data-tip="Download">${svgI(I.down, 16)}</button>
+            ${live ? `<button class="rm-go" data-rmview-ig>View on Instagram</button>`
+                   : `<span class="rm-popw"><button class="rm-sec" data-rmsched aria-expanded="${edPop}">${svgI(I.cal, 16)}${c.state === 'scheduled' ? esc(slot(c.when).s) : 'Schedule'}</button>
+                      ${edPop ? `<div class="rm-pop" role="menu">${SLOTS.map(sl => { const by = allClips().find(x => x !== c && x.state === 'scheduled' && x.when === sl.k); return `<button role="menuitem" data-rmslot="${sl.k}" ${by ? 'disabled' : ''} aria-checked="${c.when === sl.k}"><span>${sl.l}</span><em>${by ? 'Taken by “' + esc(by.t) + '”' : sl.n || ''}</em>${c.when === sl.k ? svgI(I.ok, 15) : ''}</button>`; }).join('')}${c.state === 'scheduled' ? '<button role="menuitem" data-rmunsched class="is-quiet"><span>Don’t schedule</span></button>' : ''}</div>` : ''}</span>
+                      <button class="rm-go" data-rmpost ${edBusy ? 'disabled' : ''}>${edBusy ? 'Posting…' : 'Post now'}</button>`}
+          </div>
         </div>
       </div>
     </div>`;
@@ -432,6 +435,7 @@
     const stp = t.closest('[data-rmstep]'); if (stp) return step(+stp.dataset.rmstep);
     const h = t.closest('[data-rmhook]'); if (h) { ed.hook = +h.dataset.rmhook; return repaintEd(); }
     const st = t.closest('[data-rmstyle]'); if (st) { ed.style = st.dataset.rmstyle; return repaintEd(); }
+    if (t.closest('[data-rmscore]')) { edWhy = !edWhy; return repaintEd(); }
     if (t.closest('[data-rmfix]')) { edFix = !edFix; repaintEd(); return document.getElementById('rm-capedit')?.focus(); }
     if (t.closest('[data-rmpp]')) { playing = !playing; const b = t.closest('[data-rmpp]'); b.innerHTML = svgI(playing ? I.pause : I.play, 18); b.setAttribute('aria-label', playing ? 'Pause' : 'Play'); return; }
     if (t.closest('[data-rmview-ig]')) return toast('Opening the reel on Instagram');
@@ -531,7 +535,7 @@
   .rm-field input::placeholder{color:var(--fg-3)}
   .rm-go{height:44px;padding:0 20px;border:0;border-radius:999px;background:var(--fg);color:var(--bg);font:inherit;font-size:14px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:7px;white-space:nowrap;transition:opacity .2s,transform .15s}
   .rm-go:hover:not(:disabled){opacity:.88} .rm-go:active:not(:disabled){transform:scale(.97)}
-  .rm-go:disabled,.rm-sec:disabled,.rm-more:disabled,.rm-work:disabled{opacity:.4;cursor:not-allowed}
+  .rm-go:disabled,.rm-sec:disabled,.rm-work:disabled{opacity:.4;cursor:not-allowed}
   .rm-sec{height:44px;padding:0 16px;border:0;border-radius:999px;background:rgba(var(--ink),.1);color:var(--fg);font:inherit;font-size:14px;font-weight:500;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:7px;white-space:nowrap;transition:background .15s}
   .rm-sec:hover:not(:disabled){background:rgba(var(--ink),.16)}
   .rm-sec.rm-ic{width:44px;padding:0}
@@ -628,7 +632,8 @@
   .rm-ed-scrim{position:fixed;inset:0;left:60px;z-index:60;background:rgba(0,0,0,.6);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);display:grid;place-items:center;padding:24px}
   :root[data-theme="light"] .rm-ed-scrim{background:rgba(242,242,247,.7)}
   .rm-ed-scrim[hidden],.rm-dropzone[hidden]{display:none}
-  .rm-ed{display:flex;gap:28px;width:min(880px,100%);max-height:calc(100vh - 48px);padding:20px;border-radius:28px;background:var(--s1);box-shadow:0 0 0 1px var(--line),0 30px 80px rgba(0,0,0,calc(.6 * var(--sh)));overflow:auto}
+  body:has(#rm-ed:not([hidden])) #demo{display:none}
+  .rm-ed{display:flex;gap:28px;width:min(900px,100%);max-height:calc(100vh - 48px);padding:20px;border-radius:28px;background:var(--s1);box-shadow:0 0 0 1px var(--line),0 30px 80px rgba(0,0,0,calc(.6 * var(--sh)));overflow:auto}
   .rm-player{flex:0 0 300px}
   .rm-frame.is-big{border-radius:20px}
   .rm-frame.is-big img{animation:rmKB 12s ease-in-out infinite alternate}
@@ -648,9 +653,10 @@
   .rm-side header b{font-size:18px;line-height:24px;font-weight:500;color:var(--fg)}
   .rm-side header em{font-style:normal;font-size:13px;color:var(--fg-3)}
   .rm-nav{display:flex;gap:6px;flex:0 0 auto}
-  .rm-score-big{flex:0 0 auto;width:52px;height:52px;border-radius:16px;display:grid;place-items:center;font-size:20px;font-weight:700;color:var(--fg);background:rgba(var(--ink),.08);font-variant-numeric:tabular-nums}
+  .rm-score-big{flex:0 0 auto;width:52px;height:52px;border:0;padding:0;font-family:inherit;cursor:help;border-radius:16px;display:grid;place-items:center;font-size:20px;font-weight:700;color:var(--fg);background:rgba(var(--ink),.08);font-variant-numeric:tabular-nums}
   .rm-score-big.is-hi{color:var(--t-green);background:var(--t-green-bg)}
   .rm-score-big.is-mid{color:var(--t-orange);background:var(--t-orange-bg)}
+  .rm-explain{margin:14px 0 0;padding:12px 14px;border-radius:14px;background:rgba(var(--ink),.05);font-size:13.5px;line-height:20px;color:var(--fg-2)}
   .rm-why{margin:14px 0 0;font-size:14.5px;line-height:21px;color:var(--fg-2)}
   .rm-subs{display:grid;grid-template-columns:1fr 1fr;gap:10px 20px;margin:16px 0 0}
   .rm-subs p{margin:0;display:grid;grid-template-columns:52px 1fr 28px;align-items:center;gap:10px;font-size:13px;color:var(--fg-2)}
@@ -672,8 +678,14 @@
   .rm-capedit{display:block;width:100%;margin-top:10px;padding:10px 12px;border:0;border-radius:12px;background:var(--bg);box-shadow:inset 0 0 0 1px var(--line);color:var(--fg);font:inherit;font-size:16px;line-height:22px;resize:vertical;outline:none}
   .rm-capedit:focus{box-shadow:inset 0 0 0 1px var(--fg-3)}
   .rm-capedit + .rm-hint{margin-top:6px}
-  .rm-acts{display:flex;gap:8px;margin-top:auto;padding-top:22px}
-  .rm-acts > .rm-go{flex:1}
+  .rm-acts{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:auto;padding-top:20px;border-top:1px solid var(--line-soft)}
+  .rm-fs + .rm-acts,.rm-side > .rm-acts{margin-top:auto}
+  .rm-acts-l,.rm-acts-r{display:flex;align-items:center;gap:8px}
+  .rm-acts .rm-go,.rm-acts .rm-sec{height:40px;font-size:14px}
+  .rm-acts .rm-go{padding:0 22px} .rm-acts .rm-sec{padding:0 16px} .rm-acts .rm-sec.rm-ic{width:40px;padding:0}
+  .rm-ghost-b{height:40px;padding:0 12px;border:0;border-radius:999px;background:transparent;color:var(--fg-2);font:inherit;font-size:14px;display:inline-flex;align-items:center;gap:7px;white-space:nowrap;cursor:pointer;transition:background .15s,color .15s}
+  .rm-ghost-b:hover:not(:disabled){background:rgba(var(--ink),.07);color:var(--fg)}
+  .rm-ghost-b:disabled{opacity:.4;cursor:not-allowed}
   .rm-popw{position:relative;display:flex}
   .rm-pop{position:absolute;right:0;bottom:calc(100% + 8px);z-index:3;width:290px;padding:6px;border-radius:18px;background:var(--s2);box-shadow:0 0 0 1px var(--line),0 20px 50px rgba(0,0,0,calc(.45 * var(--sh)));display:flex;flex-direction:column;animation:rmIn .22s cubic-bezier(.22,1,.36,1)}
   .rm-pop button{display:grid;grid-template-columns:1fr auto;align-items:center;column-gap:8px;padding:9px 12px;border:0;border-radius:12px;background:transparent;color:var(--fg);font:inherit;font-size:14px;text-align:left;cursor:pointer}
@@ -684,9 +696,6 @@
   .rm-pop em:empty{display:none}
   .rm-pop svg{grid-column:2;grid-row:1}
   .rm-pop .is-quiet{color:var(--fg-2);margin-top:4px;box-shadow:0 -1px 0 var(--line-soft);border-radius:0 0 12px 12px}
-  .rm-subacts{display:flex;gap:4px;margin-top:10px}
-  .rm-more{flex:1;height:40px;border:0;border-radius:999px;background:transparent;color:var(--fg-2);font:inherit;font-size:13.5px;display:inline-flex;align-items:center;justify-content:center;gap:7px;cursor:pointer;transition:background .15s,color .15s}
-  .rm-more:hover:not(:disabled){background:rgba(var(--ink),.07);color:var(--fg)}
   .rm-dropzone{position:fixed;inset:12px;left:72px;z-index:61;border-radius:28px;background:rgba(var(--ink),.06);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);box-shadow:inset 0 0 0 2px var(--fg-3);display:grid;place-items:center;pointer-events:none}
   .rm-dropzone span{display:inline-flex;align-items:center;gap:10px;font-size:18px;font-weight:500;color:var(--fg)}
 
@@ -705,8 +714,8 @@
     .rm-go{padding:0 16px}
     .rm-picked{flex-wrap:wrap;border-radius:20px;padding:8px}
     .rm-picked > span{flex:1 1 calc(100% - 60px)} .rm-picked .rm-sec,.rm-picked .rm-go{flex:1}
-    .rm-acts{position:relative} .rm-popw{position:static} .rm-pop{left:0;right:0;width:auto}
     .rm-side header{flex-wrap:wrap} .rm-nav{order:-1;width:100%;justify-content:flex-end;margin-bottom:-4px}
+    .rm-acts{position:relative;display:grid;grid-template-columns:1fr 1fr auto auto;gap:10px 8px} .rm-acts-l{grid-column:1/3;min-width:0} .rm-acts-r{display:contents} .rm-acts-r > .rm-popw{grid-column:1/2} .rm-acts-r > .rm-go{grid-column:2/5} .rm-popw .rm-sec{width:100%} .rm-acts .rm-go,.rm-acts .rm-sec:not(.rm-ic){height:46px;font-size:15px} .rm-popw{position:static} .rm-pop{left:0;right:0;width:auto}
     .rm-dropzone{left:62px}
   }
   @media (prefers-reduced-motion:reduce){ .rm-frame.is-big img,.rm-tile.is-fresh,.rm-steps li.now,.rm-ghost,.rm-pop{animation:none} }

@@ -228,6 +228,7 @@ window.BRAND = {
 
 ---
 33. **Reel Maker is clip-first.** It follows source → ranked clips → edit → post. Every clip carries one score pill (green 85+, yellow 70+, nothing loud below), its length, and an Opus-style caption with one highlighted word. The editor shows why the score is what it is (one line, four sub-scores), three opening lines and three caption styles; nothing else. Tiles are real frames, never coloured blocks. Making new reels shows the steps as pills, then tiles arrive one at a time.
+34. **The primary action is on the right.** In any row of actions, the one solid `--fg` button sits at the far right and is never stretched to fill the row. To its left, in order: secondary pills, then icon buttons (each with a one-line tooltip). Quiet text actions (skip, cancel) sit at the far left. On a phone the row becomes two: quiet and icon actions on top, and below them the secondary and primary side by side, with the primary on the right and wider.
 
 ## 10. Changing things
 
