@@ -1203,6 +1203,8 @@
     animation:toast-in .26s cubic-bezier(.2,.9,.3,1);
   }
   .toast.out{animation:toast-out .22s ease forwards}
+  .toast-act{pointer-events:auto;margin-left:6px;height:28px;padding:0 12px;border:0;border-radius:999px;background:color-mix(in srgb,var(--s1) 14%,transparent);color:inherit;font:inherit;font-size:13px;font-weight:600;cursor:pointer}
+  .toast-act:hover{background:color-mix(in srgb,var(--s1) 24%,transparent)}
   .toast svg{flex:0 0 auto;color:#12a150}
   @keyframes toast-in{from{opacity:0;transform:translateY(-14px) scale(.96)}}
   @keyframes toast-out{to{opacity:0;transform:translateY(-10px) scale(.97)}}
@@ -6426,14 +6428,19 @@
     });
     setTimeout(() => { el.classList.add('out'); setTimeout(() => el.remove(), 300); }, 5000);
   };
-  window.__toast = (m) => toast(m);
-  const toast = (msg) => {
+  window.__toast = (m, act) => toast(m, act);
+  const toast = (msg, act) => {
     // one at a time — a stack of confirmations reads as an error state
     host.innerHTML = '';
     const el = document.createElement('div');
     el.className = 'toast';
     el.innerHTML = CHECK + '<span></span>';
     el.lastChild.textContent = msg;
+    if (act && act.label) {
+      const b = document.createElement('button'); b.className = 'toast-act'; b.textContent = act.label;
+      b.addEventListener('click', () => { el.remove(); act.on && act.on(); });
+      el.appendChild(b);
+    }
     host.appendChild(el);
     setTimeout(() => {
       el.classList.add('out');
@@ -9956,7 +9963,7 @@
     });
     always.addEventListener('change', () => { try { localStorage.setItem('shopos-ob-always', always.checked ? '1' : '0'); } catch (_) {} toast(always.checked ? 'Onboarding will open every time the prototype loads' : 'The prototype opens on the feed again'); });
     document.addEventListener('keydown', (e) => { if ((e.key === 'o' || e.key === 'O') && !e.metaKey && !e.ctrlKey && !e.altKey && !e.target.matches('input,textarea,[contenteditable]') && document.getElementById('ob').hidden) window.__openOnboarding(); });
-    if (pref && location.hash !== '#onboarding' && location.hash !== '#design-system') setTimeout(() => window.__openOnboarding(), 80);
+    if (pref && !window.RM_STANDALONE && location.hash !== '#onboarding' && location.hash !== '#design-system') setTimeout(() => window.__openOnboarding(), 80);
   }
 
   /* ================= onboarding: the feed builds itself ================= */
