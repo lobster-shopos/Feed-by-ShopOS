@@ -48,7 +48,11 @@
     { img:A+'Mito_AHFShampoo4x5_1.webp', s:82, d:'0:31', t:'No fear, just the plan', cap:W('No scare tactics just three steps that work'), why:'A calm answer to the fear-led ads running in your category.',
       sub:{ Hook:8.0, Flow:8.5, Value:8.4, Trend:7.7 }, hooks:['Hair fall isn’t an emergency. Here’s the plan.', 'Three steps. No scare tactics.', 'Calm down. Then do this.'], reason:'A rival’s fear-led ad has run for 193 days' },
     { img:A+'Mito_SuperShampoo4x5.webp', s:76, d:'0:19', t:'A gift that isn’t another candle', cap:W('This Diwali give something they will actually use'), why:'Timely, but gifting reels need the price on screen sooner.',
-      sub:{ Hook:7.6, Flow:7.8, Value:7.2, Trend:8.1 }, hooks:['Not another candle this Diwali.', 'The gift they’ll use every day.', 'Diwali gifting, sorted in 19 seconds.'], reason:'Diwali gifting searches start this week' }
+      sub:{ Hook:7.6, Flow:7.8, Value:7.2, Trend:8.1 }, hooks:['Not another candle this Diwali.', 'The gift they’ll use every day.', 'Diwali gifting, sorted in 19 seconds.'], reason:'Diwali gifting searches start this week' },
+    { img:A+'Anti_Dandruff_Shampoo_200_ml_1.webp', s:80, d:'0:26', t:'Flakes in winter, explained', cap:W('Cold air dry scalp more flakes here is why'), why:'A seasonal problem with a simple fix, said plainly.',
+      sub:{ Hook:8.0, Flow:8.2, Value:8.3, Trend:7.9 }, hooks:['Winter is why your flakes are back.', 'Dry scalp or dandruff? Here’s the test.', 'The winter flake fix.'], reason:'Dandruff questions rise as it gets colder' },
+    { img:A+'HairGrowthSystemCombo.webp', s:72, d:'0:33', t:'The whole routine, one shelf', cap:W('Shampoo serum roller that is the whole system'), why:'Clear, but the first second shows boxes, not a result.',
+      sub:{ Hook:6.6, Flow:7.8, Value:7.9, Trend:7.0 }, hooks:['Three things. That’s the whole routine.', 'Everything on my hair shelf.', 'The system, not another product.'], reason:'Combo pages convert 2x your single products' }
   ];
   const WORKS = [
     { img:A+'Anti-Dandruff_Shampoo_Secondary_Card.webp', x:'57x', t:'3 things I wish I knew about rosemary oil' },
@@ -494,7 +498,7 @@
     const top = suggest.slice(0, 3);
     return `<article class="card rm-card in" aria-label="Reel Maker">
       <div class="card-head"><img class="avatar" src="${(window.BRAND && BRAND.agents.creative) || ''}" alt=""><span class="identity"><span class="agent-name">Reel Maker</span><span class="meta">· 2 min</span></span><span class="badge info">New</span></div>
-      <div class="card-body is-top"><h2 class="card-title">4 reels made for you overnight</h2><p class="card-sub">The best one answers the rosemary oil question, which is up 3x this week.</p></div>
+      <div class="card-body is-top"><h2 class="card-title">6 reels made for you overnight</h2><p class="card-sub">The best one answers the rosemary oil question, which is up 3x this week.</p></div>
       <div class="rm-strip">${top.map(c => `<button class="rm-tile" data-feedclip="${c.id}"><span class="rm-frame"><img src="${c.img}" alt=""><i class="rm-score${tone(c.s)}">${c.s}</i><i class="rm-dur">${c.d}</i><span class="rm-cap">${capHTML(c, 3, 1)}</span></span></button>`).join('')}</div>
       <button class="cta" data-openreels>${svgI(I.reel, 18)}<span>Open in Reel Maker</span>${svgI(I.chev, 17)}</button>
     </article>`;
@@ -591,7 +595,7 @@
   .rm-fail b{font-size:14.5px;font-weight:500;color:var(--fg)}
   .rm-fail em{font-style:normal;font-size:13.5px;color:var(--fg-2)}
   .rm-sort{display:flex;gap:2px;padding:3px;border-radius:999px;background:rgba(var(--ink),.05)}
-  .rm-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px 14px}
+  .rm-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px 20px}
   .rm-ghost{aspect-ratio:9/16;border-radius:16px;background:rgba(var(--ink),.05);background-image:linear-gradient(100deg,transparent 30%,rgba(var(--ink),.06) 50%,transparent 70%);background-size:250% 100%;animation:rmShim 1.6s linear infinite}
   .rm-steps{list-style:none;margin:0 0 16px;padding:0;display:flex;flex-wrap:wrap;gap:8px}
   .rm-steps li{height:32px;padding:0 12px;border-radius:999px;background:rgba(var(--ink),.05);color:var(--fg-3);font-size:13px;display:inline-flex;align-items:center;transition:background .3s,color .3s}
@@ -611,7 +615,7 @@
   /* tiles */
   .rm-tile{border:0;padding:0;background:none;color:var(--fg);font:inherit;text-align:left;cursor:pointer;display:flex;flex-direction:column;gap:8px;min-width:0}
   .rm-tile.is-fresh{animation:rmIn .6s cubic-bezier(.22,1,.36,1) both}
-  .rm-grid > .rm-tile.is-fresh:nth-child(2){animation-delay:.12s} .rm-grid > .rm-tile.is-fresh:nth-child(3){animation-delay:.24s} .rm-grid > .rm-tile.is-fresh:nth-child(4){animation-delay:.36s}
+  .rm-grid > .rm-tile.is-fresh:nth-child(2){animation-delay:.12s} .rm-grid > .rm-tile.is-fresh:nth-child(3){animation-delay:.24s} 
   @keyframes rmIn{from{opacity:0;transform:translateY(10px)}}
   .rm-frame{position:relative;display:block;aspect-ratio:9/16;border-radius:16px;overflow:hidden;background:var(--s2)}
   .rm-frame img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.22,1,.36,1)}
@@ -705,7 +709,7 @@
   .rm-strip .rm-cap{font-size:11.5px}
   .rm-card .cta{margin:12px 12px 14px;width:calc(100% - 24px)}
 
-  @media (max-width:900px){ .rm-grid,.rm-works{grid-template-columns:repeat(3,1fr)} }
+  @media (max-width:900px){ .rm-works{grid-template-columns:repeat(3,1fr)} }
   @media (max-width:600px){
     .rm-grid,.rm-works{grid-template-columns:repeat(2,1fr)}
     .rm-ed{flex-direction:column} .rm-player{flex:0 0 auto;width:min(260px,100%);margin:0 auto}
